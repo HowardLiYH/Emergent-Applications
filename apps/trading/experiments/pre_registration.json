@@ -1,0 +1,102 @@
+{
+  "pre_registration": {
+    "title": "Specialization Index (SI) Signal Discovery Study",
+    "version": "1.0",
+    "date": "2026-01-17",
+    "status": "PRE-ANALYSIS - DATA NOT YET SEEN",
+
+    "primary_hypothesis": {
+      "H1": "SI correlates with market volatility (r > 0.15, p < 0.05)",
+      "direction": "positive",
+      "rationale": "Higher specialization emerges during volatile markets when differentiated strategies are rewarded"
+    },
+
+    "secondary_hypotheses": [
+      {
+        "id": "H2",
+        "statement": "SI predicts next-day return magnitude",
+        "direction": "positive",
+        "minimum_r": 0.10
+      },
+      {
+        "id": "H3",
+        "statement": "SI correlates negatively with trend strength",
+        "direction": "negative",
+        "rationale": "Ranging markets reward specialization more than trending markets"
+      }
+    ],
+
+    "methodology": {
+      "data_split": {
+        "train_pct": 70,
+        "validation_pct": 15,
+        "test_pct": 15,
+        "method": "chronological (no shuffle)"
+      },
+      "primary_si_variant": "si_rolling_7d",
+      "correlation_method": "Spearman with HAC standard errors",
+      "confidence_intervals": "Block bootstrap (1000 iterations, block_size=24h)",
+      "multiple_testing": "Benjamini-Hochberg FDR correction",
+      "significance_threshold": 0.05,
+      "minimum_effect_size": 0.15
+    },
+
+    "three_pipelines": {
+      "pipeline_1_discovery": {
+        "features": 46,
+        "question": "What does SI correlate with?",
+        "method": "Spearman + HAC + Bootstrap"
+      },
+      "pipeline_2_prediction": {
+        "features": 2,
+        "targets": ["next_day_return", "next_day_volatility"],
+        "question": "Does SI predict future outcomes?",
+        "method": "Lagged correlation + Granger causality"
+      },
+      "pipeline_3_dynamics": {
+        "features": 9,
+        "question": "How should we use SI?",
+        "method": "Compare SI variants"
+      }
+    },
+
+    "success_criteria": {
+      "discovery": "At least 3 features with |r| > 0.15, FDR < 0.05, confirmed in val AND test",
+      "prediction": "SI Granger-causes next_day_return at p < 0.05",
+      "generalization": "Findings replicate in at least 3 of 5 major assets"
+    },
+
+    "audits_required": {
+      "pre_analysis": [
+        "pre_registration_committed",
+        "unit_tests_pass",
+        "reproducibility_manifest_created"
+      ],
+      "during_analysis": [
+        "causal_inference_tests",
+        "crypto_specific_checks",
+        "strategy_validity_checks"
+      ],
+      "post_analysis": [
+        "multi_asset_generalization",
+        "adversarial_tests",
+        "all_results_reported_including_nulls"
+      ]
+    },
+
+    "commitments": {
+      "report_all_results": true,
+      "report_null_results": true,
+      "no_post_hoc_hypothesis_changes": true,
+      "document_all_deviations": true,
+      "publish_regardless_of_outcome": true
+    },
+
+    "data_status": {
+      "data_collected": false,
+      "data_analyzed": false,
+      "results_known": false,
+      "signed_before_analysis": true
+    }
+  }
+}

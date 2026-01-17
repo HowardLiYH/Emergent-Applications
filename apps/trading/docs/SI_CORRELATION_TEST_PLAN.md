@@ -50,6 +50,54 @@ Discover what SI correlates with using **rigorous methodology**:
 
 ---
 
+## ⚠️ Feature Pipeline Audit: Three Separate Pipelines Required
+
+See `FEATURE_PIPELINE_AUDIT.md` for full analysis. Key finding:
+
+**Not all features can use the same pipeline!**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    THREE SEPARATE PIPELINES                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  PIPELINE 1: DISCOVERY (46 features)                         │
+│  Question: "What does SI correlate with?"                    │
+│  Features: Market, Risk, Safe Agent, Liquidity               │
+│  Method: Spearman + HAC + Bootstrap                          │
+│                                                              │
+│  PIPELINE 2: PREDICTION (2 features)                         │
+│  Question: "Does SI predict future outcomes?"                │
+│  Features: next_day_return, next_day_volatility              │
+│  Method: Lagged correlation, Granger causality               │
+│                                                              │
+│  PIPELINE 3: SI DYNAMICS (9 features)                        │
+│  Question: "How should we use SI?"                           │
+│  Features: dSI/dt, SI_std, SI at different scales            │
+│  Method: Time series analysis, NOT correlation discovery     │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Features REMOVED from Discovery Pipeline (Circular)
+
+```python
+CIRCULAR_FEATURES_REMOVED = [
+    # SI-derived (testing SI against itself)
+    'dsi_dt', 'si_acceleration', 'si_rolling_std',
+    'si_1h', 'si_4h', 'si_1d', 'si_1w', 'si_percentile',
+
+    # Agent features that ARE specialization
+    'strategy_concentration',   # This IS SI
+    'niche_affinity_entropy',   # This IS SI (different formula)
+
+    # Lookahead (moved to Prediction pipeline)
+    'next_day_return', 'next_day_volatility',
+]
+```
+
+---
+
 ## 📋 Phase 0: Pre-Registration (NEW - Before Any Analysis)
 
 ```python
@@ -1519,22 +1567,369 @@ Based on the strongest correlations, SI appears to measure: [...]
 
 ---
 
-## 📅 Timeline Summary (Audit-Corrected)
+---
+
+## 📊 Three Pipelines Implementation
+
+### Pipeline 1: Discovery (46 Features)
+
+**Question**: What does SI correlate with (concurrent)?
+
+```python
+# Features for Discovery Pipeline
+DISCOVERY_FEATURES = {
+    'market': [
+        'volatility_24h', 'volatility_7d', 'volatility_30d',
+        'trend_strength_7d', 'return_autocorr_7d', 'hurst_exponent',
+        'return_entropy_7d', 'volume_24h', 'volume_volatility_7d',
+        'jump_frequency_7d', 'variance_ratio',
+        'adx', 'bb_width', 'rsi', 'atr',
+    ],
+    'agent_safe': [
+        'agent_correlation',      # Different from SI
+        'winner_spread',          # Magnitude, not pattern
+        'viable_agent_count',     # Count, not specialization
+        'return_dispersion',      # Variance of returns
+        'effective_n',            # Diversification
+        'winner_consistency',     # Stability
+    ],
+    'risk': [
+        'max_drawdown_30d', 'var_95_30d', 'cvar_95_30d',
+        'volatility_of_volatility_30d', 'tail_ratio_30d',
+        'drawdown_recovery_days', 'win_rate_30d',
+        'profit_factor_30d', 'sharpe_ratio_30d', 'sortino_ratio_30d',
+    ],
+    'behavioral': [
+        'fear_greed_proxy', 'holding_period_avg',
+        'momentum_return_7d', 'meanrev_return_7d',
+        'regime_duration', 'days_since_regime_change',
+    ],
+    'liquidity': [
+        'volume_z', 'amihud_log', 'volume_volatility_24h', 'spread_proxy',
+    ],
+    'cross_asset': [
+        'asset_return_corr', 'relative_strength', 'rotation_signal',
+        'si_cross_asset_corr', 'si_other_asset',
+    ],
+}
+
+def run_discovery_pipeline(si: pd.Series, features: pd.DataFrame,
+                           train_idx, val_idx, test_idx) -> Dict:
+    """
+    Pipeline 1: What does SI correlate with?
+    """
+    results = {'train': {}, 'val': {}, 'test': {}}
+
+    # 1. Discovery on TRAIN
+    train_correlations = []
+    for col in features.columns:
+        if col in CIRCULAR_FEATURES:
+            continue  # Skip circular features
+
+        si_train = si.loc[train_idx]
+        feat_train = features.loc[train_idx, col]
+
+        r, p = spearman_hac(si_train, feat_train)
+        ci = block_bootstrap_ci(si_train, feat_train)
+
+        train_correlations.append({
+            'feature': col,
+            'r': r, 'p': p,
+            'ci_lower': ci[0], 'ci_upper': ci[1]
+        })
+
+    # Apply FDR correction
+    train_df = pd.DataFrame(train_correlations)
+    train_df = apply_fdr(train_df)
+
+    # Identify candidates
+    candidates = train_df[
+        (train_df['p_fdr'] < 0.05) &
+        (abs(train_df['r']) > MIN_EFFECT_SIZE)
+    ]
+    results['train'] = candidates
+
+    # 2. Confirm on VALIDATION
+    confirmed = []
+    for _, row in candidates.iterrows():
+        col = row['feature']
+        si_val = si.loc[val_idx]
+        feat_val = features.loc[val_idx, col]
+
+        r, p = spearman_hac(si_val, feat_val)
+
+        # Confirm: same direction AND significant
+        if np.sign(r) == np.sign(row['r']) and p < 0.05:
+            confirmed.append({
+                'feature': col,
+                'train_r': row['r'],
+                'val_r': r,
+                'val_p': p
+            })
+
+    results['val'] = pd.DataFrame(confirmed)
+
+    # 3. Final test on TEST
+    final = []
+    for _, row in results['val'].iterrows():
+        col = row['feature']
+        si_test = si.loc[test_idx]
+        feat_test = features.loc[test_idx, col]
+
+        r, p = spearman_hac(si_test, feat_test)
+        ci = block_bootstrap_ci(si_test, feat_test)
+
+        final.append({
+            'feature': col,
+            'train_r': row['train_r'],
+            'val_r': row['val_r'],
+            'test_r': r,
+            'test_p': p,
+            'test_ci': ci,
+            'consistent': np.sign(r) == np.sign(row['train_r'])
+        })
+
+    results['test'] = pd.DataFrame(final)
+
+    return results
+```
+
+### Pipeline 2: Prediction (2 Features)
+
+**Question**: Does SI predict future outcomes?
+
+```python
+PREDICTION_FEATURES = ['next_day_return', 'next_day_volatility']
+
+def run_prediction_pipeline(si: pd.Series, future_data: pd.DataFrame,
+                            train_idx, val_idx, test_idx) -> Dict:
+    """
+    Pipeline 2: Does SI predict future outcomes?
+
+    Key difference: We're testing SI(t) vs Outcome(t+k)
+    """
+    results = {}
+
+    for target in PREDICTION_FEATURES:
+        target_results = {
+            'signal_decay': None,
+            'optimal_lag': None,
+            'granger': None,
+            'train_val_test': {}
+        }
+
+        # 1. Signal decay analysis (how quickly does prediction decay?)
+        decay = analyze_signal_decay(
+            si.loc[train_idx],
+            future_data.loc[train_idx, target],
+            max_lag_hours=168
+        )
+        target_results['signal_decay'] = decay['decay_curve']
+        target_results['optimal_lag'] = decay['optimal_lag_hours']
+        target_results['half_life'] = decay['half_life_hours']
+
+        # 2. Granger causality (does SI Granger-cause target?)
+        granger_p = granger_causality_test(
+            si.loc[train_idx],
+            future_data.loc[train_idx, target],
+            max_lag=24
+        )
+        target_results['granger_p'] = granger_p
+
+        # 3. Train/Val/Test at optimal lag
+        optimal_lag = int(decay['optimal_lag_hours'])
+
+        for split_name, split_idx in [('train', train_idx), ('val', val_idx), ('test', test_idx)]:
+            si_split = si.loc[split_idx]
+            target_split = future_data.loc[split_idx, target]
+
+            # Lagged correlation
+            r = lagged_correlation(si_split, target_split, lag=optimal_lag)
+            ci = block_bootstrap_ci_lagged(si_split, target_split, lag=optimal_lag)
+
+            target_results['train_val_test'][split_name] = {
+                'r': r, 'ci': ci, 'lag': optimal_lag
+            }
+
+        results[target] = target_results
+
+    return results
+```
+
+### Pipeline 3: SI Dynamics (9 Features)
+
+**Question**: How should we use SI?
+
+```python
+SI_DYNAMICS_FEATURES = [
+    'dsi_dt', 'si_acceleration', 'si_rolling_std',
+    'si_1h', 'si_4h', 'si_1d', 'si_1w', 'si_percentile',
+    'extreme_high', 'extreme_low'
+]
+
+def run_si_dynamics_pipeline(si_variants: Dict[str, pd.Series],
+                              profit: pd.Series) -> Dict:
+    """
+    Pipeline 3: How should we use SI?
+
+    This answers:
+    - Which SI variant is best?
+    - Does SI momentum (dSI/dt) matter?
+    - Is SI stability important?
+    - Do extremes predict reversals?
+
+    NOT about correlation discovery - about optimal SI usage.
+    """
+    results = {}
+
+    # 1. Compare SI variants (which correlates best with profit?)
+    variant_performance = {}
+    for variant_name, si in si_variants.items():
+        r, p = spearmanr(si, profit)
+        variant_performance[variant_name] = {'r': r, 'p': p}
+
+    results['best_variant'] = max(variant_performance,
+                                   key=lambda x: abs(variant_performance[x]['r']))
+    results['variant_performance'] = variant_performance
+
+    # 2. SI momentum analysis (does change in SI matter?)
+    si_base = si_variants['si_rolling_7d']
+    dsi = si_base.diff()
+
+    # Does rising SI predict profit?
+    rising_si = dsi > 0
+    profit_when_rising = profit[rising_si].mean()
+    profit_when_falling = profit[~rising_si].mean()
+
+    results['momentum_effect'] = {
+        'profit_when_rising': profit_when_rising,
+        'profit_when_falling': profit_when_falling,
+        'difference': profit_when_rising - profit_when_falling
+    }
+
+    # 3. SI stability analysis (does volatile SI matter?)
+    si_std = si_base.rolling(168).std()
+
+    stable_si = si_std < si_std.median()
+    profit_when_stable = profit[stable_si].mean()
+    profit_when_volatile = profit[~stable_si].mean()
+
+    results['stability_effect'] = {
+        'profit_when_stable': profit_when_stable,
+        'profit_when_volatile': profit_when_volatile,
+        'difference': profit_when_stable - profit_when_volatile
+    }
+
+    # 4. Extremes analysis (do SI extremes predict reversals?)
+    si_pct = si_base.rank(pct=True)
+
+    extreme_high = si_pct > 0.9
+    extreme_low = si_pct < 0.1
+
+    results['extremes_effect'] = {
+        'profit_after_extreme_high': profit[extreme_high.shift(24)].mean(),
+        'profit_after_extreme_low': profit[extreme_low.shift(24)].mean(),
+        'profit_normal': profit[~extreme_high & ~extreme_low].mean()
+    }
+
+    return results
+```
+
+### Master Runner: All Three Pipelines
+
+```python
+def run_all_pipelines(data: pd.DataFrame, agents: List) -> Dict:
+    """
+    Run all three pipelines and compile results.
+    """
+    # 1. Compute SI and features
+    si = compute_si_timeseries(agents, data)
+    features = compute_all_features(data)
+    si_variants = compute_si_variants(agents, data)
+
+    # 2. Split data
+    train_idx, val_idx, test_idx = temporal_split(data.index)
+
+    # 3. Run Pipeline 1: Discovery
+    print("Running Pipeline 1: Discovery...")
+    discovery_results = run_discovery_pipeline(
+        si, features, train_idx, val_idx, test_idx
+    )
+
+    # 4. Run Pipeline 2: Prediction
+    print("Running Pipeline 2: Prediction...")
+    prediction_results = run_prediction_pipeline(
+        si, features[PREDICTION_FEATURES], train_idx, val_idx, test_idx
+    )
+
+    # 5. Run Pipeline 3: SI Dynamics
+    print("Running Pipeline 3: SI Dynamics...")
+    profit = features['profit'] if 'profit' in features else features['next_day_return']
+    dynamics_results = run_si_dynamics_pipeline(si_variants, profit)
+
+    # 6. Compile report
+    results = {
+        'discovery': discovery_results,
+        'prediction': prediction_results,
+        'dynamics': dynamics_results,
+        'summary': generate_summary(discovery_results, prediction_results, dynamics_results)
+    }
+
+    return results
+
+def generate_summary(discovery, prediction, dynamics):
+    """Generate executive summary across all pipelines."""
+    summary = {
+        'discovery': {
+            'question': "What does SI correlate with?",
+            'features_tested': len(DISCOVERY_FEATURES),
+            'significant_train': len(discovery['train']),
+            'confirmed_val': len(discovery['val']),
+            'held_test': len(discovery['test']),
+            'top_correlates': discovery['test'].head(5)['feature'].tolist() if len(discovery['test']) > 0 else []
+        },
+        'prediction': {
+            'question': "Does SI predict future outcomes?",
+            'next_day_return': {
+                'predictive': prediction['next_day_return']['granger_p'] < 0.05,
+                'optimal_lag': prediction['next_day_return']['optimal_lag'],
+                'half_life': prediction['next_day_return']['half_life']
+            },
+            'next_day_volatility': {
+                'predictive': prediction['next_day_volatility']['granger_p'] < 0.05,
+                'optimal_lag': prediction['next_day_volatility']['optimal_lag']
+            }
+        },
+        'dynamics': {
+            'question': "How should we use SI?",
+            'best_variant': dynamics['best_variant'],
+            'momentum_helps': dynamics['momentum_effect']['difference'] > 0,
+            'stability_helps': dynamics['stability_effect']['difference'] > 0,
+            'extremes_contrarian': dynamics['extremes_effect']['profit_after_extreme_high'] < dynamics['extremes_effect']['profit_normal']
+        }
+    }
+    return summary
+```
+
+---
+
+## 📅 Timeline Summary (Three Pipelines)
 
 | Day | Phase | Tasks | Output |
 |-----|-------|-------|--------|
 | 0 | **Pre-Reg** | Document pre-registration | `pre_registration.json` |
 | 1 | Setup | Data loading, temporal split | Train/Val/Test sets |
-| 2 | Setup | Feature calculators, power analysis | Min detectable r |
-| 3 | Compute | Backtest on TRAIN only | SI time series |
-| 4 | Compute | All features, stationarity checks | Features DataFrame |
-| 5 | Analyze | Discovery on TRAIN | Candidates (FDR<0.05) |
-| 6 | **Validate** | Confirm on VAL set | Confirmed candidates |
-| 7 | **Test** | Final test, robustness | Report + plots |
+| 2 | Setup | Feature calculators (46 discovery + 2 prediction + 9 dynamics) | Categorized features |
+| 3 | Compute | Backtest, compute SI variants | SI time series (8 variants) |
+| 4 | Compute | All features, remove circular, stationarity checks | Clean features |
+| 5 | **Pipeline 1** | Discovery on TRAIN → VAL → TEST | Top SI correlates |
+| 6 | **Pipeline 2** | Prediction analysis (lagged, Granger, decay) | Predictive power |
+| 7 | **Pipeline 3** | SI Dynamics (variants, momentum, stability) | How to use SI |
+| 8 | **Report** | Compile three-pipeline report | Final conclusions |
 
 ---
 
-## 🔧 Implementation Checklist (Audit-Corrected)
+## 🔧 Implementation Checklist (Three Pipelines)
 
 ### Day 0: Pre-Registration (CRITICAL - Before Looking at Data)
 - [ ] Document primary hypothesis
@@ -1542,6 +1937,7 @@ Based on the strongest correlations, SI appears to measure: [...]
 - [ ] Specify primary correlation method
 - [ ] Define success criteria
 - [ ] Save `pre_registration.json`
+- [ ] **Commit to GitHub with timestamp**
 
 ### Day 1: Data Preparation
 - [ ] Load 12+ months of data
@@ -1552,52 +1948,248 @@ Based on the strongest correlations, SI appears to measure: [...]
 - [ ] Conduct power analysis → minimum detectable r
 
 ### Day 2: Feature Infrastructure
-- [ ] Implement `FeatureCalculator` (70+ features)
-- [ ] Categorize features: lookahead vs no-lookahead
-- [ ] **Check stationarity** of each feature
-- [ ] Identify confounders (time, training iteration)
-- [ ] Cluster correlated features → pick representatives
+- [ ] Implement `FeatureCalculator`
+- [ ] **Categorize features into 3 pipelines:**
+  - [ ] Discovery features (46): Market, Agent (safe), Risk, Behavioral, Liquidity
+  - [ ] Prediction features (2): next_day_return, next_day_volatility
+  - [ ] SI Dynamics features (9): dSI/dt, SI variants, extremes
+- [ ] **Remove circular features** from discovery pipeline
+- [ ] Check stationarity of each feature
+- [ ] Cluster correlated features on TRAIN only
 
-### Day 3-4: Computation (TRAIN SET ONLY)
+### Day 3-4: Computation
 - [ ] Implement 3 strategies
 - [ ] Implement `NichePopulation` algorithm
 - [ ] Implement `SICalculator`
-- [ ] Run backtest on **TRAIN data only**
+- [ ] Run backtest
 - [ ] Compute SI variants (8 types)
-- [ ] Compute all features
+- [ ] Compute all features (properly categorized)
+- [ ] Run negative controls (random noise, shuffled SI)
 
-### Day 5: Discovery Analysis (TRAIN SET ONLY)
-- [ ] Implement `CorrelationAnalyzer` with HAC standard errors
-- [ ] Block bootstrap for confidence intervals
-- [ ] Partial correlations (control confounders)
-- [ ] **Predictive correlations** (SI leads feature)
-- [ ] Granger causality tests
+### Day 5: Pipeline 1 - Discovery
+- [ ] Run on TRAIN: correlate SI with 46 discovery features
+- [ ] Apply HAC standard errors + block bootstrap
 - [ ] Apply FDR correction
 - [ ] Compare to random baseline
-- [ ] Identify candidates: FDR < 0.05 AND |r| > min_detectable
+- [ ] Identify candidates (FDR < 0.05 AND |r| > min_effect)
+- [ ] Confirm on VAL: same direction AND p < 0.05
+- [ ] Final test on TEST
+- [ ] Record: "SI correlates with X, Y, Z"
 
-### Day 6: Confirmation (VALIDATION SET)
-- [ ] Compute SI and features on **VAL data**
-- [ ] Test ONLY candidates from Day 5
-- [ ] Confirm: same direction AND p < 0.05
-- [ ] Record confirmation rate
-- [ ] Drop candidates that fail validation
+### Day 6: Pipeline 2 - Prediction
+- [ ] Signal decay analysis (how fast does signal decay?)
+- [ ] Find optimal lag for each prediction target
+- [ ] Granger causality tests
+- [ ] Test on TRAIN → VAL → TEST at optimal lag
+- [ ] Record: "SI predicts return with lag K, half-life H"
 
-### Day 7: Final Test & Reporting
-- [ ] Compute SI and features on **TEST data**
-- [ ] Test ONLY confirmed candidates
-- [ ] Run robustness checks:
-  - [ ] Different SI windows
-  - [ ] Different assets (BTC only, ETH only)
-  - [ ] Different time periods
-  - [ ] Partial correlations
-- [ ] Generate visualizations
-- [ ] Write final report with:
-  - [ ] Train/Val/Test results separately
-  - [ ] Effect sizes and CIs
-  - [ ] Robustness check results
-  - [ ] Limitations section
-- [ ] Determine path forward
+### Day 7: Pipeline 3 - SI Dynamics
+- [ ] Compare SI variants (which is best?)
+- [ ] Momentum analysis (does dSI/dt matter?)
+- [ ] Stability analysis (does SI variance matter?)
+- [ ] Extremes analysis (do extreme SI values predict reversals?)
+- [ ] Record: "Best SI variant is X, momentum effect is Y"
+
+### Day 8: Final Report
+- [ ] Compile three-pipeline report
+- [ ] Generate visualizations for each pipeline
+- [ ] Write executive summary
+- [ ] Document limitations
+- [ ] **Report pipelines SEPARATELY** (not merged)
+- [ ] Determine path forward based on findings
+
+---
+
+## 🔍 Eight Additional Audits (Expert Panel Recommendations)
+
+See `COMPREHENSIVE_AUDIT_IMPLEMENTATION.md` for full code implementations.
+
+### Audit 1: Pre-Registration (BEFORE ANALYSIS)
+**Priority**: 🔴 CRITICAL
+
+```bash
+# Commit pre-registration BEFORE looking at data
+git add experiments/pre_registration.json
+git commit -m "PRE-REGISTRATION: SI hypothesis ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+git push origin main
+```
+
+- [x] Pre-registration file created: `experiments/pre_registration.json`
+- [ ] Committed to GitHub with timestamp
+- [ ] Data NOT analyzed before commit
+
+### Audit 2: Implementation Correctness
+**Priority**: 🔴 HIGH
+
+```bash
+# Run unit tests
+pytest tests/test_si_calculation.py -v
+pytest tests/test_no_lookahead.py -v
+pytest tests/test_numerical_stability.py -v
+```
+
+Tests to run:
+- [ ] SI calculation unit tests (known input → known output)
+- [ ] Time-travel tests (no lookahead bugs)
+- [ ] Numerical stability (edge cases: zeros, extremes, NaN)
+
+### Audit 3: Causal Inference
+**Priority**: 🔴 HIGH
+
+```python
+from src.causal_tests import CausalInferenceAudit
+
+causal = CausalInferenceAudit()
+
+# For each significant correlation:
+results = {
+    'granger': causal.bidirectional_granger(si, feature),  # SI → Feature OR Feature → SI?
+    'placebo': causal.placebo_test(si, feature),           # Random SI correlates?
+    'permutation': causal.permutation_test(si, feature)    # Shuffle survives?
+}
+```
+
+Tests to run:
+- [ ] Bidirectional Granger causality
+- [ ] Placebo test (random SI control)
+- [ ] Permutation test (shuffle labels)
+
+### Audit 4: Strategy Validity
+**Priority**: 🔴 HIGH
+
+```python
+from src.strategy_validation import StrategyValidityAudit
+
+strategy_audit = StrategyValidityAudit()
+
+# Parameter sensitivity
+results = strategy_audit.parameter_sensitivity(
+    data, MomentumStrategy, 'lookback', [3, 7, 14, 30]
+)
+
+# Benchmark comparison
+results = strategy_audit.benchmark_comparison(data, strategy_returns)
+
+# Transaction costs
+results = strategy_audit.transaction_cost_sensitivity(data, MomentumStrategy)
+```
+
+Tests to run:
+- [ ] Parameter sensitivity (results stable across parameters?)
+- [ ] Benchmark comparison (beats buy-and-hold? beats random?)
+- [ ] Transaction cost sensitivity (profitable at 0.3% cost?)
+
+### Audit 5: Reproducibility
+**Priority**: 🟡 MEDIUM
+
+```python
+from src.reproducibility import ReproducibilityManifest, set_all_seeds
+
+# Set all seeds
+set_all_seeds(42)
+
+# Create manifest
+manifest = ReproducibilityManifest.create_manifest(
+    data_files={'btc': 'data/btc.csv', 'eth': 'data/eth.csv'},
+    config=CONFIG
+)
+ReproducibilityManifest.save_manifest(manifest, 'experiments/manifest.json')
+```
+
+Checks:
+- [ ] All random seeds locked
+- [ ] Package versions pinned in requirements.txt
+- [ ] Data files hashed
+- [ ] Git commit recorded
+
+### Audit 6: Crypto-Specific
+**Priority**: 🟡 MEDIUM
+
+```python
+from src.crypto_specific_audit import CryptoSpecificAudit
+
+crypto = CryptoSpecificAudit()
+results = crypto.run_full_crypto_audit(data, si, 'volatility_7d')
+
+# Checks:
+# - Time-of-day effects (Asian/European/US sessions)
+# - Weekend effects (patterns differ?)
+# - Liquidity regimes (high vs low liquidity)
+# - Outlier analysis (flash crashes, hacks)
+```
+
+Tests to run:
+- [ ] Time-of-day consistency
+- [ ] Weekend vs weekday patterns
+- [ ] High vs low liquidity regimes
+- [ ] Outlier impact analysis
+
+### Audit 7: Multi-Asset Generalization
+**Priority**: 🟡 MEDIUM
+
+```python
+from src.multi_asset_audit import MultiAssetAudit
+
+multi = MultiAssetAudit(assets=['BTC', 'ETH', 'SOL', 'BNB', 'XRP'])
+
+# Cross-asset generalization
+results = multi.cross_asset_generalization(data_dict, si_dict, 'volatility_7d')
+
+# Time period robustness
+results = multi.time_period_robustness(data, si, 'volatility_7d')
+
+# Market regime analysis
+results = multi.market_regime_analysis(data, si, 'volatility_7d')
+```
+
+Tests to run:
+- [ ] Cross-asset: findings hold for 3+ of 5 assets
+- [ ] Time periods: consistent across quarters/years
+- [ ] Market regimes: bull/bear/sideways consistency
+
+### Audit 8: Adversarial Testing
+**Priority**: 🟡 MEDIUM
+
+```python
+from src.adversarial_audit import AdversarialAudit
+
+adversarial = AdversarialAudit()
+results = adversarial.run_full_adversarial_audit(data, si, 'volatility_7d')
+
+# Devil's advocate: find counterexamples
+# Random control: SI shouldn't correlate with random
+# Permutation: shuffle SI, correlation should vanish
+# Subset stability: correlation holds in random subsets
+```
+
+Tests to run:
+- [ ] Devil's advocate (find counterexamples)
+- [ ] Random feature control (false positive rate OK?)
+- [ ] Permutation test (survives shuffle?)
+- [ ] Subset stability (80%+ subsets consistent?)
+
+---
+
+## 📋 Master Audit Checklist
+
+### Before Analysis (Day 0)
+- [x] Create pre-registration file
+- [ ] Commit pre-registration to GitHub
+- [ ] Create reproducibility manifest
+- [ ] Run all unit tests (implementation audit)
+- [ ] Verify no lookahead bugs
+
+### During Analysis (Days 1-7)
+- [ ] Run causal inference tests for each significant finding
+- [ ] Run crypto-specific checks
+- [ ] Run strategy validity checks
+- [ ] Document any deviations from pre-registration
+
+### After Analysis (Day 8+)
+- [ ] Run multi-asset generalization
+- [ ] Run adversarial tests
+- [ ] Report ALL results including nulls
+- [ ] Write final report with all audit results
 
 ---
 

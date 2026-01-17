@@ -59,17 +59,35 @@ python experiments/phase0_si_discovery.py
 # Decision: Which path to pursue
 ```
 
-## 7-Day Test Plan
+## 8-Day Test Plan (Three Pipelines)
 
-| Day | Phase | Output |
-|-----|-------|--------|
-| 1-2 | Infrastructure | Data loaders, feature calculators |
-| 3-4 | Computation | Backtest, SI + 70 features |
-| 5 | Analysis | Correlation matrix |
-| **6** | **Interpretation** | **"SI measures X"** |
-| **7** | **Decision** | **Path to profit** |
+| Day | Phase | Pipeline | Output |
+|-----|-------|----------|--------|
+| 0 | Pre-Reg | - | `pre_registration.json` |
+| 1-2 | Infrastructure | - | Data + categorized features |
+| 3-4 | Computation | - | SI + all features |
+| 5 | **Pipeline 1** | Discovery | "SI correlates with X" |
+| 6 | **Pipeline 2** | Prediction | "SI predicts Y with lag K" |
+| 7 | **Pipeline 3** | SI Dynamics | "Best SI variant is Z" |
+| 8 | Report | All | Final conclusions |
 
 See [docs/SI_CORRELATION_TEST_PLAN.md](docs/SI_CORRELATION_TEST_PLAN.md) for full plan.
+
+## Three Separate Pipelines
+
+**Key insight**: Not all features can use the same pipeline!
+
+| Pipeline | Features | Question |
+|----------|----------|----------|
+| **Discovery** | 46 | What does SI correlate with? |
+| **Prediction** | 2 | Does SI predict future outcomes? |
+| **SI Dynamics** | 9 | How should we use SI? |
+
+```
+⚠️ Circular features (removed from discovery):
+- SI-derived: dSI/dt, si_std, si_1h, si_4h...
+- Agent features that ARE SI: strategy_concentration, niche_entropy
+```
 
 ## 70+ Features Being Tested
 
@@ -147,20 +165,38 @@ SI correlates with NOTHING?       → Deeper analysis or abandon
 - [x] Test plan created
 - [x] **Methodology audit: 16 issues fixed**
 - [x] **Expert panel review: 18 recommendations incorporated**
-- [ ] **NEXT: Build infrastructure**
-- [ ] Pre-register publicly (GitHub commit)
+- [x] **Feature pipeline audit: 3 pipelines designed**
+- [x] **8 additional audits: All designed**
+- [x] **Pre-registration file created**
+- [ ] **NEXT: Commit pre-registration to GitHub**
+- [ ] Build infrastructure
 - [ ] Run discovery experiment
 - [ ] Interpret results
 - [ ] Choose path forward
 
 ## Methodology Rigor
 
-**Total issues addressed: 34**
+**Total improvements: 48**
 
-| Audit | Issues | Status |
-|-------|--------|--------|
+| Audit Phase | Issues | Status |
+|-------------|--------|--------|
 | Initial Methodology Audit | 16 | ✅ Fixed |
 | Expert Panel Review | 18 | ✅ Incorporated |
+| Feature Pipeline Audit | 6 | ✅ 3 pipelines created |
+| **8 Additional Expert Audits** | 8 | ✅ All designed |
+
+### 8 Expert-Recommended Audits
+
+| # | Audit | Priority | Status |
+|---|-------|----------|--------|
+| 1 | Pre-Registration | 🔴 | ✅ `experiments/pre_registration.json` |
+| 2 | Implementation Tests | 🔴 | ✅ Unit tests designed |
+| 3 | Causal Inference | 🔴 | ✅ Granger, placebo, permutation |
+| 4 | Strategy Validity | 🔴 | ✅ Benchmarks, costs, parameters |
+| 5 | Reproducibility | 🟡 | ✅ Manifest, seeds, versions |
+| 6 | Crypto-Specific | 🟡 | ✅ Time-of-day, weekend, liquidity |
+| 7 | Multi-Asset | 🟡 | ✅ 5 assets, time periods, regimes |
+| 8 | Adversarial | 🟡 | ✅ Devil's advocate, permutation |
 
 ### Key Safeguards
 
