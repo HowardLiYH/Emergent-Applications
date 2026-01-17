@@ -237,85 +237,95 @@ If successful, we contribute:
 
 ---
 
-## 🚀 Next: Validation Plan
+## 🚀 NEW: Discovery-First Validation Plan
 
-### THE CRITICAL FIRST TEST: Does SI correlate with Profit?
+### THE NEW APPROACH: What Does SI Measure?
 
-Phase 0 is about ONE thing: **proving SI → Profit**
+Instead of assuming SI → Profit, we DISCOVER what SI correlates with.
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                    PHASE 0 EXPERIMENT                       │
+│                    PHASE 0: DISCOVERY                       │
 ├────────────────────────────────────────────────────────────┤
 │                                                             │
-│  INPUT:                                                     │
-│  ┌─────────┐   ┌─────────┐   ┌─────────┐                   │
-│  │ BTC/ETH │ + │5 Agents │ + │3 Methods│                   │
-│  │ 6-12 mo │   │NichePop │   │momentum │                   │
-│  └─────────┘   └─────────┘   │meanrev  │                   │
-│                              │breakout │                    │
-│                              └─────────┘                    │
+│  STEP 1: Run backtest, compute SI time series              │
 │                                                             │
-│  MEASURE (at each time window):                             │
+│  STEP 2: Correlate SI with EVERYTHING                      │
+│                                                             │
 │  ┌─────────────────────────────────────────┐               │
-│  │ t=1: SI=0.3, Profit=-0.5%               │               │
-│  │ t=2: SI=0.4, Profit=+1.2%               │               │
-│  │ t=3: SI=0.6, Profit=+2.1%               │               │
-│  │ t=4: SI=0.5, Profit=+0.8%               │               │
-│  │ ...                                     │               │
+│  │ Market:     volatility, trend, entropy  │               │
+│  │ Risk:       drawdown, VaR, tail loss    │               │
+│  │ Agents:     correlation, winner spread  │               │
+│  │ Profit:     returns, Sharpe             │               │
+│  │ Predictive: next-day return/vol         │               │
+│  │ Dynamics:   dSI/dt, SI stability        │               │
 │  └─────────────────────────────────────────┘               │
 │                                                             │
-│  COMPUTE:                                                   │
-│  ┌─────────────────────────────────────────┐               │
-│  │ correlation = pearsonr(SI, Profit)      │               │
-│  │                                          │               │
-│  │ SUCCESS:                                 │               │
-│  │   r > 0  (positive correlation)         │               │
-│  │   p < 0.05 (statistically significant)  │               │
-│  └─────────────────────────────────────────┘               │
+│  STEP 3: Find top 10 strongest correlations                │
 │                                                             │
-│  OUTCOME:                                                   │
-│  ┌─────────────────────────────────────────┐               │
-│  │ PASS → Our thesis is valid → Phase 1    │               │
-│  │ FAIL → Analyze why → Iterate or abandon │               │
-│  └─────────────────────────────────────────┘               │
+│  STEP 4: Interpret - "SI measures X"                       │
+│                                                             │
+│  STEP 5: Trace - "Does X lead to profit?"                  │
 │                                                             │
 └────────────────────────────────────────────────────────────┘
 ```
 
-### What We're NOT Testing First (Save for Later)
+### Fallback Paths (If SI ≠ Profit Directly)
 
-| Test | When | Why Wait |
-|------|------|----------|
-| NichePopulation > Equal-weight | Phase 1 | Need SI→Profit first |
-| NichePopulation > Single-best | Phase 1 | Need SI→Profit first |
-| Multi-asset validation | Phase 1 | Need SI→Profit first |
-| Attribution | Phase 2 | Way too early |
+| If SI correlates with... | Pivot to... | Value |
+|--------------------------|-------------|-------|
+| Risk metrics (drawdown, vol) | SI for risk management | Lower risk, better Sharpe |
+| Agent correlation | SI for diversification | Uncorrelated alpha |
+| Regime stability | SI as regime detector | Know when to trade |
+| Next-day returns | SI as leading indicator | Timing signal |
+| Predictability metrics | SI as meta-signal | Trade more when SI high |
+| Nothing | Deeper analysis | Nonlinear, stratified tests |
 
-### Decision Tree
+### Comprehensive Decision Tree
 
 ```
-                    Run Phase 0 Backtest
+                    Run Backtest + Collect Data
                            │
                            ▼
-                    Does SI emerge?
-                    (SI > 0.3?)
-                     /         \
-                   NO           YES
-                   │             │
-                   ▼             ▼
-            Competition      Is SI correlated
-            not working      with Profit?
-            → Debug or       (r > 0, p < 0.05?)
-              abandon         /         \
-                            NO           YES
-                            │             │
-                            ▼             ▼
-                     SI exists but    🎉 THESIS
-                     doesn't help     VALIDATED
-                     → Rethink        → Phase 1
-                       mechanism
+                    Does SI emerge? (SI > 0.3?)
+                     /                    \
+                   NO                      YES
+                   │                        │
+                   ▼                        ▼
+            Debug competition         Correlate SI with ALL features
+            mechanism                        │
+                                            ▼
+                               ┌────────────────────────────────┐
+                               │  Find top correlations         │
+                               │  "SI relates most to X"        │
+                               └────────────────────────────────┘
+                                            │
+                 ┌──────────────────────────┼──────────────────────────┐
+                 │                          │                          │
+                 ▼                          ▼                          ▼
+          X = Profit                 X = Risk metrics           X = Something else
+                │                          │                          │
+                ▼                          ▼                          ▼
+         🎉 Original thesis         Pivot: SI for risk         Trace: Does X → Profit?
+            validated               management                        │
+                                                               ┌──────┴──────┐
+                                                               ▼             ▼
+                                                            YES            NO
+                                                         Indirect        SI valuable
+                                                         path found      for other uses
 ```
+
+### Wild Hypotheses to Test
+
+See `SI_EXPLORATION.md` for 18 hypotheses including:
+- SI = Market regime clarity
+- SI = Inverse of market entropy
+- SI = Regime persistence indicator
+- SI = Agent diversification
+- SI = Leading indicator for volatility
+- SI velocity (dSI/dt) more important than SI level
+- SI as anti-crowding metric
+- SI as canary-in-coal-mine for crashes
 
 ---
 

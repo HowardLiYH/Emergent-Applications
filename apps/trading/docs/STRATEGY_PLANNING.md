@@ -62,48 +62,107 @@ Building the **Trading Application** in `Emergent-Applications/apps/trading/`
 
 ## 📋 Our Plan (Staying on Track)
 
-### ⚡ CRITICAL FIRST QUESTION: Does SI → Profit?
+### ⚡ NEW APPROACH: Discover What SI Measures FIRST
 
-Before ANYTHING else, we need to validate our core hypothesis:
+**Old thinking**: Assume SI → Profit, test if true
+**New thinking**: Find what SI correlates with, THEN trace to profit
 
-> **"Does Specialization Index (SI) correlate with trading profit?"**
+> **"What does SI actually measure? What is it related to?"**
 
-If this fails, our entire thesis is invalid. No point building complex systems.
+See `SI_EXPLORATION.md` for the full list of 18 wild hypotheses.
 
 ---
 
-### Phase 0: Validate SI → Profit Link (Week 1)
+### Phase 0: Discovery Phase (Week 1)
 
-**THE ONLY QUESTION**: Is there a measurable correlation between SI and Profit?
+**THE QUESTION**: What is SI actually measuring?
 
-**Minimal Experiment**:
-1. **Setup**: 5 simple agents with 3 strategies (momentum, mean-reversion, breakout)
-2. **Run**: NichePopulation competition on 6-12 months of BTC/ETH data
-3. **Measure Both**:
-   - SI: Specialization Index at each time window (daily/weekly)
-   - Profit: Returns at each time window
+**The Discovery Protocol**:
+1. **Setup**: 5 agents, 3 strategies, BTC/ETH data
+2. **Run**: NichePopulation competition, compute SI time series
+3. **Correlate SI with EVERYTHING**:
 
-**The Critical Test**:
 ```python
-# After backtest completes
-correlation, p_value = pearsonr(si_timeseries, profit_timeseries)
+# Market State
+correlate(SI, volatility)           # Does SI emerge in calm markets?
+correlate(SI, trend_strength)       # Does SI need trends?
+correlate(SI, return_entropy)       # Is SI about predictability?
+correlate(SI, regime_stability)     # Is SI about regime persistence?
 
-# SUCCESS: correlation > 0 AND p_value < 0.05
-# FAILURE: correlation ≤ 0 OR p_value ≥ 0.05
+# Risk Metrics
+correlate(SI, max_drawdown)         # Does SI reduce risk?
+correlate(SI, volatility_of_vol)    # Does SI like stable conditions?
+
+# Agent Behavior
+correlate(SI, agent_correlation)    # Does SI = diversification?
+correlate(SI, winner_spread)        # Does SI = competitive intensity?
+
+# Profit (one of many tests, not THE test)
+correlate(SI, profit)               # Direct relationship?
+
+# SI as Predictor
+correlate(SI_today, profit_tomorrow)    # Leading indicator?
+correlate(SI_today, volatility_tomorrow) # Warning signal?
+
+# SI Dynamics
+correlate(dSI/dt, profit)           # Is SI change more important?
 ```
 
-**Success Criteria (ALL must pass)**:
-| Metric | Threshold | Why |
-|--------|-----------|-----|
-| SI | > 0.3 | Proves specialization emerges |
-| Correlation(SI, Profit) | > 0 | Proves SI predicts profit |
-| P-value | < 0.05 | Proves correlation is significant |
-| Returns | > 0 | Proves we make money |
+**Output**: Top 10 strongest SI correlations
 
-**If Phase 0 FAILS**:
-- Analyze WHY (do specialists emerge but not profit? or no specialization?)
-- Iterate on mechanism or abandon trading direction
-- Don't proceed to Phase 1
+---
+
+### Phase 0 Decision Tree
+
+```
+After correlation analysis:
+
+┌─────────────────────────────────────────────────────────────┐
+│                                                              │
+│  SI correlates strongly with PROFIT directly?               │
+│     → Original thesis validated → Proceed                   │
+│                                                              │
+│  SI correlates with RISK METRICS (drawdown, vol)?           │
+│     → Pivot: "SI for risk management"                       │
+│     → Value: Lower risk, better Sharpe                      │
+│                                                              │
+│  SI correlates with DIVERSIFICATION (agent correlation)?    │
+│     → Pivot: "SI for portfolio construction"                │
+│     → Value: Uncorrelated alpha streams                     │
+│                                                              │
+│  SI correlates with PREDICTABILITY (entropy, autocorr)?     │
+│     → Pivot: "SI as market regime indicator"                │
+│     → Value: Meta-signal for when to trade                  │
+│                                                              │
+│  SI correlates with REGIME STABILITY?                       │
+│     → Pivot: "SI as regime detector"                        │
+│     → Value: Position sizing, risk allocation               │
+│                                                              │
+│  SI predicts NEXT-DAY returns/vol?                          │
+│     → Pivot: "SI as leading indicator"                      │
+│     → Value: Timing signal                                  │
+│                                                              │
+│  SI correlates with NOTHING significant?                    │
+│     → Try: Nonlinear tests, regime-stratified analysis     │
+│     → Or: SI might not be useful for trading                │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Fallback Paths to Value
+
+Even if SI ≠ Profit directly, SI might still be valuable:
+
+| Fallback | What SI Correlates With | Value Proposition |
+|----------|-------------------------|-------------------|
+| **Risk Manager** | Drawdown, VaR | Lower risk, better Sharpe |
+| **Diversifier** | Agent correlation | Uncorrelated returns |
+| **Regime Detector** | Regime stability | Know when to trade |
+| **Leading Indicator** | Next-day returns | Timing signal |
+| **Anti-Crowding** | Strategy overlap | Avoid crowded trades |
+| **Stability Metric** | System health | Monitor trading system |
 
 **What to reuse from PopAgent**:
 - Data pipeline (Bybit CSVs)
@@ -205,29 +264,33 @@ Build a minimal backtest that answers:
 | Week | Task | Deliverable | Gate |
 |------|------|-------------|------|
 | 1 Day 1-2 | Extract PopAgent data + Thompson Sampling | `src/data/`, `src/agents/` | |
-| 1 Day 3-4 | Build 3 simple strategies | `src/strategies/` | |
-| 1 Day 5-7 | Build NichePopulation + backtest | `src/competition/` | |
-| **Week 1 End** | **RUN SI→PROFIT TEST** | **Correlation result** | **GO/NO-GO** |
-| 2 | Multi-asset (if Phase 0 passes) | BTC, ETH, SOL | |
-| 3 | Ablation + robustness | Different windows, conditions | |
-| 4+ | Add sophistication | Attribution, Feature-Aligned | |
+| 1 Day 3-4 | Build 3 strategies + NichePopulation | `src/strategies/`, `src/competition/` | |
+| 1 Day 5 | Run backtest, collect SI + ALL features | Raw data dump | |
+| 1 Day 6 | **Correlation analysis** | **Top 10 SI correlates** | |
+| **Week 1 End** | **Interpretation: What does SI measure?** | **Discovery report** | **PIVOT DECISION** |
+| 2 | Follow strongest path (profit/risk/signal) | Targeted validation | |
+| 3 | Multi-asset robustness | BTC, ETH, SOL | |
+| 4+ | Add sophistication based on findings | Attribution, etc. | |
 
 ---
 
 ## 🎯 Current Status
 
-**Priority: Validate SI → Profit hypothesis FIRST**
+**Priority: DISCOVER what SI measures, THEN trace to profit**
 
 - [x] Created trading folder structure
 - [x] Documented research plan  
 - [x] Documented architecture decisions
 - [x] Created this strategy planning doc
 - [x] Created SI→Profit innovation doc
+- [x] Created SI Exploration doc (18 wild hypotheses)
 - [ ] **NEXT: Extract data pipeline from PopAgent**
 - [ ] Extract Thompson Sampling from PopAgent
 - [ ] Build simple strategies (momentum, mean-reversion, breakout)
 - [ ] Build NichePopulation mechanism
-- [ ] **CRITICAL: Run SI→Profit correlation test**
+- [ ] Run backtest + collect all features
+- [ ] **CRITICAL: Correlation analysis - What does SI relate to?**
+- [ ] Interpretation + pivot decision
 
 ---
 
