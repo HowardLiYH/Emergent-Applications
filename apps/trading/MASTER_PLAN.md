@@ -52,6 +52,55 @@ Primary Hypothesis: SI correlates with volatility (r > 0.15, p < 0.05)
 
 ---
 
+## ⚠️ Contingency Plans
+
+| If This Happens | Then Do This |
+|-----------------|--------------|
+| Data source unavailable | Use alternative source (listed below) |
+| API rate limited | Add sleep, reduce batch size |
+| Memory issues | Process data in chunks |
+| SI always 0 or 1 | Check agent diversity, adjust parameters |
+| All correlations null | Check data quality, try longer SI window |
+| Validation fails | Re-examine train findings, check for overfit |
+
+---
+
+## 🛑 Stopping Criteria
+
+Stop and reassess if:
+
+| Phase | Stop If | Action |
+|-------|---------|--------|
+| Phase 2 | Data validation fails 3+ times | Find different data source |
+| Phase 3 | SI has zero variance | Check NichePopulation implementation |
+| Phase 4 | All 46 features have \|r\| < 0.05 | Fundamental issue - reassess SI definition |
+| Phase 7 | Zero candidates confirmed in validation | Overfitting in train - simplify |
+| Any | Stuck 3+ days on one phase | Seek help, reassess approach |
+
+---
+
+## 🎯 Exit Criteria
+
+### Success (Proceed to Future Enhancements)
+
+- [ ] ≥3 features with \|r\| > 0.15, FDR < 0.05, confirmed in val AND test
+- [ ] SI Granger-causes at least one prediction target (p < 0.05)
+- [ ] Findings replicate in ≥3 of 5 assets
+
+### Partial Success (Proceed with Caution)
+
+- [ ] 1-2 significant features confirmed
+- [ ] OR SI correlates but doesn't predict
+- [ ] OR works in 1-2 assets only
+
+### Failure (Pivot or Abandon)
+
+- [ ] Zero significant features after full analysis
+- [ ] SI doesn't vary meaningfully
+- [ ] All findings are noise (fail permutation tests)
+
+---
+
 # PHASE 1: Pre-Registration & Setup
 
 ## Step 1.1: Commit Pre-Registration (CRITICAL)
@@ -105,6 +154,146 @@ pip install -r requirements.txt
 ```
 
 **Checkpoint**: Dependencies installed? ☐ Yes ☐ No
+
+---
+
+## Step 1.4: Create Package Structure
+
+```bash
+# Create __init__.py files for proper imports
+touch src/__init__.py
+touch src/data/__init__.py
+touch src/agents/__init__.py
+touch src/competition/__init__.py
+touch src/analysis/__init__.py
+touch src/backtest/__init__.py
+```
+
+---
+
+## Step 1.5: Minimal Smoke Test (30 min)
+
+Before full execution, verify core logic works:
+
+```python
+# experiments/smoke_test.py
+"""
+Minimal test to verify SI computation works.
+Run this BEFORE downloading real data.
+"""
+import numpy as np
+import pandas as pd
+
+def test_si_computation():
+    """Test SI with synthetic data."""
+    print("=" * 60)
+    print("SMOKE TEST: SI Computation")
+    print("=" * 60)
+
+    # 1. Create synthetic price data
+    np.random.seed(42)
+    n = 1000
+    prices = 100 + np.cumsum(np.random.randn(n) * 0.5)
+
+    data = pd.DataFrame({
+        'open': prices,
+        'high': prices + np.abs(np.random.randn(n)),
+        'low': prices - np.abs(np.random.randn(n)),
+        'close': prices + np.random.randn(n) * 0.1,
+        'volume': np.random.randint(100, 10000, n),
+    }, index=pd.date_range('2024-01-01', periods=n, freq='1h'))
+
+    print(f"✅ Created synthetic data: {len(data)} rows")
+
+    # 2. Create simple strategies
+    class SimpleStrategy:
+        def __init__(self, bias: float):
+            self.bias = bias
+        def signal(self, data, idx):
+            if idx < 10:
+                return 0
+            ret = data['close'].iloc[idx] / data['close'].iloc[idx-10] - 1
+            return 1.0 if ret > self.bias else -1.0 if ret < -self.bias else 0.0
+
+    strategies = [SimpleStrategy(0.01), SimpleStrategy(0.02), SimpleStrategy(0.03)]
+    print(f"✅ Created {len(strategies)} strategies")
+
+    # 3. Create agents with niche affinities
+    class SimpleAgent:
+        def __init__(self, strategy_idx):
+            self.strategy_idx = strategy_idx
+            self.niche_affinity = np.ones(3) / 3
+
+        def update(self, regime, won):
+            alpha = 0.1
+            if won:
+                self.niche_affinity[regime] += alpha * (1 - self.niche_affinity[regime])
+            else:
+                self.niche_affinity[regime] *= (1 - alpha)
+            self.niche_affinity /= self.niche_affinity.sum()
+
+    agents = [SimpleAgent(i % 3) for i in range(9)]
+    print(f"✅ Created {len(agents)} agents")
+
+    # 4. Run competition
+    for idx in range(100, 500):
+        regime = idx % 3  # Simple regime rotation
+
+        # Get returns
+        returns = []
+        for agent in agents:
+            signal = strategies[agent.strategy_idx].signal(data, idx-1)
+            ret = signal * (data['close'].iloc[idx] / data['close'].iloc[idx-1] - 1)
+            returns.append((agent, ret))
+
+        # Winner-take-all
+        winner = max(returns, key=lambda x: x[1])[0]
+
+        for agent, ret in returns:
+            agent.update(regime, agent == winner)
+
+    print(f"✅ Ran 400 competition rounds")
+
+    # 5. Compute SI
+    def compute_si(agents):
+        entropies = []
+        for agent in agents:
+            p = agent.niche_affinity + 1e-10
+            entropy = -np.sum(p * np.log(p))
+            max_entropy = np.log(len(p))
+            entropies.append(entropy / max_entropy)
+        return 1 - np.mean(entropies)
+
+    si = compute_si(agents)
+    print(f"✅ Computed SI: {si:.3f}")
+
+    # 6. Validate
+    assert 0 <= si <= 1, f"SI out of range: {si}"
+    print(f"✅ SI is in valid range [0, 1]")
+
+    # 7. Check agents specialized
+    for i, agent in enumerate(agents):
+        dominant = np.argmax(agent.niche_affinity)
+        print(f"   Agent {i}: dominant regime {dominant}, affinity {agent.niche_affinity.round(2)}")
+
+    print("\n" + "=" * 60)
+    print("🎉 SMOKE TEST PASSED!")
+    print("=" * 60)
+
+    return True
+
+if __name__ == "__main__":
+    success = test_si_computation()
+    exit(0 if success else 1)
+```
+
+```bash
+python experiments/smoke_test.py
+```
+
+**Checkpoint**: Smoke test passed? ☐ Yes ☐ No
+
+**If smoke test fails**: Fix before proceeding. Core logic must work.
 
 ---
 
