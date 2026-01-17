@@ -1,6 +1,6 @@
 # Architecture Decisions: Trading Application
 
-**Date**: January 17, 2026  
+**Date**: January 17, 2026
 **Status**: Research Phase
 
 ---

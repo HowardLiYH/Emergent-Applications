@@ -1,7 +1,7 @@
 # Trading Application: Research Plan & Expert Analysis
 
-**Date**: January 17, 2026  
-**Status**: Research & Planning Phase  
+**Date**: January 17, 2026
+**Status**: Research & Planning Phase
 **Based On**: NichePopulation (Paper 1) mechanism extension
 
 ---
@@ -130,8 +130,8 @@ Real market regimes are NOT independent:
 | Mean Reversion | Buy if price < 20d MA by 2% | BTC, ETH, SPY | Sharpe > 0.3 |
 | Volatility | Reduce position if vol > 2x average | BTC, ETH, SPY | Lower drawdown |
 
-**Cost**: $0 (free data from Yahoo Finance)  
-**Time**: 1 week  
+**Cost**: $0 (free data from Yahoo Finance)
+**Time**: 1 week
 **Go/No-Go**: If NO strategy is profitable → STOP
 
 ### Phase 0b: Ensemble Improvement (Week 2)
@@ -144,8 +144,8 @@ Real market regimes are NOT independent:
 | Ensemble vs Individual | Max drawdown | Ensemble lower |
 | Strategy correlation | Pairwise correlation | < 0.3 |
 
-**Cost**: $0  
-**Time**: 3-5 days  
+**Cost**: $0
+**Time**: 3-5 days
 **Go/No-Go**: If ensemble doesn't beat best individual → STOP
 
 ### Phase 1: NichePopulation Mechanism (Week 3)
@@ -164,8 +164,8 @@ Real market regimes are NOT independent:
 - Winner-take-all competition per week
 - Fitness = rolling 30-day Sharpe
 
-**Cost**: $0  
-**Time**: 1 week  
+**Cost**: $0
+**Time**: 1 week
 **Go/No-Go**: If NichePopulation doesn't beat equal-weight → reassess mechanism
 
 ### Phase 2: SI Validation (Week 4)
@@ -178,7 +178,7 @@ Real market regimes are NOT independent:
 | Regime-matching | Visual | Different agents dominate different market conditions |
 | Profit attribution | Analysis | SI periods correlate with higher returns |
 
-**Cost**: $0  
+**Cost**: $0
 **Time**: 3-5 days
 
 ### Phase 3: Advanced Architecture (Month 2+)
@@ -190,7 +190,7 @@ Real market regimes are NOT independent:
 - Implement soft regime assignments
 - Test on more assets (10-20 liquid stocks/ETFs)
 
-**Cost**: ~$100-500 (compute, optional data)  
+**Cost**: ~$100-500 (compute, optional data)
 **Time**: 4-6 weeks
 
 ---
