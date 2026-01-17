@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-01-17T14:27:38.936302",
+  "python_version": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]",
+  "platform": "darwin",
+  "packages": {
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "scipy": "1.11.4",
+    "statsmodels": "0.14.0",
+    "scikit-learn": "1.2.2"
+  },
+  "git": {
+    "commit": "908a2e877bc0b0d3242616854f1e88f1ec7a1115",
+    "dirty": true
+  },
+  "data_hashes": {},
+  "config": {
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT"
+    ],
+    "seed": 42
+  }
+}

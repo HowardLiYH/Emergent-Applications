@@ -1,0 +1,99 @@
+{
+  "crypto/BTCUSDT": {
+    "symbol": "BTCUSDT",
+    "market": "crypto",
+    "status": "SUCCESS",
+    "n_rows": 6329,
+    "si_mean": 0.5078187346853509,
+    "si_std": 0.20666691472665005,
+    "n_significant": 2,
+    "top_feature": "tail_ratio_30d",
+    "top_r": -0.1809745427274146,
+    "significant_features": [
+      "tail_ratio_30d",
+      "volume_volatility_7d"
+    ]
+  },
+  "crypto/ETHUSDT": {
+    "symbol": "ETHUSDT",
+    "market": "crypto",
+    "status": "SUCCESS",
+    "n_rows": 6327,
+    "si_mean": 0.5210206211501214,
+    "si_std": 0.21217073534851524,
+    "n_significant": 5,
+    "top_feature": "max_drawdown_30d",
+    "top_r": -0.38267602104769893,
+    "significant_features": [
+      "max_drawdown_30d",
+      "trend_strength_7d",
+      "volatility_7d",
+      "return_autocorr_7d",
+      "jump_frequency_7d"
+    ]
+  },
+  "crypto/SOLUSDT": {
+    "symbol": "SOLUSDT",
+    "market": "crypto",
+    "status": "SUCCESS",
+    "n_rows": 6328,
+    "si_mean": 0.6104381322130621,
+    "si_std": 0.21485792877985946,
+    "n_significant": 3,
+    "top_feature": "trend_strength_7d",
+    "top_r": 0.2655290488604185,
+    "significant_features": [
+      "trend_strength_7d",
+      "hurst_exponent",
+      "jump_frequency_7d"
+    ]
+  },
+  "forex/EURUSD": {
+    "symbol": "EURUSD",
+    "market": "forex",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 1406"
+  },
+  "forex/GBPUSD": {
+    "symbol": "GBPUSD",
+    "market": "forex",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 1406"
+  },
+  "forex/USDJPY": {
+    "symbol": "USDJPY",
+    "market": "forex",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 1401"
+  },
+  "stocks/SPY": {
+    "symbol": "SPY",
+    "market": "stocks",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 20"
+  },
+  "stocks/QQQ": {
+    "symbol": "QQQ",
+    "market": "stocks",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 20"
+  },
+  "stocks/AAPL": {
+    "symbol": "AAPL",
+    "market": "stocks",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 20"
+  },
+  "commodities/GOLD": {
+    "symbol": "GOLD",
+    "market": "commodities",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 912"
+  },
+  "commodities/OIL": {
+    "symbol": "OIL",
+    "market": "commodities",
+    "status": "ERROR",
+    "error": "Tz-aware datetime.datetime cannot be converted to datetime64 unless utc=True, at position 866"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "BTCUSDT": {
+    "next_day_return": {
+      "signal_decay": {
+        "optimal_lag": 73,
+        "peak_r": 0.022534808926102348,
+        "half_life": 48
+      },
+      "granger_p": 0.0574761622337857,
+      "granger_significant": false
+    },
+    "next_day_volatility": {
+      "signal_decay": {
+        "optimal_lag": 103,
+        "peak_r": 0.1560691289871077,
+        "half_life": null
+      },
+      "granger_p": 0.2268951191747683,
+      "granger_significant": false
+    }
+  },
+  "ETHUSDT": {
+    "next_day_return": {
+      "signal_decay": {
+        "optimal_lag": 115,
+        "peak_r": 0.015234054832582975,
+        "half_life": null
+      },
+      "granger_p": 0.7015620050499368,
+      "granger_significant": false
+    },
+    "next_day_volatility": {
+      "signal_decay": {
+        "optimal_lag": 25,
+        "peak_r": 0.14597695141050698,
+        "half_life": 102
+      },
+      "granger_p": 0.11911034653733091,
+      "granger_significant": false
+    }
+  },
+  "SOLUSDT": {
+    "next_day_return": {
+      "signal_decay": {
+        "optimal_lag": 25,
+        "peak_r": -0.01957671544923922,
+        "half_life": 36
+      },
+      "granger_p": 0.28352081498802295,
+      "granger_significant": false
+    },
+    "next_day_volatility": {
+      "signal_decay": {
+        "optimal_lag": 115,
+        "peak_r": 0.23953348738985297,
+        "half_life": null
+      },
+      "granger_p": 0.057225786257784794,
+      "granger_significant": false
+    }
+  }
+}

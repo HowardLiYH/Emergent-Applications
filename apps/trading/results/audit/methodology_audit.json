@@ -1,0 +1,33 @@
+{
+  "critical_issues": [
+    "\u274c CRITICAL: No transaction costs - profits may disappear with realistic costs",
+    "\u274c CRITICAL: No slippage modeled - unrealistic execution assumptions",
+    "\u274c CRITICAL: No market impact - strategy may move prices in practice"
+  ],
+  "warnings": [
+    "\u26a0\ufe0f  ETHUSDT_1h.csv: 51.3% zero volume - yfinance data quality issue",
+    "\u26a0\ufe0f  BTCUSDT_1h.csv: 52.2% zero volume - yfinance data quality issue",
+    "\u26a0\ufe0f  SOLUSDT_1h.csv: 50.7% zero volume - yfinance data quality issue",
+    "\u26a0\ufe0f  EURUSD_1h.csv: 100.0% zero volume - yfinance data quality issue",
+    "\u26a0\ufe0f  USDJPY_1h.csv: 100.0% zero volume - yfinance data quality issue",
+    "\u26a0\ufe0f  GBPUSD_1h.csv: 100.0% zero volume - yfinance data quality issue",
+    "\u26a0\ufe0f  DATA SOURCE: yfinance has known accuracy issues for intraday data",
+    "\u26a0\ufe0f  VOLUME DATA: Forex volume is synthetic, crypto volume often zero",
+    "\u26a0\ufe0f  FDR CORRECTION: Benjamini-Hochberg not applied to cross-market analysis",
+    "\u26a0\ufe0f  EFFECT SIZES: 121 significant correlations have |r| < 0.1 - statistically significant but practically meaningless",
+    "\u26a0\ufe0f  GRANGER TESTS: May need 1000+ observations for reliable results",
+    "\u26a0\ufe0f  SI SENSITIVITY: SI depends on arbitrary choices (window=168, n_agents=3)",
+    "\u26a0\ufe0f  REGIME THRESHOLDS: 30/70 percentile thresholds are arbitrary",
+    "\u26a0\ufe0f  STRATEGY SIMPLICITY: Only 3 simple strategies - may not capture market complexity",
+    "\u26a0\ufe0f  FEATURE OVERLAP: Rolling windows create autocorrelation in features",
+    "\u26a0\ufe0f  LOOK-AHEAD LEAKAGE: No purging/embargo between train/val/test splits",
+    "\u26a0\ufe0f  UNEQUAL SAMPLES: Stock data has ~1,900 rows vs Crypto ~9,500 - comparison may be unfair",
+    "\u26a0\ufe0f  TIMEZONE: Different markets have different trading hours - SI may not be comparable",
+    "\u26a0\ufe0f  SHORT PERIOD: ~13 months of data may not capture full market cycles",
+    "\u26a0\ufe0f  GEOGRAPHIC BIAS: Only US stocks tested - may not generalize globally",
+    "\u26a0\ufe0f  SELECTION BIAS: Only most liquid assets - SI may not work for smaller assets",
+    "\u26a0\ufe0f  REGIME DEPENDENCY: Results may be regime-specific",
+    "\u26a0\ufe0f  LOW RETURNS: Average TEST return is only +0.09% - may be noise"
+  ],
+  "total_issues": 26
+}

@@ -1,0 +1,243 @@
+{
+  "BTCUSDT": {
+    "symbol": "BTCUSDT",
+    "status": "SUCCESS",
+    "train": {
+      "total_return": -0.03375541080908373,
+      "annual_return": -0.04392874862939611,
+      "volatility": 0.03932195374798342,
+      "sharpe_ratio": -1.117155798283521,
+      "max_drawdown": -0.05267820905879427,
+      "win_rate": 0.4968982630272953,
+      "n_trades": 1612,
+      "regime_performance": {
+        "specialized": {
+          "count": 1977,
+          "mean_return": -7.316540272797662e-06,
+          "total_return": -0.014416373651005454
+        },
+        "generalized": {
+          "count": 1816,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 1816,
+          "mean_return": -1.0618123690406249e-05,
+          "total_return": -0.019621914002078467
+        }
+      }
+    },
+    "val": {
+      "total_return": -0.011633524645677129,
+      "annual_return": -0.06898820450079046,
+      "volatility": 0.049881240543350205,
+      "sharpe_ratio": -1.3830490931923596,
+      "max_drawdown": -0.02858076500413743,
+      "win_rate": 0.4672897196261682,
+      "n_trades": 214,
+      "regime_performance": {
+        "specialized": {
+          "count": 6,
+          "mean_return": -0.00013937715966462326,
+          "total_return": -0.0008361480055278925
+        },
+        "generalized": {
+          "count": 32,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 309,
+          "mean_return": -3.4504466285406656e-05,
+          "total_return": -0.01080641240032465
+        }
+      }
+    },
+    "test": {
+      "total_return": 0.003708095255057442,
+      "annual_return": 0.022851497007443156,
+      "volatility": 0.020081566537291335,
+      "sharpe_ratio": 1.1379339836365892,
+      "max_drawdown": -0.008565983306634616,
+      "win_rate": 0.5049019607843137,
+      "n_trades": 204,
+      "regime_performance": {
+        "specialized": {
+          "count": 241,
+          "mean_return": -1.2465264119123389e-05,
+          "total_return": -0.0030041693006204184
+        },
+        "generalized": {
+          "count": 20,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 87,
+          "mean_return": 7.745231307602573e-05,
+          "total_return": 0.006732490095739951
+        }
+      }
+    }
+  },
+  "ETHUSDT": {
+    "symbol": "ETHUSDT",
+    "status": "SUCCESS",
+    "train": {
+      "total_return": 0.04738330865530149,
+      "annual_return": 0.06245598515117079,
+      "volatility": 0.10484014916525473,
+      "sharpe_ratio": 0.5957258325980086,
+      "max_drawdown": -0.07416806741748122,
+      "win_rate": 0.49525237381309345,
+      "n_trades": 2001,
+      "regime_performance": {
+        "specialized": {
+          "count": 1988,
+          "mean_return": -7.92616700241745e-06,
+          "total_return": -0.01587080253270834
+        },
+        "generalized": {
+          "count": 1800,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 1819,
+          "mean_return": 3.64119560718867e-05,
+          "total_return": 0.06427419423262659
+        }
+      }
+    },
+    "val": {
+      "total_return": 0.0069787112414256836,
+      "annual_return": 0.043398725333690935,
+      "volatility": 0.07560826182358017,
+      "sharpe_ratio": 0.5739944853507536,
+      "max_drawdown": -0.03768584438396308,
+      "win_rate": 0.4595959595959596,
+      "n_trades": 198,
+      "regime_performance": {
+        "specialized": {
+          "count": 130,
+          "mean_return": -3.104943344848367e-05,
+          "total_return": -0.004037495373918065
+        },
+        "generalized": {
+          "count": 51,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 166,
+          "mean_return": 6.902044346352903e-05,
+          "total_return": 0.011060864805830128
+        }
+      }
+    },
+    "test": {
+      "total_return": -0.0009796147639177244,
+      "annual_return": -0.005969303093616096,
+      "volatility": 0.021140523275707028,
+      "sharpe_ratio": -0.2823630718959324,
+      "max_drawdown": -0.010812773075450316,
+      "win_rate": 0.4875,
+      "n_trades": 160,
+      "regime_performance": {
+        "specialized": {
+          "count": 234,
+          "mean_return": 6.46297725978051e-07,
+          "total_return": 0.00013799050264906576
+        },
+        "generalized": {
+          "count": 61,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 52,
+          "mean_return": -2.1053853113031007e-05,
+          "total_return": -0.0011174510689317962
+        }
+      }
+    }
+  },
+  "SOLUSDT": {
+    "symbol": "SOLUSDT",
+    "status": "SUCCESS",
+    "train": {
+      "total_return": -0.049996152097219304,
+      "annual_return": -0.06490659281411093,
+      "volatility": 0.11433857627947894,
+      "sharpe_ratio": -0.5676701155999974,
+      "max_drawdown": -0.08456640572911392,
+      "win_rate": 0.4971455756422455,
+      "n_trades": 2102,
+      "regime_performance": {
+        "specialized": {
+          "count": 1916,
+          "mean_return": -2.7292257860184762e-05,
+          "total_return": -0.05127676132357084
+        },
+        "generalized": {
+          "count": 1779,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 1913,
+          "mean_return": 3.1383668471464325e-06,
+          "total_return": 0.0013498238202125368
+        }
+      }
+    },
+    "val": {
+      "total_return": 0.017430729077732465,
+      "annual_return": 0.1113363744272109,
+      "volatility": 0.10890348702268002,
+      "sharpe_ratio": 1.0223398485305086,
+      "max_drawdown": -0.033600556389222894,
+      "win_rate": 0.4954545454545455,
+      "n_trades": 220,
+      "regime_performance": {
+        "specialized": {
+          "count": 8,
+          "mean_return": -8.114781523460789e-05,
+          "total_return": -0.0006490709245997595
+        },
+        "generalized": {
+          "count": 54,
+          "mean_return": 0.0,
+          "total_return": 0.0
+        },
+        "neutral": {
+          "count": 285,
+          "mean_return": 6.630829073415426e-05,
+          "total_return": 0.018091542696677898
+        }
+      }
+    },
+    "test": {
+      "total_return": 4.488140839198351e-05,
+      "annual_return": 0.0002740112728840671,
+      "volatility": 0.020475494351356004,
+      "sharpe_ratio": 0.013382400843763782,
+      "max_drawdown": -0.00985264084653538,
+      "win_rate": 0.49047619047619045,
+      "n_trades": 210,
+      "regime_performance": {
+        "specialized": {
+          "count": 321,
+          "mean_return": 7.567621216403672e-06,
+          "total_return": 0.0023993938097468526
+        },
+        "neutral": {
+          "count": 27,
+          "mean_return": -8.703734068624063e-05,
+          "total_return": -0.002348876521569121
+        }
+      }
+    }
+  }
+}

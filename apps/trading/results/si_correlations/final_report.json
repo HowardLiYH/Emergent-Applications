@@ -1,0 +1,51 @@
+{
+  "generated": "2026-01-17T16:13:22.115482",
+  "config": {
+    "si_windows": {
+      "hourly": 168,
+      "daily": 7
+    },
+    "min_val_size": {
+      "hourly": 300,
+      "daily": 30
+    },
+    "start_idx": {
+      "hourly": 200,
+      "daily": 15
+    }
+  },
+  "discovery": {
+    "total_correlations": 256,
+    "meaningful": 84,
+    "top_features": [
+      "rsi",
+      "bb_width",
+      "rsi",
+      "rsi",
+      "bb_width",
+      "bb_width",
+      "volatility_7d",
+      "adx",
+      "meanrev_signal",
+      "bb_width"
+    ]
+  },
+  "cross_market": {
+    "markets_tested": [
+      "crypto",
+      "forex",
+      "stocks",
+      "commodities"
+    ],
+    "avg_val_rate": 0.511038961038961,
+    "avg_test_rate": 0.4424242424242424
+  },
+  "exit_criteria": {
+    "criterion_1_features": true,
+    "criterion_2_validation": true,
+    "criterion_3_assets": true,
+    "criterion_4_markets": true,
+    "all_met": true
+  },
+  "conclusion": "SUCCESS"
+}

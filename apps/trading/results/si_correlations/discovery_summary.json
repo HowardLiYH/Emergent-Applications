@@ -1,0 +1,38 @@
+{
+  "BTCUSDT": {
+    "n_features_tested": 32,
+    "n_significant": 4,
+    "top_correlate": "meanrev_signal",
+    "top_r": 0.2890976331402714,
+    "significant_features": [
+      "meanrev_signal",
+      "win_rate_30d",
+      "tail_ratio_30d",
+      "volume_volatility_7d"
+    ]
+  },
+  "ETHUSDT": {
+    "n_features_tested": 32,
+    "n_significant": 5,
+    "top_correlate": "max_drawdown_30d",
+    "top_r": -0.38267602104769893,
+    "significant_features": [
+      "max_drawdown_30d",
+      "trend_strength_7d",
+      "volatility_7d",
+      "return_autocorr_7d",
+      "jump_frequency_7d"
+    ]
+  },
+  "SOLUSDT": {
+    "n_features_tested": 32,
+    "n_significant": 3,
+    "top_correlate": "trend_strength_7d",
+    "top_r": 0.2655290488604185,
+    "significant_features": [
+      "trend_strength_7d",
+      "hurst_exponent",
+      "jump_frequency_7d"
+    ]
+  }
+}

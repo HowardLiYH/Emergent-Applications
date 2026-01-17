@@ -1,0 +1,220 @@
+{
+  "BTCUSDT": {
+    "candidates_tested": [
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d",
+      "meanrev_signal"
+    ],
+    "n_confirmed": 2,
+    "confirmed": [
+      "jump_frequency_7d",
+      "meanrev_signal"
+    ],
+    "confirmation_rate": 0.3333333333333333,
+    "details": [
+      {
+        "feature": "hurst_exponent",
+        "train_r": 0.0475498295975097,
+        "test_r": -0.21078712287007903,
+        "test_p": 3.430787028309435e-12,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "trend_strength_7d",
+        "train_r": 0.1475629730549234,
+        "test_r": 0.023141975624655427,
+        "test_p": 0.4499481158978845,
+        "same_direction": true,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "win_rate_30d",
+        "train_r": -0.1869634371526594,
+        "test_r": 0.14438044391197782,
+        "test_p": 0.00010460509477294645,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "jump_frequency_7d",
+        "train_r": 0.0461397414257354,
+        "test_r": 0.3007640054859301,
+        "test_p": 9.078537763781509e-24,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "volume_volatility_7d",
+        "train_r": 0.1599187355177931,
+        "test_r": -0.3221411340719564,
+        "test_p": 3.271770633692116e-27,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "meanrev_signal",
+        "train_r": 0.2890976331402714,
+        "test_r": 0.451487783964701,
+        "test_p": 2.660992446581972e-37,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      }
+    ]
+  },
+  "ETHUSDT": {
+    "candidates_tested": [
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d",
+      "meanrev_signal"
+    ],
+    "n_confirmed": 4,
+    "confirmed": [
+      "hurst_exponent",
+      "trend_strength_7d",
+      "jump_frequency_7d",
+      "volume_volatility_7d"
+    ],
+    "confirmation_rate": 0.6666666666666666,
+    "details": [
+      {
+        "feature": "hurst_exponent",
+        "train_r": 0.1315966152154653,
+        "test_r": 0.09715318372541223,
+        "test_p": 0.0014865091672579848,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "trend_strength_7d",
+        "train_r": 0.3021637457968708,
+        "test_r": 0.19321900803905476,
+        "test_p": 1.9636351433836423e-10,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "win_rate_30d",
+        "train_r": -0.0840538734695452,
+        "test_r": 0.010278553225866512,
+        "test_p": 0.7836527283206798,
+        "same_direction": false,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "jump_frequency_7d",
+        "train_r": 0.1509499936099145,
+        "test_r": 0.41237725647737705,
+        "test_p": 4.6202232215476536e-45,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "volume_volatility_7d",
+        "train_r": 0.0667154401665983,
+        "test_r": 0.2514753844342113,
+        "test_p": 7.480949908676877e-17,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "meanrev_signal",
+        "train_r": -0.0327461337365931,
+        "test_r": 0.35608043110439036,
+        "test_p": 7.90868190532932e-23,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      }
+    ]
+  },
+  "SOLUSDT": {
+    "candidates_tested": [
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d",
+      "meanrev_signal"
+    ],
+    "n_confirmed": 2,
+    "confirmed": [
+      "trend_strength_7d",
+      "volume_volatility_7d"
+    ],
+    "confirmation_rate": 0.3333333333333333,
+    "details": [
+      {
+        "feature": "hurst_exponent",
+        "train_r": 0.1717264892457519,
+        "test_r": -0.1975804332517001,
+        "test_p": 7.330448752187746e-11,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "trend_strength_7d",
+        "train_r": 0.2655290488604185,
+        "test_r": 0.34722875229027955,
+        "test_p": 1.2714069356937428e-31,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "win_rate_30d",
+        "train_r": -0.0191878219151461,
+        "test_r": 0.8416131091507012,
+        "test_p": 1.8085346632132003e-193,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "jump_frequency_7d",
+        "train_r": 0.1525214969458804,
+        "test_r": -0.20932788015238674,
+        "test_p": 4.8613049178041615e-12,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "volume_volatility_7d",
+        "train_r": -0.1049989841484374,
+        "test_r": -0.580789026138787,
+        "test_p": 2.396292797432558e-97,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "meanrev_signal",
+        "train_r": -0.0488942670335098,
+        "test_r": 0.8197729721346244,
+        "test_p": 2.967706214226011e-175,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      }
+    ]
+  }
+}

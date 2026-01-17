@@ -1,0 +1,277 @@
+{
+  "method_flip_rates": {
+    "rule_2": 0.05,
+    "hmm_2": 0.175,
+    "hmm_3": 0.2727272727272727,
+    "gmm_2": 0.10416666666666666
+  },
+  "method_agreement": {
+    "rule_2_vs_hmm_2": 0.43415176871925376,
+    "rule_2_vs_hmm_3": 0.5175246440306681,
+    "rule_2_vs_gmm_2": 0.4877419332442309,
+    "hmm_2_vs_hmm_3": 0.7234392113910186,
+    "hmm_2_vs_gmm_2": 0.8283752680309251,
+    "hmm_3_vs_gmm_2": 0.7343921139101862
+  },
+  "best_method": "rule_2",
+  "best_flip_rate": 5.0,
+  "detailed_results": {
+    "crypto/BTCUSDT": {
+      "regime_stats": {
+        "rule_2": {
+          "distribution": {
+            "1.0": 0.5673603504928806,
+            "0.0": 0.43263964950711936
+          },
+          "avg_duration": 3.4714828897338403,
+          "n_transitions": 525,
+          "n_samples": 1826
+        },
+        "hmm_2": {
+          "distribution": {
+            "0": 0.6703176341730559,
+            "1": 0.32968236582694416
+          },
+          "avg_duration": 27.253731343283583,
+          "n_transitions": 66,
+          "n_samples": 1826
+        },
+        "hmm_3": {
+          "distribution": {
+            "1": 0.41566265060240964,
+            "0": 0.3937568455640745,
+            "2": 0.19058050383351588
+          },
+          "avg_duration": 14.725806451612904,
+          "n_transitions": 123,
+          "n_samples": 1826
+        },
+        "gmm_2": {
+          "distribution": {
+            "0": 0.6166484118291348,
+            "1": 0.3833515881708653
+          },
+          "avg_duration": 4.4645476772616135,
+          "n_transitions": 408,
+          "n_samples": 1826
+        }
+      },
+      "flip_results": {
+        "rule_2": {
+          "n_flips": 0,
+          "n_total": 6,
+          "flip_rate": 0.0,
+          "flipped_features": []
+        },
+        "hmm_2": {
+          "n_flips": 1,
+          "n_total": 5,
+          "flip_rate": 0.2,
+          "flipped_features": [
+            "max_drawdown_30d"
+          ]
+        },
+        "hmm_3": {
+          "n_flips": 3,
+          "n_total": 11,
+          "flip_rate": 0.2727272727272727,
+          "flipped_features": [
+            "volatility_30d",
+            "volume_24h",
+            "regime_duration"
+          ]
+        },
+        "gmm_2": {
+          "n_flips": 1,
+          "n_total": 6,
+          "flip_rate": 0.16666666666666666,
+          "flipped_features": [
+            "max_drawdown_30d"
+          ]
+        }
+      },
+      "agreement": {
+        "rule_2_vs_hmm_2": 0.4687842278203724,
+        "rule_2_vs_hmm_3": 0.5175246440306681,
+        "rule_2_vs_gmm_2": 0.5312157721796276,
+        "hmm_2_vs_hmm_3": 0.7234392113910186,
+        "hmm_2_vs_gmm_2": 0.8422782037239869,
+        "hmm_3_vs_gmm_2": 0.7343921139101862
+      }
+    },
+    "forex/EURUSD": {
+      "regime_stats": {
+        "rule_2": {
+          "distribution": {
+            "1.0": 0.5738461538461539,
+            "0.0": 0.42615384615384616
+          },
+          "avg_duration": 3.439153439153439,
+          "n_transitions": 377,
+          "n_samples": 1300
+        },
+        "hmm_2": {
+          "distribution": {
+            "0": 0.9976923076923077,
+            "1": 0.002307692307692308
+          },
+          "avg_duration": 185.71428571428572,
+          "n_transitions": 6,
+          "n_samples": 1300
+        },
+        "gmm_2": {
+          "distribution": {
+            "0": 0.8530769230769231,
+            "1": 0.14692307692307693
+          },
+          "avg_duration": 10.743801652892563,
+          "n_transitions": 120,
+          "n_samples": 1300
+        }
+      },
+      "flip_results": {
+        "rule_2": {
+          "n_flips": 1,
+          "n_total": 5,
+          "flip_rate": 0.2,
+          "flipped_features": [
+            "volatility_30d"
+          ]
+        },
+        "hmm_2": {
+          "n_flips": 0,
+          "n_total": 0,
+          "flip_rate": 0,
+          "flipped_features": []
+        },
+        "gmm_2": {
+          "n_flips": 1,
+          "n_total": 4,
+          "flip_rate": 0.25,
+          "flipped_features": [
+            "atr"
+          ]
+        }
+      },
+      "agreement": {
+        "rule_2_vs_hmm_2": 0.4269230769230769,
+        "rule_2_vs_gmm_2": 0.47307692307692306,
+        "hmm_2_vs_gmm_2": 0.8553846153846154
+      }
+    },
+    "stocks/SPY": {
+      "regime_stats": {
+        "rule_2": {
+          "distribution": {
+            "1.0": 0.5971337579617835,
+            "0.0": 0.4028662420382166
+          },
+          "avg_duration": 3.38544474393531,
+          "n_transitions": 370,
+          "n_samples": 1256
+        },
+        "hmm_2": {
+          "distribution": {
+            "0": 0.8383757961783439,
+            "1": 0.16162420382165604
+          },
+          "avg_duration": 73.88235294117646,
+          "n_transitions": 16,
+          "n_samples": 1256
+        },
+        "gmm_2": {
+          "distribution": {
+            "0": 0.7197452229299363,
+            "1": 0.2802547770700637
+          },
+          "avg_duration": 6.126829268292683,
+          "n_transitions": 204,
+          "n_samples": 1256
+        }
+      },
+      "flip_results": {
+        "rule_2": {
+          "n_flips": 0,
+          "n_total": 6,
+          "flip_rate": 0.0,
+          "flipped_features": []
+        },
+        "hmm_2": {
+          "n_flips": 1,
+          "n_total": 2,
+          "flip_rate": 0.5,
+          "flipped_features": [
+            "adx"
+          ]
+        },
+        "gmm_2": {
+          "n_flips": 0,
+          "n_total": 4,
+          "flip_rate": 0.0,
+          "flipped_features": []
+        }
+      },
+      "agreement": {
+        "rule_2_vs_hmm_2": 0.42595541401273884,
+        "rule_2_vs_gmm_2": 0.4585987261146497,
+        "hmm_2_vs_gmm_2": 0.8622611464968153
+      }
+    },
+    "commodities/GOLD": {
+      "regime_stats": {
+        "rule_2": {
+          "distribution": {
+            "1.0": 0.5866454689984102,
+            "0.0": 0.4133545310015898
+          },
+          "avg_duration": 3.882716049382716,
+          "n_transitions": 323,
+          "n_samples": 1258
+        },
+        "hmm_2": {
+          "distribution": {
+            "0": 0.9332273449920508,
+            "1": 0.06677265500794913
+          },
+          "avg_duration": 74.0,
+          "n_transitions": 16,
+          "n_samples": 1258
+        },
+        "gmm_2": {
+          "distribution": {
+            "0": 0.6931637519872814,
+            "1": 0.3068362480127186
+          },
+          "avg_duration": 3.129353233830846,
+          "n_transitions": 401,
+          "n_samples": 1258
+        }
+      },
+      "flip_results": {
+        "rule_2": {
+          "n_flips": 0,
+          "n_total": 5,
+          "flip_rate": 0.0,
+          "flipped_features": []
+        },
+        "hmm_2": {
+          "n_flips": 0,
+          "n_total": 5,
+          "flip_rate": 0.0,
+          "flipped_features": []
+        },
+        "gmm_2": {
+          "n_flips": 0,
+          "n_total": 13,
+          "flip_rate": 0.0,
+          "flipped_features": []
+        }
+      },
+      "agreement": {
+        "rule_2_vs_hmm_2": 0.4149443561208267,
+        "rule_2_vs_gmm_2": 0.48807631160572335,
+        "hmm_2_vs_gmm_2": 0.753577106518283
+      }
+    }
+  }
+}

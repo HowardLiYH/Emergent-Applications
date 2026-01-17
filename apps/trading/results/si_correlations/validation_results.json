@@ -1,0 +1,321 @@
+{
+  "BTCUSDT": {
+    "candidates_tested": [
+      "max_drawdown_30d",
+      "volatility_7d",
+      "return_autocorr_7d",
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "meanrev_signal",
+      "tail_ratio_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d"
+    ],
+    "n_confirmed": 5,
+    "confirmed": [
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d"
+    ],
+    "confirmation_rate": 0.5,
+    "details": [
+      {
+        "feature": "volatility_7d",
+        "train_r": 0.1398018622031675,
+        "val_r": -0.02494392058967016,
+        "val_p": 0.4156656262967803,
+        "same_direction": false,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "return_autocorr_7d",
+        "train_r": -0.0951206465141516,
+        "val_r": 0.10103167662080849,
+        "val_p": 0.0009504853402610612,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "hurst_exponent",
+        "train_r": 0.0475498295975097,
+        "val_r": 0.2046056093062334,
+        "val_p": 1.5082591911856165e-11,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "trend_strength_7d",
+        "train_r": 0.1475629730549234,
+        "val_r": 0.41492121380976676,
+        "val_p": 1.1880416617407743e-45,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "win_rate_30d",
+        "train_r": -0.1869634371526594,
+        "val_r": -0.33289789842678347,
+        "val_p": 5.457975837059766e-20,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "meanrev_signal",
+        "train_r": 0.2890976331402714,
+        "val_r": -0.2718121223345505,
+        "val_p": 1.3591883722328206e-13,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "tail_ratio_30d",
+        "train_r": -0.1809745427274146,
+        "val_r": 0.023522402017537504,
+        "val_p": 0.5300279934623069,
+        "same_direction": false,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "jump_frequency_7d",
+        "train_r": 0.0461397414257354,
+        "val_r": 0.44871524765152665,
+        "val_p": 5.505116182563668e-54,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "volume_volatility_7d",
+        "train_r": 0.1599187355177931,
+        "val_r": 0.4250474541006984,
+        "val_p": 4.7430348862327183e-48,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      }
+    ]
+  },
+  "ETHUSDT": {
+    "candidates_tested": [
+      "max_drawdown_30d",
+      "volatility_7d",
+      "return_autocorr_7d",
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "meanrev_signal",
+      "tail_ratio_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d"
+    ],
+    "n_confirmed": 7,
+    "confirmed": [
+      "return_autocorr_7d",
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "meanrev_signal",
+      "tail_ratio_30d",
+      "volume_volatility_7d"
+    ],
+    "confirmation_rate": 0.7,
+    "details": [
+      {
+        "feature": "volatility_7d",
+        "train_r": 0.2030235093728611,
+        "val_r": -0.08436574062942534,
+        "val_p": 0.005824679383135647,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "return_autocorr_7d",
+        "train_r": -0.1853639324632752,
+        "val_r": -0.42090629392757073,
+        "val_p": 4.644758342284638e-47,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "hurst_exponent",
+        "train_r": 0.1315966152154653,
+        "val_r": 0.11406682160143776,
+        "val_p": 0.0001886016381763847,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "trend_strength_7d",
+        "train_r": 0.3021637457968708,
+        "val_r": 0.5141724003931697,
+        "val_p": 4.688704029531036e-73,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "win_rate_30d",
+        "train_r": -0.0840538734695452,
+        "val_r": -0.7123835058615436,
+        "val_p": 6.512242734813855e-112,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "meanrev_signal",
+        "train_r": -0.0327461337365931,
+        "val_r": -0.4877569498125352,
+        "val_p": 4.588724162229682e-44,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "tail_ratio_30d",
+        "train_r": 0.0065295021585341,
+        "val_r": 0.27421400218605235,
+        "val_p": 8.455623530802484e-14,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "jump_frequency_7d",
+        "train_r": 0.1509499936099145,
+        "val_r": -0.03456847505735396,
+        "val_p": 0.2592389726242418,
+        "same_direction": false,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "volume_volatility_7d",
+        "train_r": 0.0667154401665983,
+        "val_r": 0.1662350121132317,
+        "val_p": 4.714891142617271e-08,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      }
+    ]
+  },
+  "SOLUSDT": {
+    "candidates_tested": [
+      "max_drawdown_30d",
+      "volatility_7d",
+      "return_autocorr_7d",
+      "hurst_exponent",
+      "trend_strength_7d",
+      "win_rate_30d",
+      "meanrev_signal",
+      "tail_ratio_30d",
+      "jump_frequency_7d",
+      "volume_volatility_7d"
+    ],
+    "n_confirmed": 4,
+    "confirmed": [
+      "trend_strength_7d",
+      "win_rate_30d",
+      "meanrev_signal",
+      "jump_frequency_7d"
+    ],
+    "confirmation_rate": 0.4,
+    "details": [
+      {
+        "feature": "volatility_7d",
+        "train_r": 0.0241190344726731,
+        "val_r": 0.007460336235625609,
+        "val_p": 0.807688281742445,
+        "same_direction": true,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "return_autocorr_7d",
+        "train_r": 0.0039617756523391,
+        "val_r": -0.3790815812750928,
+        "val_p": 8.503249317932579e-38,
+        "same_direction": false,
+        "significant": true,
+        "confirmed": false
+      },
+      {
+        "feature": "hurst_exponent",
+        "train_r": 0.1717264892457519,
+        "val_r": 0.044203984334453626,
+        "val_p": 0.1490389258398797,
+        "same_direction": true,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "trend_strength_7d",
+        "train_r": 0.2655290488604185,
+        "val_r": 0.31008833320863444,
+        "val_p": 3.258546401098323e-25,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "win_rate_30d",
+        "train_r": -0.0191878219151461,
+        "val_r": -0.3896283321246258,
+        "val_p": 2.254101002198035e-27,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "meanrev_signal",
+        "train_r": -0.0488942670335098,
+        "val_r": -0.35841955197743985,
+        "val_p": 3.965389964146717e-23,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "tail_ratio_30d",
+        "train_r": -0.0402250675780918,
+        "val_r": -0.006873696787551902,
+        "val_p": 0.8544216561766064,
+        "same_direction": true,
+        "significant": false,
+        "confirmed": false
+      },
+      {
+        "feature": "jump_frequency_7d",
+        "train_r": 0.1525214969458804,
+        "val_r": 0.1450980983098608,
+        "val_p": 1.942883321932622e-06,
+        "same_direction": true,
+        "significant": true,
+        "confirmed": true
+      },
+      {
+        "feature": "volume_volatility_7d",
+        "train_r": -0.1049989841484374,
+        "val_r": -0.04662434180973643,
+        "val_p": 0.1280027833906044,
+        "same_direction": true,
+        "significant": false,
+        "confirmed": false
+      }
+    ]
+  }
+}
