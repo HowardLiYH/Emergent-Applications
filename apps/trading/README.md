@@ -1,75 +1,172 @@
 # Emergent Trading Specialists
 
-> 🎯 **Applying NichePopulation specialization to financial trading**
+> 🎯 **Discovering what Specialization Index (SI) measures in financial trading**
 
 ## Overview
 
-This application extends the NichePopulation mechanism (Paper 1) to financial trading. The core hypothesis is that competitive specialization among trading agents can produce better risk-adjusted returns than individual strategies or naive ensembles.
+This application extends the NichePopulation mechanism (Paper 1) to financial trading. Instead of assuming SI leads to profit, we take a **discovery-first approach**: systematically correlating SI with 70+ market features to understand what SI actually measures, then tracing the path to profit.
 
-## Key Insight
+## Core Research Question
 
-**Profit must be validated first, before testing specialization.**
+> **"What does Specialization Index (SI) actually correlate with in trading?"**
 
-The validation chain:
-1. ✅ Individual strategies are profitable
-2. ✅ Combining strategies improves Sharpe ratio
-3. ✅ NichePopulation mechanism beats equal-weight ensemble
-4. ✅ Specialization Index (SI) correlates with profit
+We don't assume SI → Profit. We discover:
+1. What SI correlates with most strongly
+2. Whether that leads to profit (directly or indirectly)
+3. Alternative value paths (risk reduction, timing, diversification)
 
-If step 1 fails, stop. No amount of specialization can make unprofitable strategies profitable.
+## Key Insight: Discovery Before Assumption
+
+```
+OLD THINKING: "SI should lead to profit" → Test if true
+NEW THINKING: "What does SI measure?" → Find correlations → Trace to profit
+```
+
+## 40 Hypotheses Being Tested
+
+| Category | Hypotheses | Example |
+|----------|------------|---------|
+| **Market State** | H1-H3 | SI = Regime Clarity, Inverse Entropy |
+| **Agent Behavior** | H4-H6 | SI = Diversification, Niche Stability |
+| **Microstructure** | H7-H8 | SI = Liquidity, Information Flow |
+| **Risk** | H19-H22 | SI → Lower Drawdown, Tail Protection |
+| **Timing** | H23-H25 | SI → Trading Windows, Time-to-Profit |
+| **Behavioral** | H26-H28 | SI → Contrarian Extremes |
+| **Factor** | H29-H31 | SI → Cross-Asset Signals |
+| **Moonshot** | H36-H40 | SI → Black Swan Detection |
+
+See [docs/SI_EXPLORATION.md](docs/SI_EXPLORATION.md) for all 40 hypotheses.
+
+## Fallback Paths to Value
+
+Even if SI ≠ Profit directly:
+
+| Path | What SI Correlates With | Value |
+|------|------------------------|-------|
+| **Risk Manager** | Drawdown, VaR | Lower risk, better Sharpe |
+| **Diversifier** | Agent correlation | Uncorrelated returns |
+| **Regime Detector** | Regime stability | Know when to trade |
+| **Timing Signal** | Next-day returns | Position sizing |
+| **Anti-Crowding** | Strategy overlap | Avoid crowded trades |
 
 ## Quick Start
 
 ```bash
-# Phase 0a: Test individual strategies
-python experiments/phase0/test_individual_strategies.py
+# Phase 0: Discovery
+python experiments/phase0_si_discovery.py
 
-# Phase 0b: Test ensemble
-python experiments/phase0/test_ensemble.py
-
-# Phase 1: Test NichePopulation
-python experiments/phase1/test_niche_population.py
+# Output: Top 10 SI correlations
+# Decision: Which path to pursue
 ```
 
-## Research Plan
+## 7-Day Test Plan
 
-See [docs/TRADING_RESEARCH_PLAN.md](docs/TRADING_RESEARCH_PLAN.md) for the complete research plan including:
-- Expert panel analysis
-- Modern alternatives to Thompson Sampling
-- Phased implementation plan
-- Success metrics and go/no-go criteria
+| Day | Phase | Output |
+|-----|-------|--------|
+| 1-2 | Infrastructure | Data loaders, feature calculators |
+| 3-4 | Computation | Backtest, SI + 70 features |
+| 5 | Analysis | Correlation matrix |
+| **6** | **Interpretation** | **"SI measures X"** |
+| **7** | **Decision** | **Path to profit** |
+
+See [docs/SI_CORRELATION_TEST_PLAN.md](docs/SI_CORRELATION_TEST_PLAN.md) for full plan.
+
+## 70+ Features Being Tested
+
+```python
+# Market State (15)
+volatility, trend_strength, return_entropy, hurst_exponent...
+
+# Agent Behavior (10)
+agent_correlation, winner_spread, effective_n, niche_stability...
+
+# Risk Metrics (10)
+max_drawdown, VaR, win_rate, profit_factor, Sharpe...
+
+# Timing (8)
+next_day_return, momentum_return, meanrev_return...
+
+# Factor (8)
+momentum_factor, cross_asset_corr, rotation_signal...
+
+# Dynamics (9)
+dSI/dt, si_stability, si_acceleration...
+```
 
 ## Folder Structure
 
 ```
 apps/trading/
-├── docs/           # Research plans and analysis
-├── experiments/    # Phased experiments
-│   ├── phase0/    # Individual strategy testing
-│   ├── phase1/    # NichePopulation testing
-│   └── phase2/    # SI validation
-└── src/           # Core implementation
+├── docs/
+│   ├── STRATEGY_PLANNING.md      # Overall strategy
+│   ├── SI_EXPLORATION.md         # 40 hypotheses
+│   ├── SI_CORRELATION_TEST_PLAN.md # 70+ features test plan
+│   ├── SI_TO_PROFIT_INNOVATION.md  # Core thesis
+│   ├── TRADING_RESEARCH_PLAN.md    # Expert panel input
+│   └── ARCHITECTURE_DECISIONS.md   # Technical choices
+├── experiments/
+│   └── phase0_si_discovery.py    # Main discovery experiment
+├── src/
+│   ├── data/                     # Data loading
+│   ├── agents/                   # Trading agents
+│   ├── competition/              # NichePopulation + SI
+│   ├── analysis/                 # Correlation analysis
+│   └── backtest/                 # Backtest runner
+├── results/
+│   └── si_correlations/          # Discovery results
+└── data/
+    └── bybit/                    # Price data
+```
+
+## Decision Framework
+
+```
+After correlation analysis:
+
+SI correlates with PROFIT?        → Direct thesis validated
+SI correlates with RISK METRICS?  → Pivot: "SI for risk management"
+SI correlates with DIVERSIFICATION? → Pivot: "SI for portfolio"
+SI correlates with TIMING?        → Pivot: "SI as leading indicator"
+SI correlates with NOTHING?       → Deeper analysis or abandon
 ```
 
 ## Success Metrics
 
 | Metric | Target | Priority |
 |--------|--------|----------|
-| Net Return | > 0% | 1 (Primary) |
-| Sharpe Ratio | > 0.5 | 2 |
-| Max Drawdown | < 25% | 3 |
-| SI | > 0.4 | 4 (Secondary) |
+| Significant SI correlations | ≥5 after FDR | 1 (Discovery) |
+| Path to profit identified | Yes | 2 |
+| Net Return | > 0% | 3 (Validation) |
+| Sharpe Ratio | > 0.5 | 4 |
 
 ## Status
 
 - [x] Research plan documented
-- [ ] Phase 0a: Individual strategy testing
-- [ ] Phase 0b: Ensemble testing
-- [ ] Phase 1: NichePopulation mechanism
-- [ ] Phase 2: SI validation
+- [x] 40 hypotheses defined
+- [x] 70+ features identified
+- [x] Test plan created
+- [ ] **NEXT: Build infrastructure**
+- [ ] Run discovery experiment
+- [ ] Interpret results
+- [ ] Choose path forward
+
+## Expert Panel
+
+14 experts consulted across domains:
+- 🧠 Information Theorist
+- 🌀 Complexity Scientist
+- 🏦 Quant Strategist
+- 📊 Risk Manager
+- 💼 Portfolio Manager
+- 🔮 Regime Detection Specialist
+- ... and 8 more
 
 ## Related Papers
 
-- [Paper 1: NichePopulation](https://github.com/HowardLiYH/NichePopulation) - Foundational specialization mechanism
-- [Paper 2: Emergent Preference Specialization](https://github.com/HowardLiYH/Emergent-Preference-Specialization-in-LLM-Agent-Populations) - LLM agent specialization
-- [Paper 3: Emergent Tool Specialization](https://github.com/HowardLiYH/Emergent-Tool-Specialization) - Real tool specialization
+- [Paper 1: NichePopulation](https://github.com/HowardLiYH/NichePopulation) - Foundational specialization
+- [Paper 2: Emergent Preference Specialization](https://github.com/HowardLiYH/Emergent-Preference-Specialization-in-LLM-Agent-Populations) - LLM preferences
+- [Paper 3: Emergent Tool Specialization](https://github.com/HowardLiYH/Emergent-Tool-Specialization) - Real tools
+
+---
+
+*Discovery-first. 40 hypotheses. 70+ features. Let's find out what SI really measures.*
