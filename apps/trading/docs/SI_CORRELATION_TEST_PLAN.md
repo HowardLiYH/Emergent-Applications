@@ -5,12 +5,63 @@
 
 ---
 
+## ⚠️ Methodology Audit Applied
+
+See `METHODOLOGY_AUDIT.md` for full audit. Key fixes incorporated:
+
+| Issue | Fix Applied |
+|-------|-------------|
+| No train/test split | ✅ 70/15/15 temporal split |
+| Autocorrelation ignored | ✅ HAC-adjusted tests, block bootstrap |
+| Multiple testing | ✅ Pre-registered primary analysis |
+| Circular reasoning | ✅ Test predictive (lagged) correlations |
+| No power analysis | ✅ Estimate min detectable effect |
+| Look-ahead bias | ✅ Categorized features |
+| Confounders | ✅ Partial correlations |
+| Non-stationarity | ✅ Stationarity checks |
+
+---
+
 ## 🎯 Goal
 
-Run ONE comprehensive backtest, compute SI and 70+ features, then systematically discover:
-1. What SI correlates with MOST strongly
-2. Which correlations are statistically significant
-3. How to interpret findings and trace to profit
+Discover what SI correlates with using **rigorous methodology**:
+1. Pre-register primary hypothesis
+2. Train/validate/test split
+3. Proper statistical tests for time series
+4. Control for confounders
+5. Robustness checks
+
+---
+
+## 📋 Phase 0: Pre-Registration (NEW - Before Any Analysis)
+
+```python
+PRE_REGISTRATION = {
+    # Primary hypothesis (pre-specified)
+    'primary_hypothesis': "SI correlates with at least one feature after correction",
+
+    # Primary analysis specification
+    'primary_si_variant': 'si_rolling_7d',
+    'primary_correlation_method': 'spearman',
+    'primary_significance_level': 0.05,
+    'correction_method': 'fdr_bh',
+    'minimum_effect_size': 0.2,
+
+    # Data split (temporal, not random)
+    'train_split': 0.70,
+    'val_split': 0.15,
+    'test_split': 0.15,
+
+    # What counts as success
+    'success_criteria': {
+        'train': 'p_fdr < 0.05 AND |r| > 0.2',
+        'val': 'same sign AND p < 0.05',
+        'test': 'same sign AND p < 0.05'
+    }
+}
+
+# Document this BEFORE looking at any data!
+```
 
 ---
 
@@ -20,9 +71,50 @@ Run ONE comprehensive backtest, compute SI and 70+ features, then systematically
 
 | Data Type | Source | Timeframe | Granularity |
 |-----------|--------|-----------|-------------|
-| **Price Data** | Bybit/PopAgent | 6-12 months | 1-hour candles |
+| **Price Data** | Bybit/PopAgent | 12+ months | 1-hour candles |
 | **Assets** | BTC, ETH, SOL | Multi-asset | |
 | **Features** | Computed | Rolling windows | 1d, 7d, 30d |
+
+### 1.2 Data Split (CRITICAL - Temporal, Not Random)
+
+```python
+# IMPORTANT: Split BEFORE any analysis to prevent data leakage
+def temporal_split(data, train_pct=0.70, val_pct=0.15, test_pct=0.15):
+    """Split time series data temporally."""
+    n = len(data)
+    train_end = int(n * train_pct)
+    val_end = int(n * (train_pct + val_pct))
+
+    return {
+        'train': data.iloc[:train_end],      # Discovery
+        'val': data.iloc[train_end:val_end],  # Confirmation
+        'test': data.iloc[val_end:],          # Final test
+    }
+
+# With 12 months of data:
+# Train: ~8.4 months (discovery)
+# Val: ~1.8 months (confirmation)
+# Test: ~1.8 months (final report)
+```
+
+### 1.3 Power Analysis (Before Running)
+
+```python
+def power_analysis(n_eff, alpha=0.05, power=0.8):
+    """What's the minimum correlation we can detect?"""
+    from statsmodels.stats.power import TTestPower
+
+    analysis = TTestPower()
+    effect = analysis.solve_power(nobs=n_eff, alpha=alpha, power=power)
+    min_r = effect / np.sqrt(effect**2 + 4)
+
+    return min_r
+
+# Example with 12 months hourly data:
+# Raw N = 8,760
+# Effective N (autocorrelation adjusted) ≈ 200-300
+# Minimum detectable r ≈ 0.18-0.22
+```
 
 ### 1.2 Directory Structure
 
@@ -387,93 +479,163 @@ class SICalculator:
 
 ## 📊 Phase 4: Correlation Analysis (Day 5)
 
-### 4.1 Statistical Methods
+### 4.1 Statistical Methods (Audit-Corrected)
 
 ```python
 # src/analysis/correlation.py
 
 class CorrelationAnalyzer:
-    """Comprehensive correlation analysis with multiple methods."""
+    """
+    Comprehensive correlation analysis with PROPER TIME SERIES methods.
 
-    def analyze_all(self, si: pd.Series, features: pd.DataFrame) -> pd.DataFrame:
-        """Run all correlation analyses."""
+    Key fixes from methodology audit:
+    1. HAC standard errors for autocorrelation
+    2. Block bootstrap for confidence intervals
+    3. Stationarity checks
+    4. Partial correlations for confounders
+    5. Predictive (lagged) correlations
+    """
+
+    def __init__(self, block_size=24):
+        self.block_size = block_size  # 24 hours for hourly data
+
+    def analyze_all(self, si: pd.Series, features: pd.DataFrame,
+                    confounders: pd.DataFrame = None) -> pd.DataFrame:
+        """Run all correlation analyses with proper methods."""
         results = []
 
         for col in features.columns:
             feature = features[col].dropna()
             si_aligned = si.loc[feature.index]
 
-            if len(si_aligned) < 30:
+            if len(si_aligned) < 100:  # Need enough for block bootstrap
                 continue
+
+            # Check stationarity
+            is_stationary = self._check_stationarity(si_aligned, feature)
 
             result = {
                 'feature': col,
-                # Pearson (linear)
-                'pearson_r': self._pearson(si_aligned, feature),
-                'pearson_p': self._pearson_pvalue(si_aligned, feature),
+                'n': len(si_aligned),
+                'is_stationary': is_stationary,
 
-                # Spearman (monotonic)
-                'spearman_r': self._spearman(si_aligned, feature),
-                'spearman_p': self._spearman_pvalue(si_aligned, feature),
+                # PRIMARY: Spearman with HAC standard errors
+                'spearman_r': self._spearman_hac(si_aligned, feature)[0],
+                'spearman_p': self._spearman_hac(si_aligned, feature)[1],
+
+                # Block bootstrap 95% CI
+                'ci_lower': self._block_bootstrap_ci(si_aligned, feature)[0],
+                'ci_upper': self._block_bootstrap_ci(si_aligned, feature)[1],
 
                 # Mutual Information (nonlinear)
                 'mutual_info': self._mutual_info(si_aligned, feature),
 
-                # Granger Causality (temporal)
-                'granger_f': self._granger_causality(si_aligned, feature),
-                'granger_p': self._granger_pvalue(si_aligned, feature),
+                # PREDICTIVE: SI leads feature by k periods
+                'lead_1h_r': self._lagged_correlation(si_aligned, feature, lag=1),
+                'lead_6h_r': self._lagged_correlation(si_aligned, feature, lag=6),
+                'lead_24h_r': self._lagged_correlation(si_aligned, feature, lag=24),
 
-                # Lead-Lag
-                'optimal_lag': self._find_optimal_lag(si_aligned, feature),
-                'lag_corr': self._lagged_correlation(si_aligned, feature),
+                # Granger Causality
+                'granger_p': self._granger_causality(si_aligned, feature),
 
-                # Effect Size
-                'cohens_d': self._cohens_d(si_aligned, feature),
-
-                # Sample size
-                'n': len(si_aligned)
+                # Partial correlation (if confounders provided)
+                'partial_r': self._partial_correlation(
+                    si_aligned, feature, confounders
+                ) if confounders is not None else np.nan,
             }
             results.append(result)
 
         return pd.DataFrame(results)
 
-    def _pearson(self, x, y):
-        return np.corrcoef(x, y)[0, 1]
+    def _check_stationarity(self, x, y):
+        """Check if both series are stationary."""
+        from statsmodels.tsa.stattools import adfuller
+        x_stat = adfuller(x.dropna())[1] < 0.05
+        y_stat = adfuller(y.dropna())[1] < 0.05
+        return x_stat and y_stat
 
-    def _spearman(self, x, y):
+    def _spearman_hac(self, x, y):
+        """Spearman correlation with HAC standard errors."""
         from scipy.stats import spearmanr
-        return spearmanr(x, y)[0]
+        import statsmodels.api as sm
+
+        # Rank transform for Spearman
+        x_rank = x.rank()
+        y_rank = y.rank()
+
+        # OLS with HAC standard errors
+        X = sm.add_constant((x_rank - x_rank.mean()) / x_rank.std())
+        Y = (y_rank - y_rank.mean()) / y_rank.std()
+
+        model = sm.OLS(Y, X).fit(cov_type='HAC', cov_kwds={'maxlags': self.block_size})
+
+        return model.params[1], model.pvalues[1]
+
+    def _block_bootstrap_ci(self, x, y, n_bootstrap=1000, alpha=0.05):
+        """Block bootstrap confidence interval for correlation."""
+        correlations = []
+        n = len(x)
+        n_blocks = n // self.block_size
+
+        for _ in range(n_bootstrap):
+            # Sample blocks with replacement
+            block_indices = np.random.choice(n_blocks, n_blocks, replace=True)
+            boot_x = np.concatenate([
+                x.iloc[i*self.block_size:(i+1)*self.block_size].values
+                for i in block_indices
+            ])
+            boot_y = np.concatenate([
+                y.iloc[i*self.block_size:(i+1)*self.block_size].values
+                for i in block_indices
+            ])
+
+            from scipy.stats import spearmanr
+            r, _ = spearmanr(boot_x, boot_y)
+            correlations.append(r)
+
+        return np.percentile(correlations, [alpha/2*100, (1-alpha/2)*100])
+
+    def _lagged_correlation(self, x, y, lag):
+        """Test if x at time t predicts y at time t+lag."""
+        from scipy.stats import spearmanr
+        if lag > 0:
+            return spearmanr(x.iloc[:-lag], y.iloc[lag:])[0]
+        else:
+            return spearmanr(x, y)[0]
+
+    def _partial_correlation(self, x, y, confounders):
+        """Correlation controlling for confounders."""
+        import statsmodels.api as sm
+
+        # Residualize x
+        X_conf = sm.add_constant(confounders.loc[x.index])
+        x_resid = sm.OLS(x, X_conf).fit().resid
+
+        # Residualize y
+        y_resid = sm.OLS(y, X_conf).fit().resid
+
+        from scipy.stats import spearmanr
+        return spearmanr(x_resid, y_resid)[0]
 
     def _mutual_info(self, x, y):
         from sklearn.feature_selection import mutual_info_regression
-        return mutual_info_regression(x.values.reshape(-1, 1), y.values)[0]
+        return mutual_info_regression(
+            x.values.reshape(-1, 1),
+            y.values,
+            random_state=42
+        )[0]
 
     def _granger_causality(self, x, y, max_lag=5):
+        """Test if x Granger-causes y."""
         from statsmodels.tsa.stattools import grangercausalitytests
         data = pd.DataFrame({'x': x, 'y': y}).dropna()
         try:
             result = grangercausalitytests(data[['y', 'x']], maxlag=max_lag, verbose=False)
-            # Return F-statistic for optimal lag
-            f_stats = [result[i+1][0]['ssr_ftest'][0] for i in range(max_lag)]
-            return max(f_stats)
+            # Return minimum p-value across lags
+            p_vals = [result[i+1][0]['ssr_ftest'][1] for i in range(max_lag)]
+            return min(p_vals)
         except:
             return np.nan
-
-    def _find_optimal_lag(self, x, y, max_lag=10):
-        """Find lag with strongest correlation."""
-        best_lag = 0
-        best_corr = 0
-        for lag in range(-max_lag, max_lag + 1):
-            if lag < 0:
-                corr = np.corrcoef(x.iloc[:lag], y.iloc[-lag:])[0, 1]
-            elif lag > 0:
-                corr = np.corrcoef(x.iloc[lag:], y.iloc[:-lag])[0, 1]
-            else:
-                corr = np.corrcoef(x, y)[0, 1]
-            if abs(corr) > abs(best_corr):
-                best_corr = corr
-                best_lag = lag
-        return best_lag
 ```
 
 ### 4.2 Multiple Testing Correction
@@ -740,63 +902,104 @@ Based on the strongest correlations, SI appears to measure: [...]
 
 ---
 
-## 📅 Timeline Summary
+## 📅 Timeline Summary (Audit-Corrected)
 
 | Day | Phase | Tasks | Output |
 |-----|-------|-------|--------|
-| 1 | Setup | Extract data, build infrastructure | `src/` scaffolding |
-| 2 | Setup | Implement feature calculators | `FeatureCalculator` class |
-| 3 | Compute | Run backtest, compute SI | SI time series |
-| 4 | Compute | Compute all 70+ features | Features DataFrame |
-| 5 | Analyze | Correlation analysis | Results DataFrame |
-| 6 | Interpret | Visualization + interpretation | Report + plots |
-| 7 | Decide | Decision + next steps | Path forward |
+| 0 | **Pre-Reg** | Document pre-registration | `pre_registration.json` |
+| 1 | Setup | Data loading, temporal split | Train/Val/Test sets |
+| 2 | Setup | Feature calculators, power analysis | Min detectable r |
+| 3 | Compute | Backtest on TRAIN only | SI time series |
+| 4 | Compute | All features, stationarity checks | Features DataFrame |
+| 5 | Analyze | Discovery on TRAIN | Candidates (FDR<0.05) |
+| 6 | **Validate** | Confirm on VAL set | Confirmed candidates |
+| 7 | **Test** | Final test, robustness | Report + plots |
 
 ---
 
-## 🔧 Implementation Checklist
+## 🔧 Implementation Checklist (Audit-Corrected)
 
-### Day 1-2: Infrastructure
-- [ ] Create directory structure
-- [ ] Implement `DataLoader`
-- [ ] Implement `FeatureCalculator` (15 market state features)
-- [ ] Implement `FeatureCalculator` (10 agent features)
-- [ ] Implement `FeatureCalculator` (10 risk features)
-- [ ] Implement `FeatureCalculator` (8 timing features)
-- [ ] Implement `FeatureCalculator` (8 factor features)
-- [ ] Implement `FeatureCalculator` (9 dynamics features)
+### Day 0: Pre-Registration (CRITICAL - Before Looking at Data)
+- [ ] Document primary hypothesis
+- [ ] Specify primary SI variant
+- [ ] Specify primary correlation method
+- [ ] Define success criteria
+- [ ] Save `pre_registration.json`
 
-### Day 3-4: Computation
-- [ ] Implement 3 strategies (momentum, mean-reversion, breakout)
+### Day 1: Data Preparation
+- [ ] Load 12+ months of data
+- [ ] **Temporal split: 70/15/15** (train/val/test)
+- [ ] Verify no data leakage
+- [ ] Check data quality (missing values, outliers)
+- [ ] Estimate effective sample size (autocorrelation)
+- [ ] Conduct power analysis → minimum detectable r
+
+### Day 2: Feature Infrastructure
+- [ ] Implement `FeatureCalculator` (70+ features)
+- [ ] Categorize features: lookahead vs no-lookahead
+- [ ] **Check stationarity** of each feature
+- [ ] Identify confounders (time, training iteration)
+- [ ] Cluster correlated features → pick representatives
+
+### Day 3-4: Computation (TRAIN SET ONLY)
+- [ ] Implement 3 strategies
 - [ ] Implement `NichePopulation` algorithm
 - [ ] Implement `SICalculator`
-- [ ] Run full backtest
+- [ ] Run backtest on **TRAIN data only**
 - [ ] Compute SI variants (8 types)
-- [ ] Compute all 70+ features
+- [ ] Compute all features
 
-### Day 5: Analysis
-- [ ] Implement `CorrelationAnalyzer`
-- [ ] Pearson correlations
-- [ ] Spearman correlations
-- [ ] Mutual information
-- [ ] Granger causality
-- [ ] Lead-lag analysis
-- [ ] Multiple testing correction
+### Day 5: Discovery Analysis (TRAIN SET ONLY)
+- [ ] Implement `CorrelationAnalyzer` with HAC standard errors
+- [ ] Block bootstrap for confidence intervals
+- [ ] Partial correlations (control confounders)
+- [ ] **Predictive correlations** (SI leads feature)
+- [ ] Granger causality tests
+- [ ] Apply FDR correction
+- [ ] Compare to random baseline
+- [ ] Identify candidates: FDR < 0.05 AND |r| > min_detectable
 
-### Day 6: Visualization
-- [ ] Correlation heatmap
-- [ ] Top 10 scatter plots
-- [ ] SI time series with annotations
-- [ ] Lead-lag heatmap
-- [ ] Regime-stratified comparison
-- [ ] Effect size forest plot
+### Day 6: Confirmation (VALIDATION SET)
+- [ ] Compute SI and features on **VAL data**
+- [ ] Test ONLY candidates from Day 5
+- [ ] Confirm: same direction AND p < 0.05
+- [ ] Record confirmation rate
+- [ ] Drop candidates that fail validation
 
-### Day 7: Decision
-- [ ] Auto-interpret results
-- [ ] Map to hypotheses
-- [ ] Generate report
+### Day 7: Final Test & Reporting
+- [ ] Compute SI and features on **TEST data**
+- [ ] Test ONLY confirmed candidates
+- [ ] Run robustness checks:
+  - [ ] Different SI windows
+  - [ ] Different assets (BTC only, ETH only)
+  - [ ] Different time periods
+  - [ ] Partial correlations
+- [ ] Generate visualizations
+- [ ] Write final report with:
+  - [ ] Train/Val/Test results separately
+  - [ ] Effect sizes and CIs
+  - [ ] Robustness check results
+  - [ ] Limitations section
 - [ ] Determine path forward
-- [ ] Plan Phase 1
+
+---
+
+## 🚨 Methodology Safeguards
+
+### Red Flags to Watch For:
+- [ ] Correlation only significant in train, not val → **Overfitting**
+- [ ] Effect size below minimum detectable → **Underpowered**
+- [ ] Concurrent but not predictive correlation → **Circular**
+- [ ] Disappears with confounders → **Spurious**
+- [ ] Only in one regime → **Not robust**
+
+### Required for Reporting:
+- [ ] Pre-registration documented
+- [ ] Train/Val/Test split clear
+- [ ] Effective N and power analysis
+- [ ] Confidence intervals (not just p-values)
+- [ ] Robustness checks passed
+- [ ] Limitations acknowledged
 
 ---
 
