@@ -1,0 +1,1769 @@
+{
+  "timestamp": "2026-01-17T18:42:01.319811",
+  "comparison": {
+    "simple_proxy_r2": 0.662,
+    "full_si_r2": 0.4814451692930619,
+    "improvement": 0.18055483070693812
+  },
+  "transparency_report": {
+    "summary": {
+      "average_r_squared": 0.4814451692930619,
+      "average_alpha_tstat": 0.30429618339478076
+    },
+    "honest_assessment": {
+      "if_r2_high": "SI strategy returns are partially explained by known factors",
+      "if_r2_low": "SI captures genuinely novel information",
+      "current_finding": "high_r2"
+    },
+    "implications": [
+      "SI may be correlated with momentum/volatility factors",
+      "Claims of 'novel alpha' should be tempered",
+      "Paper should focus on MECHANISM not profitability"
+    ],
+    "mitigations": [
+      "Emphasize SI emergence mechanism as contribution",
+      "Position SI as behavioral/descriptive metric",
+      "Acknowledge factor correlation in limitations",
+      "Show SI is useful for understanding, not just trading"
+    ]
+  },
+  "recommendations": {
+    "title_suggestions": [
+      "Emergent Specialization in Multi-Agent Market Competition",
+      "Measuring Strategy Specialization via Niche Affinity Evolution",
+      "SI: A Behavioral Metric for Market Agent Dynamics"
+    ],
+    "contribution_framing": {
+      "primary": "MECHANISM: How specialization emerges from competition",
+      "secondary": "MEASUREMENT: SI as a behavioral state descriptor",
+      "NOT_recommended": "ALPHA: SI as a profitable trading signal"
+    },
+    "abstract_template": "We introduce the Specialization Index (SI), an emergent metric that measures \nthe degree of niche differentiation among competing trading strategies.\nSI emerges naturally from agent competition and tracks how market conditions\nfavor different strategy types. We show that SI correlates with market state\ncharacteristics (volatility, trend strength) and provides insight into when\nmarkets are \"readable\" by systematic strategies. While SI shows some \npredictive content for returns, its primary contribution is as a behavioral\nmetric for understanding market dynamics, not as an alpha source.",
+    "limitations_to_acknowledge": [
+      "SI correlates with known factors (momentum, volatility)",
+      "Factor-adjusted alpha is modest",
+      "Regime-conditioning does not improve performance",
+      "Results are based on [N] assets over [time period]"
+    ]
+  },
+  "asset_results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "n_observations": 1826,
+      "si_mean": 0.02107690001592165,
+      "si_std": 0.010322711678565069,
+      "factor_r_squared": 0.4948293175860433,
+      "factor_alpha_tstat": 0.7451054274207751,
+      "factor_alpha_significant": false,
+      "mechanism": {
+        "algorithm": "NichePopulation",
+        "n_agents": 18,
+        "n_strategies": 6,
+        "n_regimes": 3,
+        "affinity_update_rule": "\u03b1=0.1: winner gets \u03b1*(1-current), losers get *(1-\u03b1)",
+        "si_formula": "SI = 1 - mean(normalized_entropy of niche_affinities)",
+        "si_interpretation": {
+          "high_si": "Agents specialized in different niches (clear winners per regime)",
+          "low_si": "Agents equally spread across niches (no clear specialization)"
+        },
+        "si_increases_when": [
+          "One strategy consistently wins in a regime",
+          "Market regimes are clearly distinct",
+          "Competition outcomes are consistent"
+        ],
+        "si_decreases_when": [
+          "No strategy dominates any regime",
+          "Market conditions are ambiguous",
+          "Winners change frequently"
+        ],
+        "agent_states": [
+          {
+            "agent_id": 0,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              0.5503184757748587,
+              0.17243856611842326,
+              0.27724295810671795
+            ],
+            "dominant_niche": 0,
+            "specialization": 0.5503184757748587,
+            "win_rate": 0.4955849889624724
+          },
+          {
+            "agent_id": 1,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 2,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 3,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              0.12262472819636704,
+              0.46556996950224516,
+              0.4118053023013878
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.46556996950224516,
+            "win_rate": 0.1490066225165563
+          },
+          {
+            "agent_id": 4,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 5,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 6,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              0.09759615754482365,
+              0.4802841601627409,
+              0.4221196822924354
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.4802841601627409,
+            "win_rate": 0.14293598233995586
+          },
+          {
+            "agent_id": 7,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 8,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 9,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              0.21188112395469383,
+              0.6208510177791062,
+              0.16726785826619994
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.6208510177791062,
+            "win_rate": 0.21247240618101546
+          },
+          {
+            "agent_id": 10,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 11,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 12,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 13,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 14,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 15,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 16,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 17,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              1.887253081046585e-41,
+              0.9999924983326993,
+              7.501667300673884e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999924983326993,
+            "win_rate": 0.0
+          }
+        ]
+      },
+      "behavioral_analysis": {
+        "correlations": {
+          "realized_volatility": -0.06268407325597478,
+          "trend_strength": 0.057840405894282965,
+          "regime_instability": -0.12217615723764925,
+          "volume_volatility": 0.02785397498041357
+        },
+        "interpretation": {
+          "high_si_indicates": [],
+          "low_si_indicates": []
+        },
+        "recommended_framing": "SI as market state descriptor, not alpha source"
+      },
+      "regime_failure_analysis": {
+        "regime_correlations": {
+          "trending": 0.012499371157740179,
+          "mean_reverting": -0.016300850632837812,
+          "volatile": -0.06870658949186344
+        },
+        "signs_consistent": false,
+        "failure_reasons": [
+          "SI-return correlation FLIPS sign across regimes",
+          "Regimes too short (avg 4.9 days) - can't act on them",
+          "SI doesn't vary much across regimes - regime info not useful"
+        ],
+        "avg_regime_duration": 4.948509485094851,
+        "si_by_regime": {
+          "trending": 0.022251151170913086,
+          "mean_reverting": 0.01874485842131134,
+          "volatile": 0.020385458052409124
+        },
+        "recommendation": "Don't use regime-conditioning with current SI"
+      }
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "n_observations": 1826,
+      "si_mean": 0.019208223524808103,
+      "si_std": 0.010567510646277624,
+      "factor_r_squared": 0.458163265690925,
+      "factor_alpha_tstat": 1.804255651635331,
+      "factor_alpha_significant": false,
+      "mechanism": {
+        "algorithm": "NichePopulation",
+        "n_agents": 18,
+        "n_strategies": 6,
+        "n_regimes": 3,
+        "affinity_update_rule": "\u03b1=0.1: winner gets \u03b1*(1-current), losers get *(1-\u03b1)",
+        "si_formula": "SI = 1 - mean(normalized_entropy of niche_affinities)",
+        "si_interpretation": {
+          "high_si": "Agents specialized in different niches (clear winners per regime)",
+          "low_si": "Agents equally spread across niches (no clear specialization)"
+        },
+        "si_increases_when": [
+          "One strategy consistently wins in a regime",
+          "Market regimes are clearly distinct",
+          "Competition outcomes are consistent"
+        ],
+        "si_decreases_when": [
+          "No strategy dominates any regime",
+          "Market conditions are ambiguous",
+          "Winners change frequently"
+        ],
+        "agent_states": [
+          {
+            "agent_id": 0,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              0.3459954385955891,
+              0.27675117072039973,
+              0.3772533906840111
+            ],
+            "dominant_niche": 2,
+            "specialization": 0.3772533906840111,
+            "win_rate": 0.5071743929359823
+          },
+          {
+            "agent_id": 1,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 2,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 3,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              0.17010027148145543,
+              0.4911311836725787,
+              0.3387685448459659
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.4911311836725787,
+            "win_rate": 0.1423841059602649
+          },
+          {
+            "agent_id": 4,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 5,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 6,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              0.0933853558121699,
+              0.6929733796790972,
+              0.21364126450873283
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.6929733796790972,
+            "win_rate": 0.13520971302428256
+          },
+          {
+            "agent_id": 7,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 8,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 9,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              0.3192293968317618,
+              0.4909185588044777,
+              0.18985204436376046
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.4909185588044777,
+            "win_rate": 0.21247240618101546
+          },
+          {
+            "agent_id": 10,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 11,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 12,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              0.06794681380168381,
+              0.9320363309110865,
+              1.6855287229617532e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9320363309110865,
+            "win_rate": 0.0027593818984547464
+          },
+          {
+            "agent_id": 13,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 14,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 15,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 16,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 17,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              3.1539012778929826e-35,
+              0.9999907386986415,
+              9.261301358500695e-06
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999907386986415,
+            "win_rate": 0.0
+          }
+        ]
+      },
+      "behavioral_analysis": {
+        "correlations": {
+          "realized_volatility": -0.012712753614189297,
+          "trend_strength": 0.0403574293872418,
+          "regime_instability": -0.0764417474940285,
+          "volume_volatility": -0.059161500979594064
+        },
+        "interpretation": {
+          "high_si_indicates": [],
+          "low_si_indicates": []
+        },
+        "recommended_framing": "SI as market state descriptor, not alpha source"
+      },
+      "regime_failure_analysis": {
+        "regime_correlations": {
+          "trending": -0.001726420024732559,
+          "mean_reverting": 0.06673049914234716,
+          "volatile": 0.039772014741724294
+        },
+        "signs_consistent": false,
+        "failure_reasons": [
+          "SI-return correlation FLIPS sign across regimes",
+          "Regimes too short (avg 4.9 days) - can't act on them",
+          "SI doesn't vary much across regimes - regime info not useful"
+        ],
+        "avg_regime_duration": 4.948509485094851,
+        "si_by_regime": {
+          "trending": 0.0202719979412539,
+          "mean_reverting": 0.01737060980239484,
+          "volatile": 0.018578507473156564
+        },
+        "recommendation": "Don't use regime-conditioning with current SI"
+      }
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "n_observations": 1826,
+      "si_mean": 0.019582534334700512,
+      "si_std": 0.01010683161128546,
+      "factor_r_squared": 0.48732313299809027,
+      "factor_alpha_tstat": 0.32570556043411314,
+      "factor_alpha_significant": false,
+      "mechanism": {
+        "algorithm": "NichePopulation",
+        "n_agents": 18,
+        "n_strategies": 6,
+        "n_regimes": 3,
+        "affinity_update_rule": "\u03b1=0.1: winner gets \u03b1*(1-current), losers get *(1-\u03b1)",
+        "si_formula": "SI = 1 - mean(normalized_entropy of niche_affinities)",
+        "si_interpretation": {
+          "high_si": "Agents specialized in different niches (clear winners per regime)",
+          "low_si": "Agents equally spread across niches (no clear specialization)"
+        },
+        "si_increases_when": [
+          "One strategy consistently wins in a regime",
+          "Market regimes are clearly distinct",
+          "Competition outcomes are consistent"
+        ],
+        "si_decreases_when": [
+          "No strategy dominates any regime",
+          "Market conditions are ambiguous",
+          "Winners change frequently"
+        ],
+        "agent_states": [
+          {
+            "agent_id": 0,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              0.3686253324955117,
+              0.12234034967643151,
+              0.5090343178280567
+            ],
+            "dominant_niche": 2,
+            "specialization": 0.5090343178280567,
+            "win_rate": 0.5066225165562914
+          },
+          {
+            "agent_id": 1,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 2,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 3,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              0.2148410829137661,
+              0.5919024809153182,
+              0.19325643617091567
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.5919024809153182,
+            "win_rate": 0.13796909492273732
+          },
+          {
+            "agent_id": 4,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 5,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 6,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              0.21727333906269933,
+              0.6089755125396673,
+              0.17375114839763348
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.6089755125396673,
+            "win_rate": 0.141280353200883
+          },
+          {
+            "agent_id": 7,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 8,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 9,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              0.11004905956014445,
+              0.6755549785552772,
+              0.2143959618845782
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.6755549785552772,
+            "win_rate": 0.21357615894039736
+          },
+          {
+            "agent_id": 10,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 11,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 12,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              4.5907883903295214e-38,
+              0.9999990149349642,
+              9.850650358088362e-07
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999990149349642,
+            "win_rate": 0.0005518763796909492
+          },
+          {
+            "agent_id": 13,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 14,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 15,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 16,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 17,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              4.5907926690884123e-38,
+              0.999999946965439,
+              5.303456094414686e-08
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.999999946965439,
+            "win_rate": 0.0
+          }
+        ]
+      },
+      "behavioral_analysis": {
+        "correlations": {
+          "realized_volatility": -0.025943050029901406,
+          "trend_strength": 0.03414872756480147,
+          "regime_instability": -0.06854501255459874,
+          "volume_volatility": -0.05178056014933578
+        },
+        "interpretation": {
+          "high_si_indicates": [],
+          "low_si_indicates": []
+        },
+        "recommended_framing": "SI as market state descriptor, not alpha source"
+      },
+      "regime_failure_analysis": {
+        "regime_correlations": {
+          "trending": 0.047020754110221996,
+          "mean_reverting": 0.0441992583871311,
+          "volatile": -0.034531325905731595
+        },
+        "signs_consistent": false,
+        "failure_reasons": [
+          "SI-return correlation FLIPS sign across regimes",
+          "Regimes too short (avg 4.8 days) - can't act on them",
+          "SI doesn't vary much across regimes - regime info not useful"
+        ],
+        "avg_regime_duration": 4.8052631578947365,
+        "si_by_regime": {
+          "trending": 0.01979478195520844,
+          "mean_reverting": 0.01804664493244156,
+          "volatile": 0.020717211205908748
+        },
+        "recommendation": "Don't use regime-conditioning with current SI"
+      }
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "error": "all the input array dimensions except for the concatenation axis must match exactly, but along dimension 0, the array at index 0 has size 1237 and the array at index 1 has size 1201"
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "error": "all the input array dimensions except for the concatenation axis must match exactly, but along dimension 0, the array at index 0 has size 1237 and the array at index 1 has size 1187"
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "error": "all the input array dimensions except for the concatenation axis must match exactly, but along dimension 0, the array at index 0 has size 1279 and the array at index 1 has size 0"
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "error": "all the input array dimensions except for the concatenation axis must match exactly, but along dimension 0, the array at index 0 has size 1279 and the array at index 1 has size 0"
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "error": "all the input array dimensions except for the concatenation axis must match exactly, but along dimension 0, the array at index 0 has size 1279 and the array at index 1 has size 0"
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "n_observations": 1256,
+      "si_mean": 0.022188765257160646,
+      "si_std": 0.011179279967752554,
+      "factor_r_squared": 0.4421772049269128,
+      "factor_alpha_tstat": 0.0802309758720894,
+      "factor_alpha_significant": false,
+      "mechanism": {
+        "algorithm": "NichePopulation",
+        "n_agents": 18,
+        "n_strategies": 6,
+        "n_regimes": 3,
+        "affinity_update_rule": "\u03b1=0.1: winner gets \u03b1*(1-current), losers get *(1-\u03b1)",
+        "si_formula": "SI = 1 - mean(normalized_entropy of niche_affinities)",
+        "si_interpretation": {
+          "high_si": "Agents specialized in different niches (clear winners per regime)",
+          "low_si": "Agents equally spread across niches (no clear specialization)"
+        },
+        "si_increases_when": [
+          "One strategy consistently wins in a regime",
+          "Market regimes are clearly distinct",
+          "Competition outcomes are consistent"
+        ],
+        "si_decreases_when": [
+          "No strategy dominates any regime",
+          "Market conditions are ambiguous",
+          "Winners change frequently"
+        ],
+        "agent_states": [
+          {
+            "agent_id": 0,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              0.36150158030746676,
+              0.4584126826625763,
+              0.18008573702995684
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.4584126826625763,
+            "win_rate": 0.5700483091787439
+          },
+          {
+            "agent_id": 1,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 2,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 3,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              0.10237497453895954,
+              0.29078935918276305,
+              0.6068356662782775
+            ],
+            "dominant_niche": 2,
+            "specialization": 0.6068356662782775,
+            "win_rate": 0.11272141706924316
+          },
+          {
+            "agent_id": 4,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 5,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 6,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              5.636088050430923e-05,
+              0.6713208827535536,
+              0.3286227563659421
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.6713208827535536,
+            "win_rate": 0.040257648953301126
+          },
+          {
+            "agent_id": 7,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 8,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 9,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              0.33608785110540074,
+              0.23492488168329503,
+              0.4289872672113042
+            ],
+            "dominant_niche": 2,
+            "specialization": 0.4289872672113042,
+            "win_rate": 0.2246376811594203
+          },
+          {
+            "agent_id": 10,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 11,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 12,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              0.2011961895742394,
+              0.6237644800501333,
+              0.17503933037562736
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.6237644800501333,
+            "win_rate": 0.05233494363929147
+          },
+          {
+            "agent_id": 13,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 14,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 15,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 16,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 17,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              4.137046928607164e-31,
+              0.9992270439131353,
+              0.0007729560868647732
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9992270439131353,
+            "win_rate": 0.0
+          }
+        ]
+      },
+      "behavioral_analysis": {
+        "correlations": {
+          "realized_volatility": -0.07948343222190866,
+          "trend_strength": 0.1072397391917741,
+          "regime_instability": -0.06196566370849204,
+          "volume_volatility": -0.15046937765673626
+        },
+        "interpretation": {
+          "high_si_indicates": [],
+          "low_si_indicates": []
+        },
+        "recommended_framing": "SI as market state descriptor, not alpha source"
+      },
+      "regime_failure_analysis": {
+        "regime_correlations": {
+          "trending": -0.003488857707161412,
+          "mean_reverting": -0.03089156537449903,
+          "volatile": -0.00394209324257349
+        },
+        "signs_consistent": true,
+        "failure_reasons": [
+          "SI doesn't vary much across regimes - regime info not useful"
+        ],
+        "avg_regime_duration": 5.980952380952381,
+        "si_by_regime": {
+          "trending": 0.023631053199485424,
+          "mean_reverting": 0.018757134029656897,
+          "volatile": 0.020118295596340867
+        },
+        "recommendation": "Don't use regime-conditioning with current SI"
+      }
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "n_observations": 1256,
+      "si_mean": 0.021735396524978908,
+      "si_std": 0.010898665015195567,
+      "factor_r_squared": 0.520604733978488,
+      "factor_alpha_tstat": -0.6550493122574643,
+      "factor_alpha_significant": false,
+      "mechanism": {
+        "algorithm": "NichePopulation",
+        "n_agents": 18,
+        "n_strategies": 6,
+        "n_regimes": 3,
+        "affinity_update_rule": "\u03b1=0.1: winner gets \u03b1*(1-current), losers get *(1-\u03b1)",
+        "si_formula": "SI = 1 - mean(normalized_entropy of niche_affinities)",
+        "si_interpretation": {
+          "high_si": "Agents specialized in different niches (clear winners per regime)",
+          "low_si": "Agents equally spread across niches (no clear specialization)"
+        },
+        "si_increases_when": [
+          "One strategy consistently wins in a regime",
+          "Market regimes are clearly distinct",
+          "Competition outcomes are consistent"
+        ],
+        "si_decreases_when": [
+          "No strategy dominates any regime",
+          "Market conditions are ambiguous",
+          "Winners change frequently"
+        ],
+        "agent_states": [
+          {
+            "agent_id": 0,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              0.49482835361963873,
+              0.3119458260561042,
+              0.1932258203242571
+            ],
+            "dominant_niche": 0,
+            "specialization": 0.49482835361963873,
+            "win_rate": 0.5587761674718197
+          },
+          {
+            "agent_id": 1,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 2,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 3,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              0.14647218124264852,
+              0.5166086420886155,
+              0.336919176668736
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.5166086420886155,
+            "win_rate": 0.143317230273752
+          },
+          {
+            "agent_id": 4,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 5,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 6,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              0.06878343156699578,
+              0.502315537602392,
+              0.42890103083061226
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.502315537602392,
+            "win_rate": 0.07890499194847021
+          },
+          {
+            "agent_id": 7,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 8,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 9,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              0.15042218549991093,
+              0.41722802908941103,
+              0.43234978541067803
+            ],
+            "dominant_niche": 2,
+            "specialization": 0.43234978541067803,
+            "win_rate": 0.20933977455716588
+          },
+          {
+            "agent_id": 10,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 11,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 12,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              0.11375506926632552,
+              0.8862338525272592,
+              1.1078206415300291e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.8862338525272592,
+            "win_rate": 0.00966183574879227
+          },
+          {
+            "agent_id": 13,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 14,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 15,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 16,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 17,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              8.789923284135479e-30,
+              0.9999806371151395,
+              1.936288486048153e-05
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9999806371151395,
+            "win_rate": 0.0
+          }
+        ]
+      },
+      "behavioral_analysis": {
+        "correlations": {
+          "realized_volatility": -0.07705677539776644,
+          "trend_strength": 0.08455808957451325,
+          "regime_instability": -0.05885596073472554,
+          "volume_volatility": -0.11967218508884811
+        },
+        "interpretation": {
+          "high_si_indicates": [],
+          "low_si_indicates": []
+        },
+        "recommended_framing": "SI as market state descriptor, not alpha source"
+      },
+      "regime_failure_analysis": {
+        "regime_correlations": {
+          "trending": -0.05328499881562536,
+          "mean_reverting": -0.001367008825721022,
+          "volatile": -0.01640100131675835
+        },
+        "signs_consistent": true,
+        "failure_reasons": [
+          "SI doesn't vary much across regimes - regime info not useful"
+        ],
+        "avg_regime_duration": 5.841860465116279,
+        "si_by_regime": {
+          "trending": 0.02303416688167823,
+          "mean_reverting": 0.01858877345933716,
+          "volatile": 0.02042778464970258
+        },
+        "recommendation": "Don't use regime-conditioning with current SI"
+      }
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "n_observations": 1256,
+      "si_mean": 0.02260210771679459,
+      "si_std": 0.011151712651004887,
+      "factor_r_squared": 0.4855733605779119,
+      "factor_alpha_tstat": -0.47447120273615956,
+      "factor_alpha_significant": false,
+      "mechanism": {
+        "algorithm": "NichePopulation",
+        "n_agents": 18,
+        "n_strategies": 6,
+        "n_regimes": 3,
+        "affinity_update_rule": "\u03b1=0.1: winner gets \u03b1*(1-current), losers get *(1-\u03b1)",
+        "si_formula": "SI = 1 - mean(normalized_entropy of niche_affinities)",
+        "si_interpretation": {
+          "high_si": "Agents specialized in different niches (clear winners per regime)",
+          "low_si": "Agents equally spread across niches (no clear specialization)"
+        },
+        "si_increases_when": [
+          "One strategy consistently wins in a regime",
+          "Market regimes are clearly distinct",
+          "Competition outcomes are consistent"
+        ],
+        "si_decreases_when": [
+          "No strategy dominates any regime",
+          "Market conditions are ambiguous",
+          "Winners change frequently"
+        ],
+        "agent_states": [
+          {
+            "agent_id": 0,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              0.4191940467051031,
+              0.37281141098789744,
+              0.20799454230699957
+            ],
+            "dominant_niche": 0,
+            "specialization": 0.4191940467051031,
+            "win_rate": 0.5684380032206119
+          },
+          {
+            "agent_id": 1,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 2,
+            "strategy": "Momentum_long_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 3,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              0.23399086092442112,
+              0.4279507196002446,
+              0.3380584194753343
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.4279507196002446,
+            "win_rate": 0.1280193236714976
+          },
+          {
+            "agent_id": 4,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 5,
+            "strategy": "Momentum_medium_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 6,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              0.023311987723634436,
+              0.9027536865455462,
+              0.0739343257308194
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9027536865455462,
+            "win_rate": 0.07648953301127215
+          },
+          {
+            "agent_id": 7,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 8,
+            "strategy": "MeanRev_short_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 9,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              0.21030424346546475,
+              0.3280696928430966,
+              0.4616260636914385
+            ],
+            "dominant_niche": 2,
+            "specialization": 0.4616260636914385,
+            "win_rate": 0.2037037037037037
+          },
+          {
+            "agent_id": 10,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 11,
+            "strategy": "MeanRev_medium_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 12,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              0.08926351594192936,
+              0.8149601102118819,
+              0.09577637384618884
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.8149601102118819,
+            "win_rate": 0.023349436392914653
+          },
+          {
+            "agent_id": 13,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 14,
+            "strategy": "Breakout_short_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 15,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 16,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          },
+          {
+            "agent_id": 17,
+            "strategy": "Breakout_long_daily",
+            "niche_affinity": [
+              1.7543775040301283e-32,
+              0.9995890706156725,
+              0.0004109293843275164
+            ],
+            "dominant_niche": 1,
+            "specialization": 0.9995890706156725,
+            "win_rate": 0.0
+          }
+        ]
+      },
+      "behavioral_analysis": {
+        "correlations": {
+          "realized_volatility": -0.06698015209111709,
+          "trend_strength": 0.08768340911637838,
+          "regime_instability": -0.0029085642833484625,
+          "volume_volatility": -0.09990659334469722
+        },
+        "interpretation": {
+          "high_si_indicates": [],
+          "low_si_indicates": []
+        },
+        "recommended_framing": "SI as market state descriptor, not alpha source"
+      },
+      "regime_failure_analysis": {
+        "regime_correlations": {
+          "trending": -0.003147048708347899,
+          "mean_reverting": -0.18333612009401362,
+          "volatile": 0.12249288136003715
+        },
+        "signs_consistent": false,
+        "failure_reasons": [
+          "SI-return correlation FLIPS sign across regimes",
+          "SI doesn't vary much across regimes - regime info not useful"
+        ],
+        "avg_regime_duration": 5.761467889908257,
+        "si_by_regime": {
+          "trending": 0.024133521237405982,
+          "mean_reverting": 0.020102936457596962,
+          "volatile": 0.020325734653149942
+        },
+        "recommendation": "Don't use regime-conditioning with current SI"
+      }
+    }
+  ]
+}
