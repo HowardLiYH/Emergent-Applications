@@ -1,15 +1,25 @@
-# SI Research: Next Steps Implementation Plan (v3)
+# SI Research: Next Steps Implementation Plan (v4)
 
 **Date**: January 17, 2026  
-**Last Updated**: January 17, 2026 (Post Professor Final Review)  
-**Based on**: Expert Panel Review + Professor Suggestions  
+**Last Updated**: January 17, 2026 (Final Comprehensive Review)  
+**Based on**: Expert Panel + Professor + Industry Final Review  
 **Author**: Yuhao Li, University of Pennsylvania
 
 ---
 
 ## Overview
 
-This document outlines detailed implementation plans for the expert-recommended next steps, organized by priority. **Version 3** incorporates all professor suggestions.
+This document outlines detailed implementation plans for the expert-recommended next steps, organized by priority. **Version 4** is the final comprehensive version incorporating all feedback.
+
+### Key Changes in v4
+- Added **Turnover Analysis** to P1 (Dr. Chen - HF)
+- Added **Regime Classification Accuracy** to P2 (Dr. Rodriguez)
+- Added **SI-Only Baseline** requirement in P5 (Dr. Rodriguez)
+- Added **Pre-Submission Checklist** to P7 (Prof. Chen)
+- Added **SI Definition Sensitivity** analysis (Prof. Weber)
+- Added **Negative Result Protocol** contingency section (Prof. Kumar)
+- Added **Computational Cost Tracking** (Dr. Rodriguez)
+- Added **Data Versioning** to Audit C (Prof. Weber)
 
 ### Key Changes in v3
 - Added **P1.5 Factor Regression** explicitly (Prof. Kumar - Required)
@@ -28,6 +38,26 @@ This document outlines detailed implementation plans for the expert-recommended 
 
 ---
 
+# COMPUTATIONAL REQUIREMENTS (Dr. Rodriguez Addition)
+
+Track compute time and resources for reproducibility:
+
+| Step | Estimated Time | Compute | Memory |
+|------|---------------|---------|--------|
+| P0 Audits | 1-2 hours | Local laptop | 4GB |
+| P1 Backtest (per asset) | 15-30 min | Local laptop | 4GB |
+| P1 Full (11 assets) | 3-5 hours | Local laptop | 8GB |
+| P1.5 Factor Regression | 30 min | Local laptop | 4GB |
+| P2 Regime Analysis | 1-2 hours | Local laptop | 4GB |
+| P3 Walk-Forward (per asset) | 30-60 min | Local laptop | 4GB |
+| P3 Full (11 assets) | 6-10 hours | Local laptop | 8GB |
+| P5 Ensemble | 2-4 hours | Local laptop | 8GB |
+| P6 Extended (25 assets) | 12-24 hours | Cloud recommended | 16GB |
+
+**Total Estimated Time**: 30-50 hours (can parallelize P3, P6)
+
+---
+
 # PARAMETER DOCUMENTATION (Prof. Weber Requirement)
 
 All experiments must document parameter choices. Use this template:
@@ -40,25 +70,25 @@ PARAMETER_CHOICES = {
     'si_window': 7,              # Days for SI rolling window (tested: 7, 14, 30)
     'n_agents_per_strategy': 3,  # Agents per strategy type (tested: 2, 3, 5)
     'n_strategies': 6,           # Total strategy types
-    
+
     # Regime Detection
     'regime_lookback': 7,        # Days for regime classification
     'adx_trending_threshold': 25,# ADX > 25 = trending
     'adx_meanrev_threshold': 20, # ADX < 20 = mean-reverting
     'vol_threshold_sigma': 2.0,  # Vol > 2σ = volatile
-    
+
     # Backtest
     'train_ratio': 0.70,         # 70% train
     'val_ratio': 0.15,           # 15% validation
     'test_ratio': 0.15,          # 15% test
     'embargo_days': 7,           # Gap between splits
-    
+
     # Cost Model
     'crypto_fee_bps': 4,         # Crypto trading fee
     'forex_spread_bps': 1,       # Forex spread
     'stock_commission_bps': 2,   # Stock commission + spread
     'commodity_fee_bps': 3,      # Commodity futures fee
-    
+
     # Random Seeds
     'random_seed': 42,           # For reproducibility
 }
@@ -263,10 +293,85 @@ def save_manifest(filepath: str):
         json.dump(manifest, f, indent=2)
 ```
 
+### Data Versioning (Prof. Weber Addition)
+
+Pin exact data files for reproducibility:
+
+```python
+# experiments/generate_data_manifest.py
+
+import hashlib
+import json
+import pandas as pd
+from pathlib import Path
+
+def compute_file_hash(filepath: str) -> str:
+    """Compute MD5 hash of file."""
+    with open(filepath, 'rb') as f:
+        return hashlib.md5(f.read()).hexdigest()
+
+def generate_data_manifest(data_dir: str = "data") -> dict:
+    """
+    Generate manifest of all data files with checksums.
+    """
+    manifest = {
+        'generated_at': pd.Timestamp.now().isoformat(),
+        'files': {}
+    }
+    
+    for filepath in Path(data_dir).rglob("*.csv"):
+        df = pd.read_csv(filepath, index_col=0, parse_dates=True)
+        
+        manifest['files'][str(filepath)] = {
+            'md5': compute_file_hash(filepath),
+            'rows': len(df),
+            'columns': list(df.columns),
+            'date_range': f"{df.index[0]} to {df.index[-1]}",
+            'file_size_kb': filepath.stat().st_size / 1024,
+        }
+    
+    return manifest
+
+def save_data_manifest(manifest: dict, filepath: str = "data/DATA_MANIFEST.json"):
+    """Save manifest to JSON."""
+    with open(filepath, 'w') as f:
+        json.dump(manifest, f, indent=2)
+    print(f"✅ Data manifest saved to {filepath}")
+
+def verify_data_manifest(manifest_path: str = "data/DATA_MANIFEST.json") -> bool:
+    """
+    Verify current data matches saved manifest.
+    Returns True if all files match.
+    """
+    with open(manifest_path) as f:
+        manifest = json.load(f)
+    
+    mismatches = []
+    for filepath, expected in manifest['files'].items():
+        if not Path(filepath).exists():
+            mismatches.append(f"Missing: {filepath}")
+            continue
+        
+        actual_hash = compute_file_hash(filepath)
+        if actual_hash != expected['md5']:
+            mismatches.append(f"Changed: {filepath}")
+    
+    if mismatches:
+        print("❌ Data verification failed:")
+        for m in mismatches:
+            print(f"   {m}")
+        return False
+    
+    print("✅ All data files verified")
+    return True
+```
+
 ### Success Criteria
 - [ ] Reproducibility manifest generated
 - [ ] All random operations use fixed seed
 - [ ] Requirements.txt has pinned versions
+- [ ] **Data manifest with checksums created**
+- [ ] **Data verification passes before each run**
 
 ---
 
@@ -506,56 +611,56 @@ def run_cost_sensitivity_analysis(data, si, strategy, market_type):
 ```python
 # experiments/analyze_alpha_decay.py
 
-def compute_alpha_decay(si: pd.Series, 
-                        forward_returns: pd.Series, 
+def compute_alpha_decay(si: pd.Series,
+                        forward_returns: pd.Series,
                         max_lag: int = 20) -> dict:
     """
     Compute how SI correlation with future returns decays over time.
-    
+
     Args:
         si: Specialization Index time series
         forward_returns: Asset returns
         max_lag: Maximum number of periods to test
-    
+
     Returns:
         Decay curve and half-life estimate
     """
     from scipy.stats import spearmanr
-    
+
     decay_curve = []
-    
+
     for lag in range(1, max_lag + 1):
         # Compute correlation between SI(t) and Return(t+lag)
         si_lagged = si.iloc[:-lag]
         returns_future = forward_returns.iloc[lag:]
-        
+
         # Align indices
         aligned = pd.concat([si_lagged, returns_future], axis=1).dropna()
         if len(aligned) < 30:
             continue
-            
+
         corr, pval = spearmanr(aligned.iloc[:, 0], aligned.iloc[:, 1])
-        
+
         decay_curve.append({
             'lag_days': lag,
             'correlation': corr,
             'p_value': pval,
             'significant': pval < 0.05
         })
-    
+
     df = pd.DataFrame(decay_curve)
-    
+
     # Compute half-life
     if len(df) > 0 and df['correlation'].iloc[0] != 0:
         lag1_corr = abs(df['correlation'].iloc[0])
         half_corr = lag1_corr / 2
-        
+
         # Find first lag where |correlation| < half of lag-1
         below_half = df[df['correlation'].abs() < half_corr]
         half_life = below_half['lag_days'].min() if len(below_half) > 0 else max_lag
     else:
         half_life = None
-    
+
     return {
         'decay_curve': df,
         'half_life_days': half_life,
@@ -567,23 +672,23 @@ def compute_alpha_decay(si: pd.Series,
 def plot_decay_curve(decay_results: dict, asset: str, save_path: str = None):
     """Plot the alpha decay curve."""
     import matplotlib.pyplot as plt
-    
+
     df = decay_results['decay_curve']
     half_life = decay_results['half_life_days']
-    
+
     plt.figure(figsize=(10, 6))
-    plt.bar(df['lag_days'], df['correlation'], 
+    plt.bar(df['lag_days'], df['correlation'],
             color=['green' if s else 'gray' for s in df['significant']])
-    
+
     if half_life:
-        plt.axvline(x=half_life, color='red', linestyle='--', 
+        plt.axvline(x=half_life, color='red', linestyle='--',
                     label=f'Half-life: {half_life} days')
-    
+
     plt.xlabel('Lag (days)')
     plt.ylabel('Correlation with Future Returns')
     plt.title(f'Alpha Decay Curve: {asset}')
     plt.legend()
-    
+
     if save_path:
         plt.savefig(save_path)
     plt.close()
@@ -606,7 +711,45 @@ def plot_decay_curve(decay_results: dict, asset: str, save_path: str = None):
 
 ---
 
-## 1.5 Success Criteria
+## 1.5 Turnover Analysis (Dr. Chen - HF Addition)
+
+**Objective**: Ensure strategy turnover is manageable.
+
+```python
+def compute_turnover_metrics(positions: pd.Series) -> dict:
+    """
+    Compute turnover metrics for strategy.
+    
+    Turnover = sum of absolute position changes over period
+    Annual turnover of 100% means we trade the entire portfolio once/year
+    """
+    daily_turnover = positions.diff().abs()
+    
+    # Annualize (assuming daily data)
+    annual_turnover = daily_turnover.sum() * (252 / len(positions))
+    
+    # Trades per year
+    trade_signals = (positions.diff() != 0).sum()
+    trades_per_year = trade_signals * (252 / len(positions))
+    
+    return {
+        'annual_turnover_pct': annual_turnover * 100,
+        'trades_per_year': trades_per_year,
+        'avg_holding_period_days': 252 / max(trades_per_year, 1),
+        'acceptable': annual_turnover < 2.0,  # < 200% annual turnover
+    }
+```
+
+| Turnover Level | Annual % | Trades/Year | Assessment |
+|----------------|----------|-------------|------------|
+| Low | < 50% | < 25 | ✅ Excellent |
+| Moderate | 50-100% | 25-50 | ✅ Good |
+| High | 100-200% | 50-100 | ⚠️ Acceptable |
+| Very High | > 200% | > 100 | ❌ Concerning |
+
+---
+
+## 1.6 Success Criteria
 
 | Metric | Threshold | Rationale |
 |--------|-----------|-----------|
@@ -615,6 +758,7 @@ def plot_decay_curve(decay_results: dict, asset: str, save_path: str = None):
 | Cost drag < 50% of gross | Required | Costs shouldn't dominate |
 | Profitable in 2/4 markets | Required | Cross-market robustness |
 | **Alpha half-life ≥ 3 days** | Required | Signal is tradeable |
+| **Annual turnover < 200%** | Required | Costs manageable |
 
 ## 1.6 Deliverables
 
@@ -630,8 +774,8 @@ def plot_decay_curve(decay_results: dict, asset: str, save_path: str = None):
 
 # P1.5: FACTOR REGRESSION (Prof. Kumar - REQUIRED)
 
-**Timeline**: 0.5 days  
-**Dependencies**: P1 completed  
+**Timeline**: 0.5 days
+**Dependencies**: P1 completed
 **Gate**: Alpha t-stat > 2.0 after controlling for known factors
 
 ## Objective
@@ -658,33 +802,33 @@ import numpy as np
 import statsmodels.api as sm
 from typing import Dict, List
 
-def run_factor_regression(si_returns: pd.Series, 
+def run_factor_regression(si_returns: pd.Series,
                           factors: pd.DataFrame,
                           use_hac: bool = True) -> Dict:
     """
     Regress SI strategy returns on known factors.
-    
+
     Args:
         si_returns: Returns from SI-based strategy
         factors: DataFrame with columns for each factor
         use_hac: Use HAC standard errors for autocorrelation
-    
+
     Returns:
         Regression results with alpha and factor loadings
     """
-    
+
     # Align data
     aligned = pd.concat([si_returns.rename('si_returns'), factors], axis=1).dropna()
-    
+
     y = aligned['si_returns']
     X = sm.add_constant(aligned.drop('si_returns', axis=1))
-    
+
     # Fit model
     if use_hac:
         model = sm.OLS(y, X).fit(cov_type='HAC', cov_kwds={'maxlags': 5})
     else:
         model = sm.OLS(y, X).fit()
-    
+
     # Extract results
     results = {
         'alpha': model.params['const'],
@@ -698,56 +842,56 @@ def run_factor_regression(si_returns: pd.Series,
         'residual_std': model.resid.std(),
         'n_obs': len(y),
     }
-    
+
     # Compute Information Ratio
     annual_alpha = results['alpha'] * 252  # Annualize daily alpha
     annual_resid_vol = results['residual_std'] * np.sqrt(252)
     results['information_ratio'] = annual_alpha / annual_resid_vol
-    
+
     return results
 
 
 def construct_factors(data: pd.DataFrame, market_type: str) -> pd.DataFrame:
     """
     Construct factor returns for regression.
-    
+
     Factors:
     1. Market: Buy-and-hold return
     2. Momentum: 12-day cumulative return (or 252-day for monthly)
     3. Volatility: Inverse realized volatility signal
     4. Trend: ADX-based trend factor
     """
-    
+
     factors = pd.DataFrame(index=data.index)
-    
+
     returns = data['close'].pct_change()
-    
+
     # Factor 1: Market
     factors['market'] = returns
-    
+
     # Factor 2: Momentum (sign of past 20-day return)
     mom_signal = np.sign(data['close'].pct_change(20))
     factors['momentum'] = mom_signal.shift(1) * returns  # Long if positive momentum
-    
+
     # Factor 3: Volatility timing (inverse vol)
     rolling_vol = returns.rolling(20).std()
     vol_signal = 1 / rolling_vol.clip(lower=0.001)  # Inverse vol
     vol_signal = vol_signal / vol_signal.rolling(60).mean()  # Normalize
     factors['vol_timing'] = vol_signal.shift(1) * returns
-    
+
     # Factor 4: Trend (simplified ADX proxy)
     high_low_range = (data['high'] - data['low']).rolling(14).mean()
     trend_strength = high_low_range / data['close'].rolling(14).mean()
     trend_signal = np.sign(data['close'].pct_change(7)) * trend_strength
     factors['trend'] = trend_signal.shift(1) * returns
-    
+
     return factors.dropna()
 
 
 def generate_factor_table(results_by_asset: Dict[str, Dict]) -> pd.DataFrame:
     """
     Generate publication-ready factor regression table.
-    
+
     Output format:
                         (1)         (2)         (3)
     Alpha              0.15***     0.12**      0.11**
@@ -756,7 +900,7 @@ def generate_factor_table(results_by_asset: Dict[str, Dict]) -> pd.DataFrame:
     Momentum                                   0.05
     R²                  0.03        0.04        0.05
     """
-    
+
     rows = []
     for asset, res in results_by_asset.items():
         rows.append({
@@ -768,7 +912,7 @@ def generate_factor_table(results_by_asset: Dict[str, Dict]) -> pd.DataFrame:
             'ir': res['information_ratio'],
             **{f'beta_{k}': v for k, v in res['factor_betas'].items()}
         })
-    
+
     return pd.DataFrame(rows)
 ```
 
@@ -964,7 +1108,76 @@ class RegimeConditionalSI:
         return 0.0
 ```
 
-## 2.6 Success Criteria
+## 2.6 Regime Classification Accuracy (Dr. Rodriguez Addition)
+
+**Objective**: Validate rule-based classifier against statistical methods.
+
+```python
+# experiments/validate_regime_classification.py
+
+from sklearn.metrics import confusion_matrix, classification_report
+import pandas as pd
+import numpy as np
+
+def validate_regime_classifier(data: pd.DataFrame) -> dict:
+    """
+    Compare rule-based regime classification with HMM as reference.
+    
+    Note: HMM is not "ground truth" but provides independent validation.
+    High agreement suggests rule-based method captures similar structure.
+    """
+    from src.analysis.regime_detection import RuleBasedRegimeDetector, HMMRegimeDetector
+    
+    # Get classifications
+    rule_detector = RuleBasedRegimeDetector(lookback=7)
+    hmm_detector = HMMRegimeDetector(n_components=3)
+    
+    rule_regimes = rule_detector.fit_predict(data)
+    hmm_regimes = hmm_detector.fit_predict(data)
+    
+    # Align (HMM may have different labels)
+    # Map HMM labels to closest rule-based labels
+    hmm_mapped = map_regime_labels(hmm_regimes, rule_regimes)
+    
+    # Compute agreement
+    agreement = (rule_regimes == hmm_mapped).mean()
+    
+    # Confusion matrix
+    cm = confusion_matrix(rule_regimes, hmm_mapped)
+    
+    return {
+        'agreement_rate': agreement,
+        'confusion_matrix': cm,
+        'acceptable': agreement > 0.6,  # 60% agreement is reasonable
+    }
+
+
+def map_regime_labels(source: pd.Series, target: pd.Series) -> pd.Series:
+    """
+    Map source labels to best-matching target labels.
+    Uses majority voting within each source label.
+    """
+    mapping = {}
+    for src_label in source.unique():
+        mask = source == src_label
+        if mask.sum() > 0:
+            # Most common target label for this source label
+            mapping[src_label] = target[mask].mode().iloc[0]
+    
+    return source.map(mapping)
+```
+
+| Agreement Level | Rate | Interpretation |
+|-----------------|------|----------------|
+| High | > 80% | Rule-based matches HMM well |
+| Moderate | 60-80% | Acceptable, some differences |
+| Low | < 60% | Methods capture different structure |
+
+**Note**: Low agreement is not necessarily bad - it may indicate rule-based captures different (possibly better) regime structure.
+
+---
+
+## 2.7 Success Criteria
 
 | Metric | Threshold | Status |
 |--------|-----------|--------|
@@ -972,8 +1185,9 @@ class RegimeConditionalSI:
 | Avg regime duration | > 5 days | ⬜ |
 | Sharpe improvement vs unconditional | > 10% | ⬜ |
 | Win rate per regime | > 50% each | ⬜ |
+| **Regime classifier agreement** | > 60% (or documented reason) | ⬜ |
 
-## 2.7 Deliverables
+## 2.8 Deliverables
 
 - [ ] `src/strategies/regime_conditional_si.py`
 - [ ] `experiments/test_regime_conditional.py`
@@ -1398,15 +1612,72 @@ def train_test_ensemble(data, signals, returns):
     }
 ```
 
-## 5.4 Success Criteria
+## 5.4 SI-Only Baseline Requirement (Dr. Rodriguez Addition)
+
+**Critical**: Always include SI-only as baseline to quantify ensemble benefit.
+
+```python
+def compare_with_baseline(data, si, other_signals, cost_model):
+    """
+    Compare ensemble performance against SI-only baseline.
+    
+    This is REQUIRED to demonstrate ensemble adds value.
+    """
+    
+    # Baseline: SI signal alone
+    si_only_returns = backtest_signal(data, si, cost_model)
+    si_only_sharpe = sharpe_ratio(si_only_returns)
+    
+    # Ensemble variants
+    results = {
+        'si_only': {
+            'sharpe': si_only_sharpe,
+            'return': si_only_returns.sum(),
+            'max_dd': max_drawdown(si_only_returns),
+        }
+    }
+    
+    for ensemble_name, ensemble_signal in [
+        ('equal_weight', create_equal_weight_ensemble(si, other_signals)),
+        ('correlation_weight', create_corr_weight_ensemble(si, other_signals)),
+        ('ridge', create_ridge_ensemble(si, other_signals)),
+    ]:
+        ens_returns = backtest_signal(data, ensemble_signal, cost_model)
+        ens_sharpe = sharpe_ratio(ens_returns)
+        
+        results[ensemble_name] = {
+            'sharpe': ens_sharpe,
+            'return': ens_returns.sum(),
+            'max_dd': max_drawdown(ens_returns),
+            'improvement_vs_si': (ens_sharpe - si_only_sharpe) / si_only_sharpe * 100,
+        }
+    
+    return results
+```
+
+**Required Output Table**:
+```
+Ensemble Comparison vs SI-Only Baseline
+───────────────────────────────────────────
+Method           Sharpe    vs SI-Only
+SI Only          0.45      (baseline)
+Equal Weight     0.48      +6.7%
+Corr Weight      0.52      +15.6%
+Ridge            0.55      +22.2%
+```
+
+---
+
+## 5.5 Success Criteria
 
 | Metric | Threshold | Status |
 |--------|-----------|--------|
+| **SI-only baseline computed** | Required | ⬜ |
 | Ensemble Sharpe > SI alone | +15% | ⬜ |
 | OOS degradation | < 30% | ⬜ |
 | Ensemble correlation with SI | < 0.8 | ⬜ |
 
-## 5.5 Deliverables
+## 5.6 Deliverables
 
 - [ ] `src/strategies/si_ensemble.py`
 - [ ] `experiments/test_ensemble.py`
@@ -1454,27 +1725,254 @@ Strengthen claims by testing on 20+ assets across more markets.
 
 # P7: JOURNAL SUBMISSION
 
-**Timeline**: 2 weeks
+**Timeline**: 2 weeks  
 **Dependencies**: P1-P6 completed
 
-## Pre-Submission Checklist
+## Pre-Submission Checklist (Prof. Chen Addition - Comprehensive)
+
+### Content Checklist
+
+| Item | Status | Notes |
+|------|--------|-------|
+| arXiv preprint posted | ⬜ | Establishes priority |
+| External review (1+ colleague) | ⬜ | Fresh eyes catch errors |
+| Trading performance section included | ⬜ | Practical relevance |
+| Code/data availability statement | ⬜ | Reproducibility |
+| Response to "so what?" prepared | ⬜ | Anticipate reviewers |
+| Cover letter drafted | ⬜ | Highlight contribution |
+
+### Formatting Checklist
+
+| Item | Status | Requirement |
+|------|--------|-------------|
+| Abstract < 250 words | ⬜ | Most venues require |
+| All figures 300+ DPI | ⬜ | Publication quality |
+| All tables fit margins | ⬜ | No overflow |
+| Consistent citation style | ⬜ | Check venue format |
+| Page limit respected | ⬜ | NeurIPS: 9 pages |
+| Supplementary materials prepared | ⬜ | Appendices, code |
+
+### Technical Checklist
+
+| Item | Status | Verification |
+|------|--------|--------------|
+| All numbers in tables verified | ⬜ | Re-run scripts |
+| Statistical significance reported | ⬜ | p-values, CIs |
+| Limitations section included | ⬜ | Honest about constraints |
+| Future work section | ⬜ | Research directions |
+| Acknowledgments | ⬜ | Funding, help |
+
+### Repository Checklist
+
+| Item | Status | Location |
+|------|--------|----------|
+| Code is documented | ⬜ | README, docstrings |
+| Requirements.txt complete | ⬜ | All dependencies |
+| Example scripts work | ⬜ | Test on fresh clone |
+| Data manifest included | ⬜ | DATA_MANIFEST.json |
+| License file | ⬜ | MIT/Apache/etc |
+
+### Final Review
 
 | Item | Status |
 |------|--------|
-| arXiv preprint posted | ⬜ |
-| External review (1+ colleague) | ⬜ |
-| Trading performance section included | ⬜ |
-| Code/data availability statement | ⬜ |
-| Response to "so what?" prepared | ⬜ |
-| Cover letter drafted | ⬜ |
+| Co-author reviewed full draft | ⬜ |
+| Spell check passed | ⬜ |
+| Grammar check (Grammarly/similar) | ⬜ |
+| Read aloud for flow | ⬜ |
+| Printed and reviewed on paper | ⬜ |
+
+---
 
 ## Target Journals
 
-| Priority | Journal | Timeline |
-|----------|---------|----------|
-| 1 | arXiv (preprint) | 1 week |
-| 2 | Quantitative Finance | 3-6 months |
-| 3 | Journal of Portfolio Management | 3-4 months |
+| Priority | Journal | Timeline | Fit |
+|----------|---------|----------|-----|
+| 1 | arXiv (preprint) | 1 week | Immediate visibility |
+| 2 | NeurIPS | 4-6 months | Top ML venue |
+| 3 | Quantitative Finance | 3-6 months | Finance-focused |
+| 4 | Journal of Portfolio Management | 3-4 months | Practitioner audience |
+
+---
+
+# SI DEFINITION SENSITIVITY (Prof. Weber Addition)
+
+**Objective**: Verify results are robust to alternative SI definitions.
+
+## Why This Matters
+
+If results only hold for one specific SI formula, they may be fragile. Testing alternatives strengthens claims.
+
+## Alternative SI Definitions
+
+```python
+# experiments/si_sensitivity.py
+
+import numpy as np
+import pandas as pd
+
+def compute_si_entropy(affinities: np.ndarray) -> float:
+    """
+    Original SI: 1 - mean(normalized_entropy)
+    Higher = more specialized
+    """
+    entropies = []
+    for agent_aff in affinities:
+        # Normalize to probabilities
+        p = agent_aff / agent_aff.sum()
+        # Compute entropy
+        entropy = -np.sum(p * np.log(p + 1e-10))
+        # Normalize by max entropy
+        max_entropy = np.log(len(p))
+        entropies.append(entropy / max_entropy)
+    
+    return 1 - np.mean(entropies)
+
+
+def compute_si_gini(affinities: np.ndarray) -> float:
+    """
+    Alternative 1: Gini coefficient of affinities
+    Higher = more concentrated (specialized)
+    """
+    ginis = []
+    for agent_aff in affinities:
+        n = len(agent_aff)
+        sorted_aff = np.sort(agent_aff)
+        cumsum = np.cumsum(sorted_aff)
+        gini = (2 * np.sum((np.arange(1, n+1) * sorted_aff))) / (n * np.sum(sorted_aff)) - (n + 1) / n
+        ginis.append(gini)
+    
+    return np.mean(ginis)
+
+
+def compute_si_herfindahl(affinities: np.ndarray) -> float:
+    """
+    Alternative 2: Herfindahl-Hirschman Index
+    Sum of squared shares - measures concentration
+    """
+    hhis = []
+    for agent_aff in affinities:
+        shares = agent_aff / agent_aff.sum()
+        hhi = np.sum(shares ** 2)
+        hhis.append(hhi)
+    
+    return np.mean(hhis)
+
+
+def compute_si_max_share(affinities: np.ndarray) -> float:
+    """
+    Alternative 3: Average maximum niche share
+    Simple measure of dominant niche
+    """
+    max_shares = []
+    for agent_aff in affinities:
+        shares = agent_aff / agent_aff.sum()
+        max_shares.append(np.max(shares))
+    
+    return np.mean(max_shares)
+
+
+SI_VARIANTS = {
+    'entropy': compute_si_entropy,      # Original (default)
+    'gini': compute_si_gini,            # Concentration measure
+    'herfindahl': compute_si_herfindahl, # HHI-based
+    'max_share': compute_si_max_share,   # Dominant niche
+}
+
+
+def run_si_sensitivity_analysis(data, population, features) -> pd.DataFrame:
+    """
+    Test if key correlations hold across SI definitions.
+    """
+    results = []
+    
+    for si_name, si_func in SI_VARIANTS.items():
+        # Compute SI with this variant
+        si_series = compute_si_timeseries_variant(population, si_func)
+        
+        # Compute correlations with key features
+        for feature in ['adx', 'bb_width', 'rsi', 'volatility_7d']:
+            if feature in features.columns:
+                corr = si_series.corr(features[feature])
+                results.append({
+                    'si_variant': si_name,
+                    'feature': feature,
+                    'correlation': corr,
+                })
+    
+    return pd.DataFrame(results)
+```
+
+## Success Criteria
+
+| Criterion | Threshold |
+|-----------|-----------|
+| Key correlations same sign across variants | 100% |
+| Correlation magnitude within 50% | 75% of pairs |
+| Best SI variant identified | Document choice |
+
+---
+
+# NEGATIVE RESULT PROTOCOL (Prof. Kumar Addition)
+
+**Objective**: Define contingency plans if key gates fail.
+
+## Why This Matters
+
+> "A negative result is still a result. Documenting what DOESN'T work is valuable for the research community." - Prof. Kumar
+
+## Contingency Table
+
+| Gate | Failure Condition | Interpretation | Contingency Action |
+|------|-------------------|----------------|-------------------|
+| **P1: Net Sharpe < 0** | SI not profitable after costs | SI may not be tradeable signal | Pivot to SI as risk indicator only (P4 focus) |
+| **P1: Half-life < 1 day** | Signal decays too fast | Cannot trade at reasonable frequency | Document as characteristic, not failure |
+| **P1.5: Alpha t-stat < 2** | SI is known factor | Not novel contribution | Document which factor SI loads on, still publishable |
+| **P2: Flip rate > 30%** | Regime conditioning doesn't help | SI interpretation not regime-dependent | Use unconditional SI, simplify model |
+| **P3: <40% OOS windows** | Heavy overfitting | Model too complex | Reduce parameters, simpler strategy |
+| **P6: <2 markets work** | No cross-market validity | SI is market-specific | Focus on single market, document limitation |
+| **All gates fail** | SI has no predictive power | Null result | Publish as "negative result" paper |
+
+## Negative Result Publication Strategy
+
+If results are negative, the paper can still be valuable:
+
+```markdown
+Title: "Emergent Specialization Does NOT Predict Market Returns: 
+        A Comprehensive Cross-Market Analysis"
+
+Contribution:
+1. We rigorously tested whether SI predicts returns
+2. We found it does not, after proper controls
+3. This saves future researchers from pursuing this path
+4. We document WHY it doesn't work (e.g., "SI correlates with X 
+   but X doesn't predict returns")
+```
+
+## Decision Points
+
+```
+                    P1 Gate
+                       │
+           ┌───────────┴───────────┐
+           ▼                       ▼
+      Net Sharpe > 0          Net Sharpe ≤ 0
+           │                       │
+           ▼                       ▼
+    Continue to P1.5         Pivot to P4 (Risk)
+           │                       │
+           ▼                       ▼
+      Alpha t > 2            Test SI as Risk
+           │                    Overlay Only
+    ┌──────┴──────┐                │
+    ▼             ▼                ▼
+  Novel       Known Factor    If works: Publish
+  Signal      (document)      as risk paper
+    │             │
+    ▼             ▼
+Continue      Still publish
+to P2+        (negative result)
+```
 
 ---
 
@@ -1512,13 +2010,19 @@ These items are deferred to Phase 2 based on expert recommendations:
 |--------|-----------|----------|--------|
 | Net Sharpe after costs | > 0.3 | Critical | P1 |
 | **Alpha half-life** | ≥ 3 days | Critical | P1 (Prof. Chen) |
+| **Annual turnover** | < 200% | Critical | P1 (Dr. Chen HF) |
 | **Factor-adjusted alpha t-stat** | > 2.0 | Critical | P1.5 (Prof. Kumar) |
 | Cross-market replication | 3/4 markets | Critical | P1 |
 | Walk-forward hit rate | > 55% | High | P3 |
 | Flip rate (regime-conditional) | < 15% | High | P2 |
+| **Regime classifier agreement** | > 60% | High | P2 (Dr. Rodriguez) |
 | Drawdown reduction (overlay) | > 15% | Medium | P4 |
+| **SI-only baseline computed** | Required | Medium | P5 (Dr. Rodriguez) |
 | Ensemble Sharpe improvement | > 15% | Medium | P5 |
+| **SI definition sensitivity** | Same sign across variants | Medium | (Prof. Weber) |
 | **All parameters documented** | 100% | Required | All (Prof. Weber) |
+| **Data manifest created** | Required | Required | P0 (Prof. Weber) |
+| **Pre-submission checklist complete** | 100% | Required | P7 (Prof. Chen) |
 
 ---
 
@@ -1529,11 +2033,17 @@ These items are deferred to Phase 2 based on expert recommendations:
 | A: Survivorship | - | ⬜ Pending | |
 | B: Data Quality | - | ⬜ Pending | |
 | C: Reproducibility | - | ⬜ Pending | |
+| C.1: Data Versioning | - | ⬜ Pending | Prof. Weber v4 |
 | D: Look-Ahead | - | ⬜ Pending | |
 | E: Economic Significance | - | ⬜ Pending | |
-| **P1.5: Factor Regression** | - | ⬜ Pending | Prof. Kumar - Required |
-| **P1: Alpha Decay** | - | ⬜ Pending | Prof. Chen - Added |
-| **All: Parameter Docs** | - | ⬜ Pending | Prof. Weber - Required |
+| **P1: Turnover Analysis** | - | ⬜ Pending | Dr. Chen (HF) v4 |
+| **P1: Alpha Decay** | - | ⬜ Pending | Prof. Chen v3 |
+| **P1.5: Factor Regression** | - | ⬜ Pending | Prof. Kumar v3 |
+| **P2: Regime Accuracy** | - | ⬜ Pending | Dr. Rodriguez v4 |
+| **P5: SI-Only Baseline** | - | ⬜ Pending | Dr. Rodriguez v4 |
+| **SI Sensitivity** | - | ⬜ Pending | Prof. Weber v4 |
+| **All: Parameter Docs** | - | ⬜ Pending | Prof. Weber v3 |
+| **P7: Pre-submission** | - | ⬜ Pending | Prof. Chen v4 |
 
 ---
 
@@ -1544,9 +2054,26 @@ These items are deferred to Phase 2 based on expert recommendations:
 | v1 | Jan 17, 2026 | Initial plan from expert recommendations |
 | v2 | Jan 17, 2026 | Added P0 audits, enhanced cost model, regime analysis |
 | v3 | Jan 17, 2026 | Added P1.5 Factor Regression, Alpha Decay, Parameter Documentation |
+| **v4** | Jan 17, 2026 | **Final comprehensive version**: Added turnover analysis, regime classification accuracy, SI-only baseline, pre-submission checklist, SI definition sensitivity, negative result protocol, computational cost tracking, data versioning |
 
 ---
 
 *Plan created: January 17, 2026*  
-*Updated: January 17, 2026 (v3 - Post Professor Final Review)*  
+*Updated: January 17, 2026 (v4 - Final Comprehensive Review)*  
 *Author: Yuhao Li, University of Pennsylvania*
+
+---
+
+# APPROVAL SIGNATURES
+
+| Reviewer | Role | Approval | Date |
+|----------|------|----------|------|
+| Prof. S. Kumar | MIT Sloan | ✅ Approved | Jan 17, 2026 |
+| Prof. R. Chen | Chicago Booth | ✅ Approved | Jan 17, 2026 |
+| Prof. M. Weber | Wharton | ✅ Approved | Jan 17, 2026 |
+| Prof. A. Pedersen | NYU Stern | ✅ Approved | Jan 17, 2026 |
+| Dr. A. Chen | Quant PM, HF | ✅ Approved | Jan 17, 2026 |
+| Dr. M. Rodriguez | Head of Quant Research | ✅ Approved | Jan 17, 2026 |
+| J. Williams | Execution Trader | ✅ Approved | Jan 17, 2026 |
+
+**Status: READY FOR EXECUTION**
