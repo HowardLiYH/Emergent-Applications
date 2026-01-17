@@ -10,13 +10,14 @@
 ```
 [x] Phase 0: Planning & Methodology (COMPLETE)
 [ ] Phase 1: Pre-Registration & Setup  ← YOU ARE HERE
-[ ] Phase 2: Data & Features
+[ ] Phase 2: Data & Features (incl. validation + multi-market)
 [ ] Phase 3: Backtest & SI Computation
 [ ] Phase 4: Discovery Pipeline
 [ ] Phase 5: Prediction Pipeline
 [ ] Phase 6: SI Dynamics Pipeline
 [ ] Phase 7: Audits & Validation
 [ ] Phase 8: Final Report
+[ ] Phase 9: Cross-Market Validation (crypto/forex/stocks/commodities)
 ```
 
 ---
@@ -26,6 +27,28 @@
 **Discover what Specialization Index (SI) correlates with in trading.**
 
 Primary Hypothesis: SI correlates with volatility (r > 0.15, p < 0.05)
+
+---
+
+## 🌍 Multi-Market Scope
+
+**Key Insight**: Different markets have different characteristics. SI may work better in some than others.
+
+| Market Type | Assets | Characteristics |
+|-------------|--------|-----------------|
+| **Crypto** | BTC, ETH, SOL | 24/7, high volatility, no close |
+| **Forex** | EUR/USD, GBP/USD | 24/5, lower volatility, macro-driven |
+| **US Stocks** | SPY, QQQ, AAPL | 6.5h/day, earnings, dividends |
+| **Commodities** | Gold, Oil, Corn | Seasonal, supply/demand driven |
+
+**Testing Order**:
+1. Crypto (BTC) - Start here (most data, 24/7)
+2. Crypto (ETH, SOL) - Validate within market
+3. Forex (EUR/USD) - Cross-market validation
+4. Stocks (SPY) - Different market structure
+5. Commodities (Gold) - Alternative asset class
+
+**Success Criteria**: SI findings should hold in at least 2 of 4 market types
 
 ---
 
@@ -57,7 +80,7 @@ git push origin main
 mkdir -p src/{data,agents,competition,analysis,backtest}
 mkdir -p tests
 mkdir -p results/si_correlations
-mkdir -p data/bybit
+mkdir -p data/{crypto,forex,stocks,commodities}
 ```
 
 ---
@@ -87,26 +110,65 @@ pip install -r requirements.txt
 
 # PHASE 2: Data & Features
 
-## Step 2.1: Data Loader
+## Step 2.1: Multi-Market Data Loader
 
 Create `src/data/loader.py`:
 
 ```python
 """
-Data loader for crypto OHLCV data.
+Multi-market data loader for OHLCV data.
+Supports: Crypto, Forex, Stocks, Commodities
 """
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Dict
+from enum import Enum
 
-class DataLoader:
-    """Load and prepare crypto price data."""
+class MarketType(Enum):
+    CRYPTO = "crypto"
+    FOREX = "forex"
+    STOCKS = "stocks"
+    COMMODITIES = "commodities"
 
-    def __init__(self, data_dir: str = "data/bybit"):
-        self.data_dir = Path(data_dir)
+# Market-specific configurations
+MARKET_CONFIG = {
+    MarketType.CRYPTO: {
+        'data_dir': 'data/crypto',
+        'trading_hours': 24,  # 24/7
+        'has_volume': True,
+        'assets': ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT', 'XRPUSDT'],
+    },
+    MarketType.FOREX: {
+        'data_dir': 'data/forex',
+        'trading_hours': 24,  # 24/5 (closed weekends)
+        'has_volume': False,  # Forex volume is unreliable
+        'assets': ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD'],
+    },
+    MarketType.STOCKS: {
+        'data_dir': 'data/stocks',
+        'trading_hours': 6.5,  # 9:30-4:00
+        'has_volume': True,
+        'assets': ['SPY', 'QQQ', 'AAPL', 'MSFT', 'GOOGL'],
+    },
+    MarketType.COMMODITIES: {
+        'data_dir': 'data/commodities',
+        'trading_hours': 23,  # Near 24h with breaks
+        'has_volume': True,
+        'assets': ['GOLD', 'OIL', 'SILVER', 'CORN', 'NATGAS'],
+    },
+}
 
-    def load(self, symbol: str = "BTCUSDT",
+
+class MultiMarketLoader:
+    """Load and prepare data from multiple market types."""
+
+    def __init__(self, market_type: MarketType = MarketType.CRYPTO):
+        self.market_type = market_type
+        self.config = MARKET_CONFIG[market_type]
+        self.data_dir = Path(self.config['data_dir'])
+
+    def load(self, symbol: str,
              start: Optional[str] = None,
              end: Optional[str] = None) -> pd.DataFrame:
         """
@@ -118,7 +180,10 @@ class DataLoader:
         filepath = self.data_dir / f"{symbol}_1h.csv"
 
         if not filepath.exists():
-            raise FileNotFoundError(f"Data file not found: {filepath}")
+            raise FileNotFoundError(
+                f"Data file not found: {filepath}\n"
+                f"Available assets for {self.market_type.value}: {self.config['assets']}"
+            )
 
         df = pd.read_csv(filepath, parse_dates=['timestamp'], index_col='timestamp')
 
@@ -129,12 +194,19 @@ class DataLoader:
             df = df[df.index <= end]
 
         # Validate columns
-        required = ['open', 'high', 'low', 'close', 'volume']
+        required = ['open', 'high', 'low', 'close']
+        if self.config['has_volume']:
+            required.append('volume')
+
         for col in required:
             if col not in df.columns:
                 raise ValueError(f"Missing column: {col}")
 
-        return df[required]
+        # Add dummy volume for forex if needed
+        if not self.config['has_volume'] and 'volume' not in df.columns:
+            df['volume'] = 1.0  # Placeholder
+
+        return df[['open', 'high', 'low', 'close', 'volume']]
 
     def temporal_split(self, df: pd.DataFrame,
                        train_pct: float = 0.70,
@@ -155,6 +227,314 @@ class DataLoader:
         print(f"Split: train={len(train)}, val={len(val)}, test={len(test)}")
 
         return train, val, test
+
+    def get_available_assets(self) -> list:
+        """Get list of available assets for this market."""
+        return self.config['assets']
+
+
+# Convenience function for backward compatibility
+class DataLoader(MultiMarketLoader):
+    """Crypto-specific loader (default)."""
+    def __init__(self, data_dir: str = "data/crypto"):
+        super().__init__(MarketType.CRYPTO)
+        self.data_dir = Path(data_dir)
+```
+
+---
+
+## Step 2.2: Data Validation (CRITICAL)
+
+Create `src/data/validation.py`:
+
+```python
+"""
+Data validation - MUST RUN before any analysis.
+"""
+import pandas as pd
+import numpy as np
+from typing import Dict, List
+from pathlib import Path
+
+class DataValidator:
+    """Validate data quality before analysis."""
+
+    def __init__(self, strict: bool = True):
+        self.strict = strict  # If True, raises errors. If False, just warns.
+
+    def validate(self, df: pd.DataFrame, symbol: str = "unknown") -> Dict:
+        """
+        Run all validation checks.
+
+        Returns dict with:
+            - valid: bool (True if all checks pass)
+            - issues: list of issues found
+            - stats: data statistics
+        """
+        issues = []
+        warnings = []
+
+        print(f"\n{'='*60}")
+        print(f"VALIDATING: {symbol}")
+        print('='*60)
+
+        # 1. Check for missing values
+        print("\n1. Checking missing values...")
+        missing_pct = df.isna().mean() * 100
+        for col, pct in missing_pct.items():
+            if pct > 5:
+                issues.append(f"Column '{col}' has {pct:.1f}% missing values")
+            elif pct > 0:
+                warnings.append(f"Column '{col}' has {pct:.1f}% missing values")
+
+        if missing_pct.sum() == 0:
+            print("   ✅ No missing values")
+        else:
+            print(f"   ⚠️  Missing values found: {missing_pct[missing_pct > 0].to_dict()}")
+
+        # 2. Check for duplicates
+        print("\n2. Checking for duplicate timestamps...")
+        n_dups = df.index.duplicated().sum()
+        if n_dups > 0:
+            issues.append(f"Found {n_dups} duplicate timestamps")
+            print(f"   ❌ Found {n_dups} duplicates")
+        else:
+            print("   ✅ No duplicates")
+
+        # 3. Check for gaps
+        print("\n3. Checking for data gaps...")
+        if len(df) > 1:
+            expected_freq = pd.Timedelta('1h')
+            actual_gaps = df.index.to_series().diff()
+            large_gaps = actual_gaps[actual_gaps > expected_freq * 2]
+
+            if len(large_gaps) > 0:
+                max_gap = large_gaps.max()
+                warnings.append(f"Found {len(large_gaps)} gaps > 2 hours (max: {max_gap})")
+                print(f"   ⚠️  Found {len(large_gaps)} gaps (max: {max_gap})")
+            else:
+                print("   ✅ No significant gaps")
+
+        # 4. Check for extreme returns
+        print("\n4. Checking for extreme returns...")
+        returns = df['close'].pct_change()
+        extreme_threshold = 0.5  # 50% in 1 hour
+        extreme = (abs(returns) > extreme_threshold).sum()
+
+        if extreme > 0:
+            warnings.append(f"Found {extreme} extreme returns (>{extreme_threshold*100}% in 1h)")
+            print(f"   ⚠️  Found {extreme} extreme returns")
+
+            # Show the extremes
+            extreme_rows = returns[abs(returns) > extreme_threshold]
+            for ts, ret in extreme_rows.items():
+                print(f"      {ts}: {ret*100:+.1f}%")
+        else:
+            print("   ✅ No extreme returns")
+
+        # 5. Check data range
+        print("\n5. Checking data range...")
+        days = (df.index.max() - df.index.min()).days
+
+        if days < 180:
+            issues.append(f"Only {days} days of data (recommend 365+)")
+            print(f"   ❌ Only {days} days (recommend 365+)")
+        elif days < 365:
+            warnings.append(f"Only {days} days of data (365+ preferred)")
+            print(f"   ⚠️  {days} days (365+ preferred)")
+        else:
+            print(f"   ✅ {days} days of data")
+
+        # 6. Check for negative prices
+        print("\n6. Checking for invalid prices...")
+        neg_prices = (df[['open', 'high', 'low', 'close']] <= 0).sum().sum()
+        if neg_prices > 0:
+            issues.append(f"Found {neg_prices} non-positive prices")
+            print(f"   ❌ Found {neg_prices} non-positive prices")
+        else:
+            print("   ✅ All prices valid")
+
+        # 7. Check OHLC consistency
+        print("\n7. Checking OHLC consistency...")
+        ohlc_issues = (
+            (df['high'] < df['low']).sum() +
+            (df['high'] < df['open']).sum() +
+            (df['high'] < df['close']).sum() +
+            (df['low'] > df['open']).sum() +
+            (df['low'] > df['close']).sum()
+        )
+        if ohlc_issues > 0:
+            issues.append(f"Found {ohlc_issues} OHLC inconsistencies")
+            print(f"   ❌ Found {ohlc_issues} OHLC inconsistencies")
+        else:
+            print("   ✅ OHLC consistent")
+
+        # Summary
+        print(f"\n{'='*60}")
+        valid = len(issues) == 0
+
+        if valid and len(warnings) == 0:
+            print("✅ VALIDATION PASSED - Data is clean!")
+        elif valid:
+            print(f"⚠️  VALIDATION PASSED with {len(warnings)} warnings")
+        else:
+            print(f"❌ VALIDATION FAILED - {len(issues)} critical issues")
+            for issue in issues:
+                print(f"   - {issue}")
+
+        # Stats
+        stats = {
+            'n_rows': len(df),
+            'date_start': str(df.index.min()),
+            'date_end': str(df.index.max()),
+            'days': days,
+            'price_min': float(df['close'].min()),
+            'price_max': float(df['close'].max()),
+            'return_mean': float(returns.mean()),
+            'return_std': float(returns.std()),
+        }
+
+        result = {
+            'valid': valid,
+            'issues': issues,
+            'warnings': warnings,
+            'stats': stats,
+        }
+
+        # Raise error if strict mode and issues found
+        if self.strict and not valid:
+            raise ValueError(
+                f"Data validation failed for {symbol}:\n" +
+                "\n".join(f"  - {i}" for i in issues)
+            )
+
+        return result
+
+
+def validate_all_markets(markets: Dict[str, List[str]]) -> Dict:
+    """
+    Validate data for multiple markets and assets.
+
+    Args:
+        markets: Dict like {'crypto': ['BTCUSDT', 'ETHUSDT'], 'forex': ['EURUSD']}
+
+    Returns:
+        Dict with validation results for each asset
+    """
+    from .loader import MultiMarketLoader, MarketType
+
+    results = {}
+    validator = DataValidator(strict=False)
+
+    for market_name, assets in markets.items():
+        market_type = MarketType(market_name)
+        loader = MultiMarketLoader(market_type)
+
+        for asset in assets:
+            try:
+                df = loader.load(asset)
+                result = validator.validate(df, f"{market_name}/{asset}")
+                results[f"{market_name}/{asset}"] = result
+            except FileNotFoundError as e:
+                results[f"{market_name}/{asset}"] = {
+                    'valid': False,
+                    'issues': [str(e)],
+                    'warnings': [],
+                    'stats': None
+                }
+
+    # Summary
+    print("\n" + "="*60)
+    print("VALIDATION SUMMARY")
+    print("="*60)
+
+    valid_count = sum(1 for r in results.values() if r['valid'])
+    print(f"\nPassed: {valid_count}/{len(results)}")
+
+    for asset, result in results.items():
+        status = "✅" if result['valid'] else "❌"
+        print(f"  {status} {asset}")
+
+    return results
+```
+
+### Run Data Validation
+
+```python
+# experiments/validate_data.py
+"""
+Validate all data before analysis.
+RUN THIS FIRST!
+"""
+import sys
+sys.path.append('.')
+
+from src.data.validation import DataValidator, validate_all_markets
+from src.data.loader import MultiMarketLoader, MarketType
+
+def main():
+    print("="*60)
+    print("DATA VALIDATION")
+    print("="*60)
+
+    # Define what to validate
+    markets_to_validate = {
+        'crypto': ['BTCUSDT', 'ETHUSDT'],  # Start with these
+        # Add more as you get data:
+        # 'forex': ['EURUSD', 'GBPUSD'],
+        # 'stocks': ['SPY', 'QQQ'],
+        # 'commodities': ['GOLD'],
+    }
+
+    results = validate_all_markets(markets_to_validate)
+
+    # Check if we can proceed
+    valid_assets = [k for k, v in results.items() if v['valid']]
+
+    if len(valid_assets) == 0:
+        print("\n❌ NO VALID DATA - Cannot proceed!")
+        print("   Please fix data issues or download clean data.")
+        return False
+
+    print(f"\n✅ {len(valid_assets)} valid assets - Ready to proceed!")
+    return True
+
+if __name__ == "__main__":
+    success = main()
+    exit(0 if success else 1)
+```
+
+```bash
+# Run data validation BEFORE any analysis
+python experiments/validate_data.py
+```
+
+**Checkpoint**: Data validation passed? ☐ Yes ☐ No
+
+**If validation fails**: Fix data issues before proceeding!
+
+---
+
+## Step 2.3: Data Sources (Where to Get Data)
+
+| Market | Free Source | Paid Source |
+|--------|-------------|-------------|
+| **Crypto** | [Binance Data](https://data.binance.vision/), [CryptoDataDownload](https://www.cryptodatadownload.com/) | Bybit API, Binance API |
+| **Forex** | [HistData](https://www.histdata.com/), [Dukascopy](https://www.dukascopy.com/swiss/english/marketwatch/historical/) | OANDA, Interactive Brokers |
+| **Stocks** | [Yahoo Finance](https://finance.yahoo.com/) via `yfinance` | Alpha Vantage, Polygon.io |
+| **Commodities** | [Investing.com](https://www.investing.com/) | Quandl, CME DataMine |
+
+```python
+# Example: Download crypto data
+import yfinance as yf
+
+# For stocks/ETFs
+spy = yf.download("SPY", start="2023-01-01", end="2024-12-31", interval="1h")
+spy.to_csv("data/stocks/SPY_1h.csv")
+
+# For crypto (via yfinance)
+btc = yf.download("BTC-USD", start="2023-01-01", end="2024-12-31", interval="1h")
+btc.to_csv("data/crypto/BTCUSDT_1h.csv")
 ```
 
 ---
@@ -1756,28 +2136,283 @@ python experiments/generate_report.py
 
 ---
 
+# PHASE 9: Cross-Market Validation (CRITICAL)
+
+> **Goal**: Verify SI findings generalize beyond crypto to other market types.
+
+## Step 9.1: Run on Multiple Markets
+
+Create `experiments/run_cross_market.py`:
+
+```python
+"""
+Cross-market validation: Does SI work beyond crypto?
+"""
+import sys
+sys.path.append('.')
+
+import pandas as pd
+import numpy as np
+import json
+from scipy.stats import spearmanr
+
+from src.data.loader import MultiMarketLoader, MarketType
+from src.data.validation import DataValidator
+from src.analysis.features import FeatureCalculator
+from src.agents.strategies import DEFAULT_STRATEGIES
+from src.competition.niche_population import NichePopulation
+from src.analysis.correlations import CorrelationAnalyzer
+
+# Markets to test
+MARKETS = {
+    MarketType.CRYPTO: ['BTCUSDT', 'ETHUSDT'],
+    MarketType.FOREX: ['EURUSD', 'GBPUSD'],
+    MarketType.STOCKS: ['SPY', 'QQQ'],
+    MarketType.COMMODITIES: ['GOLD'],
+}
+
+def run_single_asset(market_type: MarketType, symbol: str) -> dict:
+    """Run full pipeline on a single asset."""
+    print(f"\n{'='*60}")
+    print(f"Processing: {market_type.value}/{symbol}")
+    print('='*60)
+
+    try:
+        # 1. Load data
+        loader = MultiMarketLoader(market_type)
+        data = loader.load(symbol)
+
+        # 2. Validate
+        validator = DataValidator(strict=False)
+        validation = validator.validate(data, f"{market_type.value}/{symbol}")
+
+        if not validation['valid']:
+            return {
+                'symbol': symbol,
+                'market': market_type.value,
+                'status': 'INVALID_DATA',
+                'issues': validation['issues']
+            }
+
+        # 3. Split
+        train, val, test = loader.temporal_split(data)
+
+        # 4. Run competition
+        population = NichePopulation(DEFAULT_STRATEGIES, n_agents_per_strategy=3)
+        population.run(train, start_idx=200)
+        si = population.compute_si_timeseries(train, window=168)
+
+        # 5. Compute features
+        calc = FeatureCalculator()
+        features = calc.compute_all(train)
+
+        # 6. Align
+        common_idx = si.index.intersection(features.index)
+        si = si.loc[common_idx]
+        features = features.loc[common_idx]
+
+        # 7. Run discovery (top 5 only for speed)
+        analyzer = CorrelationAnalyzer()
+        discovery_features = calc.get_discovery_features()[:20]  # Subset for speed
+        results = analyzer.run_discovery(si, features, discovery_features)
+
+        # 8. Summary
+        significant = results[results['significant']]
+
+        return {
+            'symbol': symbol,
+            'market': market_type.value,
+            'status': 'SUCCESS',
+            'n_rows': len(common_idx),
+            'si_mean': float(si.mean()),
+            'si_std': float(si.std()),
+            'n_significant': len(significant),
+            'top_feature': results.iloc[0]['feature'] if len(results) > 0 else None,
+            'top_r': float(results.iloc[0]['r']) if len(results) > 0 else None,
+            'significant_features': significant['feature'].tolist(),
+        }
+
+    except Exception as e:
+        return {
+            'symbol': symbol,
+            'market': market_type.value,
+            'status': 'ERROR',
+            'error': str(e)
+        }
+
+
+def main():
+    print("="*60)
+    print("PHASE 9: CROSS-MARKET VALIDATION")
+    print("="*60)
+
+    all_results = {}
+
+    for market_type, symbols in MARKETS.items():
+        for symbol in symbols:
+            result = run_single_asset(market_type, symbol)
+            all_results[f"{market_type.value}/{symbol}"] = result
+
+    # Summary
+    print("\n" + "="*60)
+    print("CROSS-MARKET SUMMARY")
+    print("="*60)
+
+    # Group by market
+    market_summary = {}
+    for key, result in all_results.items():
+        market = result['market']
+        if market not in market_summary:
+            market_summary[market] = {'success': 0, 'total': 0, 'significant': 0}
+
+        market_summary[market]['total'] += 1
+        if result['status'] == 'SUCCESS':
+            market_summary[market]['success'] += 1
+            market_summary[market]['significant'] += result['n_significant']
+
+    print("\nBy Market:")
+    for market, stats in market_summary.items():
+        print(f"  {market}: {stats['success']}/{stats['total']} assets, "
+              f"{stats['significant']} total significant correlations")
+
+    # Find common features
+    print("\n" + "="*60)
+    print("COMMON FEATURES ACROSS MARKETS")
+    print("="*60)
+
+    all_significant = []
+    for key, result in all_results.items():
+        if result['status'] == 'SUCCESS':
+            all_significant.extend(result.get('significant_features', []))
+
+    from collections import Counter
+    feature_counts = Counter(all_significant)
+
+    print("\nFeatures significant in multiple assets:")
+    for feature, count in feature_counts.most_common(10):
+        if count >= 2:
+            print(f"  {feature}: {count} assets")
+
+    # Save results
+    with open("results/si_correlations/cross_market_results.json", "w") as f:
+        json.dump(all_results, f, indent=2)
+
+    print("\n" + "="*60)
+    print("CROSS-MARKET CONCLUSION")
+    print("="*60)
+
+    # Check if SI works across market types
+    markets_with_findings = sum(1 for m, s in market_summary.items() if s['significant'] > 0)
+
+    if markets_with_findings >= 3:
+        print("✅ SI FINDINGS GENERALIZE ACROSS MARKETS!")
+        print(f"   Found significant correlations in {markets_with_findings}/4 market types")
+    elif markets_with_findings >= 2:
+        print("⚠️  SI PARTIALLY GENERALIZES")
+        print(f"   Found significant correlations in {markets_with_findings}/4 market types")
+    else:
+        print("❌ SI MAY BE MARKET-SPECIFIC")
+        print(f"   Only found correlations in {markets_with_findings}/4 market types")
+
+    # Common feature check
+    universal_features = [f for f, c in feature_counts.items() if c >= 3]
+    if len(universal_features) > 0:
+        print(f"\n✅ UNIVERSAL SI CORRELATES: {universal_features}")
+    else:
+        print("\n⚠️  No features significant across 3+ assets")
+
+if __name__ == "__main__":
+    main()
+```
+
+```bash
+python experiments/run_cross_market.py
+```
+
+**Checkpoint**: Cross-market validation complete? ☐ Yes ☐ No
+
+---
+
+## Step 9.2: Interpret Cross-Market Results
+
+| Outcome | Interpretation | Next Step |
+|---------|----------------|-----------|
+| SI works in 4/4 markets | **Universal signal!** | Paper: "SI as universal market metric" |
+| SI works in 2-3 markets | Market-dependent | Focus on working markets |
+| SI works only in crypto | Crypto-specific | Reframe scope |
+| SI works only in stocks | Equity-specific | Pivot market focus |
+
+---
+
+## Step 9.3: Market-Specific Considerations
+
+| Market | Key Differences | Adaptation Needed |
+|--------|-----------------|-------------------|
+| **Crypto** | 24/7, no close, high vol | Base case |
+| **Forex** | Weekend gaps, macro events | Handle weekend gaps |
+| **Stocks** | 6.5h/day, earnings, dividends | Overnight handling |
+| **Commodities** | Seasonal, supply shocks | Seasonal features |
+
+```python
+# Market-specific feature adaptations
+def adapt_features_for_market(features: pd.DataFrame, market_type: MarketType) -> pd.DataFrame:
+    """Adapt features based on market characteristics."""
+
+    if market_type == MarketType.STOCKS:
+        # Add overnight return feature
+        features['overnight_gap'] = ...
+
+        # Remove 24h rolling (doesn't make sense)
+        # Use trading-day rolling instead
+
+    elif market_type == MarketType.FOREX:
+        # Handle weekend gaps
+        features = features[features.index.dayofweek < 5]
+
+        # Volume is unreliable - remove volume features
+        vol_cols = [c for c in features.columns if 'volume' in c.lower()]
+        features = features.drop(columns=vol_cols)
+
+    elif market_type == MarketType.COMMODITIES:
+        # Add seasonal features
+        features['month'] = features.index.month
+        features['is_roll_period'] = ...  # Contract roll periods
+
+    return features
+```
+
+---
+
 # 📋 QUICK REFERENCE
 
 ## Commands
 
 ```bash
-# Phase 1
-git commit experiments/pre_registration.json -m "PRE-REG"
+# Phase 1: Pre-Registration
+git add experiments/pre_registration.json
+git commit -m "PRE-REGISTRATION: SI hypothesis"
+git push origin main
 
-# Phase 2
+# Phase 2: Data Validation (CRITICAL - run first!)
+python experiments/validate_data.py
+
+# Phase 3: Backtest
 python experiments/run_backtest.py
 
-# Phase 4-6
+# Phase 4-6: Analysis Pipelines
 python experiments/run_discovery.py
 python experiments/run_prediction.py
 python experiments/run_dynamics.py
 
-# Phase 7
+# Phase 7: Validation & Audits
 python experiments/run_validation.py
 python experiments/run_audits.py
 
-# Phase 8
+# Phase 8: Report
 python experiments/generate_report.py
+
+# Phase 9: Cross-Market
+python experiments/run_cross_market.py
 ```
 
 ## Key Files
@@ -1785,11 +2420,21 @@ python experiments/generate_report.py
 | File | Purpose |
 |------|---------|
 | `experiments/pre_registration.json` | Commit first! |
-| `src/data/loader.py` | Load data |
+| `src/data/loader.py` | Multi-market data loader |
+| `src/data/validation.py` | Data validation |
 | `src/analysis/features.py` | 46 features |
 | `src/competition/niche_population.py` | SI computation |
 | `src/analysis/correlations.py` | Statistical tests |
 | `results/si_correlations/*.json` | All results |
+
+## Market Data Locations
+
+| Market | Directory | Example |
+|--------|-----------|---------|
+| Crypto | `data/crypto/` | `BTCUSDT_1h.csv` |
+| Forex | `data/forex/` | `EURUSD_1h.csv` |
+| Stocks | `data/stocks/` | `SPY_1h.csv` |
+| Commodities | `data/commodities/` | `GOLD_1h.csv` |
 
 ---
 
