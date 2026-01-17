@@ -1,0 +1,729 @@
+{
+  "timestamp": "2026-01-17T17:49:06.638108",
+  "parameters": {
+    "si_window": 7,
+    "vol_window": 20,
+    "target_vol": 0.15,
+    "max_leverage": 2.0,
+    "base_direction": "long",
+    "random_seed": 42
+  },
+  "n_assets": 11,
+  "summary": {
+    "si_beats_constant": 5,
+    "si_beats_invol": 3,
+    "hybrid_best": 4,
+    "method_distribution": {
+      "constant": 1,
+      "inverse_vol": 4,
+      "si_only": 2,
+      "hybrid": 4
+    }
+  },
+  "results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "results": {
+        "constant": {
+          "sharpe": 1.0066200908443195,
+          "annual_return": 0.9296706631051428,
+          "annual_vol": 0.9235566342862936,
+          "max_drawdown": -0.9626992725584275,
+          "calmar": 0.9656916646820463,
+          "avg_position_size": 1.0,
+          "total_return": 37.14302313298823
+        },
+        "inverse_vol": {
+          "sharpe": 1.008349269735311,
+          "annual_return": 0.22357014352211113,
+          "annual_vol": 0.221718952184889,
+          "max_drawdown": -0.391857932166201,
+          "calmar": 0.5705387722693515,
+          "avg_position_size": 0.21730053791891266,
+          "total_return": 3.2223471835908972
+        },
+        "si_only": {
+          "sharpe": 1.0060571255142219,
+          "annual_return": 0.8498732401619868,
+          "annual_vol": 0.8447564443496134,
+          "max_drawdown": -0.9065927608518473,
+          "calmar": 0.9374366053435437,
+          "avg_position_size": 0.7356920859211287,
+          "total_return": 34.70069399988877
+        },
+        "hybrid": {
+          "sharpe": 1.0257209072283406,
+          "annual_return": 0.18936508363758722,
+          "annual_vol": 0.1846165777680027,
+          "max_drawdown": -0.266038023693975,
+          "calmar": 0.7117970619696639,
+          "avg_position_size": 0.1431210544402008,
+          "total_return": 2.480828937533232
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.0017291788909914452,
+          "dd_improvement": -0.5708413403922264,
+          "calmar_improvement": -0.3951528924126948
+        },
+        "si_only": {
+          "sharpe_improvement": -0.0005629653300975868,
+          "dd_improvement": -0.05610651170658021,
+          "calmar_improvement": -0.028255059338502586
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.01910081638402117,
+          "dd_improvement": -0.6966612488644525,
+          "calmar_improvement": -0.2538946027123824
+        }
+      },
+      "best_method": "hybrid",
+      "si_beats_constant": false,
+      "si_beats_invol": false,
+      "hybrid_best": true,
+      "dd_reduction_pct": -5.828041352672263
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "results": {
+        "constant": {
+          "sharpe": 0.5149100036963544,
+          "annual_return": 0.24715634061322675,
+          "annual_vol": 0.47999910438519344,
+          "max_drawdown": -0.7662925431645935,
+          "calmar": 0.32253522863805234,
+          "avg_position_size": 1.0,
+          "total_return": 1.602596633968734
+        },
+        "inverse_vol": {
+          "sharpe": 0.521252773813241,
+          "annual_return": 0.09912455006188566,
+          "annual_vol": 0.19016599055528646,
+          "max_drawdown": -0.35860593036120225,
+          "calmar": 0.2764163714806485,
+          "avg_position_size": 0.40437339909434583,
+          "total_return": 0.7977710003522029
+        },
+        "si_only": {
+          "sharpe": 0.5179846198147929,
+          "annual_return": 0.22433542295055164,
+          "annual_vol": 0.4330928262517978,
+          "max_drawdown": -0.6983870806215962,
+          "calmar": 0.32121931973724793,
+          "avg_position_size": 0.7669027531898298,
+          "total_return": 1.578748781235766
+        },
+        "hybrid": {
+          "sharpe": 0.5517304007033014,
+          "annual_return": 0.07966830174035563,
+          "annual_vol": 0.1443971578125855,
+          "max_drawdown": -0.2599782380778596,
+          "calmar": 0.30644219427510766,
+          "avg_position_size": 0.2706880910377277,
+          "total_return": 0.6505210952361762
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.006342770116886554,
+          "dd_improvement": -0.40768661280339125,
+          "calmar_improvement": -0.046118857157403825
+        },
+        "si_only": {
+          "sharpe_improvement": 0.0030746161184385112,
+          "dd_improvement": -0.06790546254299734,
+          "calmar_improvement": -0.0013159089008044078
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.03682039700694695,
+          "dd_improvement": -0.5063143050867339,
+          "calmar_improvement": -0.01609303436294468
+        }
+      },
+      "best_method": "hybrid",
+      "si_beats_constant": true,
+      "si_beats_invol": false,
+      "hybrid_best": true,
+      "dd_reduction_pct": -8.86155857168661
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "results": {
+        "constant": {
+          "sharpe": 0.5304260279785776,
+          "annual_return": 0.342195583475586,
+          "annual_vol": 0.6451334689959941,
+          "max_drawdown": -0.7930253453633334,
+          "calmar": 0.43150649027340393,
+          "avg_position_size": 1.0,
+          "total_return": 1.6375223489212885
+        },
+        "inverse_vol": {
+          "sharpe": 0.6192862412012379,
+          "annual_return": 0.13460996775522316,
+          "annual_vol": 0.2173630847895448,
+          "max_drawdown": -0.3062350284088329,
+          "calmar": 0.4395642407553549,
+          "avg_position_size": 0.30741635063047645,
+          "total_return": 1.2316047456131405
+        },
+        "si_only": {
+          "sharpe": 0.6049160549435473,
+          "annual_return": 0.365002892246795,
+          "annual_vol": 0.6033942879576213,
+          "max_drawdown": -0.720883891541173,
+          "calmar": 0.5063268808329975,
+          "avg_position_size": 0.7628330058417432,
+          "total_return": 2.868962146211611
+        },
+        "hybrid": {
+          "sharpe": 0.6640151692896443,
+          "annual_return": 0.11844966526320681,
+          "annual_vol": 0.1783839748569643,
+          "max_drawdown": -0.2140039353256279,
+          "calmar": 0.5534929303191274,
+          "avg_position_size": 0.20629219264658702,
+          "total_return": 1.0990947089003864
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.08886021322266024,
+          "dd_improvement": -0.4867903169545005,
+          "calmar_improvement": 0.008057750481950954
+        },
+        "si_only": {
+          "sharpe_improvement": 0.07449002696496965,
+          "dd_improvement": -0.0721414538221603,
+          "calmar_improvement": 0.07482039055959355
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.1335891413110667,
+          "dd_improvement": -0.5790214100377055,
+          "calmar_improvement": 0.12198644004572345
+        }
+      },
+      "best_method": "hybrid",
+      "si_beats_constant": true,
+      "si_beats_invol": false,
+      "hybrid_best": true,
+      "dd_reduction_pct": -9.096992201315823
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "results": {
+        "constant": {
+          "sharpe": 0.24566135096460287,
+          "annual_return": 0.08866141265937336,
+          "annual_vol": 0.3609090819994249,
+          "max_drawdown": -0.5531931946539225,
+          "calmar": 0.16027205959183918,
+          "avg_position_size": 1.0,
+          "total_return": 0.12193278860492507
+        },
+        "inverse_vol": {
+          "sharpe": 0.3385328390630328,
+          "annual_return": 0.056128634243310646,
+          "annual_vol": 0.16579967367023982,
+          "max_drawdown": -0.2606586453230968,
+          "calmar": 0.21533386768636414,
+          "avg_position_size": 0.49630692940417176,
+          "total_return": 0.23519867000085992
+        },
+        "si_only": {
+          "sharpe": 0.34414889348934025,
+          "annual_return": 0.10879287244336378,
+          "annual_vol": 0.31612152327531323,
+          "max_drawdown": -0.4412248076789712,
+          "calmar": 0.24657016230719261,
+          "avg_position_size": 0.7489562698548707,
+          "total_return": 0.3334789981306532
+        },
+        "hybrid": {
+          "sharpe": 0.5253177808140543,
+          "annual_return": 0.05990277740675278,
+          "annual_vol": 0.11403150548973412,
+          "max_drawdown": -0.14543410876880958,
+          "calmar": 0.411889466053508,
+          "avg_position_size": 0.32900270382163405,
+          "total_return": 0.30512816940252363
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.0928714880984299,
+          "dd_improvement": -0.2925345493308257,
+          "calmar_improvement": 0.05506180809452496
+        },
+        "si_only": {
+          "sharpe_improvement": 0.09848754252473738,
+          "dd_improvement": -0.11196838697495126,
+          "calmar_improvement": 0.08629810271535343
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.2796564298494515,
+          "dd_improvement": -0.4077590858851129,
+          "calmar_improvement": 0.25161740646166886
+        }
+      },
+      "best_method": "hybrid",
+      "si_beats_constant": true,
+      "si_beats_invol": true,
+      "hybrid_best": true,
+      "dd_reduction_pct": -20.240376790064936
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "results": {
+        "constant": {
+          "sharpe": 1.230105984611142,
+          "annual_return": 0.1960237322223295,
+          "annual_vol": 0.15935515693332394,
+          "max_drawdown": -0.20430367714606879,
+          "calmar": 0.9594723646710506,
+          "avg_position_size": 1.0,
+          "total_return": 1.4943734179634482
+        },
+        "inverse_vol": {
+          "sharpe": 1.0862945333498235,
+          "annual_return": 0.17926493416845535,
+          "annual_vol": 0.16502424403780552,
+          "max_drawdown": -0.22078829620944562,
+          "calmar": 0.8119313262800846,
+          "avg_position_size": 1.0729220317436206,
+          "total_return": 1.283742169021604
+        },
+        "si_only": {
+          "sharpe": 0.919704356333508,
+          "annual_return": 0.13602245319340514,
+          "annual_vol": 0.1478980198981247,
+          "max_drawdown": -0.1871446856558231,
+          "calmar": 0.7268304345203978,
+          "avg_position_size": 0.7994582370294067,
+          "total_return": 0.8652842245006018
+        },
+        "hybrid": {
+          "sharpe": 0.9398552658320165,
+          "annual_return": 0.11321783971877505,
+          "annual_vol": 0.12046305833967723,
+          "max_drawdown": -0.16717810206499006,
+          "calmar": 0.6772288853641962,
+          "avg_position_size": 0.7434988636297332,
+          "total_return": 0.6961107589305502
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": -0.14381145126131845,
+          "dd_improvement": 0.016484619063376837,
+          "calmar_improvement": -0.147541038390966
+        },
+        "si_only": {
+          "sharpe_improvement": -0.31040162827763396,
+          "dd_improvement": -0.01715899149024569,
+          "calmar_improvement": -0.23264193015065282
+        },
+        "hybrid": {
+          "sharpe_improvement": -0.29025071877912545,
+          "dd_improvement": -0.03712557508107872,
+          "calmar_improvement": -0.28224347930685434
+        }
+      },
+      "best_method": "constant",
+      "si_beats_constant": false,
+      "si_beats_invol": false,
+      "hybrid_best": false,
+      "dd_reduction_pct": -8.398767819522755
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "results": {
+        "constant": {
+          "sharpe": 0.008488228149603311,
+          "annual_return": 0.0007104575553621216,
+          "annual_vol": 0.08369915874555328,
+          "max_drawdown": -0.2459611318115117,
+          "calmar": 0.0028884952273945837,
+          "avg_position_size": 1.0,
+          "total_return": -0.014291149919255397
+        },
+        "inverse_vol": {
+          "sharpe": -0.19366073345709117,
+          "annual_return": -0.02682991741883475,
+          "annual_vol": 0.13854082311827748,
+          "max_drawdown": -0.37689334669060726,
+          "calmar": -0.07118702851727308,
+          "avg_position_size": 1.8072058932712565,
+          "total_return": -0.17128859509626015
+        },
+        "si_only": {
+          "sharpe": 0.1632768066874348,
+          "annual_return": 0.012183965315855139,
+          "annual_vol": 0.07462153114728189,
+          "max_drawdown": -0.19696521794931077,
+          "calmar": 0.061858461319757974,
+          "avg_position_size": 0.7450668636378277,
+          "total_return": 0.049712371146687806
+        },
+        "hybrid": {
+          "sharpe": -0.10451607351384691,
+          "annual_return": -0.009888481871815994,
+          "annual_vol": 0.09461206816677732,
+          "max_drawdown": -0.2703311486820179,
+          "calmar": -0.03657914346913646,
+          "avg_position_size": 1.1818892606126798,
+          "total_return": -0.0713836824020947
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": -0.2021489616066945,
+          "dd_improvement": 0.13093221487909557,
+          "calmar_improvement": -0.07407552374466767
+        },
+        "si_only": {
+          "sharpe_improvement": 0.15478857853783148,
+          "dd_improvement": -0.048995913862200924,
+          "calmar_improvement": 0.05896996609236339
+        },
+        "hybrid": {
+          "sharpe_improvement": -0.11300430166345023,
+          "dd_improvement": 0.024370016870506217,
+          "calmar_improvement": -0.03946763869653104
+        }
+      },
+      "best_method": "si_only",
+      "si_beats_constant": true,
+      "si_beats_invol": true,
+      "hybrid_best": false,
+      "dd_reduction_pct": -19.920185559947797
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "results": {
+        "constant": {
+          "sharpe": 0.906722462657104,
+          "annual_return": 0.08660990691876591,
+          "annual_vol": 0.09551975437440911,
+          "max_drawdown": -0.14749357189349177,
+          "calmar": 0.5872114005165511,
+          "avg_position_size": 1.0,
+          "total_return": 0.5263117124807484
+        },
+        "inverse_vol": {
+          "sharpe": 1.0766245917047985,
+          "annual_return": 0.15744589487328065,
+          "annual_vol": 0.14624029219318724,
+          "max_drawdown": -0.18485732730316717,
+          "calmar": 0.8517157375918802,
+          "avg_position_size": 1.6339338497647273,
+          "total_return": 1.1303154643124111
+        },
+        "si_only": {
+          "sharpe": 0.7290031439800575,
+          "annual_return": 0.06393695882153762,
+          "annual_vol": 0.0877046407131636,
+          "max_drawdown": -0.12496497927124828,
+          "calmar": 0.5116390143414213,
+          "avg_position_size": 0.8231256703475527,
+          "total_return": 0.3630091144158347
+        },
+        "hybrid": {
+          "sharpe": 0.9632566096443486,
+          "annual_return": 0.10502263346771806,
+          "annual_vol": 0.1090287182212996,
+          "max_drawdown": -0.14312753132035239,
+          "calmar": 0.7337696144053042,
+          "avg_position_size": 1.1499223469020816,
+          "total_return": 0.6663231365263005
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.16990212904769453,
+          "dd_improvement": 0.0373637554096754,
+          "calmar_improvement": 0.26450433707532917
+        },
+        "si_only": {
+          "sharpe_improvement": -0.1777193186770465,
+          "dd_improvement": -0.022528592622243493,
+          "calmar_improvement": -0.07557238617512974
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.05653414698724457,
+          "dd_improvement": -0.004366040573139385,
+          "calmar_improvement": 0.14655821388875312
+        }
+      },
+      "best_method": "inverse_vol",
+      "si_beats_constant": false,
+      "si_beats_invol": false,
+      "hybrid_best": false,
+      "dd_reduction_pct": -15.274287776088213
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "results": {
+        "constant": {
+          "sharpe": -0.06336341489178504,
+          "annual_return": -0.004735291244088271,
+          "annual_vol": 0.0747322607560754,
+          "max_drawdown": -0.21657941522589386,
+          "calmar": -0.021863994965307894,
+          "avg_position_size": 1.0,
+          "total_return": -0.0380427969982976
+        },
+        "inverse_vol": {
+          "sharpe": -0.17710060011100467,
+          "annual_return": -0.023565367491689655,
+          "annual_vol": 0.13306204200843558,
+          "max_drawdown": -0.36119629579675405,
+          "calmar": -0.06524255028614673,
+          "avg_position_size": 1.8364312690053515,
+          "total_return": -0.15385580667704735
+        },
+        "si_only": {
+          "sharpe": -0.004186658883995481,
+          "annual_return": -0.0002705007745010823,
+          "annual_vol": 0.06461017770880191,
+          "max_drawdown": -0.17763562503056063,
+          "calmar": -0.0015227844890603733,
+          "avg_position_size": 0.7798307130626323,
+          "total_return": -0.012060391591703357
+        },
+        "hybrid": {
+          "sharpe": -0.13780394155574166,
+          "annual_return": -0.013010649884401626,
+          "annual_vol": 0.09441420715196902,
+          "max_drawdown": -0.26381002872149983,
+          "calmar": -0.049318253545761775,
+          "avg_position_size": 1.2511901415713946,
+          "total_return": -0.08607526866832294
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": -0.11373718521921963,
+          "dd_improvement": 0.1446168805708602,
+          "calmar_improvement": -0.043378555320838834
+        },
+        "si_only": {
+          "sharpe_improvement": 0.05917675600778956,
+          "dd_improvement": -0.03894379019533323,
+          "calmar_improvement": 0.02034121047624752
+        },
+        "hybrid": {
+          "sharpe_improvement": -0.07444052666395662,
+          "dd_improvement": 0.04723061349560598,
+          "calmar_improvement": -0.02745425858045388
+        }
+      },
+      "best_method": "si_only",
+      "si_beats_constant": true,
+      "si_beats_invol": true,
+      "hybrid_best": false,
+      "dd_reduction_pct": -17.981298063213707
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "results": {
+        "constant": {
+          "sharpe": 0.8743798019988487,
+          "annual_return": 0.14938854020610462,
+          "annual_vol": 0.17085085893406915,
+          "max_drawdown": -0.24496386686202476,
+          "calmar": 0.6098390841056053,
+          "avg_position_size": 1.0,
+          "total_return": 0.9568222075867427
+        },
+        "inverse_vol": {
+          "sharpe": 0.9147414786761994,
+          "annual_return": 0.14863902109800167,
+          "annual_vol": 0.1624929278522604,
+          "max_drawdown": -0.19845109069239453,
+          "calmar": 0.7489957378384826,
+          "avg_position_size": 1.1406066326623059,
+          "total_return": 0.9623423788499259
+        },
+        "si_only": {
+          "sharpe": 0.6421852940888199,
+          "annual_return": 0.10886895713554974,
+          "annual_vol": 0.16952888541308173,
+          "max_drawdown": -0.20860537481858576,
+          "calmar": 0.5218895113811326,
+          "avg_position_size": 0.7537717912477414,
+          "total_return": 0.603623783981164
+        },
+        "hybrid": {
+          "sharpe": 0.8534901389666515,
+          "annual_return": 0.09677647227485303,
+          "annual_vol": 0.11338909245281202,
+          "max_drawdown": -0.13843051390801542,
+          "calmar": 0.6990978328604577,
+          "avg_position_size": 0.7424348657047923,
+          "total_return": 0.5681862253595682
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.04036167667735069,
+          "dd_improvement": -0.04651277616963023,
+          "calmar_improvement": 0.13915665373287733
+        },
+        "si_only": {
+          "sharpe_improvement": -0.23219450791002882,
+          "dd_improvement": -0.036358492043438995,
+          "calmar_improvement": -0.08794957272447268
+        },
+        "hybrid": {
+          "sharpe_improvement": -0.020889663032197192,
+          "dd_improvement": -0.10653335295400934,
+          "calmar_improvement": 0.0892587487548524
+        }
+      },
+      "best_method": "inverse_vol",
+      "si_beats_constant": false,
+      "si_beats_invol": false,
+      "hybrid_best": false,
+      "dd_reduction_pct": -14.842389822298902
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "results": {
+        "constant": {
+          "sharpe": 0.6588131128509986,
+          "annual_return": 0.18280235744336468,
+          "annual_vol": 0.2774722510489988,
+          "max_drawdown": -0.33360516877507274,
+          "calmar": 0.5479602073150607,
+          "avg_position_size": 1.0,
+          "total_return": 1.0534984053776237
+        },
+        "inverse_vol": {
+          "sharpe": 0.7204335978171797,
+          "annual_return": 0.12290825384330939,
+          "annual_vol": 0.17060316761420544,
+          "max_drawdown": -0.19925782200588482,
+          "calmar": 0.6168302584361253,
+          "avg_position_size": 0.6722822007904139,
+          "total_return": 0.7154647759138284
+        },
+        "si_only": {
+          "sharpe": 0.5813355084872178,
+          "annual_return": 0.15354221499040782,
+          "annual_vol": 0.2641197944195144,
+          "max_drawdown": -0.33011122124953285,
+          "calmar": 0.4651226771668705,
+          "avg_position_size": 0.7511909596294588,
+          "total_return": 0.8190254694025951
+        },
+        "hybrid": {
+          "sharpe": 0.6960120722314594,
+          "annual_return": 0.08364770584534445,
+          "annual_vol": 0.12018140084433382,
+          "max_drawdown": -0.14706783499696274,
+          "calmar": 0.5687695466998066,
+          "avg_position_size": 0.44406619694582933,
+          "total_return": 0.46334134115503467
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.06162048496618111,
+          "dd_improvement": -0.13434734676918791,
+          "calmar_improvement": 0.06887005112106459
+        },
+        "si_only": {
+          "sharpe_improvement": -0.07747760436378082,
+          "dd_improvement": -0.0034939475255398866,
+          "calmar_improvement": -0.08283753014819017
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.037198959380460805,
+          "dd_improvement": -0.18653733377811,
+          "calmar_improvement": 0.02080933938474594
+        }
+      },
+      "best_method": "inverse_vol",
+      "si_beats_constant": false,
+      "si_beats_invol": false,
+      "hybrid_best": false,
+      "dd_reduction_pct": -1.0473301532973602
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "results": {
+        "constant": {
+          "sharpe": 0.7386876075137762,
+          "annual_return": 0.16706056157461746,
+          "annual_vol": 0.22615860869373236,
+          "max_drawdown": -0.3511871952873963,
+          "calmar": 0.4757023143679894,
+          "avg_position_size": 1.0,
+          "total_return": 1.0232976750329708
+        },
+        "inverse_vol": {
+          "sharpe": 0.9291352790261082,
+          "annual_return": 0.15166541400291214,
+          "annual_vol": 0.1632328654680762,
+          "max_drawdown": -0.22046212468186188,
+          "calmar": 0.6879431749184722,
+          "avg_position_size": 0.8481086858410593,
+          "total_return": 0.9910604545206585
+        },
+        "si_only": {
+          "sharpe": 0.5465003215700923,
+          "annual_return": 0.12504881045685418,
+          "annual_vol": 0.22881745082526145,
+          "max_drawdown": -0.29698825472933954,
+          "calmar": 0.42105641709911223,
+          "avg_position_size": 0.8224195619849259,
+          "total_return": 0.6398969443944293
+        },
+        "hybrid": {
+          "sharpe": 0.8305649837172981,
+          "annual_return": 0.10119033517222664,
+          "annual_vol": 0.12183313425920818,
+          "max_drawdown": -0.1534267707574064,
+          "calmar": 0.6595350646610794,
+          "avg_position_size": 0.5910692843072829,
+          "total_return": 0.5951253614058283
+        }
+      },
+      "improvements": {
+        "inverse_vol": {
+          "sharpe_improvement": 0.190447671512332,
+          "dd_improvement": -0.1307250706055344,
+          "calmar_improvement": 0.21224086055048286
+        },
+        "si_only": {
+          "sharpe_improvement": -0.19218728594368384,
+          "dd_improvement": -0.05419894055805674,
+          "calmar_improvement": -0.05464589726887714
+        },
+        "hybrid": {
+          "sharpe_improvement": 0.09187737620352199,
+          "dd_improvement": -0.19776042452998988,
+          "calmar_improvement": 0.18383275029308999
+        }
+      },
+      "best_method": "inverse_vol",
+      "si_beats_constant": false,
+      "si_beats_invol": false,
+      "hybrid_best": false,
+      "dd_reduction_pct": -15.43306284664015
+    }
+  ]
+}

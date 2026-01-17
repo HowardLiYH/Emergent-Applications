@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-01-17T17:38:15.961222",
+  "all_passed": true,
+  "audits": {
+    "A": {
+      "passed": true,
+      "issues": [],
+      "warnings": [
+        "\u26a0\ufe0f SOL: Only 0.8 years history before analysis"
+      ]
+    },
+    "B": {
+      "passed": true,
+      "issues": [],
+      "warnings": []
+    },
+    "C": {
+      "passed": true,
+      "issues": [],
+      "warnings": []
+    },
+    "D": {
+      "passed": true,
+      "issues": [],
+      "warnings": []
+    },
+    "E": {
+      "passed": true,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}

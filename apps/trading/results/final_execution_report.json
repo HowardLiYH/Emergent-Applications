@@ -1,0 +1,126 @@
+{
+  "title": "NEXT_STEPS_PLAN v4.1 Execution Summary",
+  "author": "Yuhao Li, University of Pennsylvania",
+  "date": "2026-01-17T17:52:07.865590",
+  "phases": {
+    "p0": {
+      "name": "Critical Audits",
+      "status": "PASSED",
+      "details": {
+        "A": {
+          "passed": true,
+          "issues": [],
+          "warnings": [
+            "\u26a0\ufe0f SOL: Only 0.8 years history before analysis"
+          ]
+        },
+        "B": {
+          "passed": true,
+          "issues": [],
+          "warnings": []
+        },
+        "C": {
+          "passed": true,
+          "issues": [],
+          "warnings": []
+        },
+        "D": {
+          "passed": true,
+          "issues": [],
+          "warnings": []
+        },
+        "E": {
+          "passed": true,
+          "issues": [],
+          "warnings": []
+        }
+      }
+    },
+    "p1": {
+      "name": "Backtest with Costs",
+      "status": "PASSED",
+      "summary": {
+        "profitable_1x": 10,
+        "profitable_2x": 9,
+        "tradeable_halflife": 6,
+        "stable_relationship": 4,
+        "good_ic": 5
+      }
+    },
+    "p1_5": {
+      "name": "Factor Regression",
+      "status": "PARTIAL",
+      "key_finding": "SI strategy returns are largely explained by known factors (avg R\u00b2 = 0.66)",
+      "summary": {
+        "significant_alpha": 1,
+        "low_r2": 0,
+        "avg_alpha_tstat": -0.06634917905282461,
+        "avg_r2": 0.6622699823787715
+      }
+    },
+    "p2": {
+      "name": "Regime-Conditional SI",
+      "status": "NEGATIVE",
+      "key_finding": "Regime-conditioning hurt performance in most cases",
+      "summary": {
+        "low_flip_rate": 3,
+        "tradeable_regimes": 0,
+        "sharpe_improved": 2,
+        "avg_flip_rate": 0.25
+      }
+    },
+    "p3": {
+      "name": "Walk-Forward Validation",
+      "status": "PASSED",
+      "key_finding": "60% average OOS profitable rate across 13 windows",
+      "summary": {
+        "oos_profitable_majority": 7,
+        "low_degradation": 5,
+        "ci_positive": 2,
+        "avg_oos_rate": 0.6013986013986014
+      }
+    },
+    "p4": {
+      "name": "SI Risk Overlay",
+      "status": "MIXED",
+      "key_finding": "SI sizing alone is not superior; Hybrid (SI \u00d7 InvVol) shows promise",
+      "summary": {
+        "si_beats_constant": 5,
+        "si_beats_invol": 3,
+        "hybrid_best": 4,
+        "method_distribution": {
+          "constant": 1,
+          "inverse_vol": 4,
+          "si_only": 2,
+          "hybrid": 4
+        }
+      }
+    },
+    "p5": {
+      "name": "Ensemble Methods",
+      "status": "PASSED",
+      "key_finding": "Ridge ensemble is best in 55% of cases; SI-only still competitive at 36%",
+      "summary": {
+        "ensemble_beats_si": 7,
+        "avg_si_sharpe": 0.5725935506759015,
+        "avg_ensemble_sharpe": 0.6677712439103809,
+        "method_distribution": {
+          "si_only": 4,
+          "equal_weight": 1,
+          "ridge": 6,
+          "dynamic": 0
+        }
+      }
+    }
+  },
+  "overall_verdict": "EXECUTION COMPLETE - MIXED RESULTS",
+  "key_findings": [
+    "P0: All critical audits passed",
+    "P1: 10/11 assets profitable at 1x costs",
+    "P1.5: SI largely explained by factors (R\u00b2=0.66)",
+    "P2: Regime-conditioning hurt performance",
+    "P3: 60% OOS profitable rate (walk-forward)",
+    "P4: SI sizing mixed; Hybrid approach better",
+    "P5: Ensemble beats SI-only in 7/11 cases"
+  ]
+}

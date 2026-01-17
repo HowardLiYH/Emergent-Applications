@@ -1,0 +1,229 @@
+{
+  "timestamp": "2026-01-17T17:47:49.875100",
+  "parameters": {
+    "si_window": 7,
+    "train_months": 18,
+    "test_months": 3,
+    "expanding": true,
+    "min_train_size": 200,
+    "random_seed": 42
+  },
+  "n_assets": 11,
+  "summary": {
+    "oos_profitable_majority": 7,
+    "low_degradation": 5,
+    "ci_positive": 2,
+    "avg_oos_rate": 0.6013986013986014
+  },
+  "results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "n_windows": 13,
+      "avg_is_sharpe": 1.068718616564393,
+      "avg_oos_sharpe": 0.5992117436109383,
+      "oos_sharpe_ci": {
+        "mean": 0.5582856308148204,
+        "ci_lower": -0.24276545513015402,
+        "ci_upper": 1.3815628664388862,
+        "prob_positive": 0.908
+      },
+      "profitable_rate": 0.5384615384615384,
+      "is_oos_degradation": 0.44451524761910044,
+      "parameter_stable": "True",
+      "oos_profitable_majority": false,
+      "degradation_acceptable": false,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.32928780262402896,
+      "avg_oos_sharpe": 0.8477285083288997,
+      "oos_sharpe_ci": {
+        "mean": 0.9550458104106244,
+        "ci_lower": 0.1118959513474887,
+        "ci_upper": 1.7789928413381604,
+        "prob_positive": 0.992
+      },
+      "profitable_rate": 0.6153846153846154,
+      "is_oos_degradation": -1.4985528562259667,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": true,
+      "ci_excludes_zero": true
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.4118215171166452,
+      "avg_oos_sharpe": 0.4124867352110998,
+      "oos_sharpe_ci": {
+        "mean": 0.4009400278140005,
+        "ci_lower": -0.5340583925421731,
+        "ci_upper": 1.302866244261799,
+        "prob_positive": 0.81
+      },
+      "profitable_rate": 0.6923076923076923,
+      "is_oos_degradation": 0.022129695918200687,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": true,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.637888493577411,
+      "avg_oos_sharpe": 0.4931529247613373,
+      "oos_sharpe_ci": {
+        "mean": 0.6488127399090367,
+        "ci_lower": -0.4202177705680596,
+        "ci_upper": 1.7911991297406855,
+        "prob_positive": 0.864
+      },
+      "profitable_rate": 0.6153846153846154,
+      "is_oos_degradation": 0.23883055548907595,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": true,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.33548411919179355,
+      "avg_oos_sharpe": 0.8716656266852165,
+      "oos_sharpe_ci": {
+        "mean": 1.0923426667839948,
+        "ci_lower": 0.11985096258024014,
+        "ci_upper": 2.205709354337326,
+        "prob_positive": 0.984
+      },
+      "profitable_rate": 0.6923076923076923,
+      "is_oos_degradation": -1.5230266118290556,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": true,
+      "ci_excludes_zero": true
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.8393132847927955,
+      "avg_oos_sharpe": 0.4679251465154668,
+      "oos_sharpe_ci": {
+        "mean": 0.5506126442523818,
+        "ci_lower": -0.5147748254271981,
+        "ci_upper": 1.690399570108044,
+        "prob_positive": 0.858
+      },
+      "profitable_rate": 0.6923076923076923,
+      "is_oos_degradation": 0.44905471880187875,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": false,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.7026481684433717,
+      "avg_oos_sharpe": -0.3561104160857323,
+      "oos_sharpe_ci": {
+        "mean": -0.36987484609081706,
+        "ci_lower": -1.3877257283451883,
+        "ci_upper": 0.6279054985935056,
+        "prob_positive": 0.252
+      },
+      "profitable_rate": 0.5384615384615384,
+      "is_oos_degradation": 1.4997001772467609,
+      "parameter_stable": "False",
+      "oos_profitable_majority": false,
+      "degradation_acceptable": false,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.6501892731123748,
+      "avg_oos_sharpe": 0.4478289464813219,
+      "oos_sharpe_ci": {
+        "mean": 0.2978641077870849,
+        "ci_lower": -0.683356653966455,
+        "ci_upper": 1.2716430474474982,
+        "prob_positive": 0.706
+      },
+      "profitable_rate": 0.6153846153846154,
+      "is_oos_degradation": 0.32166582415056266,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": true,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.7283620438550826,
+      "avg_oos_sharpe": 0.42184520029302514,
+      "oos_sharpe_ci": {
+        "mean": 0.6046307058330747,
+        "ci_lower": -0.38217438233962875,
+        "ci_upper": 1.3944871305547233,
+        "prob_positive": 0.906
+      },
+      "profitable_rate": 0.6153846153846154,
+      "is_oos_degradation": 0.4286743152579764,
+      "parameter_stable": "True",
+      "oos_profitable_majority": true,
+      "degradation_acceptable": false,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.5546201988262288,
+      "avg_oos_sharpe": 0.05620084972284623,
+      "oos_sharpe_ci": {
+        "mean": 0.16824596405872655,
+        "ci_lower": -1.1513186390354806,
+        "ci_upper": 1.1397934568880237,
+        "prob_positive": 0.642
+      },
+      "profitable_rate": 0.5384615384615384,
+      "is_oos_degradation": 0.900462559009259,
+      "parameter_stable": "True",
+      "oos_profitable_majority": false,
+      "degradation_acceptable": false,
+      "ci_excludes_zero": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "n_windows": 13,
+      "avg_is_sharpe": 0.8650523559272367,
+      "avg_oos_sharpe": 0.02506306723261555,
+      "oos_sharpe_ci": {
+        "mean": 0.5063221624592847,
+        "ci_lower": -0.5610991368198067,
+        "ci_upper": 1.304288328819003,
+        "prob_positive": 0.848
+      },
+      "profitable_rate": 0.46153846153846156,
+      "is_oos_degradation": 0.9713582083827912,
+      "parameter_stable": "True",
+      "oos_profitable_majority": false,
+      "degradation_acceptable": false,
+      "ci_excludes_zero": false
+    }
+  ]
+}

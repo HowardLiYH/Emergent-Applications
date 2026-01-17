@@ -1,0 +1,33 @@
+{
+  "correlation_thresholds": {
+    "noise": {
+      "range": "|r| < 0.10",
+      "economic_significance": "None"
+    },
+    "marginal": {
+      "range": "0.10 \u2264 |r| < 0.15",
+      "economic_significance": "Marginal"
+    },
+    "moderate": {
+      "range": "0.15 \u2264 |r| < 0.20",
+      "economic_significance": "Potentially tradeable"
+    },
+    "strong": {
+      "range": "|r| \u2265 0.20",
+      "economic_significance": "Strong edge"
+    }
+  },
+  "break_even_calculation": {
+    "formula": "break_even_corr = annual_cost / (volatility * sqrt(trades_per_year))",
+    "assumed_volatility": 0.2,
+    "trades_per_year": 50
+  },
+  "grinold_thresholds": {
+    "ic_minimum": 0.03,
+    "ir_minimum": 0.3
+  },
+  "break_even_crypto": 0.0424,
+  "break_even_forex": 0.0071,
+  "break_even_stocks": 0.0141,
+  "break_even_commodities": 0.0212
+}

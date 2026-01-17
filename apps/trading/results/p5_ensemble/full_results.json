@@ -1,0 +1,598 @@
+{
+  "timestamp": "2026-01-17T17:50:47.447123",
+  "parameters": {
+    "si_window": 7,
+    "momentum_window": 20,
+    "vol_window": 20,
+    "trend_window": 14,
+    "ridge_alpha": 1.0,
+    "train_ratio": 0.7,
+    "random_seed": 42
+  },
+  "n_assets": 11,
+  "summary": {
+    "ensemble_beats_si": 7,
+    "avg_si_sharpe": 0.5725935506759015,
+    "avg_ensemble_sharpe": 0.6677712439103809,
+    "method_distribution": {
+      "si_only": 4,
+      "equal_weight": 1,
+      "ridge": 6,
+      "dynamic": 0
+    }
+  },
+  "results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "results": {
+        "si_only": {
+          "sharpe": 0.9253221666261768,
+          "total_return": 21.18527527731135,
+          "max_drawdown": -0.961608410878198
+        },
+        "equal_weight": {
+          "sharpe": 0.5517870057036112,
+          "total_return": 0.8636440084909223,
+          "max_drawdown": -0.9511119028090589
+        },
+        "ridge": {
+          "sharpe": 1.0848191918830907,
+          "total_return": 62.82611390309984,
+          "max_drawdown": -0.8090836836599582
+        },
+        "dynamic": {
+          "sharpe": 0.7637033505170466,
+          "total_return": 7.274560932397044,
+          "max_drawdown": -0.912423758316537
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.37353516092256567,
+          "sharpe_pct": -39.93652393270581
+        },
+        "ridge": {
+          "sharpe_diff": 0.1594970252569139,
+          "sharpe_pct": 17.052629665801618
+        },
+        "dynamic": {
+          "sharpe_diff": -0.1616188161091302,
+          "sharpe_pct": -17.27948100408112
+        }
+      },
+      "ridge_weights": {
+        "si": 0.01626402480089443,
+        "momentum": 0.004025149794802439,
+        "mean_reversion": -0.00278371524469944,
+        "inv_vol": 0.01010375864330796,
+        "trend": 0.013495939414812284
+      },
+      "best_method": "ridge",
+      "si_only_sharpe": 0.9253221666261768,
+      "best_ensemble_sharpe": 1.0848191918830907,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 17.052629665801618
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "results": {
+        "si_only": {
+          "sharpe": 0.499616021644862,
+          "total_return": 1.465987009604043,
+          "max_drawdown": -0.766292543164593
+        },
+        "equal_weight": {
+          "sharpe": -0.11265815622036483,
+          "total_return": -0.6993622968024052,
+          "max_drawdown": -0.7722505934890779
+        },
+        "ridge": {
+          "sharpe": 0.5479803271511307,
+          "total_return": 1.9043015053012522,
+          "max_drawdown": -0.8207059491529056
+        },
+        "dynamic": {
+          "sharpe": -0.046750867228271785,
+          "total_return": -0.5954955841853782,
+          "max_drawdown": -0.7028958333609475
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.6122741778652269,
+          "sharpe_pct": -120.14421679464087
+        },
+        "ridge": {
+          "sharpe_diff": 0.048364305506268634,
+          "sharpe_pct": 9.490342424903677
+        },
+        "dynamic": {
+          "sharpe_diff": -0.5463668888731338,
+          "sharpe_pct": -107.21148191331444
+        }
+      },
+      "ridge_weights": {
+        "si": 0.007024522743452759,
+        "momentum": -0.0007121129629489458,
+        "mean_reversion": -0.0010932239581039162,
+        "inv_vol": -0.0021781718494504284,
+        "trend": -0.00294878700126995
+      },
+      "best_method": "ridge",
+      "si_only_sharpe": 0.499616021644862,
+      "best_ensemble_sharpe": 0.5479803271511307,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 9.490342424903677
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "results": {
+        "si_only": {
+          "sharpe": 0.4813094616376073,
+          "total_return": 1.1328678468866058,
+          "max_drawdown": -0.7930253453633337
+        },
+        "equal_weight": {
+          "sharpe": 0.10624891519975403,
+          "total_return": -0.6187308103965736,
+          "max_drawdown": -0.8657971822371213
+        },
+        "ridge": {
+          "sharpe": 0.6234292455844965,
+          "total_return": 3.1365795939910432,
+          "max_drawdown": -0.7616303048819769
+        },
+        "dynamic": {
+          "sharpe": 0.18629318255516594,
+          "total_return": -0.42235310321032593,
+          "max_drawdown": -0.8023384366659692
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.37506054643785325,
+          "sharpe_pct": -76.33896265456008
+        },
+        "ridge": {
+          "sharpe_diff": 0.14211978394688923,
+          "sharpe_pct": 28.926734582554737
+        },
+        "dynamic": {
+          "sharpe_diff": -0.2950162790824413,
+          "sharpe_pct": -60.04693622205205
+        }
+      },
+      "ridge_weights": {
+        "si": 0.01751457017204983,
+        "momentum": -0.00645817773618456,
+        "mean_reversion": -0.006502935379761514,
+        "inv_vol": 0.004249599948346671,
+        "trend": 0.002563593229861786
+      },
+      "best_method": "ridge",
+      "si_only_sharpe": 0.4813094616376073,
+      "best_ensemble_sharpe": 0.6234292455844965,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 28.926734582554737
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "results": {
+        "si_only": {
+          "sharpe": 0.16622127745622955,
+          "total_return": -0.026629166431434204,
+          "max_drawdown": -0.5525171551901242
+        },
+        "equal_weight": {
+          "sharpe": 0.6122239251383214,
+          "total_return": 1.1675877252092017,
+          "max_drawdown": -0.36316673651294307
+        },
+        "ridge": {
+          "sharpe": 0.4179820218726698,
+          "total_return": 0.5295626859397367,
+          "max_drawdown": -0.4787096192332124
+        },
+        "dynamic": {
+          "sharpe": 0.2554254827806032,
+          "total_return": 0.15100214716053517,
+          "max_drawdown": -0.439975100871454
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": 0.4460026476820918,
+          "sharpe_pct": 253.09239276901246
+        },
+        "ridge": {
+          "sharpe_diff": 0.25176074441644025,
+          "sharpe_pct": 142.8662577247367
+        },
+        "dynamic": {
+          "sharpe_diff": 0.08920420532437362,
+          "sharpe_pct": 50.62056444717946
+        }
+      },
+      "ridge_weights": {
+        "si": 0.011559504527174263,
+        "momentum": 0.003292234151632446,
+        "mean_reversion": 0.0044811563940465576,
+        "inv_vol": 0.0005113482319391694,
+        "trend": -0.00012262981840366092
+      },
+      "best_method": "equal_weight",
+      "si_only_sharpe": 0.16622127745622955,
+      "best_ensemble_sharpe": 0.6122239251383214,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 253.09239276901246
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "results": {
+        "si_only": {
+          "sharpe": 1.2904483553826271,
+          "total_return": 1.5982191259086957,
+          "max_drawdown": -0.2017570703655912
+        },
+        "equal_weight": {
+          "sharpe": -0.731013089310679,
+          "total_return": -0.47318327645244096,
+          "max_drawdown": -0.6007489077936092
+        },
+        "ridge": {
+          "sharpe": 1.1645348827477695,
+          "total_return": 1.35322478902652,
+          "max_drawdown": -0.1664890372309621
+        },
+        "dynamic": {
+          "sharpe": -0.43608014397871386,
+          "total_return": -0.32877985325886827,
+          "max_drawdown": -0.3864801321220801
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -2.021461444693306,
+          "sharpe_pct": -155.4434235182325
+        },
+        "ridge": {
+          "sharpe_diff": -0.12591347263485764,
+          "sharpe_pct": -9.682312420458288
+        },
+        "dynamic": {
+          "sharpe_diff": -1.726528499361341,
+          "sharpe_pct": -132.76409572245947
+        }
+      },
+      "ridge_weights": {
+        "si": -0.00021025808797451594,
+        "momentum": -0.0015379969806543362,
+        "mean_reversion": -0.0010316558859580444,
+        "inv_vol": -0.0011243355847247196,
+        "trend": -0.0008455546624528679
+      },
+      "best_method": "si_only",
+      "si_only_sharpe": 1.2904483553826271,
+      "best_ensemble_sharpe": 1.1645348827477695,
+      "ensemble_beats_si": false,
+      "ensemble_improvement_pct": -9.682312420458288
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "results": {
+        "si_only": {
+          "sharpe": -0.041866100055680755,
+          "total_return": -0.0353270150805195,
+          "max_drawdown": -0.24596113181151136
+        },
+        "equal_weight": {
+          "sharpe": -0.7039439449629125,
+          "total_return": -0.27430982306313345,
+          "max_drawdown": -0.3028470915904735
+        },
+        "ridge": {
+          "sharpe": 0.04179057277312358,
+          "total_return": 2.8792744424688266e-05,
+          "max_drawdown": -0.11446249730800029
+        },
+        "dynamic": {
+          "sharpe": -0.23525218631109307,
+          "total_return": -0.10992075889491326,
+          "max_drawdown": -0.24373864000542345
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.6620778449072318,
+          "sharpe_pct": -2077.687083610357
+        },
+        "ridge": {
+          "sharpe_diff": 0.08365667282880433,
+          "sharpe_pct": 262.5256077230289
+        },
+        "dynamic": {
+          "sharpe_diff": -0.19338608625541232,
+          "sharpe_pct": -606.8708938888097
+        }
+      },
+      "ridge_weights": {
+        "si": 0.002798902637821853,
+        "momentum": 0.0001739395815036759,
+        "mean_reversion": 0.0002756242703257429,
+        "inv_vol": -0.00045203608273721395,
+        "trend": -0.0005581132452288383
+      },
+      "best_method": "ridge",
+      "si_only_sharpe": -0.041866100055680755,
+      "best_ensemble_sharpe": 0.04179057277312358,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 262.5256077230289
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "results": {
+        "si_only": {
+          "sharpe": 0.8858490713157742,
+          "total_return": 0.5097518992076926,
+          "max_drawdown": -0.14749357189349144
+        },
+        "equal_weight": {
+          "sharpe": -0.037014290914026596,
+          "total_return": -0.04086011896375141,
+          "max_drawdown": -0.24130957910859674
+        },
+        "ridge": {
+          "sharpe": 0.736043554090231,
+          "total_return": 0.4028634433292344,
+          "max_drawdown": -0.1824672501871235
+        },
+        "dynamic": {
+          "sharpe": 0.17250189762665538,
+          "total_return": 0.06307776544309074,
+          "max_drawdown": -0.18319725106068585
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.9228633622298008,
+          "sharpe_pct": -103.01549577702296
+        },
+        "ridge": {
+          "sharpe_diff": -0.14980551722554314,
+          "sharpe_pct": -16.72218256648042
+        },
+        "dynamic": {
+          "sharpe_diff": -0.7133471736891188,
+          "sharpe_pct": -79.62805304261727
+        }
+      },
+      "ridge_weights": {
+        "si": 0.0007275145267706262,
+        "momentum": -0.0006188202341589899,
+        "mean_reversion": -0.0008487725448011196,
+        "inv_vol": -0.0005425209574830991,
+        "trend": -0.0007479133273766256
+      },
+      "best_method": "si_only",
+      "si_only_sharpe": 0.8858490713157742,
+      "best_ensemble_sharpe": 0.736043554090231,
+      "ensemble_beats_si": false,
+      "ensemble_improvement_pct": -16.72218256648042
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "results": {
+        "si_only": {
+          "sharpe": -0.07372453285345068,
+          "total_return": -0.04166182938978347,
+          "max_drawdown": -0.21657941522589463
+        },
+        "equal_weight": {
+          "sharpe": 0.05005312991421843,
+          "total_return": 0.004952759747641311,
+          "max_drawdown": -0.15871452407148867
+        },
+        "ridge": {
+          "sharpe": 0.37032680031619,
+          "total_return": 0.1364036702475091,
+          "max_drawdown": -0.10120696478708824
+        },
+        "dynamic": {
+          "sharpe": -0.023812346379614317,
+          "total_return": -0.022571805272749934,
+          "max_drawdown": -0.13812755991333114
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": 0.1237776627676691,
+          "sharpe_pct": 194.2386349890151
+        },
+        "ridge": {
+          "sharpe_diff": 0.4440513331696406,
+          "sharpe_pct": 696.8294835379013
+        },
+        "dynamic": {
+          "sharpe_diff": 0.04991218647383636,
+          "sharpe_pct": 78.3249154428813
+        }
+      },
+      "ridge_weights": {
+        "si": 0.00048416697472852035,
+        "momentum": -2.5368623646693964e-05,
+        "mean_reversion": 0.0001284786145186423,
+        "inv_vol": -0.0008008579416690198,
+        "trend": -0.0006180936769755168
+      },
+      "best_method": "ridge",
+      "si_only_sharpe": -0.07372453285345068,
+      "best_ensemble_sharpe": 0.37032680031619,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 696.8294835379013
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "results": {
+        "si_only": {
+          "sharpe": 0.8391936145779189,
+          "total_return": 0.8918204741985871,
+          "max_drawdown": -0.24496386686202487
+        },
+        "equal_weight": {
+          "sharpe": 0.7385504646673657,
+          "total_return": 0.7381620959793316,
+          "max_drawdown": -0.18808365771687596
+        },
+        "ridge": {
+          "sharpe": 0.6463919703639344,
+          "total_return": 0.6068385515672745,
+          "max_drawdown": -0.33385514935057425
+        },
+        "dynamic": {
+          "sharpe": -0.3937894059109653,
+          "total_return": -0.3276022415131722,
+          "max_drawdown": -0.3530013297318819
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.10064314991055312,
+          "sharpe_pct": -11.851614070435108
+        },
+        "ridge": {
+          "sharpe_diff": -0.1928016442139845,
+          "sharpe_pct": -22.704085488185655
+        },
+        "dynamic": {
+          "sharpe_diff": -1.232983020488884,
+          "sharpe_pct": -145.19457039272757
+        }
+      },
+      "ridge_weights": {
+        "si": -0.002093738340509128,
+        "momentum": 0.0008550868861380886,
+        "mean_reversion": 0.0009337979198247373,
+        "inv_vol": 0.0005852772312378923,
+        "trend": 0.0008571121209017077
+      },
+      "best_method": "si_only",
+      "si_only_sharpe": 0.8391936145779189,
+      "best_ensemble_sharpe": 0.7385504646673657,
+      "ensemble_beats_si": false,
+      "ensemble_improvement_pct": -11.851614070435108
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "results": {
+        "si_only": {
+          "sharpe": 0.6412916199541644,
+          "total_return": 0.9941033537600628,
+          "max_drawdown": -0.33360516877507285
+        },
+        "equal_weight": {
+          "sharpe": 0.4672843673096636,
+          "total_return": 0.5735222704359519,
+          "max_drawdown": -0.34564268081271177
+        },
+        "ridge": {
+          "sharpe": 0.5383683032601937,
+          "total_return": 0.7289226151775448,
+          "max_drawdown": -0.3247216697609233
+        },
+        "dynamic": {
+          "sharpe": -0.012897517681175603,
+          "total_return": -0.17625846943478207,
+          "max_drawdown": -0.5519816393074795
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.1740072526445008,
+          "sharpe_pct": -26.71725649667453
+        },
+        "ridge": {
+          "sharpe_diff": -0.1029233166939707,
+          "sharpe_pct": -15.802954243632689
+        },
+        "dynamic": {
+          "sharpe_diff": -0.65418913763534,
+          "sharpe_pct": -100.44488791079172
+        }
+      },
+      "ridge_weights": {
+        "si": -0.00023083401379707036,
+        "momentum": 0.00035771277543220406,
+        "mean_reversion": -4.319458417625446e-06,
+        "inv_vol": 0.0017433206300933467,
+        "trend": 0.0011054241881212966
+      },
+      "best_method": "si_only",
+      "si_only_sharpe": 0.6412916199541644,
+      "best_ensemble_sharpe": 0.5383683032601937,
+      "ensemble_beats_si": false,
+      "ensemble_improvement_pct": -15.802954243632689
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "results": {
+        "si_only": {
+          "sharpe": 0.6848681017486862,
+          "total_return": 0.898283193361477,
+          "max_drawdown": -0.35118719528739617
+        },
+        "equal_weight": {
+          "sharpe": 0.3587878752157447,
+          "total_return": 0.3185077230724578,
+          "max_drawdown": -0.35478303380440634
+        },
+        "ridge": {
+          "sharpe": 0.8874164154022767,
+          "total_return": 1.3770373617442226,
+          "max_drawdown": -0.2578090869830836
+        },
+        "dynamic": {
+          "sharpe": -0.7073138471782111,
+          "total_return": -0.5894452313433225,
+          "max_drawdown": -0.6020072593864909
+        }
+      },
+      "improvements": {
+        "equal_weight": {
+          "sharpe_diff": -0.3260802265329415,
+          "sharpe_pct": -46.92692407556727
+        },
+        "ridge": {
+          "sharpe_diff": 0.2025483136535905,
+          "sharpe_pct": 29.149174230888264
+        },
+        "dynamic": {
+          "sharpe_diff": -1.3921819489268974,
+          "sharpe_pct": -200.35197261514378
+        }
+      },
+      "ridge_weights": {
+        "si": -0.00047335386110114084,
+        "momentum": -0.00019962979244818218,
+        "mean_reversion": -7.050503050976553e-05,
+        "inv_vol": 0.0013331164445048304,
+        "trend": 0.0005822125772834501
+      },
+      "best_method": "ridge",
+      "si_only_sharpe": 0.6848681017486862,
+      "best_ensemble_sharpe": 0.8874164154022767,
+      "ensemble_beats_si": true,
+      "ensemble_improvement_pct": 29.149174230888264
+    }
+  ]
+}

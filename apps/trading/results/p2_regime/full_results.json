@@ -1,0 +1,716 @@
+{
+  "timestamp": "2026-01-17T17:44:50.138253",
+  "n_assets": 11,
+  "summary": {
+    "low_flip_rate": 3,
+    "tradeable_regimes": 0,
+    "sharpe_improved": 2,
+    "avg_flip_rate": 0.25
+  },
+  "results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "regime_distribution": {
+        "mean_reverting": 0.33461117196056955,
+        "trending": 0.29956188389923327,
+        "volatile": 0.19879518072289157,
+        "neutral": 0.16703176341730558
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.5115384615384615,
+        "min_duration_days": 1,
+        "max_duration_days": 40,
+        "n_regime_changes": 519,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7381342062193126,
+          "neutral": 0.32786885245901637,
+          "trending": 0.0641025641025641,
+          "unknown": 0.0,
+          "volatile": 0.06887052341597796
+        },
+        "neutral": {
+          "mean_reverting": 0.1783960720130933,
+          "neutral": 0.3737704918032787,
+          "trending": 0.14102564102564102,
+          "unknown": 1.0,
+          "volatile": 0.011019283746556474
+        },
+        "trending": {
+          "mean_reverting": 0.057283142389525366,
+          "neutral": 0.28524590163934427,
+          "trending": 0.7619047619047619,
+          "unknown": 0.0,
+          "volatile": 0.024793388429752067
+        },
+        "volatile": {
+          "mean_reverting": 0.02618657937806874,
+          "neutral": 0.013114754098360656,
+          "trending": 0.03296703296703297,
+          "unknown": 0.0,
+          "volatile": 0.8953168044077136
+        }
+      },
+      "unconditional_sharpe": 0.21594466827710818,
+      "conditional_sharpe": 0.0580273527320153,
+      "sharpe_improvement": -0.15791731554509286,
+      "sharpe_improvement_pct": -69.8920300927023,
+      "regime_correlations": {
+        "overall": 0.04626244757404899,
+        "neutral": 0.048577852779778656,
+        "volatile": 0.035570155610336426,
+        "trending": 0.007402077485770019,
+        "mean_reverting": 0.041749801796171236,
+        "sign_flips": 0,
+        "flip_rate": 0.0
+      },
+      "sign_flip_rate": 0.0,
+      "flip_rate_acceptable": true,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "regime_distribution": {
+        "trending": 0.3154435925520263,
+        "mean_reverting": 0.3148959474260679,
+        "volatile": 0.19879518072289157,
+        "neutral": 0.17086527929901424
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.4323308270676693,
+        "min_duration_days": 1,
+        "max_duration_days": 74,
+        "n_regime_changes": 531,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7147826086956521,
+          "neutral": 0.3525641025641026,
+          "trending": 0.06434782608695652,
+          "unknown": 0.0,
+          "volatile": 0.046831955922865015
+        },
+        "neutral": {
+          "mean_reverting": 0.19304347826086957,
+          "neutral": 0.36538461538461536,
+          "trending": 0.1408695652173913,
+          "unknown": 1.0,
+          "volatile": 0.013774104683195593
+        },
+        "trending": {
+          "mean_reverting": 0.0782608695652174,
+          "neutral": 0.2467948717948718,
+          "trending": 0.7669565217391304,
+          "unknown": 0.0,
+          "volatile": 0.03581267217630854
+        },
+        "volatile": {
+          "mean_reverting": 0.01391304347826087,
+          "neutral": 0.035256410256410256,
+          "trending": 0.02782608695652174,
+          "unknown": 0.0,
+          "volatile": 0.9035812672176309
+        }
+      },
+      "unconditional_sharpe": 0.12847188871827145,
+      "conditional_sharpe": -0.6129206942463234,
+      "sharpe_improvement": -0.7413925829645949,
+      "sharpe_improvement_pct": -535.4101759043658,
+      "regime_correlations": {
+        "overall": 0.03183342829891776,
+        "neutral": 0.03989705459405505,
+        "volatile": -0.023704823554145504,
+        "trending": 0.0525597131747715,
+        "mean_reverting": 0.0050857824572034535,
+        "sign_flips": 1,
+        "flip_rate": 0.25
+      },
+      "sign_flip_rate": 0.25,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "regime_distribution": {
+        "mean_reverting": 0.32201533406352684,
+        "trending": 0.3176341730558598,
+        "volatile": 0.19879518072289157,
+        "neutral": 0.1615553121577218
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.413084112149533,
+        "min_duration_days": 1,
+        "max_duration_days": 42,
+        "n_regime_changes": 534,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7210884353741497,
+          "neutral": 0.3435374149659864,
+          "trending": 0.08275862068965517,
+          "unknown": 0.0,
+          "volatile": 0.04132231404958678
+        },
+        "neutral": {
+          "mean_reverting": 0.16666666666666666,
+          "neutral": 0.36394557823129253,
+          "trending": 0.14310344827586208,
+          "unknown": 1.0,
+          "volatile": 0.01652892561983471
+        },
+        "trending": {
+          "mean_reverting": 0.0935374149659864,
+          "neutral": 0.2687074829931973,
+          "trending": 0.7448275862068966,
+          "unknown": 0.0,
+          "volatile": 0.03856749311294766
+        },
+        "volatile": {
+          "mean_reverting": 0.01870748299319728,
+          "neutral": 0.023809523809523808,
+          "trending": 0.029310344827586206,
+          "unknown": 0.0,
+          "volatile": 0.9035812672176309
+        }
+      },
+      "unconditional_sharpe": 0.29878195759964277,
+      "conditional_sharpe": -0.3928123121525859,
+      "sharpe_improvement": -0.6915942697522286,
+      "sharpe_improvement_pct": -223.97496120836456,
+      "regime_correlations": {
+        "overall": 0.04955073001087784,
+        "neutral": 0.1024483646434866,
+        "volatile": 0.008240629285330443,
+        "trending": 0.07622444652394003,
+        "mean_reverting": 0.014283170223110748,
+        "sign_flips": 0,
+        "flip_rate": 0.0
+      },
+      "sign_flip_rate": 0.0,
+      "flip_rate_acceptable": true,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "regime_distribution": {
+        "trending": 0.34181240063593005,
+        "mean_reverting": 0.29968203497615264,
+        "volatile": 0.19793322734499205,
+        "neutral": 0.16057233704292528
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.4,
+        "min_duration_days": 1,
+        "max_duration_days": 63,
+        "n_regime_changes": 369,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.6737400530503979,
+          "neutral": 0.3582089552238806,
+          "trending": 0.09302325581395349,
+          "unknown": 0.0,
+          "volatile": 0.04417670682730924
+        },
+        "neutral": {
+          "mean_reverting": 0.20954907161803712,
+          "neutral": 0.3582089552238806,
+          "trending": 0.1,
+          "unknown": 1.0,
+          "volatile": 0.028112449799196786
+        },
+        "trending": {
+          "mean_reverting": 0.09283819628647215,
+          "neutral": 0.24875621890547264,
+          "trending": 0.786046511627907,
+          "unknown": 0.0,
+          "volatile": 0.028112449799196786
+        },
+        "volatile": {
+          "mean_reverting": 0.023872679045092837,
+          "neutral": 0.03482587064676617,
+          "trending": 0.020930232558139535,
+          "unknown": 0.0,
+          "volatile": 0.8995983935742972
+        }
+      },
+      "unconditional_sharpe": 0.31906712646656044,
+      "conditional_sharpe": -0.4022605944272683,
+      "sharpe_improvement": -0.7213277208938287,
+      "sharpe_improvement_pct": -219.2038228306982,
+      "regime_correlations": {
+        "overall": 0.07002831459695469,
+        "neutral": 0.09777916933233737,
+        "trending": 0.036142751685257185,
+        "mean_reverting": 0.0846739263833908,
+        "volatile": 0.08149708511465216,
+        "sign_flips": 0,
+        "flip_rate": 0.0
+      },
+      "sign_flip_rate": 0.0,
+      "flip_rate_acceptable": true,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "regime_distribution": {
+        "trending": 0.3354531001589825,
+        "mean_reverting": 0.29968203497615264,
+        "volatile": 0.19793322734499205,
+        "neutral": 0.1669316375198728
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.6253602305475505,
+        "min_duration_days": 1,
+        "max_duration_days": 48,
+        "n_regime_changes": 346,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7241379310344828,
+          "neutral": 0.3238095238095238,
+          "trending": 0.054502369668246446,
+          "unknown": 0.0,
+          "volatile": 0.05241935483870968
+        },
+        "neutral": {
+          "mean_reverting": 0.17771883289124668,
+          "neutral": 0.38095238095238093,
+          "trending": 0.11848341232227488,
+          "unknown": 1.0,
+          "volatile": 0.04838709677419355
+        },
+        "trending": {
+          "mean_reverting": 0.07161803713527852,
+          "neutral": 0.26666666666666666,
+          "trending": 0.7985781990521327,
+          "unknown": 0.0,
+          "volatile": 0.008064516129032258
+        },
+        "volatile": {
+          "mean_reverting": 0.026525198938992044,
+          "neutral": 0.02857142857142857,
+          "trending": 0.02843601895734597,
+          "unknown": 0.0,
+          "volatile": 0.8911290322580645
+        }
+      },
+      "unconditional_sharpe": -0.41117967187239013,
+      "conditional_sharpe": 0.07202002360958798,
+      "sharpe_improvement": 0.4831996954819781,
+      "sharpe_improvement_pct": 120.44471077679066,
+      "regime_correlations": {
+        "overall": -0.002454916646917406,
+        "neutral": 0.09647942481874965,
+        "mean_reverting": -0.014381925240325829,
+        "trending": -0.02162389639231273,
+        "volatile": -0.07044581617576484,
+        "sign_flips": 1,
+        "flip_rate": 0.25
+      },
+      "sign_flip_rate": 0.25,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": true
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "regime_distribution": {
+        "mean_reverting": 0.3230769230769231,
+        "trending": 0.3130769230769231,
+        "volatile": 0.19846153846153847,
+        "neutral": 0.16538461538461538
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.4482758620689653,
+        "min_duration_days": 1,
+        "max_duration_days": 83,
+        "n_regime_changes": 376,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7119047619047619,
+          "neutral": 0.3411214953271028,
+          "trending": 0.08353808353808354,
+          "unknown": 0.0,
+          "volatile": 0.05426356589147287
+        },
+        "neutral": {
+          "mean_reverting": 0.16666666666666666,
+          "neutral": 0.40186915887850466,
+          "trending": 0.13513513513513514,
+          "unknown": 1.0,
+          "volatile": 0.011627906976744186
+        },
+        "trending": {
+          "mean_reverting": 0.08333333333333333,
+          "neutral": 0.24766355140186916,
+          "trending": 0.7567567567567568,
+          "unknown": 0.0,
+          "volatile": 0.04263565891472868
+        },
+        "volatile": {
+          "mean_reverting": 0.0380952380952381,
+          "neutral": 0.009345794392523364,
+          "trending": 0.02457002457002457,
+          "unknown": 0.0,
+          "volatile": 0.8914728682170543
+        }
+      },
+      "unconditional_sharpe": 0.40008969294309993,
+      "conditional_sharpe": -1.1839142673289669,
+      "sharpe_improvement": -1.5840039602720668,
+      "sharpe_improvement_pct": -386.25793028449704,
+      "regime_correlations": {
+        "overall": 0.004339643418652701,
+        "neutral": -0.04550632637378099,
+        "trending": 0.01684214310989159,
+        "mean_reverting": -0.003951431535488134,
+        "volatile": 0.002133666688910558,
+        "sign_flips": 2,
+        "flip_rate": 0.5
+      },
+      "sign_flip_rate": 0.5,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "regime_distribution": {
+        "mean_reverting": 0.3169230769230769,
+        "trending": 0.31076923076923074,
+        "volatile": 0.19846153846153847,
+        "neutral": 0.17384615384615384
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.4482758620689653,
+        "min_duration_days": 1,
+        "max_duration_days": 46,
+        "n_regime_changes": 376,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7427184466019418,
+          "neutral": 0.33185840707964603,
+          "trending": 0.04218362282878412,
+          "unknown": 0.0,
+          "volatile": 0.05426356589147287
+        },
+        "neutral": {
+          "mean_reverting": 0.16990291262135923,
+          "neutral": 0.37168141592920356,
+          "trending": 0.1588089330024814,
+          "unknown": 1.0,
+          "volatile": 0.027131782945736434
+        },
+        "trending": {
+          "mean_reverting": 0.06067961165048544,
+          "neutral": 0.27876106194690264,
+          "trending": 0.7593052109181141,
+          "unknown": 0.0,
+          "volatile": 0.03875968992248062
+        },
+        "volatile": {
+          "mean_reverting": 0.02669902912621359,
+          "neutral": 0.017699115044247787,
+          "trending": 0.03970223325062035,
+          "unknown": 0.0,
+          "volatile": 0.8798449612403101
+        }
+      },
+      "unconditional_sharpe": 0.18683879657290053,
+      "conditional_sharpe": 0.14615425915239685,
+      "sharpe_improvement": -0.04068453742050368,
+      "sharpe_improvement_pct": -20.668962688682104,
+      "regime_correlations": {
+        "overall": 0.00017484589229722273,
+        "neutral": -0.006603676579798235,
+        "trending": 0.022771159867711187,
+        "mean_reverting": 0.006377831386329385,
+        "volatile": -0.028701957124724294,
+        "sign_flips": 2,
+        "flip_rate": 0.5
+      },
+      "sign_flip_rate": 0.5,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "regime_distribution": {
+        "trending": 0.32846153846153847,
+        "mean_reverting": 0.3030769230769231,
+        "volatile": 0.19846153846153847,
+        "neutral": 0.17
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.3248081841432224,
+        "min_duration_days": 1,
+        "max_duration_days": 63,
+        "n_regime_changes": 390,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7157360406091371,
+          "neutral": 0.334841628959276,
+          "trending": 0.07981220657276995,
+          "unknown": 0.0,
+          "volatile": 0.015503875968992248
+        },
+        "neutral": {
+          "mean_reverting": 0.18781725888324874,
+          "neutral": 0.35294117647058826,
+          "trending": 0.14553990610328638,
+          "unknown": 1.0,
+          "volatile": 0.023255813953488372
+        },
+        "trending": {
+          "mean_reverting": 0.07106598984771574,
+          "neutral": 0.2895927601809955,
+          "trending": 0.7464788732394366,
+          "unknown": 0.0,
+          "volatile": 0.06589147286821706
+        },
+        "volatile": {
+          "mean_reverting": 0.025380710659898477,
+          "neutral": 0.02262443438914027,
+          "trending": 0.028169014084507043,
+          "unknown": 0.0,
+          "volatile": 0.8953488372093024
+        }
+      },
+      "unconditional_sharpe": 0.024882183383944524,
+      "conditional_sharpe": -0.730094330723247,
+      "sharpe_improvement": -0.7549765141071916,
+      "sharpe_improvement_pct": -2164.361404208115,
+      "regime_correlations": {
+        "overall": -0.005089788226674626,
+        "neutral": -0.04448206299304192,
+        "mean_reverting": -0.06892811439149323,
+        "trending": 0.08508377497710569,
+        "volatile": -0.026463825667517638,
+        "sign_flips": 1,
+        "flip_rate": 0.25
+      },
+      "sign_flip_rate": 0.25,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "regime_distribution": {
+        "trending": 0.3479299363057325,
+        "mean_reverting": 0.28821656050955413,
+        "volatile": 0.1982484076433121,
+        "neutral": 0.16560509554140126
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.738095238095238,
+        "min_duration_days": 1,
+        "max_duration_days": 60,
+        "n_regime_changes": 335,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7340720221606648,
+          "neutral": 0.2980769230769231,
+          "trending": 0.07093821510297482,
+          "unknown": 0.0,
+          "volatile": 0.01606425702811245
+        },
+        "neutral": {
+          "mean_reverting": 0.1883656509695291,
+          "neutral": 0.375,
+          "trending": 0.13272311212814644,
+          "unknown": 1.0,
+          "volatile": 0.012048192771084338
+        },
+        "trending": {
+          "mean_reverting": 0.06371191135734072,
+          "neutral": 0.3125,
+          "trending": 0.782608695652174,
+          "unknown": 0.0,
+          "volatile": 0.028112449799196786
+        },
+        "volatile": {
+          "mean_reverting": 0.013850415512465374,
+          "neutral": 0.014423076923076924,
+          "trending": 0.013729977116704805,
+          "unknown": 0.0,
+          "volatile": 0.9437751004016064
+        }
+      },
+      "unconditional_sharpe": 0.021452333869573785,
+      "conditional_sharpe": 0.20341498742336425,
+      "sharpe_improvement": 0.18196265355379046,
+      "sharpe_improvement_pct": 578.5346623508173,
+      "regime_correlations": {
+        "overall": -0.017790643621230097,
+        "neutral": 0.16300132998374464,
+        "mean_reverting": -0.06203557745774729,
+        "trending": -0.06702696282517688,
+        "volatile": -0.015797901282549556,
+        "sign_flips": 1,
+        "flip_rate": 0.25
+      },
+      "sign_flip_rate": 0.25,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": true
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "regime_distribution": {
+        "trending": 0.35111464968152867,
+        "mean_reverting": 0.2890127388535032,
+        "volatile": 0.1982484076433121,
+        "neutral": 0.16162420382165604
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.840978593272171,
+        "min_duration_days": 1,
+        "max_duration_days": 56,
+        "n_regime_changes": 326,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7300275482093664,
+          "neutral": 0.3251231527093596,
+          "trending": 0.04772727272727273,
+          "unknown": 0.0,
+          "volatile": 0.04417670682730924
+        },
+        "neutral": {
+          "mean_reverting": 0.15702479338842976,
+          "neutral": 0.41379310344827586,
+          "trending": 0.12954545454545455,
+          "unknown": 1.0,
+          "volatile": 0.01606425702811245
+        },
+        "trending": {
+          "mean_reverting": 0.09366391184573003,
+          "neutral": 0.2315270935960591,
+          "trending": 0.8022727272727272,
+          "unknown": 0.0,
+          "volatile": 0.028112449799196786
+        },
+        "volatile": {
+          "mean_reverting": 0.01928374655647383,
+          "neutral": 0.029556650246305417,
+          "trending": 0.020454545454545454,
+          "unknown": 0.0,
+          "volatile": 0.9116465863453815
+        }
+      },
+      "unconditional_sharpe": 0.33283125268502894,
+      "conditional_sharpe": -0.6249667320347516,
+      "sharpe_improvement": -0.9577979847197806,
+      "sharpe_improvement_pct": -279.37884227834473,
+      "regime_correlations": {
+        "overall": -0.010810641053775974,
+        "neutral": 0.01842233183785033,
+        "volatile": -0.016049747376603186,
+        "mean_reverting": -0.005594606297770538,
+        "trending": -0.024413796197780294,
+        "sign_flips": 1,
+        "flip_rate": 0.25
+      },
+      "sign_flip_rate": 0.25,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "regime_distribution": {
+        "trending": 0.3479299363057325,
+        "mean_reverting": 0.29538216560509556,
+        "volatile": 0.1982484076433121,
+        "neutral": 0.15843949044585987
+      },
+      "regime_persistence": {
+        "avg_duration_days": 3.949685534591195,
+        "min_duration_days": 1,
+        "max_duration_days": 50,
+        "n_regime_changes": 317,
+        "tradeable": false
+      },
+      "transition_matrix": {
+        "mean_reverting": {
+          "mean_reverting": 0.7486486486486487,
+          "neutral": 0.32663316582914576,
+          "trending": 0.05263157894736842,
+          "unknown": 0.0,
+          "volatile": 0.024096385542168676
+        },
+        "neutral": {
+          "mean_reverting": 0.15675675675675677,
+          "neutral": 0.41708542713567837,
+          "trending": 0.12585812356979406,
+          "unknown": 1.0,
+          "volatile": 0.008032128514056224
+        },
+        "trending": {
+          "mean_reverting": 0.07567567567567568,
+          "neutral": 0.25125628140703515,
+          "trending": 0.7963386727688787,
+          "unknown": 0.0,
+          "volatile": 0.04417670682730924
+        },
+        "volatile": {
+          "mean_reverting": 0.01891891891891892,
+          "neutral": 0.005025125628140704,
+          "trending": 0.02517162471395881,
+          "unknown": 0.0,
+          "volatile": 0.9236947791164659
+        }
+      },
+      "unconditional_sharpe": 0.34385511574318,
+      "conditional_sharpe": 0.23355766857452404,
+      "sharpe_improvement": -0.11029744716865597,
+      "sharpe_improvement_pct": -31.170228226602028,
+      "regime_correlations": {
+        "overall": -0.0374530702225095,
+        "neutral": -0.09340497246561594,
+        "trending": -0.05489690150922765,
+        "mean_reverting": 0.019567039263311697,
+        "volatile": 0.01773571706179557,
+        "sign_flips": 2,
+        "flip_rate": 0.5
+      },
+      "sign_flip_rate": 0.5,
+      "flip_rate_acceptable": false,
+      "regime_tradeable": false,
+      "sharpe_improved": false
+    }
+  ]
+}

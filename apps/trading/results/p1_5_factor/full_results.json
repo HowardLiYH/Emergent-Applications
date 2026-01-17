@@ -1,0 +1,541 @@
+{
+  "timestamp": "2026-01-17T17:42:05.462699",
+  "n_assets": 11,
+  "n_novel": 0,
+  "summary": {
+    "significant_alpha": 1,
+    "low_r2": 0,
+    "avg_alpha_tstat": -0.06634917905282461,
+    "avg_r2": 0.6622699823787715
+  },
+  "results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "n_observations": 1746,
+      "alpha": 0.00035924855592286086,
+      "alpha_annual": 0.09053063609256094,
+      "alpha_tstat": 0.6162223079448367,
+      "alpha_significant": false,
+      "r_squared": 0.6881198180246328,
+      "information_ratio": 0.2248829720403517,
+      "factor_betas": {
+        "market": 1.077804943702307,
+        "momentum": -0.010197534718730843,
+        "vol_timing": -0.4600939922324523,
+        "trend": -0.3301549815655702
+      },
+      "factor_tstats": {
+        "market": 12.063657855267987,
+        "momentum": -0.33421671458859237,
+        "vol_timing": -5.059106822005307,
+        "trend": -1.351103423440149
+      },
+      "si_factor_correlations": {
+        "market": -0.014563306116179515,
+        "momentum": 0.1362837075560625,
+        "vol_timing": -0.011771744697694134,
+        "trend": 0.2988330909080117
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0019500952616543837,
+          "alpha_tstat": 1.7944572110108832,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": 0.000284004703184859,
+          "alpha_tstat": 0.44079048848890023,
+          "r_squared": 0.6494157520393573,
+          "market_beta": 0.6497932491539313
+        },
+        "(3) + All Factors": {
+          "alpha": 0.00035924855592286086,
+          "alpha_tstat": 0.6162223079448367,
+          "r_squared": 0.6881198180246328
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "n_observations": 1746,
+      "alpha": -0.00021043257096163516,
+      "alpha_annual": -0.05302900788233206,
+      "alpha_tstat": -0.6481459222962908,
+      "alpha_significant": false,
+      "r_squared": 0.6425078444315957,
+      "information_ratio": -0.24160282044245732,
+      "factor_betas": {
+        "market": 0.8677967594379711,
+        "momentum": 0.010273341514130983,
+        "vol_timing": -0.26631852799660727,
+        "trend": -1.3436380133595032
+      },
+      "factor_tstats": {
+        "market": 8.728739045524982,
+        "momentum": 0.3286401778184156,
+        "vol_timing": -2.6870463097377106,
+        "trend": -2.42561784856218
+      },
+      "si_factor_correlations": {
+        "market": 0.00477407700497611,
+        "momentum": 0.12006141821977624,
+        "vol_timing": 0.00642170023258409,
+        "trend": 0.23342559446708924
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0003076803449706928,
+          "alpha_tstat": 0.5559604529216727,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -0.00014993606743834165,
+          "alpha_tstat": -0.44056671761512683,
+          "r_squared": 0.6222931737034327,
+          "market_beta": 0.6224463672919385
+        },
+        "(3) + All Factors": {
+          "alpha": -0.00021043257096163516,
+          "alpha_tstat": -0.6481459222962908,
+          "r_squared": 0.6425078444315957
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "n_observations": 1746,
+      "alpha": 0.0007168486751143507,
+      "alpha_annual": 0.18064586612881636,
+      "alpha_tstat": 1.7295811680629372,
+      "alpha_significant": false,
+      "r_squared": 0.6389079417380366,
+      "information_ratio": 0.6126590459021003,
+      "factor_betas": {
+        "market": 0.9063438785915774,
+        "momentum": -0.03580073944612081,
+        "vol_timing": -0.3313412264053862,
+        "trend": -0.7146500494241139
+      },
+      "factor_tstats": {
+        "market": 8.759134998902198,
+        "momentum": -1.0978332726993032,
+        "vol_timing": -3.290166893174737,
+        "trend": -1.6713614204399942
+      },
+      "si_factor_correlations": {
+        "market": 0.04242265936105345,
+        "momentum": 0.12112437505697174,
+        "vol_timing": 0.05034055423965564,
+        "trend": 0.29825025674575956
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0011960266157774798,
+          "alpha_tstat": 1.6168250356229619,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": 0.0005367195719579441,
+          "alpha_tstat": 1.1519780096623675,
+          "r_squared": 0.6038363594457367,
+          "market_beta": 0.6037576962188751
+        },
+        "(3) + All Factors": {
+          "alpha": 0.0007168486751143507,
+          "alpha_tstat": 1.7295811680629372,
+          "r_squared": 0.6389079417380366
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "n_observations": 1178,
+      "alpha": 0.0007864255077087881,
+      "alpha_annual": 0.1981792279426146,
+      "alpha_tstat": 2.533060981420209,
+      "alpha_significant": true,
+      "r_squared": 0.6036924728238293,
+      "information_ratio": 1.1666437359676258,
+      "factor_betas": {
+        "market": 1.0557094431479284,
+        "momentum": 0.05968199942273257,
+        "vol_timing": -0.5291680035990461,
+        "trend": -0.5607817288066219
+      },
+      "factor_tstats": {
+        "market": 10.512021636520846,
+        "momentum": 1.793363264770172,
+        "vol_timing": -5.5805897525701695,
+        "trend": -0.8258200664534995
+      },
+      "si_factor_correlations": {
+        "market": 0.025506721743000334,
+        "momentum": 0.1196120798917393,
+        "vol_timing": 0.02735809966289437,
+        "trend": 0.2896556291405814
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0008298630177781132,
+          "alpha_tstat": 1.6756202821450825,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": 0.0007342742206646878,
+          "alpha_tstat": 2.2330123165335514,
+          "r_squared": 0.5595678482228996,
+          "market_beta": 0.5585103100072275
+        },
+        "(3) + All Factors": {
+          "alpha": 0.0007864255077087881,
+          "alpha_tstat": 2.533060981420209,
+          "r_squared": 0.6036924728238293
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "n_observations": 1178,
+      "alpha": -0.0001287318442372291,
+      "alpha_annual": -0.032440424747781735,
+      "alpha_tstat": -0.9377684651840833,
+      "alpha_significant": false,
+      "r_squared": 0.6501611967999952,
+      "information_ratio": -0.43177201493673717,
+      "factor_betas": {
+        "market": 1.0233792872065077,
+        "momentum": 0.024220676871043227,
+        "vol_timing": -0.42267189990048815,
+        "trend": -3.4209568659383613
+      },
+      "factor_tstats": {
+        "market": 7.81704647854099,
+        "momentum": 0.7016820333396944,
+        "vol_timing": -3.054735180587381,
+        "trend": -1.4276417521383926
+      },
+      "si_factor_correlations": {
+        "market": 0.011925126593270108,
+        "momentum": 0.12571592127415734,
+        "vol_timing": 0.009166762362147373,
+        "trend": 0.25922643925252076
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0004027503580308535,
+          "alpha_tstat": 1.7274711320960785,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -0.00012092281143996994,
+          "alpha_tstat": -0.8441871837906877,
+          "r_squared": 0.6254126014744257,
+          "market_beta": 0.6271192331269567
+        },
+        "(3) + All Factors": {
+          "alpha": -0.0001287318442372291,
+          "alpha_tstat": -0.9377684651840833,
+          "r_squared": 0.6501611967999952
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "n_observations": 1220,
+      "alpha": -5.877230527279298e-05,
+      "alpha_annual": -0.01481062092874383,
+      "alpha_tstat": -0.857693850269281,
+      "alpha_significant": false,
+      "r_squared": 0.6837779519037713,
+      "information_ratio": -0.3872367731960912,
+      "factor_betas": {
+        "market": 1.158959307133286,
+        "momentum": -0.01690731215472137,
+        "vol_timing": -0.5506332025628415,
+        "trend": -3.2668989734406955
+      },
+      "factor_tstats": {
+        "market": 10.937366153278475,
+        "momentum": -0.5022025604568103,
+        "vol_timing": -5.075754787004565,
+        "trend": -1.0811562011647813
+      },
+      "si_factor_correlations": {
+        "market": -0.01592182133340567,
+        "momentum": 0.1837099273320847,
+        "vol_timing": -0.016246720992615905,
+        "trend": 0.36006393175981055
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": -3.769955595882939e-05,
+          "alpha_tstat": -0.3073376882681553,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -2.6889862667737097e-05,
+          "alpha_tstat": -0.3667700862034452,
+          "r_squared": 0.6430660939296826,
+          "market_beta": 0.6430384849168318
+        },
+        "(3) + All Factors": {
+          "alpha": -5.877230527279298e-05,
+          "alpha_tstat": -0.857693850269281,
+          "r_squared": 0.6837779519037713
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "n_observations": 1220,
+      "alpha": -3.554470264471448e-05,
+      "alpha_annual": -0.008957265066468049,
+      "alpha_tstat": -0.4239739138285093,
+      "alpha_significant": false,
+      "r_squared": 0.6352948334970949,
+      "information_ratio": -0.19308540270448027,
+      "factor_betas": {
+        "market": 0.9392846192896106,
+        "momentum": -0.0030471481533311737,
+        "vol_timing": -0.3332620834862979,
+        "trend": -4.458151842174733
+      },
+      "factor_tstats": {
+        "market": 7.9322057535974535,
+        "momentum": -0.08123285887333506,
+        "vol_timing": -2.8032684738976563,
+        "trend": -0.986533270765358
+      },
+      "si_factor_correlations": {
+        "market": 0.0005635519571550103,
+        "momentum": 0.11409802173351664,
+        "vol_timing": 0.0031427850083878884,
+        "trend": 0.2514460625457357
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.00014644119731815452,
+          "alpha_tstat": 1.0570327194745925,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -5.464895721566084e-05,
+          "alpha_tstat": -0.6354862288777057,
+          "r_squared": 0.6160906047952109,
+          "market_beta": 0.6167839069580945
+        },
+        "(3) + All Factors": {
+          "alpha": -3.554470264471448e-05,
+          "alpha_tstat": -0.4239739138285093,
+          "r_squared": 0.6352948334970949
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "n_observations": 1220,
+      "alpha": -6.772321967801516e-06,
+      "alpha_annual": -0.001706625135885982,
+      "alpha_tstat": -0.10175956822001915,
+      "alpha_significant": false,
+      "r_squared": 0.6148961403394099,
+      "information_ratio": -0.04711481869081125,
+      "factor_betas": {
+        "market": 0.970951423136153,
+        "momentum": -0.05850122988973792,
+        "vol_timing": -0.38114217094900954,
+        "trend": 10.103245612350332
+      },
+      "factor_tstats": {
+        "market": 7.210496347281444,
+        "momentum": -1.924873608730569,
+        "vol_timing": -2.946423899925741,
+        "trend": 2.1860576096413316
+      },
+      "si_factor_correlations": {
+        "market": -0.025206412380339917,
+        "momentum": 0.1293832191510655,
+        "vol_timing": -0.024481190386798884,
+        "trend": 0.2721519456418886
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": -3.3428532298938575e-05,
+          "alpha_tstat": -0.3175453933557864,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -2.128168690677025e-05,
+          "alpha_tstat": -0.3171019395887196,
+          "r_squared": 0.5939056810964798,
+          "market_beta": 0.5938866126774132
+        },
+        "(3) + All Factors": {
+          "alpha": -6.772321967801516e-06,
+          "alpha_tstat": -0.10175956822001915,
+          "r_squared": 0.6148961403394099
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "n_observations": 1176,
+      "alpha": -4.337302714456857e-05,
+      "alpha_annual": -0.01093000284043128,
+      "alpha_tstat": -0.33210754726175673,
+      "alpha_significant": false,
+      "r_squared": 0.7601634583064201,
+      "information_ratio": -0.15564284334694486,
+      "factor_betas": {
+        "market": 0.9439439418471072,
+        "momentum": -0.10956232605927312,
+        "vol_timing": -0.3364721830836065,
+        "trend": -3.77943954642199
+      },
+      "factor_tstats": {
+        "market": 10.572655449731704,
+        "momentum": -2.840525645097914,
+        "vol_timing": -3.726211776362793,
+        "trend": -2.3012779424112555
+      },
+      "si_factor_correlations": {
+        "market": -0.06971761569486516,
+        "momentum": 0.07209169760120743,
+        "vol_timing": -0.07598576507828944,
+        "trend": 0.3114376289348082
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0003064875502586241,
+          "alpha_tstat": 1.1635453825091555,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -8.744562864520685e-05,
+          "alpha_tstat": -0.5969941444930804,
+          "r_squared": 0.6918841045567877,
+          "market_beta": 0.6925670706632218
+        },
+        "(3) + All Factors": {
+          "alpha": -4.337302714456857e-05,
+          "alpha_tstat": -0.33210754726175673,
+          "r_squared": 0.7601634583064201
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "n_observations": 1176,
+      "alpha": 0.0001418319303148797,
+      "alpha_annual": 0.035741646439349684,
+      "alpha_tstat": 0.6652742641759108,
+      "alpha_significant": false,
+      "r_squared": 0.6376968912083681,
+      "information_ratio": 0.28583885691419514,
+      "factor_betas": {
+        "market": 0.8311338563541415,
+        "momentum": -0.041491138328451214,
+        "vol_timing": -0.31487357778542124,
+        "trend": -4.943336102077829
+      },
+      "factor_tstats": {
+        "market": 8.393359497791453,
+        "momentum": -1.0923242306768473,
+        "vol_timing": -3.1495217677763803,
+        "trend": -3.2015564093695397
+      },
+      "si_factor_correlations": {
+        "market": -0.009847006175661727,
+        "momentum": 0.14541805317963272,
+        "vol_timing": -0.012097080068051167,
+        "trend": 0.3133517124490887
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": 0.0004902644379507021,
+          "alpha_tstat": 1.2847453834038025,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": 4.0002972358750146e-05,
+          "alpha_tstat": 0.15905354443169265,
+          "r_squared": 0.5668935671631429,
+          "market_beta": 0.5673866574707249
+        },
+        "(3) + All Factors": {
+          "alpha": 0.0001418319303148797,
+          "alpha_tstat": 0.6652742641759108,
+          "r_squared": 0.6376968912083681
+        }
+      },
+      "novel_signal": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "n_observations": 1176,
+      "alpha": -0.0005088726635440282,
+      "alpha_annual": -0.1282359112130951,
+      "alpha_tstat": -2.9725304241250243,
+      "alpha_significant": true,
+      "r_squared": 0.7297512570933327,
+      "information_ratio": -1.3275077638472927,
+      "factor_betas": {
+        "market": 0.8695980627953819,
+        "momentum": -0.11265255377610382,
+        "vol_timing": -0.24876349576462883,
+        "trend": -3.0643291419309238
+      },
+      "factor_tstats": {
+        "market": 8.131808172579191,
+        "momentum": -3.016282576106933,
+        "vol_timing": -2.308589234874831,
+        "trend": -2.2645758841983015
+      },
+      "si_factor_correlations": {
+        "market": -0.055377054272602935,
+        "momentum": 0.10087239465644714,
+        "vol_timing": -0.05919681432109349,
+        "trend": 0.2910804384661726
+      },
+      "incremental_regression": {
+        "(1) SI Only": {
+          "alpha": -0.0001269745025730721,
+          "alpha_tstat": -0.37198865956715343,
+          "r_squared": 0.0
+        },
+        "(2) + Market": {
+          "alpha": -0.0005998415988148419,
+          "alpha_tstat": -3.091673640835401,
+          "r_squared": 0.6779691635866746,
+          "market_beta": 0.677450807379949
+        },
+        "(3) + All Factors": {
+          "alpha": -0.0005088726635440282,
+          "alpha_tstat": -2.9725304241250243,
+          "r_squared": 0.7297512570933327
+        }
+      },
+      "novel_signal": false
+    }
+  ]
+}

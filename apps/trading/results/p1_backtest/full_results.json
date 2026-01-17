@@ -1,0 +1,839 @@
+{
+  "timestamp": "2026-01-17T17:40:22.424103",
+  "n_assets": 11,
+  "n_passed": 0,
+  "summary": {
+    "profitable_1x": 10,
+    "profitable_2x": 9,
+    "tradeable_halflife": 6,
+    "stable_relationship": 4,
+    "good_ic": 5
+  },
+  "results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "n_observations": 1826,
+      "date_range": "2021-01-18 00:00:00 to 2026-01-17 00:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.2203978169425674,
+          "total_return": 0.17575893563721934,
+          "annual_return": 0.022609218255152275,
+          "max_drawdown": -0.47208709842320273,
+          "n_days": 1825
+        },
+        "1.0x": {
+          "sharpe": 0.21594466827710818,
+          "total_return": 0.16460137770338257,
+          "annual_return": 0.021263725945377177,
+          "max_drawdown": -0.4730668892569305,
+          "n_days": 1825
+        },
+        "2.0x": {
+          "sharpe": 0.2070307086341124,
+          "total_return": 0.14259310752772958,
+          "annual_return": 0.018576844384833757,
+          "max_drawdown": -0.47502192746166705,
+          "n_days": 1825
+        },
+        "3.0x": {
+          "sharpe": 0.19810691841730066,
+          "total_return": 0.12098791811691134,
+          "annual_return": 0.015895427019561037,
+          "max_drawdown": -0.47697092020092213,
+          "n_days": 1825
+        }
+      },
+      "net_sharpe_1x": 0.21594466827710818,
+      "net_sharpe_2x": 0.2070307086341124,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 443.3205057724024,
+        "trades_per_year": 4.433205057724024,
+        "avg_holding_period_days": 56.84375000000001,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 6,
+        "lag1_correlation": -0.0011756716109166292,
+        "tradeable": true
+      },
+      "structural_break": {
+        "first_half_corr": 0.0751204520289437,
+        "second_half_corr": 0.04064450263613445,
+        "same_sign": true,
+        "magnitude_ratio": 0.5410577484341313,
+        "stable": true,
+        "rolling_corr_std": 0.10491084390766521
+      },
+      "relationship_stable": true,
+      "grinold": {
+        "information_coefficient": 0.04626244757404899,
+        "ic_t_stat": 1.9725387582946714,
+        "ic_significant": true,
+        "icir": 0.34448240952846454,
+        "breadth_raw": 4.433205057724024,
+        "breadth_effective": 0.6905788525067189,
+        "expected_ir": 0.04626244757404899,
+        "realized_ir": 0.21623121522693806,
+        "ir_ratio": 4.674011570201344
+      },
+      "ic": 0.04626244757404899,
+      "expected_ir": 0.04626244757404899,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "n_observations": 1826,
+      "date_range": "2021-01-18 00:00:00 to 2026-01-17 00:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.1396669498499844,
+          "total_return": 0.07315233538056831,
+          "annual_return": 0.009796334419375441,
+          "max_drawdown": -0.2866718699704718,
+          "n_days": 1825
+        },
+        "1.0x": {
+          "sharpe": 0.12847188871827145,
+          "total_return": 0.06044224799687714,
+          "annual_return": 0.008136418702191728,
+          "max_drawdown": -0.28753731701808494,
+          "n_days": 1825
+        },
+        "2.0x": {
+          "sharpe": 0.10603261552155988,
+          "total_return": 0.03546085307262614,
+          "annual_return": 0.004823289181836943,
+          "max_drawdown": -0.2892658485479559,
+          "n_days": 1825
+        },
+        "3.0x": {
+          "sharpe": 0.08353258549562771,
+          "total_return": 0.011053570080971076,
+          "annual_return": 0.0015190799310635938,
+          "max_drawdown": -0.2909912331769179,
+          "n_days": 1825
+        }
+      },
+      "net_sharpe_1x": 0.12847188871827145,
+      "net_sharpe_2x": 0.10603261552155988,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 554.150632215503,
+        "trades_per_year": 5.54150632215503,
+        "avg_holding_period_days": 45.475,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 20,
+        "lag1_correlation": 0.0007135647120891391,
+        "tradeable": true
+      },
+      "structural_break": {
+        "first_half_corr": -0.010962374728934278,
+        "second_half_corr": 0.061244233388775354,
+        "same_sign": false,
+        "magnitude_ratio": 0.1789943986945786,
+        "stable": false,
+        "rolling_corr_std": 0.10441945631283339
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": 0.03183342829891776,
+        "ic_t_stat": 1.3573140726828594,
+        "ic_significant": false,
+        "icir": 0.40381888444016734,
+        "breadth_raw": 5.54150632215503,
+        "breadth_effective": 1.0516542713056944,
+        "expected_ir": 0.0326452431348864,
+        "realized_ir": 0.12858961159018745,
+        "ir_ratio": 3.938999965749066
+      },
+      "ic": 0.03183342829891776,
+      "expected_ir": 0.0326452431348864,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "n_observations": 1826,
+      "date_range": "2021-01-18 00:00:00 to 2026-01-17 00:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.30667528830821345,
+          "total_return": 0.36699912999416995,
+          "annual_return": 0.044112213379119414,
+          "max_drawdown": -0.24280327383317313,
+          "n_days": 1825
+        },
+        "1.0x": {
+          "sharpe": 0.29878195759964277,
+          "total_return": 0.3508062214020662,
+          "annual_return": 0.042395612834531526,
+          "max_drawdown": -0.24280327383317313,
+          "n_days": 1825
+        },
+        "2.0x": {
+          "sharpe": 0.2829698970523742,
+          "total_return": 0.318979497141912,
+          "annual_return": 0.03896934248722017,
+          "max_drawdown": -0.24280327383317324,
+          "n_days": 1825
+        },
+        "3.0x": {
+          "sharpe": 0.26712567594681086,
+          "total_return": 0.2878843041557111,
+          "annual_return": 0.03555229698306728,
+          "max_drawdown": -0.24280327383317313,
+          "n_days": 1825
+        }
+      },
+      "net_sharpe_1x": 0.29878195759964277,
+      "net_sharpe_2x": 0.2829698970523742,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 554.150632215503,
+        "trades_per_year": 5.54150632215503,
+        "avg_holding_period_days": 45.475,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 2,
+        "lag1_correlation": 0.020375849785008577,
+        "tradeable": false
+      },
+      "structural_break": {
+        "first_half_corr": -0.0156005194550379,
+        "second_half_corr": 0.06047527037641242,
+        "same_sign": false,
+        "magnitude_ratio": 0.25796527006719555,
+        "stable": false,
+        "rolling_corr_std": 0.08085534711752011
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": 0.04955073001087784,
+        "ic_t_stat": 2.1127445816999826,
+        "ic_significant": true,
+        "icir": 0.3132900102720822,
+        "breadth_raw": 5.54150632215503,
+        "breadth_effective": 0.9909349330963295,
+        "expected_ir": 0.04955073001087784,
+        "realized_ir": 0.2993234037937094,
+        "ir_ratio": 6.040746599051096
+      },
+      "ic": 0.04955073001087784,
+      "expected_ir": 0.04955073001087784,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "n_observations": 1258,
+      "date_range": "2021-01-19 05:00:00 to 2026-01-16 05:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.32390388103010137,
+          "total_return": 0.14482572194775045,
+          "annual_return": 0.02748600116959743,
+          "max_drawdown": -0.184804140163487,
+          "n_days": 1257
+        },
+        "1.0x": {
+          "sharpe": 0.31906712646656044,
+          "total_return": 0.1420830957427901,
+          "annual_return": 0.026992049177954947,
+          "max_drawdown": -0.18505704891183672,
+          "n_days": 1257
+        },
+        "2.0x": {
+          "sharpe": 0.30938542495807847,
+          "total_return": 0.13661631183324707,
+          "annual_return": 0.026004635409063726,
+          "max_drawdown": -0.18556274882333834,
+          "n_days": 1257
+        },
+        "3.0x": {
+          "sharpe": 0.29969349898110814,
+          "total_return": 0.13117406660613606,
+          "annual_return": 0.02501787506222919,
+          "max_drawdown": -0.18606829195457597,
+          "n_days": 1257
+        }
+      },
+      "net_sharpe_1x": 0.31906712646656044,
+      "net_sharpe_2x": 0.30938542495807847,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 322.3021582733813,
+        "trades_per_year": 3.223021582733813,
+        "avg_holding_period_days": 78.1875,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 2,
+        "lag1_correlation": 0.033714365576684564,
+        "tradeable": false
+      },
+      "structural_break": {
+        "first_half_corr": -0.010930443134663737,
+        "second_half_corr": -0.041838083210919336,
+        "same_sign": true,
+        "magnitude_ratio": 0.2612558295168502,
+        "stable": false,
+        "rolling_corr_std": 0.03597032444196987
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": 0.07002831459695469,
+        "ic_t_stat": 2.4758748063285774,
+        "ic_significant": true,
+        "icir": 0.5317993690655903,
+        "breadth_raw": 3.223021582733813,
+        "breadth_effective": 0.7630136273719057,
+        "expected_ir": 0.07002831459695469,
+        "realized_ir": 0.3201105571878488,
+        "ir_ratio": 4.57115895234996
+      },
+      "ic": 0.07002831459695469,
+      "expected_ir": 0.07002831459695469,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "n_observations": 1258,
+      "date_range": "2021-01-19 05:00:00 to 2026-01-16 05:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": -0.3881268719429153,
+          "total_return": -0.09515219900874616,
+          "annual_return": -0.019845858307681374,
+          "max_drawdown": -0.11927988626784469,
+          "n_days": 1257
+        },
+        "1.0x": {
+          "sharpe": -0.41117967187239013,
+          "total_return": -0.10030851888281933,
+          "annual_return": -0.020968175380559617,
+          "max_drawdown": -0.12113708259708189,
+          "n_days": 1257
+        },
+        "2.0x": {
+          "sharpe": -0.4570317703696903,
+          "total_return": -0.11053546972540207,
+          "annual_return": -0.02320946080727171,
+          "max_drawdown": -0.1266038547706979,
+          "n_days": 1257
+        },
+        "3.0x": {
+          "sharpe": -0.5025175040662321,
+          "total_return": -0.12064919480130698,
+          "annual_return": -0.025446287559299563,
+          "max_drawdown": -0.1344572606464436,
+          "n_days": 1257
+        }
+      },
+      "net_sharpe_1x": -0.41117967187239013,
+      "net_sharpe_2x": -0.4570317703696903,
+      "profitable_at_1x": "False",
+      "profitable_at_2x": "False",
+      "turnover": {
+        "annual_turnover_pct": 765.4676258992805,
+        "trades_per_year": 7.654676258992805,
+        "avg_holding_period_days": 32.92105263157895,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 4,
+        "lag1_correlation": 0.021505549796584394,
+        "tradeable": true
+      },
+      "structural_break": {
+        "first_half_corr": -0.09528558653960711,
+        "second_half_corr": 0.05264579960099749,
+        "same_sign": false,
+        "magnitude_ratio": 0.5525053842126936,
+        "stable": false,
+        "rolling_corr_std": 0.07714250648001197
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": -0.002454916646917406,
+        "ic_t_stat": -0.08679441041415197,
+        "ic_significant": false,
+        "icir": -0.14970344230887703,
+        "breadth_raw": 7.654676258992805,
+        "breadth_effective": 1.7071728487618691,
+        "expected_ir": 0.003207565239695589,
+        "realized_ir": -0.4125250993172316,
+        "ir_ratio": -128.61004172634753
+      },
+      "ic": -0.002454916646917406,
+      "expected_ir": 0.003207565239695589,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "n_observations": 1300,
+      "date_range": "2021-01-18 00:00:00 to 2026-01-16 00:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.40496471581904964,
+          "total_return": 0.04763187649957268,
+          "annual_return": 0.009067910399736201,
+          "max_drawdown": -0.033063112196719424,
+          "n_days": 1299
+        },
+        "1.0x": {
+          "sharpe": 0.40008969294309993,
+          "total_return": 0.047004907054396305,
+          "annual_return": 0.0089507302020706,
+          "max_drawdown": -0.0330631121967192,
+          "n_days": 1299
+        },
+        "2.0x": {
+          "sharpe": 0.3903124042793525,
+          "total_return": 0.04575199989181944,
+          "annual_return": 0.008716393094464037,
+          "max_drawdown": -0.03306311219671931,
+          "n_days": 1299
+        },
+        "3.0x": {
+          "sharpe": 0.38049971729614945,
+          "total_return": 0.04450046722293943,
+          "annual_return": 0.008482087036310704,
+          "max_drawdown": -0.033063112196719424,
+          "n_days": 1299
+        }
+      },
+      "net_sharpe_1x": 0.40008969294309993,
+      "net_sharpe_2x": 0.3903124042793525,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 233.8747099767981,
+        "trades_per_year": 2.338747099767981,
+        "avg_holding_period_days": 107.75000000000001,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 2,
+        "lag1_correlation": 0.019048420488210524,
+        "tradeable": false
+      },
+      "structural_break": {
+        "first_half_corr": -0.006103175092640776,
+        "second_half_corr": 0.034283746325604936,
+        "same_sign": false,
+        "magnitude_ratio": 0.17801949164705486,
+        "stable": false,
+        "rolling_corr_std": 0.09833761432945008
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": 0.004339643418652701,
+        "ic_t_stat": 0.15598588545558847,
+        "ic_significant": false,
+        "icir": 0.14508866617515417,
+        "breadth_raw": 2.338747099767981,
+        "breadth_effective": 0.4674756004295413,
+        "expected_ir": 0.004339643418652701,
+        "realized_ir": 0.40077759687777315,
+        "ir_ratio": 92.35265624708858
+      },
+      "ic": 0.004339643418652701,
+      "expected_ir": 0.004339643418652701,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "n_observations": 1300,
+      "date_range": "2021-01-18 00:00:00 to 2026-01-16 00:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.20440446889936303,
+          "total_return": 0.028637249850839375,
+          "annual_return": 0.00549246251198765,
+          "max_drawdown": -0.03415371932805866,
+          "n_days": 1299
+        },
+        "1.0x": {
+          "sharpe": 0.18683879657290053,
+          "total_return": 0.025964577370125586,
+          "annual_return": 0.004985111033396938,
+          "max_drawdown": -0.034346921026176314,
+          "n_days": 1299
+        },
+        "2.0x": {
+          "sharpe": 0.15173385945502987,
+          "total_return": 0.02063964870056978,
+          "annual_return": 0.003971099881428852,
+          "max_drawdown": -0.034924452035859144,
+          "n_days": 1299
+        },
+        "3.0x": {
+          "sharpe": 0.11667423457935161,
+          "total_return": 0.01534182850794008,
+          "annual_return": 0.0029580105145152746,
+          "max_drawdown": -0.036275196868109316,
+          "n_days": 1299
+        }
+      },
+      "net_sharpe_1x": 0.18683879657290053,
+      "net_sharpe_2x": 0.15173385945502987,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 1013.4570765661251,
+        "trades_per_year": 10.134570765661252,
+        "avg_holding_period_days": 24.865384615384617,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 7,
+        "lag1_correlation": 0.006896742361294888,
+        "tradeable": true
+      },
+      "structural_break": {
+        "first_half_corr": -0.05784952709655354,
+        "second_half_corr": -0.10610217855874203,
+        "same_sign": true,
+        "magnitude_ratio": 0.5452246870173918,
+        "stable": true,
+        "rolling_corr_std": 0.11689963451885782
+      },
+      "relationship_stable": true,
+      "grinold": {
+        "information_coefficient": 0.00017484589229722273,
+        "ic_t_stat": 0.006284730955319401,
+        "ic_significant": false,
+        "icir": 0.048553791833500726,
+        "breadth_raw": 10.134570765661252,
+        "breadth_effective": 2.227005558481155,
+        "expected_ir": 0.0002609252355930887,
+        "realized_ir": 0.18768133472907403,
+        "ir_ratio": 719.2916173955741
+      },
+      "ic": 0.00017484589229722273,
+      "expected_ir": 0.0002609252355930887,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "n_observations": 1300,
+      "date_range": "2021-01-18 00:00:00 to 2026-01-16 00:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.04342370696669712,
+          "total_return": 0.003171737481218795,
+          "annual_return": 0.000614517429341932,
+          "max_drawdown": -0.02511694224452421,
+          "n_days": 1299
+        },
+        "1.0x": {
+          "sharpe": 0.024882183383944524,
+          "total_return": 0.0014680921514316214,
+          "annual_return": 0.00028463474292617086,
+          "max_drawdown": -0.02526353533230541,
+          "n_days": 1299
+        },
+        "2.0x": {
+          "sharpe": -0.012220674070842616,
+          "total_return": -0.0019307781724507977,
+          "annual_return": -0.00037485383628110824,
+          "max_drawdown": -0.025556677420279006,
+          "n_days": 1299
+        },
+        "3.0x": {
+          "sharpe": -0.04933109103145199,
+          "total_return": -0.005318451274543001,
+          "annual_return": -0.0010339734986242188,
+          "max_drawdown": -0.0258497607297129,
+          "n_days": 1299
+        }
+      },
+      "net_sharpe_1x": 0.024882183383944524,
+      "net_sharpe_2x": -0.012220674070842616,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "False",
+      "turnover": {
+        "annual_turnover_pct": 662.645011600928,
+        "trades_per_year": 6.626450116009281,
+        "avg_holding_period_days": 38.029411764705884,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 2,
+        "lag1_correlation": 0.0031419151658506695,
+        "tradeable": false
+      },
+      "structural_break": {
+        "first_half_corr": -0.017958424435967055,
+        "second_half_corr": 0.10276469354459172,
+        "same_sign": false,
+        "magnitude_ratio": 0.17475286323093567,
+        "stable": false,
+        "rolling_corr_std": 0.09230043063193791
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": -0.005089788226674626,
+        "ic_t_stat": -0.18294939162668772,
+        "ic_significant": false,
+        "icir": 0.012417375816534007,
+        "breadth_raw": 6.626450116009281,
+        "breadth_effective": 1.4045465447771672,
+        "expected_ir": 0.006032089555421024,
+        "realized_ir": 0.02493650124837753,
+        "ir_ratio": 4.133973976889511
+      },
+      "ic": -0.005089788226674626,
+      "expected_ir": 0.006032089555421024,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "n_observations": 1256,
+      "date_range": "2021-01-19 05:00:00 to 2026-01-16 05:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.02924747332166628,
+          "total_return": -0.001153688003039055,
+          "annual_return": -0.00023176374529509935,
+          "max_drawdown": -0.09498417659084901,
+          "n_days": 1255
+        },
+        "1.0x": {
+          "sharpe": 0.021452333869573785,
+          "total_return": -0.0037510930685532573,
+          "annual_return": -0.0007543390940596417,
+          "max_drawdown": -0.09607798388179134,
+          "n_days": 1255
+        },
+        "2.0x": {
+          "sharpe": 0.005868785965501242,
+          "total_return": -0.008926433423498081,
+          "annual_return": -0.0017988273426610135,
+          "max_drawdown": -0.09826196396331521,
+          "n_days": 1255
+        },
+        "3.0x": {
+          "sharpe": -0.009704024899173408,
+          "total_return": -0.014075917855009723,
+          "annual_return": -0.002842432800740702,
+          "max_drawdown": -0.10044110617736368,
+          "n_days": 1255
+        }
+      },
+      "net_sharpe_1x": 0.021452333869573785,
+      "net_sharpe_2x": 0.005868785965501242,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 524.5796637309847,
+        "trades_per_year": 5.245796637309848,
+        "avg_holding_period_days": 48.03846153846154,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 2,
+        "lag1_correlation": 0.02418575725453868,
+        "tradeable": false
+      },
+      "structural_break": {
+        "first_half_corr": -0.14388510519169273,
+        "second_half_corr": -0.09269136299005092,
+        "same_sign": true,
+        "magnitude_ratio": 0.6442040186617071,
+        "stable": true,
+        "rolling_corr_std": 0.055597861275831474
+      },
+      "relationship_stable": true,
+      "grinold": {
+        "information_coefficient": -0.017790643621230097,
+        "ic_t_stat": -0.6284908404830605,
+        "ic_significant": false,
+        "icir": -0.00012414732524466585,
+        "breadth_raw": 5.245796637309848,
+        "breadth_effective": 0.993380410950145,
+        "expected_ir": 0.017790643621230097,
+        "realized_ir": 0.02152501594220129,
+        "ir_ratio": 1.2099065329213192
+      },
+      "ic": -0.017790643621230097,
+      "expected_ir": 0.017790643621230097,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "n_observations": 1256,
+      "date_range": "2021-01-19 05:00:00 to 2026-01-16 05:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.33620310738821696,
+          "total_return": 0.14539243141935065,
+          "annual_return": 0.02763251538783007,
+          "max_drawdown": -0.10492933855625142,
+          "n_days": 1255
+        },
+        "1.0x": {
+          "sharpe": 0.33283125268502894,
+          "total_return": 0.14357104729415004,
+          "annual_return": 0.027304179742416945,
+          "max_drawdown": -0.10529274528449406,
+          "n_days": 1255
+        },
+        "2.0x": {
+          "sharpe": 0.32607961738775415,
+          "total_return": 0.13993642169040665,
+          "annual_return": 0.026647725163343905,
+          "max_drawdown": -0.10601922677818831,
+          "n_days": 1255
+        },
+        "3.0x": {
+          "sharpe": 0.31931764179082583,
+          "total_return": 0.1363126277813591,
+          "annual_return": 0.025991559475211368,
+          "max_drawdown": -0.10674526580458676,
+          "n_days": 1255
+        }
+      },
+      "net_sharpe_1x": 0.33283125268502894,
+      "net_sharpe_2x": 0.32607961738775415,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 322.81825460368293,
+        "trades_per_year": 3.2281825460368294,
+        "avg_holding_period_days": 78.0625,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 20,
+        "lag1_correlation": -0.0017481630838454187,
+        "tradeable": true
+      },
+      "structural_break": {
+        "first_half_corr": -0.07655414970644835,
+        "second_half_corr": -0.008397373869993677,
+        "same_sign": true,
+        "magnitude_ratio": 0.10969194879956123,
+        "stable": false,
+        "rolling_corr_std": 0.06702365828188928
+      },
+      "relationship_stable": false,
+      "grinold": {
+        "information_coefficient": -0.010810641053775974,
+        "ic_t_stat": -0.3819079863946236,
+        "ic_significant": false,
+        "icir": -0.038904776342860777,
+        "breadth_raw": 3.2281825460368294,
+        "breadth_effective": 0.6944084466379946,
+        "expected_ir": 0.010810641053775974,
+        "realized_ir": 0.33369152380650297,
+        "ir_ratio": 30.866950641187938
+      },
+      "ic": -0.010810641053775974,
+      "expected_ir": 0.010810641053775974,
+      "passes_all_gates": "False"
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "n_observations": 1256,
+      "date_range": "2021-01-19 05:00:00 to 2026-01-16 05:00:00",
+      "cost_sensitivity": {
+        "0.5x": {
+          "sharpe": 0.3556567616953899,
+          "total_return": 0.1422065393803682,
+          "annual_return": 0.02705792990650613,
+          "max_drawdown": -0.07696709555657022,
+          "n_days": 1255
+        },
+        "1.0x": {
+          "sharpe": 0.34385511574318,
+          "total_return": 0.13651117462491102,
+          "annual_return": 0.026027553916428525,
+          "max_drawdown": -0.07739391104658588,
+          "n_days": 1255
+        },
+        "2.0x": {
+          "sharpe": 0.3202357971157712,
+          "total_return": 0.12520381202733755,
+          "annual_return": 0.023969593640279285,
+          "max_drawdown": -0.08145502476771249,
+          "n_days": 1255
+        },
+        "3.0x": {
+          "sharpe": 0.2965982628768371,
+          "total_return": 0.11400672004006274,
+          "annual_return": 0.02191535065264949,
+          "max_drawdown": -0.08549907169822635,
+          "n_days": 1255
+        }
+      },
+      "net_sharpe_1x": 0.34385511574318,
+      "net_sharpe_2x": 0.3202357971157712,
+      "profitable_at_1x": "True",
+      "profitable_at_2x": "True",
+      "turnover": {
+        "annual_turnover_pct": 1008.8070456365092,
+        "trades_per_year": 10.088070456365092,
+        "avg_holding_period_days": 24.98,
+        "acceptable": "False"
+      },
+      "turnover_acceptable": "False",
+      "alpha_decay": {
+        "half_life": 20,
+        "lag1_correlation": 0.0019826915755045585,
+        "tradeable": true
+      },
+      "structural_break": {
+        "first_half_corr": -0.130791784841032,
+        "second_half_corr": -0.08620228806747383,
+        "same_sign": true,
+        "magnitude_ratio": 0.6590802944714496,
+        "stable": true,
+        "rolling_corr_std": 0.05942842835136393
+      },
+      "relationship_stable": true,
+      "grinold": {
+        "information_coefficient": -0.0374530702225095,
+        "ic_t_stat": -1.3231062396599529,
+        "ic_significant": false,
+        "icir": -0.1370885322699176,
+        "breadth_raw": 10.088070456365092,
+        "breadth_effective": 2.1783569697310554,
+        "expected_ir": 0.05527795266392477,
+        "realized_ir": 0.34504158140765784,
+        "ir_ratio": 6.241938508566314
+      },
+      "ic": -0.0374530702225095,
+      "expected_ir": 0.05527795266392477,
+      "passes_all_gates": "False"
+    }
+  ]
+}
