@@ -145,10 +145,36 @@ SI correlates with NOTHING?       → Deeper analysis or abandon
 - [x] 40 hypotheses defined
 - [x] 70+ features identified
 - [x] Test plan created
+- [x] **Methodology audit: 16 issues fixed**
+- [x] **Expert panel review: 18 recommendations incorporated**
 - [ ] **NEXT: Build infrastructure**
+- [ ] Pre-register publicly (GitHub commit)
 - [ ] Run discovery experiment
 - [ ] Interpret results
 - [ ] Choose path forward
+
+## Methodology Rigor
+
+**Total issues addressed: 34**
+
+| Audit | Issues | Status |
+|-------|--------|--------|
+| Initial Methodology Audit | 16 | ✅ Fixed |
+| Expert Panel Review | 18 | ✅ Incorporated |
+
+### Key Safeguards
+
+| Safeguard | Implementation |
+|-----------|----------------|
+| Train/Val/Test split | 70/15/15 temporal |
+| Autocorrelation | HAC std errors + block bootstrap |
+| Multiple testing | Pre-registration + FDR |
+| Circular reasoning | Predictive (lagged) correlations |
+| Rolling validation | 5-fold cross-validation |
+| Negative controls | Random noise, shuffled SI |
+| Liquidity control | Amihud, volume as confounders |
+| Signal decay | Half-life estimation |
+| Transaction costs | Sensitivity analysis |
 
 ## Expert Panel
 

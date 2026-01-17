@@ -7,7 +7,10 @@
 
 ## ⚠️ Methodology Audit Applied
 
-See `METHODOLOGY_AUDIT.md` for full audit. Key fixes incorporated:
+See `METHODOLOGY_AUDIT.md` for initial audit (16 issues).
+See `EXPERT_PANEL_FINAL_REVIEW.md` for expert review (18 additional recommendations).
+
+### Initial Audit Fixes (16 issues):
 
 | Issue | Fix Applied |
 |-------|-------------|
@@ -19,6 +22,20 @@ See `METHODOLOGY_AUDIT.md` for full audit. Key fixes incorporated:
 | Look-ahead bias | ✅ Categorized features |
 | Confounders | ✅ Partial correlations |
 | Non-stationarity | ✅ Stationarity checks |
+
+### Expert Panel Additions (18 recommendations):
+
+| Recommendation | Fix Applied |
+|----------------|-------------|
+| Effective N formula | ✅ Bartlett/AR(1) specified |
+| Rolling validation | ✅ Multiple fold validation |
+| Cluster on train only | ✅ No data leakage |
+| Liquidity control | ✅ Amihud, volume as confounders |
+| Signal decay analysis | ✅ Half-life estimation |
+| Negative controls | ✅ Random noise, moon phase |
+| Transaction costs | ✅ Sensitivity analysis |
+| Publish pre-registration | ✅ GitHub commit before analysis |
+| Expand confounders | ✅ Macro, volume, liquidity added |
 
 ---
 
@@ -114,6 +131,606 @@ def power_analysis(n_eff, alpha=0.05, power=0.8):
 # Raw N = 8,760
 # Effective N (autocorrelation adjusted) ≈ 200-300
 # Minimum detectable r ≈ 0.18-0.22
+```
+
+### 1.4 Survivorship Bias Mitigation (Issue #13)
+
+```python
+# Include assets with different performance profiles
+ASSET_GROUPS = {
+    'survivors': ['BTC', 'ETH'],        # Strong performers
+    'mixed': ['SOL', 'AVAX'],           # Moderate
+    'strugglers': ['XRP', 'LTC'],       # Underperformers
+}
+
+# Test if findings hold across ALL groups
+def check_survivorship_robustness(results_by_group):
+    """Verify findings aren't survivorship-biased."""
+    findings = {}
+    for group, results in results_by_group.items():
+        findings[group] = results[results['sig_fdr']]['feature'].tolist()
+
+    # Robust = significant in at least 2/3 groups
+    from collections import Counter
+    all_features = [f for fs in findings.values() for f in fs]
+    counts = Counter(all_features)
+    robust = [f for f, c in counts.items() if c >= 2]
+
+    return robust
+```
+
+### 1.5 Feature Multicollinearity Handling (Issue #9)
+
+```python
+def cluster_and_select_features(features: pd.DataFrame, threshold=0.7):
+    """
+    Cluster highly correlated features and select representatives.
+    Fixes Issue #9: Multicollinearity
+    """
+    from scipy.cluster.hierarchy import linkage, fcluster
+    from scipy.spatial.distance import squareform
+
+    # Compute correlation matrix
+    corr_matrix = features.corr().abs()
+
+    # Convert to distance
+    distance_matrix = 1 - corr_matrix
+    np.fill_diagonal(distance_matrix.values, 0)
+
+    # Hierarchical clustering
+    linkage_matrix = linkage(squareform(distance_matrix), method='average')
+    clusters = fcluster(linkage_matrix, t=1-threshold, criterion='distance')
+
+    # Select representative from each cluster (highest variance)
+    representatives = {}
+    feature_to_cluster = dict(zip(features.columns, clusters))
+
+    for cluster_id in np.unique(clusters):
+        cluster_features = [f for f, c in feature_to_cluster.items() if c == cluster_id]
+        variances = features[cluster_features].var()
+        rep = variances.idxmax()
+        representatives[cluster_id] = {
+            'representative': rep,
+            'cluster_members': cluster_features,
+            'cluster_size': len(cluster_features)
+        }
+
+    print(f"Reduced {len(features.columns)} features to {len(representatives)} clusters")
+    return representatives, feature_to_cluster
+```
+
+### 1.6 Multiple Regime Definitions (Issue #10)
+
+```python
+def define_regimes_multiple_ways(data: pd.DataFrame):
+    """
+    Use multiple regime definitions to avoid circular reasoning.
+    Fixes Issue #10: Regime definition circular
+    """
+    regimes = {}
+
+    # Method 1: Volatility-based (simple)
+    vol = data['close'].pct_change().rolling(24).std()
+    vol_median = vol.median()
+    regimes['vol_based'] = (vol > vol_median).astype(int)
+
+    # Method 2: Trend-based (ADX)
+    adx = compute_adx(data, period=14)
+    regimes['trend_based'] = (adx > 25).astype(int)  # Trending if ADX > 25
+
+    # Method 3: Hidden Markov Model (2 states)
+    from hmmlearn.hmm import GaussianHMM
+    returns = data['close'].pct_change().dropna().values.reshape(-1, 1)
+    hmm = GaussianHMM(n_components=2, random_state=42)
+    hmm.fit(returns)
+    regimes['hmm_2state'] = pd.Series(hmm.predict(returns), index=data.index[1:])
+
+    # Method 4: Structural breaks
+    # (Simplified: detect when rolling mean changes significantly)
+    ma_short = data['close'].rolling(24).mean()
+    ma_long = data['close'].rolling(168).mean()
+    regimes['structural'] = (ma_short > ma_long).astype(int)
+
+    return regimes
+
+def test_across_regime_definitions(si, feature, regime_definitions):
+    """Test if SI-feature correlation holds across different regime definitions."""
+    results = {}
+    for name, regimes in regime_definitions.items():
+        for regime_val in regimes.unique():
+            mask = regimes == regime_val
+            if mask.sum() < 50:
+                continue
+            r, p = spearmanr(si[mask], feature[mask])
+            results[f"{name}_regime{regime_val}"] = {'r': r, 'p': p}
+
+    # Robust if consistent sign across most definitions
+    signs = [np.sign(r['r']) for r in results.values() if not np.isnan(r['r'])]
+    is_robust = abs(sum(signs)) > len(signs) * 0.7  # 70% agree on direction
+
+    return results, is_robust
+```
+
+### 1.7 Random Baseline Comparison (Issue #11)
+
+```python
+def compute_random_baseline(features: pd.DataFrame, n_permutations=1000):
+    """
+    Compute what correlations we'd get with random SI.
+    Fixes Issue #11: Missing baseline
+    """
+    random_correlations = {col: [] for col in features.columns}
+
+    for _ in range(n_permutations):
+        # Random SI (permuted)
+        random_si = np.random.permutation(len(features))
+
+        for col in features.columns:
+            r = np.corrcoef(random_si, features[col].values)[0, 1]
+            random_correlations[col].append(r)
+
+    # 95th percentile for each feature (one-tailed)
+    baselines = {
+        col: np.percentile(np.abs(corrs), 95)
+        for col, corrs in random_correlations.items()
+    }
+
+    return baselines
+
+def exceeds_baseline(observed_r, feature, baselines):
+    """Check if observed correlation exceeds random baseline."""
+    return abs(observed_r) > baselines[feature]
+```
+
+### 1.8 Reproducibility Config (Issue #14)
+
+```python
+CONFIG = {
+    # Reproducibility
+    'random_seed': 42,
+    'version': '1.0.0',
+    'date': '2026-01-17',
+
+    # Data
+    'data_source': 'bybit',
+    'date_range': ('2025-01-01', '2025-12-31'),
+    'assets': ['BTC', 'ETH', 'SOL'],
+    'granularity': '1h',
+
+    # Split
+    'train_split': 0.70,
+    'val_split': 0.15,
+    'test_split': 0.15,
+
+    # SI
+    'si_window': 24,
+    'si_variants': ['instant', 'rolling_1d', 'rolling_7d'],
+
+    # Features
+    'feature_windows': [24, 168, 720],
+    'feature_clustering_threshold': 0.7,
+
+    # Statistical
+    'fdr_alpha': 0.05,
+    'min_samples': 100,
+    'block_size_hours': 24,
+    'n_bootstrap': 1000,
+    'n_permutations': 1000,
+
+    # Thresholds
+    'min_effect_size': 0.2,
+    'confirmation_alpha': 0.05,
+}
+
+def save_config(config, path='results/config.json'):
+    import json
+    with open(path, 'w') as f:
+        json.dump(config, f, indent=2)
+    print(f"Config saved to {path}")
+```
+
+### 1.9 Effect Size Guidelines (Issue #15)
+
+```python
+EFFECT_SIZE_GUIDELINES = """
+## Effect Size Interpretation
+
+| Correlation (r) | Interpretation | R² (Variance Explained) | Actionability |
+|-----------------|----------------|-------------------------|---------------|
+| 0.00 - 0.10     | Negligible     | 0-1%                    | Ignore        |
+| 0.10 - 0.20     | Weak           | 1-4%                    | Note only     |
+| 0.20 - 0.30     | Modest         | 4-9%                    | Investigate   |
+| 0.30 - 0.50     | Moderate       | 9-25%                   | Actionable    |
+| 0.50 - 0.70     | Strong         | 25-49%                  | High priority |
+| 0.70 - 1.00     | Very strong    | 49-100%                 | Verify (suspicious) |
+
+## Decision Thresholds
+
+- **Minimum for reporting**: |r| > 0.15 AND p_fdr < 0.05
+- **Minimum for action**: |r| > 0.25 AND confirmed in val/test
+- **Suspicious if**: |r| > 0.70 (check for data leakage)
+"""
+```
+
+### 1.10 Reporting Standards (Issue #16)
+
+```python
+REPORTING_CHECKLIST = """
+## Required for Each Significant Finding
+
+### Statistical
+- [ ] Effect size (r) with 95% confidence interval
+- [ ] P-value: raw, Bonferroni-corrected, FDR-corrected
+- [ ] Sample size: raw N and effective N
+- [ ] Stationarity: both series stationary?
+
+### Validation
+- [ ] Train set result
+- [ ] Validation set result (confirmation)
+- [ ] Test set result (final)
+- [ ] Random baseline comparison
+
+### Robustness
+- [ ] Different SI windows (1d, 7d, 30d)
+- [ ] Different assets (per-asset check)
+- [ ] Different time periods (rolling)
+- [ ] Partial correlation (confounders controlled)
+- [ ] Multiple regime definitions
+
+### Interpretation
+- [ ] Plain language description
+- [ ] Hypothesis supported (H1-H40)
+- [ ] Practical implication
+- [ ] Limitations specific to this finding
+
+### Visualization
+- [ ] Scatter plot with regression line and CI
+- [ ] Time series of both variables
+- [ ] Distribution of bootstrap correlations
+"""
+```
+
+---
+
+## 📊 Phase 1.5: Expert Panel Additions (NEW)
+
+### 1.11 Effective Sample Size Estimation (Expert Recommendation)
+
+```python
+def estimate_effective_n(series, method='bartlett'):
+    """
+    Estimate effective sample size adjusting for autocorrelation.
+
+    From Expert Panel: Prof. Statistics
+    """
+    n = len(series)
+
+    if method == 'bartlett':
+        # Bartlett's formula: N_eff = N / (1 + 2*Σρ_k)
+        from statsmodels.tsa.stattools import acf
+        nlags = min(50, n // 4)
+        acf_vals = acf(series.dropna(), nlags=nlags, fft=True)
+
+        # Sum autocorrelations (significant ones only)
+        rho_sum = 0
+        for k in range(1, nlags + 1):
+            # Stop at first non-significant lag (approximate)
+            if abs(acf_vals[k]) < 2 / np.sqrt(n):
+                break
+            rho_sum += acf_vals[k]
+
+        n_eff = n / (1 + 2 * rho_sum)
+
+    elif method == 'ar1':
+        # AR(1) approximation: N_eff = N * (1-ρ)/(1+ρ)
+        rho = series.autocorr(lag=1)
+        if np.isnan(rho) or abs(rho) >= 1:
+            rho = 0
+        n_eff = n * (1 - abs(rho)) / (1 + abs(rho))
+
+    return max(10, int(n_eff))  # At least 10
+
+# Example usage:
+# n_raw = 8760  # 12 months hourly
+# n_eff = estimate_effective_n(si_series)  # Might be ~200-500
+# min_r = power_analysis(n_eff)  # Minimum detectable correlation
+```
+
+### 1.12 Rolling/Expanding Validation (Expert Recommendation)
+
+```python
+def rolling_cross_validation(data, n_folds=5, train_months=6, val_months=1, test_months=1):
+    """
+    Rolling window cross-validation for robust results.
+
+    From Expert Panel: Prof. ML
+    """
+    results_by_fold = []
+    total_months = 12
+    step = (total_months - train_months - val_months - test_months) // (n_folds - 1)
+
+    for fold in range(n_folds):
+        start_month = fold * step
+        train_end = start_month + train_months
+        val_end = train_end + val_months
+        test_end = val_end + test_months
+
+        # Get data slices
+        train_data = get_months(data, start_month, train_end)
+        val_data = get_months(data, train_end, val_end)
+        test_data = get_months(data, val_end, test_end)
+
+        # Run analysis
+        si_train = compute_si(train_data)
+        features_train = compute_features(train_data)
+
+        # Discovery on train
+        correlations = run_correlation_analysis(si_train, features_train)
+        candidates = correlations[correlations['p_fdr'] < 0.05]
+
+        # Confirm on val
+        si_val = compute_si(val_data)
+        features_val = compute_features(val_data)
+        confirmed = confirm_on_validation(candidates, si_val, features_val)
+
+        # Test on test
+        si_test = compute_si(test_data)
+        features_test = compute_features(test_data)
+        final = test_on_holdout(confirmed, si_test, features_test)
+
+        results_by_fold.append({
+            'fold': fold,
+            'train_period': f"M{start_month}-M{train_end}",
+            'candidates': len(candidates),
+            'confirmed': len(confirmed),
+            'final': final
+        })
+
+    # Aggregate: Only report features significant in majority of folds
+    return aggregate_across_folds(results_by_fold)
+```
+
+### 1.13 Negative Controls (Expert Recommendation)
+
+```python
+def run_negative_controls(si: pd.Series):
+    """
+    SI should NOT correlate with these meaningless variables.
+    If it does, something is wrong.
+
+    From Expert Panel: Research Methodologist
+    """
+    results = {}
+    n = len(si)
+
+    # 1. Pure random noise
+    np.random.seed(42)
+    random_noise = pd.Series(np.random.randn(n), index=si.index)
+    r, p = spearmanr(si, random_noise)
+    results['random_noise'] = {'r': r, 'p': p}
+    if p < 0.05:
+        print("⚠️ WARNING: SI correlates with random noise! Check for bug.")
+
+    # 2. Day of week (no expected relation)
+    day_of_week = si.index.dayofweek
+    r, p = spearmanr(si, day_of_week)
+    results['day_of_week'] = {'r': r, 'p': p}
+
+    # 3. Time index (should be controlled for)
+    time_index = np.arange(n)
+    r, p = spearmanr(si, time_index)
+    results['time_index'] = {'r': r, 'p': p}
+    if p < 0.05 and abs(r) > 0.3:
+        print("⚠️ WARNING: SI has strong time trend. Control for this!")
+
+    # 4. Shuffled SI (sanity check)
+    shuffled_si = si.sample(frac=1, random_state=42)
+    r, p = spearmanr(si, shuffled_si)
+    results['shuffled_self'] = {'r': r, 'p': p}
+    # Should NOT be correlated after shuffling
+
+    return results
+```
+
+### 1.14 Liquidity Control (Expert Recommendation)
+
+```python
+def compute_liquidity_features(data: pd.DataFrame):
+    """
+    Liquidity features to control for.
+
+    From Expert Panel: Prof. Quant Finance
+    """
+    features = {}
+
+    # 1. Volume z-score (relative to recent history)
+    vol_mean = data['volume'].rolling(168).mean()
+    vol_std = data['volume'].rolling(168).std()
+    features['volume_z'] = (data['volume'] - vol_mean) / (vol_std + 1e-8)
+
+    # 2. Amihud illiquidity (price impact per volume)
+    returns = data['close'].pct_change().abs()
+    features['amihud'] = returns / (data['volume'] + 1e-8)
+    features['amihud_log'] = np.log1p(features['amihud'] * 1e9)  # Scale for numerical stability
+
+    # 3. Volume volatility (liquidity stability)
+    features['volume_volatility'] = data['volume'].rolling(24).std() / (data['volume'].rolling(24).mean() + 1e-8)
+
+    # 4. Turnover (if market cap available)
+    if 'market_cap' in data.columns:
+        features['turnover'] = data['volume'] * data['close'] / data['market_cap']
+
+    return features
+
+# Add to confounders
+CONFOUNDERS = [
+    'time_index',
+    'training_iteration',
+    'volume_z',           # Liquidity level
+    'amihud_log',         # Illiquidity
+    'volume_volatility',  # Liquidity stability
+]
+```
+
+### 1.15 Signal Decay Analysis (Expert Recommendation)
+
+```python
+def analyze_signal_decay(si: pd.Series, future_returns: pd.Series, max_lag_hours=168):
+    """
+    How quickly does SI signal decay?
+
+    From Expert Panel: Hedge Fund Quant
+    """
+    decay_curve = []
+
+    for lag in range(1, max_lag_hours + 1):
+        # SI at time t vs Return at time t+lag
+        si_past = si.iloc[:-lag]
+        returns_future = future_returns.iloc[lag:]
+
+        # Align indices
+        common_idx = si_past.index.intersection(returns_future.index)
+        if len(common_idx) < 100:
+            continue
+
+        r, p = spearmanr(si_past.loc[common_idx], returns_future.loc[common_idx])
+        decay_curve.append({
+            'lag_hours': lag,
+            'correlation': r,
+            'p_value': p,
+            'significant': p < 0.05
+        })
+
+    df = pd.DataFrame(decay_curve)
+
+    # Find half-life (lag where |correlation| drops to 50% of max)
+    if len(df) > 0 and df['correlation'].abs().max() > 0:
+        max_corr = df['correlation'].abs().max()
+        half_life_df = df[df['correlation'].abs() < max_corr * 0.5]
+        half_life = half_life_df['lag_hours'].iloc[0] if len(half_life_df) > 0 else max_lag_hours
+    else:
+        half_life = np.nan
+
+    # Find optimal lag (highest absolute correlation)
+    if len(df) > 0:
+        optimal_lag = df.loc[df['correlation'].abs().idxmax(), 'lag_hours']
+        optimal_corr = df['correlation'].abs().max()
+    else:
+        optimal_lag, optimal_corr = np.nan, np.nan
+
+    return {
+        'decay_curve': df,
+        'half_life_hours': half_life,
+        'optimal_lag_hours': optimal_lag,
+        'optimal_correlation': optimal_corr
+    }
+```
+
+### 1.16 Transaction Cost Sensitivity (Expert Recommendation)
+
+```python
+def transaction_cost_sensitivity(si_signal: pd.Series, returns: pd.Series,
+                                  cost_bps_range=[5, 10, 20, 50, 100]):
+    """
+    Does the SI signal survive transaction costs?
+
+    From Expert Panel: Hedge Fund Quant
+    """
+    results = []
+
+    # Simple strategy: Long when SI > median, flat otherwise
+    si_median = si_signal.median()
+    position = (si_signal > si_median).astype(int)
+
+    # Count trades
+    trades = (position.diff().abs() > 0).sum()
+
+    for cost_bps in cost_bps_range:
+        cost_per_trade = cost_bps / 10000
+
+        # Gross return
+        strategy_return = (position.shift(1) * returns).sum()
+
+        # Trading costs
+        total_cost = trades * cost_per_trade
+
+        # Net return
+        net_return = strategy_return - total_cost
+
+        results.append({
+            'cost_bps': cost_bps,
+            'gross_return': strategy_return,
+            'trading_cost': total_cost,
+            'net_return': net_return,
+            'trades': trades,
+            'breakeven_cost_bps': (strategy_return / trades * 10000) if trades > 0 else np.inf
+        })
+
+    return pd.DataFrame(results)
+```
+
+### 1.17 Pre-Registration Public Commit (Expert Recommendation)
+
+```python
+def create_preregistration():
+    """
+    Create and commit pre-registration before analysis.
+
+    From Expert Panel: Prof. Behavioral Economics
+    """
+    import datetime
+    import hashlib
+
+    preregistration = {
+        'title': 'SI Correlation Discovery Study',
+        'date': datetime.datetime.now().isoformat(),
+        'registered_before_analysis': True,
+
+        'hypotheses': {
+            'primary': 'SI correlates with at least one feature after FDR correction',
+            'secondary': 'See SI_EXPLORATION.md for 40 specific hypotheses'
+        },
+
+        'analysis_plan': {
+            'primary_si_variant': 'si_rolling_7d',
+            'primary_correlation_method': 'spearman',
+            'primary_alpha': 0.05,
+            'correction_method': 'fdr_bh',
+            'minimum_effect_size': 0.2,
+        },
+
+        'data_plan': {
+            'assets': ['BTC', 'ETH', 'SOL'],
+            'date_range': '12 months',
+            'granularity': '1h',
+            'train_pct': 0.70,
+            'val_pct': 0.15,
+            'test_pct': 0.15,
+        },
+
+        'stopping_rules': {
+            'stop_if': 'No features significant in validation after discovering in train',
+            'continue_if': 'At least 3 features confirmed in validation'
+        },
+
+        'commitment': {
+            'publish_null_results': True,
+            'no_post_hoc_hypothesis_changes': True,
+        }
+    }
+
+    # Create hash for integrity
+    content = json.dumps(preregistration, sort_keys=True)
+    preregistration['hash'] = hashlib.sha256(content.encode()).hexdigest()
+
+    # Save
+    with open('results/preregistration.json', 'w') as f:
+        json.dump(preregistration, f, indent=2)
+
+    print(f"Pre-registration saved with hash: {preregistration['hash']}")
+    print("COMMIT THIS FILE BEFORE RUNNING ANY ANALYSIS!")
+
+    return preregistration
 ```
 
 ### 1.2 Directory Structure
