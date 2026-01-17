@@ -1,8 +1,8 @@
 # SI Research: Next Steps Implementation Plan (v4.1)
 
-**Date**: January 17, 2026  
-**Last Updated**: January 17, 2026 (Extended Expert Panel Review)  
-**Based on**: Expert Panel (15 reviewers) + Professor + Industry Final Review  
+**Date**: January 17, 2026
+**Last Updated**: January 17, 2026 (Extended Expert Panel Review)
+**Based on**: Expert Panel (15 reviewers) + Professor + Industry Final Review
 **Author**: Yuhao Li, University of Pennsylvania
 
 ---
@@ -775,51 +775,51 @@ from statsmodels.stats.diagnostic import breaks_cusumolsresid
 def test_structural_breaks(si: pd.Series, feature: pd.Series) -> dict:
     """
     Test for structural breaks in SI-feature relationship.
-    
+
     Uses multiple tests:
     1. CUSUM test - detects gradual changes
     2. Chow test - tests for break at specific point
     3. Rolling correlation - visual inspection
     """
-    
+
     # Align data
     aligned = pd.concat([si.rename('si'), feature.rename('feature')], axis=1).dropna()
-    
+
     if len(aligned) < 100:
         return {'error': 'Insufficient data for structural break test'}
-    
+
     # 1. CUSUM Test
     y = aligned['feature']
     X = sm.add_constant(aligned['si'])
     model = sm.OLS(y, X).fit()
-    
+
     try:
         cusum_stat, cusum_pval, critical = breaks_cusumolsresid(model.resid)
         cusum_break = cusum_pval < 0.05
     except:
         cusum_break = None
         cusum_pval = None
-    
+
     # 2. Rolling Correlation (window = 25% of data)
     window = max(60, len(aligned) // 4)
     rolling_corr = aligned['si'].rolling(window).corr(aligned['feature'])
-    
+
     # Check if correlation changes sign
     sign_changes = (rolling_corr.dropna() > 0).astype(int).diff().abs().sum()
-    
+
     # Check if correlation varies significantly
     corr_std = rolling_corr.std()
     corr_mean = rolling_corr.mean()
     corr_cv = corr_std / abs(corr_mean) if corr_mean != 0 else np.inf
-    
+
     # 3. Split-half test (first half vs second half)
     midpoint = len(aligned) // 2
     corr_first_half = aligned.iloc[:midpoint]['si'].corr(aligned.iloc[:midpoint]['feature'])
     corr_second_half = aligned.iloc[midpoint:]['si'].corr(aligned.iloc[midpoint:]['feature'])
-    
+
     same_sign = (corr_first_half > 0) == (corr_second_half > 0)
     magnitude_ratio = min(abs(corr_first_half), abs(corr_second_half)) / max(abs(corr_first_half), abs(corr_second_half) + 1e-10)
-    
+
     return {
         'cusum_break_detected': cusum_break,
         'cusum_pval': cusum_pval,
@@ -840,12 +840,12 @@ def run_structural_break_analysis(si: pd.Series, features: pd.DataFrame) -> pd.D
     Run structural break tests for all features.
     """
     results = []
-    
+
     for feature_name in features.columns:
         result = test_structural_breaks(si, features[feature_name])
         result['feature'] = feature_name
         results.append(result)
-    
+
     return pd.DataFrame(results)
 ```
 
@@ -900,27 +900,27 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 
-def compute_information_coefficient(signal: pd.Series, 
+def compute_information_coefficient(signal: pd.Series,
                                     forward_returns: pd.Series,
                                     lag: int = 1) -> dict:
     """
     Compute Information Coefficient (IC).
-    
+
     IC = rank correlation between signal(t) and return(t+lag)
     """
     # Align signal with forward returns
     signal_lagged = signal.iloc[:-lag]
     returns_forward = forward_returns.iloc[lag:]
-    
+
     # Align indices
     aligned = pd.concat([signal_lagged, returns_forward], axis=1).dropna()
-    
+
     if len(aligned) < 30:
         return {'error': 'Insufficient data'}
-    
+
     # Rank correlation (Spearman)
     ic, pval = spearmanr(aligned.iloc[:, 0], aligned.iloc[:, 1])
-    
+
     # IC statistics
     return {
         'ic': ic,
@@ -936,15 +936,15 @@ def compute_ic_time_series(signal: pd.Series,
     Compute rolling IC over time.
     """
     ic_series = []
-    
+
     for i in range(window, len(signal)):
         window_signal = signal.iloc[i-window:i]
         window_returns = returns.iloc[i-window+1:i+1]
-        
+
         if len(window_signal) == len(window_returns):
             ic, _ = spearmanr(window_signal, window_returns)
             ic_series.append({'date': signal.index[i], 'ic': ic})
-    
+
     return pd.DataFrame(ic_series).set_index('date')['ic']
 
 
@@ -958,32 +958,32 @@ def compute_grinold_metrics(signal: pd.Series,
     # 1. Information Coefficient
     ic_result = compute_information_coefficient(signal, returns)
     ic = ic_result.get('ic', 0)
-    
+
     # 2. Breadth (independent bets per year)
     # Approximate as number of trades adjusted for autocorrelation
     trades = (positions.diff() != 0).sum()
     periods = len(positions)
     trades_per_year = trades * (252 / periods)
-    
+
     # Adjust for autocorrelation (signals aren't truly independent)
     signal_autocorr = signal.autocorr(lag=1)
     independence_factor = 1 - abs(signal_autocorr)
     effective_breadth = trades_per_year * independence_factor
-    
+
     # 3. Transfer Coefficient (assume 1.0 for unconstrained backtest)
     tc = 1.0
-    
+
     # 4. Expected IR from Fundamental Law
     expected_ir = ic * np.sqrt(effective_breadth) * tc
-    
+
     # 5. Realized IR
     excess_returns = strategy_returns  # Assuming already excess of benchmark
     realized_ir = (excess_returns.mean() * 252) / (excess_returns.std() * np.sqrt(252))
-    
+
     # 6. IC Information Ratio (ICIR) - stability of IC
     ic_series = compute_ic_time_series(signal, returns)
     icir = ic_series.mean() / ic_series.std() if ic_series.std() > 0 else 0
-    
+
     return {
         'information_coefficient': ic,
         'ic_t_stat': ic_result.get('ic_t_stat', 0),
@@ -2350,8 +2350,8 @@ These items are deferred to Phase 2 based on expert recommendations:
 
 ---
 
-*Plan created: January 17, 2026*  
-*Updated: January 17, 2026 (v4.1 - Extended Expert Panel Review)*  
+*Plan created: January 17, 2026*
+*Updated: January 17, 2026 (v4.1 - Extended Expert Panel Review)*
 *Author: Yuhao Li, University of Pennsylvania*
 
 ---

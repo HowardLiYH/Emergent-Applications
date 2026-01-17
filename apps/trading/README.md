@@ -159,7 +159,7 @@ apps/trading/
 ### Pre-Registration
 All hypotheses were pre-registered before analysis to prevent p-hacking:
 - Report all results including null findings
-- No post-hoc hypothesis changes  
+- No post-hoc hypothesis changes
 - Benjamini-Hochberg FDR correction at α = 0.05
 - Validate on holdout sets before claiming significance
 
@@ -212,8 +212,8 @@ SI emerges from agent competition:
 
 ## Author
 
-**Yuhao Li**  
-University of Pennsylvania  
+**Yuhao Li**
+University of Pennsylvania
 📧 li88@sas.upenn.edu
 
 ## License
