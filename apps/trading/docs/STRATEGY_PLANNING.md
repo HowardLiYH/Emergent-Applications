@@ -62,38 +62,80 @@ Building the **Trading Application** in `Emergent-Applications/apps/trading/`
 
 ## 📋 Our Plan (Staying on Track)
 
-### Phase 0: Validate Core Thesis (Week 1-2)
+### ⚡ CRITICAL FIRST QUESTION: Does SI → Profit?
 
-**Question**: Does our NichePopulation mechanism improve trading?
+Before ANYTHING else, we need to validate our core hypothesis:
 
-**What to build**:
-1. 3 simple trading strategies (momentum, mean-reversion, volatility)
-2. NichePopulation competition mechanism (from Paper 1)
-3. Simple backtest
+> **"Does Specialization Index (SI) correlate with trading profit?"**
+
+If this fails, our entire thesis is invalid. No point building complex systems.
+
+---
+
+### Phase 0: Validate SI → Profit Link (Week 1)
+
+**THE ONLY QUESTION**: Is there a measurable correlation between SI and Profit?
+
+**Minimal Experiment**:
+1. **Setup**: 5 simple agents with 3 strategies (momentum, mean-reversion, breakout)
+2. **Run**: NichePopulation competition on 6-12 months of BTC/ETH data
+3. **Measure Both**:
+   - SI: Specialization Index at each time window (daily/weekly)
+   - Profit: Returns at each time window
+
+**The Critical Test**:
+```python
+# After backtest completes
+correlation, p_value = pearsonr(si_timeseries, profit_timeseries)
+
+# SUCCESS: correlation > 0 AND p_value < 0.05
+# FAILURE: correlation ≤ 0 OR p_value ≥ 0.05
+```
+
+**Success Criteria (ALL must pass)**:
+| Metric | Threshold | Why |
+|--------|-----------|-----|
+| SI | > 0.3 | Proves specialization emerges |
+| Correlation(SI, Profit) | > 0 | Proves SI predicts profit |
+| P-value | < 0.05 | Proves correlation is significant |
+| Returns | > 0 | Proves we make money |
+
+**If Phase 0 FAILS**:
+- Analyze WHY (do specialists emerge but not profit? or no specialization?)
+- Iterate on mechanism or abandon trading direction
+- Don't proceed to Phase 1
 
 **What to reuse from PopAgent**:
 - Data pipeline (Bybit CSVs)
 - Thompson Sampling implementation
 - Basic feature calculations
 
-**Success criteria**:
-- NichePopulation ensemble > Single best strategy
-- NichePopulation ensemble > Equal-weight ensemble
-- Positive returns after costs
+---
 
-### Phase 1: Confirm with Multiple Assets (Week 3-4)
+### Phase 1: Confirm Robustness (Week 2-3)
 
-**If Phase 0 succeeds**:
-- Extend to BTC, ETH, SOL
-- Add transaction costs
-- Measure SI (do agents specialize?)
+**Only if Phase 0 passes ALL criteria**:
+
+1. **Multi-asset**: Add SOL, extend time period
+2. **Regime analysis**: When does SI help most? (volatile vs calm)
+3. **Ablation**: What if no competition? (baseline comparison)
+
+**Success Criteria**:
+| Test | Success |
+|------|---------|
+| SI→Profit holds on SOL | r > 0, p < 0.05 |
+| SI→Profit holds in different periods | Consistent across windows |
+| NichePopulation > Equal-weight | Sharpe improvement > 10% |
+| NichePopulation > Single-best | Sharpe improvement > 5% |
+
+---
 
 ### Phase 2: Add Sophistication (Month 2+)
 
-**Only after Phase 1 validates**:
+**Only after Phase 1 validates across assets/periods**:
 - Consider PopAgent's Feature-Aligned Learning
 - Consider more methods in inventory
-- Consider cross-asset features
+- Consider attribution-guided learning (from AgentEvolver)
 
 ---
 
@@ -160,29 +202,32 @@ Build a minimal backtest that answers:
 
 ## 📅 Timeline
 
-| Week | Task | Deliverable |
-|------|------|-------------|
-| 1 | Extract PopAgent data + Thompson Sampling | `src/data/`, `src/agents/` |
-| 1 | Build 3 simple strategies | `src/strategies/` |
-| 2 | Build NichePopulation mechanism | `src/competition/` |
-| 2 | Run Phase 0 backtest | Results: Sharpe, return, drawdown |
-| 3 | Go/No-Go decision | If positive → Phase 1 |
-| 3-4 | Multi-asset validation | BTC, ETH, SOL results |
-| 5+ | Add sophistication (if validated) | Feature-Aligned Learning, etc. |
+| Week | Task | Deliverable | Gate |
+|------|------|-------------|------|
+| 1 Day 1-2 | Extract PopAgent data + Thompson Sampling | `src/data/`, `src/agents/` | |
+| 1 Day 3-4 | Build 3 simple strategies | `src/strategies/` | |
+| 1 Day 5-7 | Build NichePopulation + backtest | `src/competition/` | |
+| **Week 1 End** | **RUN SI→PROFIT TEST** | **Correlation result** | **GO/NO-GO** |
+| 2 | Multi-asset (if Phase 0 passes) | BTC, ETH, SOL | |
+| 3 | Ablation + robustness | Different windows, conditions | |
+| 4+ | Add sophistication | Attribution, Feature-Aligned | |
 
 ---
 
 ## 🎯 Current Status
 
+**Priority: Validate SI → Profit hypothesis FIRST**
+
 - [x] Created trading folder structure
-- [x] Documented research plan
+- [x] Documented research plan  
 - [x] Documented architecture decisions
 - [x] Created this strategy planning doc
-- [ ] Extract data pipeline from PopAgent
+- [x] Created SI→Profit innovation doc
+- [ ] **NEXT: Extract data pipeline from PopAgent**
 - [ ] Extract Thompson Sampling from PopAgent
-- [ ] Build simple strategies
+- [ ] Build simple strategies (momentum, mean-reversion, breakout)
 - [ ] Build NichePopulation mechanism
-- [ ] Run Phase 0 backtest
+- [ ] **CRITICAL: Run SI→Profit correlation test**
 
 ---
 
@@ -297,7 +342,7 @@ for trade in specialist_trades:
     entry_contribution = attribute_to_entry(trade)
     timing_contribution = attribute_to_timing(trade)
     sizing_contribution = attribute_to_sizing(trade)
-    
+
     # Update specialist based on what worked
     specialist.learn_from_attribution(entry_contribution, ...)
 ```

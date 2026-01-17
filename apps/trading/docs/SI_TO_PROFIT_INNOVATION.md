@@ -1,6 +1,6 @@
 # SI → Profit: The Core Innovation
 
-**Date**: January 17, 2026  
+**Date**: January 17, 2026
 **Purpose**: Articulate what makes our trading application novel and valuable
 
 ---
@@ -124,7 +124,7 @@ Ours:
 # Measure SI at each time period
 si_series = [compute_si(agents, period) for period in periods]
 
-# Measure profit at each time period  
+# Measure profit at each time period
 profit_series = [compute_profit(agents, period) for period in periods]
 
 # Test correlation
@@ -239,14 +239,83 @@ If successful, we contribute:
 
 ## 🚀 Next: Validation Plan
 
-Phase 0 is the critical test. We need to prove:
+### THE CRITICAL FIRST TEST: Does SI correlate with Profit?
 
-1. ✅ NichePopulation produces positive returns
-2. ✅ NichePopulation beats single-best strategy
-3. ✅ NichePopulation beats equal-weight ensemble
+Phase 0 is about ONE thing: **proving SI → Profit**
 
-If Phase 0 fails, we iterate or abandon.
-If Phase 0 succeeds, we measure SI and proceed.
+```
+┌────────────────────────────────────────────────────────────┐
+│                    PHASE 0 EXPERIMENT                       │
+├────────────────────────────────────────────────────────────┤
+│                                                             │
+│  INPUT:                                                     │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐                   │
+│  │ BTC/ETH │ + │5 Agents │ + │3 Methods│                   │
+│  │ 6-12 mo │   │NichePop │   │momentum │                   │
+│  └─────────┘   └─────────┘   │meanrev  │                   │
+│                              │breakout │                    │
+│                              └─────────┘                    │
+│                                                             │
+│  MEASURE (at each time window):                             │
+│  ┌─────────────────────────────────────────┐               │
+│  │ t=1: SI=0.3, Profit=-0.5%               │               │
+│  │ t=2: SI=0.4, Profit=+1.2%               │               │
+│  │ t=3: SI=0.6, Profit=+2.1%               │               │
+│  │ t=4: SI=0.5, Profit=+0.8%               │               │
+│  │ ...                                     │               │
+│  └─────────────────────────────────────────┘               │
+│                                                             │
+│  COMPUTE:                                                   │
+│  ┌─────────────────────────────────────────┐               │
+│  │ correlation = pearsonr(SI, Profit)      │               │
+│  │                                          │               │
+│  │ SUCCESS:                                 │               │
+│  │   r > 0  (positive correlation)         │               │
+│  │   p < 0.05 (statistically significant)  │               │
+│  └─────────────────────────────────────────┘               │
+│                                                             │
+│  OUTCOME:                                                   │
+│  ┌─────────────────────────────────────────┐               │
+│  │ PASS → Our thesis is valid → Phase 1    │               │
+│  │ FAIL → Analyze why → Iterate or abandon │               │
+│  └─────────────────────────────────────────┘               │
+│                                                             │
+└────────────────────────────────────────────────────────────┘
+```
+
+### What We're NOT Testing First (Save for Later)
+
+| Test | When | Why Wait |
+|------|------|----------|
+| NichePopulation > Equal-weight | Phase 1 | Need SI→Profit first |
+| NichePopulation > Single-best | Phase 1 | Need SI→Profit first |
+| Multi-asset validation | Phase 1 | Need SI→Profit first |
+| Attribution | Phase 2 | Way too early |
+
+### Decision Tree
+
+```
+                    Run Phase 0 Backtest
+                           │
+                           ▼
+                    Does SI emerge?
+                    (SI > 0.3?)
+                     /         \
+                   NO           YES
+                   │             │
+                   ▼             ▼
+            Competition      Is SI correlated
+            not working      with Profit?
+            → Debug or       (r > 0, p < 0.05?)
+              abandon         /         \
+                            NO           YES
+                            │             │
+                            ▼             ▼
+                     SI exists but    🎉 THESIS
+                     doesn't help     VALIDATED
+                     → Rethink        → Phase 1
+                       mechanism
+```
 
 ---
 
