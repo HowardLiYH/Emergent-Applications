@@ -1,7 +1,7 @@
 # Emergent Applications
 
 <p align="center">
-  <img src="assets/cover.png" alt="Emergent Applications" width="800"/>
+  <img src="assets/cover.jpeg" alt="Emergent Applications" width="800"/>
 </p>
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
