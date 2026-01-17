@@ -1,0 +1,897 @@
+{
+  "timestamp": "2026-01-17T18:46:10.095550",
+  "n_assets": 11,
+  "test_results": {
+    "drawdown_prediction": {
+      "passed": 4,
+      "total": 11
+    },
+    "volatility_forecasting": {
+      "passed": 1,
+      "total": 11
+    },
+    "position_scaling": {
+      "passed": 4,
+      "total": 11
+    },
+    "tail_risk_warning": {
+      "passed": 5,
+      "total": 11
+    }
+  },
+  "best_use_case": "tail_risk_warning",
+  "asset_results": [
+    {
+      "market": "crypto",
+      "symbol": "SOLUSDT",
+      "drawdown_prediction": {
+        "correlation_si_dd": 0.05720160665888347,
+        "correlation_pval": 0.015648511783149115,
+        "significant": true,
+        "avg_dd_when_low_si": -0.18995846551877246,
+        "avg_dd_when_high_si": -0.17269563784974634,
+        "low_si_predicts_worse_dd": true,
+        "dd_difference": 0.01726282766902612
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.036421220681050324,
+            "pval": 0.12242838313061574,
+            "significant": false,
+            "r_squared": 0.0005847587519848263,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": 0.04101561268459159,
+            "pval": 0.082343574029985,
+            "significant": false,
+            "r_squared": 0.0006333643948529533,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.024132886375407503,
+            "pval": 0.30818835965234304,
+            "significant": false,
+            "r_squared": 0.00031706488694105417,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 1.0066200908443195,
+          "max_dd": -0.9626992725584275,
+          "total_return": 37.14302313298823
+        },
+        "si_scale": {
+          "sharpe": 0.9728493612538952,
+          "max_dd": -0.9487723346279855,
+          "total_return": 29.697395517931007
+        },
+        "inv_si_scale": {
+          "sharpe": 0.9630536857998345,
+          "max_dd": -0.9774987128379202,
+          "total_return": 25.18240561784631
+        },
+        "best_method": "constant",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.04709141274238227,
+          "Q2": 0.060941828254847646,
+          "Q3": 0.038781163434903045,
+          "Q4": 0.05263157894736842,
+          "Q5_high": 0.04709141274238227
+        },
+        "q1_low_si_tail_prob": 0.04709141274238227,
+        "q5_high_si_tail_prob": 0.04709141274238227,
+        "low_si_more_risky": false,
+        "logistic_coef": -0.019401284639171783,
+        "si_reduces_tail_risk": true,
+        "risk_ratio": 0.9792062669201083
+      },
+      "si_predicts_drawdowns": true,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "BTCUSDT",
+      "drawdown_prediction": {
+        "correlation_si_dd": -0.04339314193136801,
+        "correlation_pval": 0.06681636787508494,
+        "significant": false,
+        "avg_dd_when_low_si": -0.10253813550846394,
+        "avg_dd_when_high_si": -0.10352428814599307,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.0009861526375291307
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.050412149406418354,
+            "pval": 0.03246155463402391,
+            "significant": true,
+            "r_squared": 0.00365359790784181,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.03436315180811533,
+            "pval": 0.14558777738588344,
+            "significant": false,
+            "r_squared": 0.0027888693196049807,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.011926165827405947,
+            "pval": 0.6145870360012,
+            "significant": false,
+            "r_squared": 0.00032349902806749764,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.5149100036963544,
+          "max_dd": -0.7662925431645935,
+          "total_return": 1.602596633968734
+        },
+        "si_scale": {
+          "sharpe": 0.544033057433952,
+          "max_dd": -0.6992367949659168,
+          "total_return": 1.8084755420097607
+        },
+        "inv_si_scale": {
+          "sharpe": 0.4175714024632835,
+          "max_dd": -0.8694613935433495,
+          "total_return": 0.7694077807238267
+        },
+        "best_method": "si_scale",
+        "si_improves_sharpe": true,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.04709141274238227,
+          "Q2": 0.05263157894736842,
+          "Q3": 0.055401662049861494,
+          "Q4": 0.04155124653739612,
+          "Q5_high": 0.05263157894736842
+        },
+        "q1_low_si_tail_prob": 0.04709141274238227,
+        "q5_high_si_tail_prob": 0.05263157894736842,
+        "low_si_more_risky": false,
+        "logistic_coef": 0.061784212292591706,
+        "si_reduces_tail_risk": false,
+        "risk_ratio": 0.878053819534115
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": true,
+      "si_warns_tail_risk": false
+    },
+    {
+      "market": "crypto",
+      "symbol": "ETHUSDT",
+      "drawdown_prediction": {
+        "correlation_si_dd": 0.023245916969836272,
+        "correlation_pval": 0.32631299206314257,
+        "significant": false,
+        "avg_dd_when_low_si": -0.14038128067822633,
+        "avg_dd_when_high_si": -0.13597108510593942,
+        "low_si_predicts_worse_dd": true,
+        "dd_difference": 0.004410195572286918
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.005665138174600072,
+            "pval": 0.8101857406080464,
+            "significant": false,
+            "r_squared": 2.6171162752719468e-05,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.02912169122086125,
+            "pval": 0.2174960900934435,
+            "significant": false,
+            "r_squared": 0.00013673519277801471,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.0012670218972343256,
+            "pval": 0.9573389000022344,
+            "significant": false,
+            "r_squared": 0.0008433312667120996,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.5304260279785775,
+          "max_dd": -0.7930253453633334,
+          "total_return": 1.6375223489212885
+        },
+        "si_scale": {
+          "sharpe": 0.5660261692778215,
+          "max_dd": -0.7644085788886172,
+          "total_return": 2.133044878141899
+        },
+        "inv_si_scale": {
+          "sharpe": 0.43754839220452746,
+          "max_dd": -0.8460788941605434,
+          "total_return": 0.5123387473981826
+        },
+        "best_method": "si_scale",
+        "si_improves_sharpe": true,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.04155124653739612,
+          "Q2": 0.05263157894736842,
+          "Q3": 0.07202216066481995,
+          "Q4": 0.03038674033149171,
+          "Q5_high": 0.05277777777777778
+        },
+        "q1_low_si_tail_prob": 0.04155124653739612,
+        "q5_high_si_tail_prob": 0.05277777777777778,
+        "low_si_more_risky": false,
+        "logistic_coef": 0.01951040504348293,
+        "si_reduces_tail_risk": false,
+        "risk_ratio": 0.7726471463565394
+      },
+      "si_predicts_drawdowns": true,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": true,
+      "si_warns_tail_risk": false
+    },
+    {
+      "market": "commodities",
+      "symbol": "OIL",
+      "drawdown_prediction": {
+        "correlation_si_dd": -0.08088965856053676,
+        "correlation_pval": 0.004748663426177342,
+        "significant": true,
+        "avg_dd_when_low_si": -0.08532476347341401,
+        "avg_dd_when_high_si": -0.09339516783446475,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.008070404361050734
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.0676286459759019,
+            "pval": 0.01759347126386389,
+            "significant": true,
+            "r_squared": 0.00538410723837901,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.043829164038815746,
+            "pval": 0.12492019281491046,
+            "significant": false,
+            "r_squared": 0.00385549625156012,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.06593607576187702,
+            "pval": 0.02142813654148817,
+            "significant": true,
+            "r_squared": 0.0008951720355938608,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.24566135096460287,
+          "max_dd": -0.5531931946539225,
+          "total_return": 0.12193278860492507
+        },
+        "si_scale": {
+          "sharpe": 0.43000355805143103,
+          "max_dd": -0.48819081897088834,
+          "total_return": 0.5625481063263984
+        },
+        "inv_si_scale": {
+          "sharpe": 0.024056696349978868,
+          "max_dd": -0.7204971593432365,
+          "total_return": -0.28583728090535054
+        },
+        "best_method": "si_scale",
+        "si_improves_sharpe": true,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.06048387096774194,
+          "Q2": 0.024291497975708502,
+          "Q3": 0.07692307692307693,
+          "Q4": 0.036290322580645164,
+          "Q5_high": 0.05668016194331984
+        },
+        "q1_low_si_tail_prob": 0.06048387096774194,
+        "q5_high_si_tail_prob": 0.05668016194331984,
+        "low_si_more_risky": true,
+        "logistic_coef": 0.029543514361385147,
+        "si_reduces_tail_risk": false,
+        "risk_ratio": 1.048607856322893
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": true,
+      "si_warns_tail_risk": true
+    },
+    {
+      "market": "commodities",
+      "symbol": "GOLD",
+      "drawdown_prediction": {
+        "correlation_si_dd": -0.07022307554171704,
+        "correlation_pval": 0.014274638011171898,
+        "significant": true,
+        "avg_dd_when_low_si": -0.033315185643939066,
+        "avg_dd_when_high_si": -0.03708819285499665,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.003773007211057583
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": 0.03469787714136177,
+            "pval": 0.22359632389561854,
+            "significant": false,
+            "r_squared": 0.003988107033584654,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": 0.0964595362697801,
+            "pval": 0.0007162380843592566,
+            "significant": true,
+            "r_squared": 0.011922136843957487,
+            "predictive": true
+          },
+          "20d": {
+            "correlation": 0.10876965823881087,
+            "pval": 0.00014360674609596318,
+            "significant": true,
+            "r_squared": 0.020676249354953047,
+            "predictive": true
+          }
+        },
+        "predictive_horizons": [
+          "10d",
+          "20d"
+        ],
+        "any_predictive": true
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 1.2301059846111422,
+          "max_dd": -0.20430367714606879,
+          "total_return": 1.4943734179634482
+        },
+        "si_scale": {
+          "sharpe": 1.2144278186287205,
+          "max_dd": -0.19802535893488726,
+          "total_return": 1.397397113826452
+        },
+        "inv_si_scale": {
+          "sharpe": 1.1104491314832021,
+          "max_dd": -0.2259259558485881,
+          "total_return": 1.4082468787103055
+        },
+        "best_method": "constant",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.03225806451612903,
+          "Q2": 0.06477732793522267,
+          "Q3": 0.05668016194331984,
+          "Q4": 0.05668016194331984,
+          "Q5_high": 0.036290322580645164
+        },
+        "q1_low_si_tail_prob": 0.03225806451612903,
+        "q5_high_si_tail_prob": 0.036290322580645164,
+        "low_si_more_risky": false,
+        "logistic_coef": 0.00372660253668829,
+        "si_reduces_tail_risk": false,
+        "risk_ratio": 0.8650519031141868
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": true,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": false
+    },
+    {
+      "market": "forex",
+      "symbol": "GBPUSD",
+      "drawdown_prediction": {
+        "correlation_si_dd": -0.07470952255305086,
+        "correlation_pval": 0.008002932912793732,
+        "significant": true,
+        "avg_dd_when_low_si": -0.020347298894685853,
+        "avg_dd_when_high_si": -0.023362097828785136,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.003014798934099283
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.06975895047262104,
+            "pval": 0.012756132783989951,
+            "significant": true,
+            "r_squared": 0.0033712012051961837,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.013448417044850341,
+            "pval": 0.6322069649426939,
+            "significant": false,
+            "r_squared": 9.968557823347712e-05,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.04135352762272691,
+            "pval": 0.14251434862021112,
+            "significant": false,
+            "r_squared": 0.005034905010321111,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.008488228149603313,
+          "max_dd": -0.2459611318115117,
+          "total_return": -0.014291149919255397
+        },
+        "si_scale": {
+          "sharpe": -0.11235259223137527,
+          "max_dd": -0.21758316280255208,
+          "total_return": -0.06288503397785339
+        },
+        "inv_si_scale": {
+          "sharpe": 0.05879967381767059,
+          "max_dd": -0.28915052231969063,
+          "total_return": 0.006245610391641732
+        },
+        "best_method": "inv_si_scale",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.04296875,
+          "Q2": 0.06640625,
+          "Q3": 0.047058823529411764,
+          "Q4": 0.07364341085271318,
+          "Q5_high": 0.023622047244094488
+        },
+        "q1_low_si_tail_prob": 0.04296875,
+        "q5_high_si_tail_prob": 0.023622047244094488,
+        "low_si_more_risky": true,
+        "logistic_coef": -0.041655243752084334,
+        "si_reduces_tail_risk": true,
+        "risk_ratio": 1.7451331148065239
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": true
+    },
+    {
+      "market": "forex",
+      "symbol": "USDJPY",
+      "drawdown_prediction": {
+        "correlation_si_dd": 0.06313572824007645,
+        "correlation_pval": 0.025076869974764993,
+        "significant": true,
+        "avg_dd_when_low_si": -0.02334556056274475,
+        "avg_dd_when_high_si": -0.020717027532977137,
+        "low_si_predicts_worse_dd": true,
+        "dd_difference": 0.0026285330297676143
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": 0.0037206029355635,
+            "pval": 0.8944542977743517,
+            "significant": false,
+            "r_squared": 0.0017831863056313457,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": 0.01580757915838558,
+            "pval": 0.573711362697152,
+            "significant": false,
+            "r_squared": 0.004855375511698012,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.03330040261150226,
+            "pval": 0.23770933776903133,
+            "significant": false,
+            "r_squared": 0.002188782319475724,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.9067224626571041,
+          "max_dd": -0.14749357189349177,
+          "total_return": 0.5263117124807484
+        },
+        "si_scale": {
+          "sharpe": 1.0103291531419984,
+          "max_dd": -0.13182231775199416,
+          "total_return": 0.6041057262972427
+        },
+        "inv_si_scale": {
+          "sharpe": 0.6996344949031511,
+          "max_dd": -0.1673081472836263,
+          "total_return": 0.40957786502776616
+        },
+        "best_method": "si_scale",
+        "si_improves_sharpe": true,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.06640625,
+          "Q2": 0.04296875,
+          "Q3": 0.06274509803921569,
+          "Q4": 0.046875,
+          "Q5_high": 0.03515625
+        },
+        "q1_low_si_tail_prob": 0.06640625,
+        "q5_high_si_tail_prob": 0.03515625,
+        "low_si_more_risky": true,
+        "logistic_coef": -0.11240616859426543,
+        "si_reduces_tail_risk": true,
+        "risk_ratio": 1.8366464995678478
+      },
+      "si_predicts_drawdowns": true,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": true,
+      "si_warns_tail_risk": true
+    },
+    {
+      "market": "forex",
+      "symbol": "EURUSD",
+      "drawdown_prediction": {
+        "correlation_si_dd": 0.03155898752477482,
+        "correlation_pval": 0.2631594556666194,
+        "significant": false,
+        "avg_dd_when_low_si": -0.018467636208104807,
+        "avg_dd_when_high_si": -0.018701358177635744,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.0002337219695309374
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.03247132751357274,
+            "pval": 0.246794158744101,
+            "significant": false,
+            "r_squared": 7.013782727938178e-06,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.011095511269313251,
+            "pval": 0.6929326835275373,
+            "significant": false,
+            "r_squared": 0.0014421484095213932,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": -0.004738585834517725,
+            "pval": 0.8666066577164495,
+            "significant": false,
+            "r_squared": 0.0008584439479056849,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": -0.06336341489178504,
+          "max_dd": -0.21657941522589386,
+          "total_return": -0.0380427969982976
+        },
+        "si_scale": {
+          "sharpe": -0.13536071232105557,
+          "max_dd": -0.21841666893891076,
+          "total_return": -0.06293978130364108
+        },
+        "inv_si_scale": {
+          "sharpe": -0.05014118210323536,
+          "max_dd": -0.22407545588907685,
+          "total_return": -0.036783310325828045
+        },
+        "best_method": "inv_si_scale",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": false
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.046875,
+          "Q2": 0.078125,
+          "Q3": 0.050980392156862744,
+          "Q4": 0.03125,
+          "Q5_high": 0.046875
+        },
+        "q1_low_si_tail_prob": 0.046875,
+        "q5_high_si_tail_prob": 0.046875,
+        "low_si_more_risky": false,
+        "logistic_coef": -0.08799201713550567,
+        "si_reduces_tail_risk": true,
+        "risk_ratio": 0.97911227154047
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": false
+    },
+    {
+      "market": "stocks",
+      "symbol": "SPY",
+      "drawdown_prediction": {
+        "correlation_si_dd": -0.09979986527226103,
+        "correlation_pval": 0.0004942951702893902,
+        "significant": true,
+        "avg_dd_when_low_si": -0.034652157016472486,
+        "avg_dd_when_high_si": -0.03710495021401967,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.0024527931975471817
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.03695333317943227,
+            "pval": 0.19527602528481003,
+            "significant": false,
+            "r_squared": 0.003219767455399758,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": 0.022211886017314473,
+            "pval": 0.4373250593395901,
+            "significant": false,
+            "r_squared": 8.399259399105574e-07,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": 0.050436488431439025,
+            "pval": 0.07885543080809937,
+            "significant": false,
+            "r_squared": 1.5315072097177307e-06,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.8743798019988489,
+          "max_dd": -0.24496386686202476,
+          "total_return": 0.9568222075867427
+        },
+        "si_scale": {
+          "sharpe": 0.7996970723522876,
+          "max_dd": -0.2690321372399378,
+          "total_return": 0.7825244993339711
+        },
+        "inv_si_scale": {
+          "sharpe": 0.8428473576227188,
+          "max_dd": -0.2544856450552875,
+          "total_return": 1.0356842121599237
+        },
+        "best_method": "constant",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": false
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.06072874493927125,
+          "Q2": 0.05668016194331984,
+          "Q3": 0.048582995951417005,
+          "Q4": 0.036290322580645164,
+          "Q5_high": 0.044715447154471545
+        },
+        "q1_low_si_tail_prob": 0.06072874493927125,
+        "q5_high_si_tail_prob": 0.044715447154471545,
+        "low_si_more_risky": true,
+        "logistic_coef": -0.10649350685508209,
+        "si_reduces_tail_risk": true,
+        "risk_ratio": 1.3284075453548576
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": true
+    },
+    {
+      "market": "stocks",
+      "symbol": "AAPL",
+      "drawdown_prediction": {
+        "correlation_si_dd": -0.06170842070992884,
+        "correlation_pval": 0.031492214888686414,
+        "significant": true,
+        "avg_dd_when_low_si": -0.06282708880084253,
+        "avg_dd_when_high_si": -0.06450515292051245,
+        "low_si_predicts_worse_dd": false,
+        "dd_difference": -0.0016780641196699198
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.053920660020849186,
+            "pval": 0.058688001983310756,
+            "significant": false,
+            "r_squared": 0.0011336947781140916,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.10083556138715816,
+            "pval": 0.0004083094045624419,
+            "significant": true,
+            "r_squared": 0.004756373751030996,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": -0.023841463721315008,
+            "pval": 0.4063686446276388,
+            "significant": false,
+            "r_squared": 0.003818914853529809,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.6588131128509986,
+          "max_dd": -0.33360516877507274,
+          "total_return": 1.0534984053776237
+        },
+        "si_scale": {
+          "sharpe": 0.5007526295809259,
+          "max_dd": -0.3947717436772692,
+          "total_return": 0.6401327924600688
+        },
+        "inv_si_scale": {
+          "sharpe": 0.736450621793131,
+          "max_dd": -0.3656879327586555,
+          "total_return": 1.3990123201485911
+        },
+        "best_method": "inv_si_scale",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": false
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.048582995951417005,
+          "Q2": 0.04048582995951417,
+          "Q3": 0.048582995951417005,
+          "Q4": 0.06477732793522267,
+          "Q5_high": 0.044534412955465584
+        },
+        "q1_low_si_tail_prob": 0.048582995951417005,
+        "q5_high_si_tail_prob": 0.044534412955465584,
+        "low_si_more_risky": true,
+        "logistic_coef": 0.01561966075554492,
+        "si_reduces_tail_risk": false,
+        "risk_ratio": 1.0669511869831956
+      },
+      "si_predicts_drawdowns": false,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": true
+    },
+    {
+      "market": "stocks",
+      "symbol": "QQQ",
+      "drawdown_prediction": {
+        "correlation_si_dd": 0.0010728421676297621,
+        "correlation_pval": 0.9702000244535391,
+        "significant": false,
+        "avg_dd_when_low_si": -0.04921020027580972,
+        "avg_dd_when_high_si": -0.044858271560412916,
+        "low_si_predicts_worse_dd": true,
+        "dd_difference": 0.004351928715396802
+      },
+      "volatility_forecasting": {
+        "by_horizon": {
+          "5d": {
+            "correlation": -0.0075894781399501645,
+            "pval": 0.7903112267229491,
+            "significant": false,
+            "r_squared": 0.00018457792007531282,
+            "predictive": false
+          },
+          "10d": {
+            "correlation": -0.051438226612954704,
+            "pval": 0.07190937395153031,
+            "significant": false,
+            "r_squared": 0.0015682313315575902,
+            "predictive": false
+          },
+          "20d": {
+            "correlation": -0.03525554239505367,
+            "pval": 0.219441706385941,
+            "significant": false,
+            "r_squared": 0.0017693729254890656,
+            "predictive": false
+          }
+        },
+        "predictive_horizons": [],
+        "any_predictive": false
+      },
+      "position_scaling": {
+        "constant": {
+          "sharpe": 0.7386876075137763,
+          "max_dd": -0.3511871952873963,
+          "total_return": 1.0232976750329708
+        },
+        "si_scale": {
+          "sharpe": 0.6798077877717587,
+          "max_dd": -0.3296652571352261,
+          "total_return": 0.884514154840335
+        },
+        "inv_si_scale": {
+          "sharpe": 0.7234383718939355,
+          "max_dd": -0.388859713766177,
+          "total_return": 1.0542013069719158
+        },
+        "best_method": "constant",
+        "si_improves_sharpe": false,
+        "si_reduces_dd": true
+      },
+      "tail_risk": {
+        "tail_prob_by_quintile": {
+          "Q1_low": 0.04048582995951417,
+          "Q2": 0.05263157894736842,
+          "Q3": 0.0728744939271255,
+          "Q4": 0.044534412955465584,
+          "Q5_high": 0.04048582995951417
+        },
+        "q1_low_si_tail_prob": 0.04048582995951417,
+        "q5_high_si_tail_prob": 0.04048582995951417,
+        "low_si_more_risky": false,
+        "logistic_coef": -0.032285088889003846,
+        "si_reduces_tail_risk": true,
+        "risk_ratio": 0.9758953840148336
+      },
+      "si_predicts_drawdowns": true,
+      "si_predicts_volatility": false,
+      "si_improves_sizing": false,
+      "si_warns_tail_risk": false
+    }
+  ]
+}

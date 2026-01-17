@@ -1,0 +1,321 @@
+{
+  "timestamp": "2026-01-17T18:48:25.984074",
+  "score": 91.17647058823529,
+  "summary": {
+    "total": 34,
+    "passed": 29,
+    "warned": 4,
+    "failed": 1
+  },
+  "gaps": {
+    "high_priority": [],
+    "medium_priority": [
+      {
+        "category": "Statistics",
+        "item": "Block bootstrap",
+        "status": "WARN",
+        "fix": "Implement block bootstrap for time series"
+      },
+      {
+        "category": "Publication",
+        "item": "Parameter sensitivity analysis",
+        "status": "WARN",
+        "fix": "Test different SI windows, agent counts"
+      }
+    ],
+    "low_priority": [
+      {
+        "category": "Statistics",
+        "item": "Stationarity tests",
+        "status": "MISSING",
+        "fix": "Add ADF/KPSS tests for SI series"
+      },
+      {
+        "category": "Backtest",
+        "item": "Slippage model",
+        "status": "WARN",
+        "fix": "Implement square-root market impact"
+      },
+      {
+        "category": "Backtest",
+        "item": "Position limits",
+        "status": "WARN",
+        "fix": "Add max position size constraints"
+      }
+    ]
+  },
+  "items": [
+    {
+      "category": "Data",
+      "item": "crypto data files",
+      "status": "PASS",
+      "details": "6 files found",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Data",
+      "item": "forex data files",
+      "status": "PASS",
+      "details": "3 files found",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Data",
+      "item": "stocks data files",
+      "status": "PASS",
+      "details": "3 files found",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Data",
+      "item": "commodities data files",
+      "status": "PASS",
+      "details": "2 files found",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Data",
+      "item": "Reproducibility manifest",
+      "status": "PASS",
+      "details": "Manifest exists with checksums",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Data",
+      "item": "Train/Val/Test split ratios",
+      "status": "PASS",
+      "details": "70/15/15 documented in MASTER_PLAN.md",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Data",
+      "item": "Look-ahead bias check",
+      "status": "PASS",
+      "details": "Checked in p0_critical_audits.py",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "SI Computation",
+      "item": "Full NichePopulation SI",
+      "status": "PASS",
+      "details": "Full SI used, R\u00b2=0.481",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "SI Computation",
+      "item": "SI window parameter",
+      "status": "PASS",
+      "details": "7 days for daily data, documented in code",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "SI Computation",
+      "item": "Agent count",
+      "status": "PASS",
+      "details": "18 agents (6 strategies \u00d7 3 agents)",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "SI Computation",
+      "item": "Affinity update rule",
+      "status": "PASS",
+      "details": "\u03b1=0.1, documented in mechanism analysis",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "SI Computation",
+      "item": "SI formula",
+      "status": "PASS",
+      "details": "SI = 1 - mean(normalized_entropy)",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "SI Computation",
+      "item": "Frequency-aware computation",
+      "status": "PASS",
+      "details": "NichePopulationV2 handles hourly/daily correctly",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Statistics",
+      "item": "Multiple testing correction",
+      "status": "PASS",
+      "details": "FDR (Benjamini-Hochberg) used",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Statistics",
+      "item": "HAC standard errors",
+      "status": "PASS",
+      "details": "Used in factor regression (5 lags)",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Statistics",
+      "item": "Effect size requirements",
+      "status": "PASS",
+      "details": "|r| > 0.10 for meaningful correlation",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Statistics",
+      "item": "Bootstrap confidence intervals",
+      "status": "PASS",
+      "details": "Used in walk-forward validation",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Statistics",
+      "item": "Block bootstrap",
+      "status": "WARN",
+      "details": "Simple bootstrap used, should use block bootstrap",
+      "fix_required": "Implement block bootstrap for time series",
+      "priority": "medium"
+    },
+    {
+      "category": "Statistics",
+      "item": "Stationarity tests",
+      "status": "MISSING",
+      "details": "No formal stationarity tests",
+      "fix_required": "Add ADF/KPSS tests for SI series",
+      "priority": "low"
+    },
+    {
+      "category": "Statistics",
+      "item": "Structural break tests",
+      "status": "PASS",
+      "details": "Split-half analysis performed",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Backtest",
+      "item": "Transaction costs",
+      "status": "PASS",
+      "details": "Market-specific costs applied",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Backtest",
+      "item": "Walk-forward validation",
+      "status": "PASS",
+      "details": "OOS rate: 60%",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Backtest",
+      "item": "Slippage model",
+      "status": "WARN",
+      "details": "Using fixed slippage, not market-impact model",
+      "fix_required": "Implement square-root market impact",
+      "priority": "low"
+    },
+    {
+      "category": "Backtest",
+      "item": "Position limits",
+      "status": "WARN",
+      "details": "No explicit position limits",
+      "fix_required": "Add max position size constraints",
+      "priority": "low"
+    },
+    {
+      "category": "Backtest",
+      "item": "Survivorship bias check",
+      "status": "PASS",
+      "details": "All assets existed before analysis period",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Backtest",
+      "item": "Out-of-sample testing",
+      "status": "PASS",
+      "details": "Walk-forward uses true OOS windows",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Factor-adjusted alpha",
+      "status": "PASS",
+      "details": "Factor regression performed",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Mechanism documentation",
+      "status": "PASS",
+      "details": "SI emergence mechanism documented",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Limitations section",
+      "status": "PASS",
+      "details": "Factor exposure acknowledged in transparency report",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Code reproducibility",
+      "status": "PASS",
+      "details": "All code in git, manifest generated",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Parameter sensitivity analysis",
+      "status": "WARN",
+      "details": "Limited sensitivity testing",
+      "fix_required": "Test different SI windows, agent counts",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Cross-market validation",
+      "status": "PASS",
+      "details": "Tested on 4 markets",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Paper framing",
+      "status": "PASS",
+      "details": "Framed as mechanism + behavioral metric, not alpha",
+      "fix_required": "",
+      "priority": "medium"
+    },
+    {
+      "category": "Publication",
+      "item": "Negative results disclosure",
+      "status": "PASS",
+      "details": "Regime-conditioning failure documented",
+      "fix_required": "",
+      "priority": "medium"
+    }
+  ]
+}

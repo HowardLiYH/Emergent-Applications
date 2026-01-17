@@ -1,0 +1,328 @@
+{
+  "timestamp": "2026-01-17T18:50:41.242595",
+  "fixes_applied": [
+    "block_bootstrap",
+    "stationarity_tests",
+    "parameter_sensitivity"
+  ],
+  "results": {
+    "crypto/BTCUSDT": {
+      "block_bootstrap": {
+        "mean": 0.7656749844653714,
+        "std": 0.3734410699906167,
+        "ci_lower": 0.053472511538912165,
+        "ci_upper": 1.4523624465252907,
+        "prob_positive": 0.982,
+        "method": "block_bootstrap",
+        "block_size": 20,
+        "n_bootstrap": 500
+      },
+      "simple_bootstrap": {
+        "mean": 0.8232581755928631,
+        "std": 0.3769310084747474,
+        "ci_lower": 0.04757164178812545,
+        "ci_upper": 1.5229884068479758,
+        "prob_positive": 0.978,
+        "method": "simple_bootstrap",
+        "n_bootstrap": 500
+      },
+      "si_stationarity": {
+        "series": "SI",
+        "n_obs": 1805,
+        "adf_statistic": -12.160981971757378,
+        "adf_pvalue": 1.4938931599452768e-22,
+        "adf_stationary": "True",
+        "kpss_statistic": 0.12111367079485101,
+        "kpss_pvalue": 0.1,
+        "kpss_stationary": "True",
+        "verdict": "STATIONARY"
+      },
+      "returns_stationarity": {
+        "series": "Returns",
+        "n_obs": 1825,
+        "adf_statistic": -44.95351741716723,
+        "adf_pvalue": null,
+        "adf_stationary": true,
+        "kpss_statistic": 0.10838173958133793,
+        "kpss_pvalue": 0.1,
+        "kpss_stationary": "True",
+        "verdict": "STATIONARY"
+      },
+      "parameter_sensitivity": {
+        "si_window_sensitivity": {
+          "5": {
+            "si_mean": 0.012336967108658423,
+            "si_std": 0.006447893240803322,
+            "return_correlation": 0.006972398207394065,
+            "correlation_pval": 0.7671499988137508
+          },
+          "7": {
+            "si_mean": 0.019208223524808103,
+            "si_std": 0.010567510646277624,
+            "return_correlation": 0.023800125169811184,
+            "correlation_pval": 0.31234317100503994
+          },
+          "10": {
+            "si_mean": 0.029742185584019257,
+            "si_std": 0.017067594337356263,
+            "return_correlation": 0.02634199711829535,
+            "correlation_pval": 0.26385563647286864
+          },
+          "14": {
+            "si_mean": 0.04478701414625719,
+            "si_std": 0.026344901032327707,
+            "return_correlation": -0.007997300962675202,
+            "correlation_pval": 0.7347729061505059
+          },
+          "21": {
+            "si_mean": 0.07439159866466992,
+            "si_std": 0.03980342625847274,
+            "return_correlation": 0.003679244171242026,
+            "correlation_pval": 0.8763840409709515
+          }
+        },
+        "n_agents_sensitivity": {
+          "2": {
+            "total_agents": 12,
+            "si_mean": 0.018273415457928648,
+            "si_std": 0.009675819629237655,
+            "return_correlation": 0.024207213104250593,
+            "correlation_pval": 0.3041363752817476
+          },
+          "3": {
+            "total_agents": 18,
+            "si_mean": 0.019208223524808103,
+            "si_std": 0.010567510646277624,
+            "return_correlation": 0.023800125169811184,
+            "correlation_pval": 0.31234317100503994
+          },
+          "5": {
+            "total_agents": 30,
+            "si_mean": 0.01995606997831165,
+            "si_std": 0.011341403003577433,
+            "return_correlation": 0.02358783747152097,
+            "correlation_pval": 0.31668014622330903
+          }
+        },
+        "stability": {
+          "window_corr_std": 0.012876035503754055,
+          "window_stable": "True",
+          "agents_corr_std": 0.0002569939099215137,
+          "agents_stable": "True"
+        }
+      }
+    },
+    "stocks/SPY": {
+      "block_bootstrap": {
+        "mean": 0.6785493006681045,
+        "std": 0.47579115884956585,
+        "ci_lower": -0.21903638581887466,
+        "ci_upper": 1.57153438861849,
+        "prob_positive": 0.924,
+        "method": "block_bootstrap",
+        "block_size": 20,
+        "n_bootstrap": 500
+      },
+      "simple_bootstrap": {
+        "mean": 0.7084750080797053,
+        "std": 0.4654647041943355,
+        "ci_lower": -0.07170587396058423,
+        "ci_upper": 1.7199754929528013,
+        "prob_positive": 0.938,
+        "method": "simple_bootstrap",
+        "n_bootstrap": 500
+      },
+      "si_stationarity": {
+        "series": "SI",
+        "n_obs": 1235,
+        "adf_statistic": -10.147801831124164,
+        "adf_pvalue": 8.099012273374847e-18,
+        "adf_stationary": "True",
+        "kpss_statistic": 0.04086361425607867,
+        "kpss_pvalue": 0.1,
+        "kpss_stationary": "True",
+        "verdict": "STATIONARY"
+      },
+      "returns_stationarity": {
+        "series": "Returns",
+        "n_obs": 1255,
+        "adf_statistic": -22.08016779706074,
+        "adf_pvalue": null,
+        "adf_stationary": true,
+        "kpss_statistic": 0.11132325427370379,
+        "kpss_pvalue": 0.1,
+        "kpss_stationary": "True",
+        "verdict": "STATIONARY"
+      },
+      "parameter_sensitivity": {
+        "si_window_sensitivity": {
+          "5": {
+            "si_mean": 0.013529200552857293,
+            "si_std": 0.006626366375130728,
+            "return_correlation": -0.00879101610936778,
+            "correlation_pval": 0.7575062458905681
+          },
+          "7": {
+            "si_mean": 0.022188765257160646,
+            "si_std": 0.011179279967752554,
+            "return_correlation": -0.010065983843827082,
+            "correlation_pval": 0.7238996320309816
+          },
+          "10": {
+            "si_mean": 0.03651396430473241,
+            "si_std": 0.01859576991179143,
+            "return_correlation": -0.019423826445376376,
+            "correlation_pval": 0.49595458488518707
+          },
+          "14": {
+            "si_mean": 0.05737623098652467,
+            "si_std": 0.028550533308844217,
+            "return_correlation": -0.027933518635870756,
+            "correlation_pval": 0.32824032599060027
+          },
+          "21": {
+            "si_mean": 0.09699167629456293,
+            "si_std": 0.04177735395675987,
+            "return_correlation": -0.019614914898736523,
+            "correlation_pval": 0.49367017299564064
+          }
+        },
+        "n_agents_sensitivity": {
+          "2": {
+            "total_agents": 12,
+            "si_mean": 0.021184635928730402,
+            "si_std": 0.010409587366440884,
+            "return_correlation": -0.009851682423446589,
+            "correlation_pval": 0.7295449767781115
+          },
+          "3": {
+            "total_agents": 18,
+            "si_mean": 0.022188765257160646,
+            "si_std": 0.011179279967752554,
+            "return_correlation": -0.010065983843827082,
+            "correlation_pval": 0.7238996320309816
+          },
+          "5": {
+            "total_agents": 30,
+            "si_mean": 0.022992068719904803,
+            "si_std": 0.011858914377957802,
+            "return_correlation": -0.009797594766438692,
+            "correlation_pval": 0.7309721397851159
+          }
+        },
+        "stability": {
+          "window_corr_std": 0.007036831765634938,
+          "window_stable": "True",
+          "agents_corr_std": 0.00011589423831862669,
+          "agents_stable": "True"
+        }
+      }
+    },
+    "forex/EURUSD": {
+      "block_bootstrap": {
+        "mean": -0.18739641816036282,
+        "std": 0.4418275228091031,
+        "ci_lower": -1.0516124258966633,
+        "ci_upper": 0.6871339056260638,
+        "prob_positive": 0.324,
+        "method": "block_bootstrap",
+        "block_size": 20,
+        "n_bootstrap": 500
+      },
+      "simple_bootstrap": {
+        "mean": -0.21372028336025903,
+        "std": 0.4670337032544613,
+        "ci_lower": -1.1561254980710896,
+        "ci_upper": 0.6785525676446028,
+        "prob_positive": 0.316,
+        "method": "simple_bootstrap",
+        "n_bootstrap": 500
+      },
+      "si_stationarity": {
+        "series": "SI",
+        "n_obs": 1279,
+        "adf_statistic": -13.237840702085887,
+        "adf_pvalue": 9.300358207303368e-25,
+        "adf_stationary": "True",
+        "kpss_statistic": 0.06293524429395604,
+        "kpss_pvalue": 0.1,
+        "kpss_stationary": "True",
+        "verdict": "STATIONARY"
+      },
+      "returns_stationarity": {
+        "series": "Returns",
+        "n_obs": 1299,
+        "adf_statistic": -35.802550337117204,
+        "adf_pvalue": null,
+        "adf_stationary": true,
+        "kpss_statistic": 0.2736415550391553,
+        "kpss_pvalue": 0.1,
+        "kpss_stationary": "True",
+        "verdict": "STATIONARY"
+      },
+      "parameter_sensitivity": {
+        "si_window_sensitivity": {
+          "5": {
+            "si_mean": 0.01358238123827281,
+            "si_std": 0.006940895736315464,
+            "return_correlation": -0.0033706960068970028,
+            "correlation_pval": 0.904105925261972
+          },
+          "7": {
+            "si_mean": 0.022131046423072682,
+            "si_std": 0.011726277244159837,
+            "return_correlation": -0.017632650721294035,
+            "correlation_pval": 0.5288359216856862
+          },
+          "10": {
+            "si_mean": 0.036313659123334986,
+            "si_std": 0.019301850813129025,
+            "return_correlation": -0.020288437304814763,
+            "correlation_pval": 0.4691848121205837
+          },
+          "14": {
+            "si_mean": 0.05736707943367677,
+            "si_std": 0.029199805994313485,
+            "return_correlation": 0.016783770536194877,
+            "correlation_pval": 0.5499646959195931
+          },
+          "21": {
+            "si_mean": 0.09756385098592817,
+            "si_std": 0.043589781258861954,
+            "return_correlation": 0.01134963693368678,
+            "correlation_pval": 0.6868563595453536
+          }
+        },
+        "n_agents_sensitivity": {
+          "2": {
+            "total_agents": 12,
+            "si_mean": 0.021354016339123216,
+            "si_std": 0.01105676032667447,
+            "return_correlation": -0.02057731290385173,
+            "correlation_pval": 0.4623523214968063
+          },
+          "3": {
+            "total_agents": 18,
+            "si_mean": 0.022131046423072682,
+            "si_std": 0.011726277244159837,
+            "return_correlation": -0.017632650721294035,
+            "correlation_pval": 0.5288359216856862
+          },
+          "5": {
+            "total_agents": 30,
+            "si_mean": 0.02275267049023223,
+            "si_std": 0.0123120629344728,
+            "return_correlation": -0.017050525547606818,
+            "correlation_pval": 0.542531599754261
+          }
+        },
+        "stability": {
+          "window_corr_std": 0.01489814275998332,
+          "window_stable": "True",
+          "agents_corr_std": 0.001543737677176001,
+          "agents_stable": "True"
+        }
+      }
+    }
+  }
+}
