@@ -279,11 +279,12 @@ Build a minimal backtest that answers:
 **Priority: DISCOVER what SI measures, THEN trace to profit**
 
 - [x] Created trading folder structure
-- [x] Documented research plan  
+- [x] Documented research plan
 - [x] Documented architecture decisions
 - [x] Created this strategy planning doc
 - [x] Created SI→Profit innovation doc
-- [x] Created SI Exploration doc (18 wild hypotheses)
+- [x] Created SI Exploration doc (40 wild hypotheses!)
+- [x] Created SI Correlation Test Plan (70+ features)
 - [ ] **NEXT: Extract data pipeline from PopAgent**
 - [ ] Extract Thompson Sampling from PopAgent
 - [ ] Build simple strategies (momentum, mean-reversion, breakout)
@@ -291,6 +292,17 @@ Build a minimal backtest that answers:
 - [ ] Run backtest + collect all features
 - [ ] **CRITICAL: Correlation analysis - What does SI relate to?**
 - [ ] Interpretation + pivot decision
+
+### Key Documents
+
+| Document | Purpose |
+|----------|---------|
+| `STRATEGY_PLANNING.md` | Overall strategy and guardrails |
+| `TRADING_RESEARCH_PLAN.md` | Research direction and expert input |
+| `ARCHITECTURE_DECISIONS.md` | Technical design choices |
+| `SI_EXPLORATION.md` | 40 hypotheses about what SI measures |
+| `SI_TO_PROFIT_INNOVATION.md` | Core thesis articulation |
+| `SI_CORRELATION_TEST_PLAN.md` | **NEW: How to test 70+ features**
 
 ---
 
