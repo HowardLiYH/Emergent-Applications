@@ -1,6 +1,6 @@
 # Strategy Planning: Trading Application
 
-**Date**: January 17, 2026  
+**Date**: January 17, 2026
 **Purpose**: Keep development on track and aligned with core thesis
 
 ---
@@ -192,6 +192,170 @@ Build a minimal backtest that answers:
 2. **PopAgent is a resource to borrow from, not a project to complete**
 3. **Profit validates our thesis, not architecture complexity**
 4. **Start simple, add complexity only after validation**
+
+---
+
+## 🔬 Research Integration: External Ideas
+
+### Reviewed Papers
+
+| Paper | Source | Key Concept | Relevance |
+|-------|--------|-------------|-----------|
+| **AgentEvolver** | arxiv 2511.10395 | Self-evolving agents with self-questioning, self-navigating, self-attributing | ⚠️ Phase 3+ |
+
+### AgentEvolver: What's Useful (and What's Not)
+
+**NOT Useful for Phase 0-1**:
+- Self-Questioning (task generation) — We have clear tasks already
+- Complex LLM-based agents — Over-engineered for trading
+- Context-Managing Templates — We don't need long-horizon reasoning
+
+**POTENTIALLY Useful for Phase 2+**:
+- **Self-Attributing**: Assign credit to individual trading decisions
+  - Problem: Trade today, profit/loss realized later. Which decision mattered?
+  - Solution: Attribution analysis to understand WHY specialists win
+  - Application: Help specialists learn BETTER, not just compete
+
+### Creative Integration: SI → Profit Architecture
+
+The key insight is linking our Specialization Index (SI) directly to profitability:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SI → PROFIT PIPELINE                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  PHASE 0-1: VALIDATE BASICS                                 │
+│  ┌─────────┐    ┌─────────┐    ┌─────────┐                 │
+│  │Strategy │ → │NichePop │ → │ Profit  │                   │
+│  │  Pool   │    │Competition│   │ Check   │                 │
+│  └─────────┘    └─────────┘    └─────────┘                 │
+│       ↓              ↓              ↓                       │
+│   3 strategies   Winners emerge   Is profit > baseline?    │
+│                                                              │
+│  PHASE 2: ADD ATTRIBUTION (from AgentEvolver)               │
+│  ┌─────────┐    ┌─────────┐    ┌─────────┐                 │
+│  │Specialist│ → │ Trade   │ → │ Attribute│                 │
+│  │ Trades  │    │ Result  │    │ Credit  │                 │
+│  └─────────┘    └─────────┘    └─────────┘                 │
+│       ↓              ↓              ↓                       │
+│   Agent A trades   +5% return    Entry was good,           │
+│   BTC long                       Exit timing helped         │
+│                                                              │
+│  PHASE 3: FULL SELF-EVOLUTION                               │
+│  ┌─────────────────────────────────────────┐               │
+│  │ Specialists learn from attribution      │               │
+│  │ → Improve strategy parameters           │               │
+│  │ → Better SI → Better Profit            │               │
+│  └─────────────────────────────────────────┘               │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### The Core Innovation: SI as Profit Predictor
+
+Our thesis isn't just "SI emerges" — it's **"SI leads to profit"**.
+
+To prove this, we need to show:
+
+| Hypothesis | Test | Success Criteria |
+|------------|------|------------------|
+| H1: Specialists emerge | Measure SI | SI > 0.4 |
+| H2: Specialists are profitable | Measure profit per specialist | Each specialist profitable in their niche |
+| H3: Ensemble beats individuals | Compare ensemble vs single-best | Ensemble Sharpe > Best individual |
+| H4: SI correlates with profit | Regression: SI → Profit | Positive, significant correlation |
+
+**H4 is the key innovation**: We're not just showing SI exists, we're showing it PREDICTS profitability.
+
+---
+
+## 💡 Creative Architecture Ideas
+
+### Idea 1: Profit-Weighted Competition (Novel)
+
+Instead of pure winner-take-all, weight competition by BOTH performance AND specialization:
+
+```python
+# Traditional: Winner takes all
+winner = argmax(returns)
+
+# Novel: Profit-weighted with diversity bonus
+scores = returns + alpha * diversity_contribution
+winner = argmax(scores)
+```
+
+This incentivizes specialists to be BOTH profitable AND different.
+
+### Idea 2: Attribution-Guided Learning (From AgentEvolver)
+
+After Phase 1 validation, add attribution:
+
+```python
+# For each trade sequence
+for trade in specialist_trades:
+    # Decompose profit into components
+    entry_contribution = attribute_to_entry(trade)
+    timing_contribution = attribute_to_timing(trade)
+    sizing_contribution = attribute_to_sizing(trade)
+    
+    # Update specialist based on what worked
+    specialist.learn_from_attribution(entry_contribution, ...)
+```
+
+### Idea 3: Niche Affinity as Market Regime Detector
+
+Our specialists don't just pick strategies—they DISCOVER market regimes:
+
+```
+Specialist A wins in: High volatility, trending
+Specialist B wins in: Low volatility, mean-reverting
+Specialist C wins in: Choppy, uncertain
+
+→ The PATTERN of who wins tells us the current regime
+→ We didn't define regimes; they EMERGED from competition
+```
+
+This is powerful because:
+1. No manual regime labeling needed
+2. Regimes are defined by what WORKS, not arbitrary features
+3. Adapts automatically as markets change
+
+---
+
+## 🎯 Revised Phase Plan (With Research Integration)
+
+### Phase 0: Pure Validation (No Research Integration)
+- 3 strategies, NichePopulation, basic backtest
+- Success = Profit > Baseline
+- **Do NOT add attribution, self-evolution, etc.**
+
+### Phase 1: Multi-Asset + SI Measurement
+- Extend to BTC, ETH, SOL
+- Measure SI and profit correlation
+- Success = SI emerges AND correlates with profit
+
+### Phase 2: Attribution Integration (From AgentEvolver)
+- Add credit attribution to understand WHY specialists win
+- Use attribution to improve specialist learning
+- Success = Specialists improve over time
+
+### Phase 3: Full Self-Evolution
+- Specialists adapt their strategies based on performance
+- Continuous learning from market feedback
+- Success = System improves without manual intervention
+
+---
+
+## 📚 Research To Revisit Later
+
+When we reach Phase 2+, revisit these concepts:
+
+1. **AgentEvolver's Self-Attributing**: For credit assignment
+2. **Feature-Aligned Learning** (from PopAgent): For regime-aware updates
+3. **Neural Contextual Bandits**: For complex state handling
+4. **Mixture of Experts**: For learned routing
+
+But NOT NOW. Phase 0 first.
 
 ---
 

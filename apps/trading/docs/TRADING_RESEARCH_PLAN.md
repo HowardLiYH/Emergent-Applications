@@ -328,10 +328,55 @@ apps/trading/
 - Decision Transformer (Chen et al., 2021)
 - FinRL: Deep Reinforcement Learning for Finance
 
+### Reviewed Research (January 2026)
+- **AgentEvolver** (arxiv 2511.10395): Self-evolving agents with self-attributing mechanism
+  - Useful for Phase 2+: Credit attribution for understanding specialist success
+  - Not for Phase 0-1: Over-engineered for basic validation
+
 ### Our Prior Work
 - Paper 1: NichePopulation (SI=0.747 across 6 domains)
 - Paper 2: Emergent Preference Specialization in LLM Agents
 - Paper 3: Emergent Tool Specialization
+
+---
+
+## 💡 The SI → Profit Innovation
+
+### Core Thesis Refinement
+
+Our contribution isn't just "SI emerges in trading" — it's:
+
+> **"Emergent specialization (SI) PREDICTS and CAUSES better trading performance"**
+
+This requires proving a CAUSAL link:
+
+```
+Competition → Specialists Emerge (SI > 0.4)
+     ↓
+Specialists Win in Different Conditions
+     ↓
+Ensemble Outperforms (Sharpe improvement)
+     ↓
+SI Correlates with Profit (r > 0.3, p < 0.05)
+```
+
+### Novel Contributions for Trading
+
+| Contribution | Description | Validated In |
+|--------------|-------------|--------------|
+| **Emergent Regime Discovery** | Specialists define regimes by WHAT WORKS, not arbitrary features | Phase 1 |
+| **SI as Profit Predictor** | Show statistical link between SI and returns | Phase 1 |
+| **Attribution-Guided Specialization** | Use credit assignment to improve specialist learning | Phase 2 |
+| **Self-Evolving Trading Population** | System improves without manual intervention | Phase 3 |
+
+### Differentiation from Existing Work
+
+| Existing Approach | Our Approach | Key Difference |
+|-------------------|--------------|----------------|
+| Pre-define regimes, assign strategies | Let regimes EMERGE from competition | No manual labeling |
+| Train router to select models | Competition produces specialists | No supervised training |
+| RL for single trading agent | Population-based competition | Diversity built-in |
+| Thompson Sampling for exploration | Thompson Sampling + Niche Affinity | Specialization, not just exploration |
 
 ---
 
@@ -342,6 +387,8 @@ apps/trading/
 3. [ ] Implement basic strategies (momentum, mean-reversion)
 4. [ ] Run Phase 0a tests
 5. [ ] Document results and make go/no-go decision
+6. [ ] If Phase 0 succeeds: Measure SI-Profit correlation
+7. [ ] If Phase 1 succeeds: Add attribution mechanism
 
 ---
 
