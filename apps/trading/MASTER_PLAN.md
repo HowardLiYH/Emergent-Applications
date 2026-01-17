@@ -3,6 +3,37 @@
 > **This is the ONLY file you need to execute the project.**
 > All code, steps, and decisions are inline. No need to read other files.
 
+**Version**: 1.0 (Freeze before execution)
+**Created**: January 17, 2026
+
+---
+
+## 📝 Execution Log (Fill During Execution)
+
+| Date | Phase | Status | Notes |
+|------|-------|--------|-------|
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+
+---
+
+## ⚠️ Known Limitations
+
+This is **signal testing**, not production trading. Known limitations:
+
+| Limitation | Impact | Acceptable Because |
+|------------|--------|-------------------|
+| Simple strategies | May not reflect real trading | Fine for SI testing |
+| No market impact | Frictionless execution | Not trading yet |
+| Equal agent sizing | Ignores conviction-based sizing | Testing SI, not strategies |
+| No transaction costs | Overstates returns | Not trading yet |
+| Hourly data only | May miss intraday patterns | Standard for signal research |
+
+These would need addressing for **live trading** (see `future/LIVE_TRADING.md`).
+
 ---
 
 ## 📍 Current Status
@@ -101,6 +132,25 @@ Stop and reassess if:
 
 ---
 
+## ⏱️ Phase Time Budgets
+
+| Phase | Optimistic | Realistic | Max | Done When |
+|-------|------------|-----------|-----|-----------|
+| 1: Setup | 0.5 days | 1 day | 2 days | Smoke test passes |
+| 2: Data | 1 day | 2 days | 3 days | Validation passes for ≥1 asset |
+| 3: Backtest | 1 day | 1 day | 2 days | SI computed and has variance |
+| 4: Discovery | 1 day | 1 day | 2 days | Discovery results saved |
+| 5: Prediction | 0.5 days | 1 day | 1 day | Prediction results saved |
+| 6: Dynamics | 0.5 days | 1 day | 1 day | Dynamics results saved |
+| 7: Validation | 1 day | 2 days | 3 days | Audit results saved |
+| 8: Report | 0.5 days | 1 day | 1 day | Report generated |
+| 9: Cross-Market | 2 days | 3 days | 5 days | Cross-market results saved |
+| **Total** | **8 days** | **13 days** | **20 days** | |
+
+**Rule**: If a phase exceeds MAX time, stop and reassess.
+
+---
+
 # PHASE 1: Pre-Registration & Setup
 
 ## Step 1.1: Commit Pre-Registration (CRITICAL)
@@ -137,16 +187,19 @@ mkdir -p data/{crypto,forex,stocks,commodities}
 ## Step 1.3: Create Requirements
 
 ```python
-# requirements.txt
-numpy>=1.24.0
-pandas>=2.0.0
-scipy>=1.11.0
-statsmodels>=0.14.0
-scikit-learn>=1.3.0
-matplotlib>=3.7.0
-seaborn>=0.12.0
-pytest>=7.4.0
-requests>=2.31.0  # For data download
+# requirements.txt - PIN EXACT VERSIONS for reproducibility
+numpy==1.24.3
+pandas==2.0.3
+scipy==1.11.1
+statsmodels==0.14.0
+scikit-learn==1.3.0
+matplotlib==3.7.2
+seaborn==0.12.2
+pytest==7.4.0
+requests==2.31.0
+tqdm==4.65.0          # Progress bars
+yfinance==0.2.28      # Data download
+hmmlearn==0.3.0       # For future regime prediction
 ```
 
 ```bash
@@ -154,6 +207,354 @@ pip install -r requirements.txt
 ```
 
 **Checkpoint**: Dependencies installed? ☐ Yes ☐ No
+
+---
+
+## Step 1.3b: Create Utility Modules
+
+### Logging Module
+
+Create `src/utils/logging_setup.py`:
+
+```python
+"""
+Logging setup for experiment tracking.
+"""
+import logging
+from pathlib import Path
+from datetime import datetime
+
+def setup_logging(name: str, log_dir: str = "logs") -> logging.Logger:
+    """
+    Setup logging with file and console handlers.
+
+    Usage:
+        logger = setup_logging("experiment")
+        logger.info("Starting experiment")
+    """
+    Path(log_dir).mkdir(exist_ok=True)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+
+    # Avoid duplicate handlers
+    if logger.handlers:
+        return logger
+
+    # File handler
+    log_file = f"{log_dir}/{name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    fh = logging.FileHandler(log_file)
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    ))
+    logger.addHandler(fh)
+
+    # Console handler
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    ch.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
+    logger.addHandler(ch)
+
+    logger.info(f"Logging to: {log_file}")
+
+    return logger
+```
+
+### Safe Math Utilities
+
+Create `src/utils/safe_math.py`:
+
+```python
+"""
+Safe math utilities to handle NaN/Inf/zero.
+"""
+import numpy as np
+import pandas as pd
+
+def safe_divide(a, b, default=0.0):
+    """Division with NaN/Inf/zero handling."""
+    if b == 0 or np.isnan(b) or np.isinf(b):
+        return default
+    result = a / b
+    if np.isnan(result) or np.isinf(result):
+        return default
+    return result
+
+def validate_series(s: pd.Series, name: str, min_length: int = 10) -> pd.Series:
+    """Validate series before computation."""
+    if s.isna().all():
+        raise ValueError(f"{name} is all NaN")
+    if len(s.dropna()) < min_length:
+        raise ValueError(f"{name} has only {len(s.dropna())} non-NaN values (need {min_length})")
+    return s
+
+def clip_outliers(s: pd.Series, n_std: float = 5.0) -> pd.Series:
+    """Clip outliers beyond n standard deviations."""
+    mean, std = s.mean(), s.std()
+    lower, upper = mean - n_std * std, mean + n_std * std
+    return s.clip(lower, upper)
+```
+
+### Timezone Utilities
+
+Create `src/utils/timezone.py`:
+
+```python
+"""
+Timezone utilities - standardize all data to UTC.
+"""
+import pandas as pd
+
+def standardize_to_utc(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Convert all timestamps to UTC.
+
+    IMPORTANT: Mixed timezones (crypto=UTC, stocks=ET) cause bugs!
+    Always call this after loading data.
+    """
+    if df.index.tz is None:
+        # Assume UTC if no timezone info
+        df.index = df.index.tz_localize('UTC')
+    else:
+        # Convert to UTC
+        df.index = df.index.tz_convert('UTC')
+
+    return df
+
+def validate_timezone(df: pd.DataFrame, expected: str = 'UTC') -> bool:
+    """Check if data is in expected timezone."""
+    if df.index.tz is None:
+        print(f"⚠️  WARNING: No timezone info. Assuming {expected}.")
+        return True
+
+    actual = str(df.index.tz)
+    if actual != expected:
+        print(f"⚠️  WARNING: Data is in {actual}, expected {expected}")
+        return False
+
+    return True
+```
+
+### Reproducibility Utilities
+
+Create `src/utils/reproducibility.py`:
+
+```python
+"""
+Reproducibility utilities.
+"""
+import json
+import random
+import hashlib
+import subprocess
+import sys
+import os
+from datetime import datetime
+from pathlib import Path
+import numpy as np
+
+def set_all_seeds(seed: int = 42):
+    """Set all random seeds for reproducibility."""
+    random.seed(seed)
+    np.random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+
+    # PyTorch if available
+    try:
+        import torch
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+    except ImportError:
+        pass
+
+def create_manifest(data_files: dict = None, config: dict = None) -> dict:
+    """
+    Create reproducibility manifest.
+
+    Save this with your results to enable exact reproduction.
+    """
+    manifest = {
+        'timestamp': datetime.now().isoformat(),
+        'python_version': sys.version,
+        'platform': sys.platform,
+        'packages': {},
+        'git': {},
+        'data_hashes': {},
+        'config': config or {},
+    }
+
+    # Package versions
+    try:
+        import pkg_resources
+        for pkg in ['numpy', 'pandas', 'scipy', 'statsmodels', 'scikit-learn']:
+            try:
+                manifest['packages'][pkg] = pkg_resources.get_distribution(pkg).version
+            except:
+                pass
+    except:
+        pass
+
+    # Git info
+    try:
+        manifest['git']['commit'] = subprocess.check_output(
+            ['git', 'rev-parse', 'HEAD']
+        ).decode().strip()
+        manifest['git']['dirty'] = len(subprocess.check_output(
+            ['git', 'status', '--porcelain']
+        )) > 0
+    except:
+        manifest['git']['error'] = 'Git not available'
+
+    # Data hashes
+    if data_files:
+        for name, filepath in data_files.items():
+            try:
+                with open(filepath, 'rb') as f:
+                    manifest['data_hashes'][name] = hashlib.md5(f.read()).hexdigest()
+            except Exception as e:
+                manifest['data_hashes'][name] = f'error: {e}'
+
+    return manifest
+
+def save_manifest(manifest: dict, filepath: str = "results/manifest.json"):
+    """Save manifest to JSON."""
+    Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+    with open(filepath, 'w') as f:
+        json.dump(manifest, f, indent=2, default=str)
+    print(f"✅ Manifest saved: {filepath}")
+```
+
+### Checkpointing Utilities
+
+Create `src/utils/checkpointing.py`:
+
+```python
+"""
+Checkpointing for long-running experiments.
+"""
+import json
+import pickle
+from pathlib import Path
+from datetime import datetime
+
+class Checkpointer:
+    """Save and load experiment checkpoints."""
+
+    def __init__(self, checkpoint_dir: str = "checkpoints"):
+        self.checkpoint_dir = Path(checkpoint_dir)
+        self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
+
+    def save(self, name: str, data: dict, phase: int = 0):
+        """Save checkpoint."""
+        checkpoint = {
+            'name': name,
+            'phase': phase,
+            'timestamp': datetime.now().isoformat(),
+            'data': data,
+        }
+
+        filepath = self.checkpoint_dir / f"{name}_phase{phase}.json"
+
+        try:
+            with open(filepath, 'w') as f:
+                json.dump(checkpoint, f, indent=2, default=str)
+        except TypeError:
+            # Fall back to pickle for non-JSON-serializable
+            filepath = self.checkpoint_dir / f"{name}_phase{phase}.pkl"
+            with open(filepath, 'wb') as f:
+                pickle.dump(checkpoint, f)
+
+        print(f"✅ Checkpoint saved: {filepath}")
+        return filepath
+
+    def load(self, name: str, phase: int = 0) -> dict:
+        """Load checkpoint if exists."""
+        # Try JSON first
+        filepath = self.checkpoint_dir / f"{name}_phase{phase}.json"
+        if filepath.exists():
+            with open(filepath) as f:
+                return json.load(f)
+
+        # Try pickle
+        filepath = self.checkpoint_dir / f"{name}_phase{phase}.pkl"
+        if filepath.exists():
+            with open(filepath, 'rb') as f:
+                return pickle.load(f)
+
+        return None
+
+    def exists(self, name: str, phase: int = 0) -> bool:
+        """Check if checkpoint exists."""
+        return (
+            (self.checkpoint_dir / f"{name}_phase{phase}.json").exists() or
+            (self.checkpoint_dir / f"{name}_phase{phase}.pkl").exists()
+        )
+```
+
+### Data Caching
+
+Create `src/utils/caching.py`:
+
+```python
+"""
+Data caching for faster repeated runs.
+"""
+import hashlib
+import pickle
+from pathlib import Path
+
+class DataCache:
+    """Cache loaded/processed data to avoid recomputation."""
+
+    def __init__(self, cache_dir: str = "cache"):
+        self.cache_dir = Path(cache_dir)
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+    def _get_key(self, *args) -> str:
+        """Generate cache key from arguments."""
+        key_str = str(args)
+        return hashlib.md5(key_str.encode()).hexdigest()
+
+    def get(self, *args):
+        """Get cached data if exists."""
+        key = self._get_key(*args)
+        filepath = self.cache_dir / f"{key}.pkl"
+
+        if filepath.exists():
+            with open(filepath, 'rb') as f:
+                print(f"📦 Cache hit: {key[:8]}...")
+                return pickle.load(f)
+
+        return None
+
+    def set(self, data, *args):
+        """Cache data."""
+        key = self._get_key(*args)
+        filepath = self.cache_dir / f"{key}.pkl"
+
+        with open(filepath, 'wb') as f:
+            pickle.dump(data, f)
+
+        print(f"💾 Cached: {key[:8]}...")
+
+    def get_or_compute(self, compute_fn, *args):
+        """Get from cache or compute and cache."""
+        cached = self.get(*args)
+        if cached is not None:
+            return cached
+
+        result = compute_fn()
+        self.set(result, *args)
+        return result
+
+    def clear(self):
+        """Clear all cached data."""
+        for f in self.cache_dir.glob("*.pkl"):
+            f.unlink()
+        print("🗑️  Cache cleared")
+```
 
 ---
 
@@ -1285,7 +1686,9 @@ class NichePopulation:
 
     def run(self, data: pd.DataFrame, start_idx: int = 200) -> pd.DataFrame:
         """Run competition over entire dataset."""
-        for idx in range(start_idx, len(data)):
+        from tqdm import tqdm
+
+        for idx in tqdm(range(start_idx, len(data)), desc="Competition"):
             self.compete(data, idx)
 
         return pd.DataFrame(self.history)
@@ -1458,12 +1861,49 @@ class CorrelationAnalyzer:
     """
     Correlation analysis with:
     - HAC standard errors
-    - Block bootstrap CIs
+    - Block bootstrap CIs (data-driven block size)
     - FDR correction
+    - Effective N reporting
+    - Regime-conditioned analysis
     """
 
-    def __init__(self, block_size: int = 24):
-        self.block_size = block_size
+    def __init__(self, block_size: int = None):
+        self.block_size = block_size  # None = auto-compute from data
+
+    def optimal_block_size(self, returns: pd.Series) -> int:
+        """
+        Compute optimal block size based on autocorrelation decay.
+        Uses Politis & White (2004) approach.
+        """
+        from statsmodels.tsa.stattools import acf
+
+        returns_clean = returns.dropna()
+        if len(returns_clean) < 100:
+            return 24  # Default for short series
+
+        try:
+            acf_values = acf(returns_clean, nlags=min(100, len(returns_clean) // 5))
+
+            # Find lag where ACF drops below 0.05
+            for lag, val in enumerate(acf_values):
+                if abs(val) < 0.05:
+                    return max(lag, 1)
+
+            return 24  # Default if ACF stays high
+        except:
+            return 24
+
+    def effective_sample_size(self, n: int, rho: float) -> int:
+        """
+        Compute effective N accounting for autocorrelation.
+
+        With high autocorrelation, effective N << raw N.
+        """
+        if rho >= 1:
+            return 1
+        if rho <= -1:
+            return n
+        return int(n * (1 - rho) / (1 + rho))
 
     def spearman_with_ci(self, x: pd.Series, y: pd.Series,
                          n_bootstrap: int = 1000) -> Dict:
@@ -1542,6 +1982,100 @@ class CorrelationAnalyzer:
 
         # Sort by absolute correlation
         df = df.sort_values('r', key=abs, ascending=False)
+
+        return df
+
+    def regime_conditioned_analysis(self, si: pd.Series, feature: pd.Series,
+                                     regimes: pd.Series) -> dict:
+        """
+        CRITICAL: Check if SI-feature correlation FLIPS in different regimes.
+
+        This catches the case where SI correlates positively with volatility
+        in trending markets but NEGATIVELY in ranging markets.
+
+        Returns:
+            dict with per-regime correlations and consistency check
+        """
+        results = {}
+        regime_names = {0: 'trending', 1: 'mean_reverting', 2: 'volatile'}
+
+        for regime_code in regimes.unique():
+            mask = regimes == regime_code
+
+            if mask.sum() < 100:  # Need enough samples
+                continue
+
+            r, p = spearmanr(si[mask], feature[mask])
+            regime_name = regime_names.get(regime_code, f'regime_{regime_code}')
+
+            results[regime_name] = {
+                'r': r,
+                'p': p,
+                'n': int(mask.sum()),
+                'significant': p < 0.05
+            }
+
+        # Check if signs are consistent
+        rs = [v['r'] for v in results.values() if 'r' in v and not np.isnan(v['r'])]
+
+        if len(rs) >= 2:
+            signs = [np.sign(r) for r in rs]
+            sign_consistent = len(set(signs)) == 1
+
+            results['_summary'] = {
+                'sign_consistent': sign_consistent,
+                'all_rs': rs,
+                'warning': None if sign_consistent else
+                    "⚠️  CORRELATION SIGN FLIPS ACROSS REGIMES! Interpret with caution."
+            }
+        else:
+            results['_summary'] = {
+                'sign_consistent': True,  # Not enough data to check
+                'all_rs': rs,
+                'warning': "Insufficient data for regime comparison"
+            }
+
+        return results
+
+    def run_discovery_with_regime_check(self, si: pd.Series, features: pd.DataFrame,
+                                         feature_list: List[str],
+                                         regimes: pd.Series = None) -> pd.DataFrame:
+        """
+        Run discovery with regime-conditioned analysis.
+
+        For each significant feature, checks if correlation is consistent
+        across market regimes.
+        """
+        # Run standard discovery
+        df = self.run_discovery(si, features, feature_list)
+
+        if regimes is None:
+            df['regime_consistent'] = None
+            return df
+
+        # Add regime analysis for significant features
+        regime_results = []
+
+        for _, row in df.iterrows():
+            if row['significant']:
+                feature = row['feature']
+                regime_analysis = self.regime_conditioned_analysis(
+                    si, features[feature], regimes
+                )
+                consistent = regime_analysis.get('_summary', {}).get('sign_consistent', True)
+                regime_results.append(consistent)
+            else:
+                regime_results.append(None)
+
+        df['regime_consistent'] = regime_results
+
+        # Flag inconsistent correlations
+        inconsistent = df[(df['significant']) & (df['regime_consistent'] == False)]
+        if len(inconsistent) > 0:
+            print("\n⚠️  WARNING: The following features have INCONSISTENT correlations across regimes:")
+            for _, row in inconsistent.iterrows():
+                print(f"   - {row['feature']}: r={row['r']:.3f} (FLIPS IN DIFFERENT REGIMES)")
+            print("   These correlations may not be reliable!\n")
 
         return df
 ```
