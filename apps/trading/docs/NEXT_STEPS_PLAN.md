@@ -1,6 +1,7 @@
-# SI Research: Next Steps Implementation Plan
+# SI Research: Next Steps Implementation Plan (v2)
 
 **Date**: January 17, 2026  
+**Last Updated**: January 17, 2026 (Post Expert Review)  
 **Based on**: Expert Panel Review  
 **Author**: Yuhao Li, University of Pennsylvania
 
@@ -8,104 +9,454 @@
 
 ## Overview
 
-This document outlines detailed implementation plans for the 10 expert-recommended next steps, organized by priority.
+This document outlines detailed implementation plans for the expert-recommended next steps, organized by priority. **Version 2** incorporates feedback from the expert panel review.
+
+### Key Changes in v2
+- Added **P0 Critical Audits** before any execution
+- Revised priority order based on expert recommendations
+- Deferred Steps 5, 6 (partial), 8 to Phase 2
+- Added market impact model and cost sensitivity to Step 1
+- Added look-ahead bias audit to Step 2
+- Expanded ensemble methods in Step 4
+- Added economic significance checks throughout
 
 ---
 
-# HIGH PRIORITY (Before Production)
+# P0: CRITICAL AUDITS (Before Any Execution)
 
-## Step 1: Backtest SI-Based Strategy with Realistic Costs
+**Timeline**: 1-2 days  
+**Gate**: Must pass ALL audits before proceeding to P1
+
+## Audit A: Survivorship Bias Check
 
 ### Objective
+Verify that asset selection was not biased by hindsight.
+
+### Checklist
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| All crypto assets existed for full 5-year period | ⬜ | BTC, ETH, SOL - verify launch dates |
+| No delisted tokens included | ⬜ | Check if any tokens died |
+| Stock tickers haven't changed | ⬜ | SPY, QQQ, AAPL - verify continuity |
+| Forex pairs continuously traded | ⬜ | Major pairs - should be fine |
+| Selection criteria documented BEFORE analysis | ⬜ | Must be in pre-registration |
+
+### Code
+
+```python
+# experiments/audit_survivorship.py
+
+def check_survivorship():
+    """Verify no survivorship bias in asset selection."""
+    
+    # Asset launch/availability dates
+    ASSET_START_DATES = {
+        'BTC': '2009-01-03',   # Genesis block
+        'ETH': '2015-07-30',   # Mainnet launch
+        'SOL': '2020-03-16',   # Mainnet beta - WARNING: < 5 years
+        'SPY': '1993-01-29',
+        'QQQ': '1999-03-10',
+        'AAPL': '1980-12-12',
+        'EURUSD': '1999-01-01',
+        'GBPUSD': '1971-01-01',
+        'USDJPY': '1971-01-01',
+        'GC=F': '1974-12-31',  # Gold futures
+        'CL=F': '1983-03-30',  # Crude oil futures
+    }
+    
+    analysis_start = '2021-01-01'
+    
+    issues = []
+    for asset, start in ASSET_START_DATES.items():
+        if start > analysis_start:
+            issues.append(f"⚠️ {asset} started {start}, after analysis period")
+        years_available = (pd.Timestamp(analysis_start) - pd.Timestamp(start)).days / 365
+        if years_available < 5:
+            issues.append(f"⚠️ {asset} has only {years_available:.1f} years before analysis")
+    
+    return issues
+```
+
+### Success Criteria
+- [ ] All assets have 5+ years of continuous data
+- [ ] Selection criteria documented before analysis
+- [ ] No hindsight in asset choice
+
+---
+
+## Audit B: Data Quality Verification
+
+### Objective
+Ensure data is clean and reliable before running any analysis.
+
+### Checks
+
+| Check | Threshold | Action if Failed |
+|-------|-----------|------------------|
+| Missing values | < 1% | Forward-fill or exclude |
+| Gaps > 3 days | 0 | Document and handle |
+| Extreme returns | \|r\| < 50% | Verify or winsorize |
+| Duplicate timestamps | 0 | Remove duplicates |
+| Timezone consistency | All UTC | Convert to UTC |
+| Weekend/holiday data | Appropriate gaps | Verify market calendar |
+
+### Code
+
+```python
+# experiments/audit_data_quality.py
+
+def audit_data_quality(data: pd.DataFrame, asset: str) -> dict:
+    """Run comprehensive data quality checks."""
+    
+    issues = {
+        'asset': asset,
+        'n_rows': len(data),
+        'date_range': f"{data.index[0]} to {data.index[-1]}",
+        'issues': []
+    }
+    
+    # Check 1: Missing values
+    missing_pct = data.isnull().sum() / len(data)
+    if missing_pct.max() > 0.01:
+        issues['issues'].append(f"Missing values: {missing_pct.max():.2%}")
+    
+    # Check 2: Gaps > 3 days
+    gaps = data.index.to_series().diff()
+    large_gaps = gaps[gaps > pd.Timedelta(days=3)]
+    if len(large_gaps) > 0:
+        issues['issues'].append(f"Large gaps: {len(large_gaps)} gaps > 3 days")
+    
+    # Check 3: Extreme returns
+    returns = data['close'].pct_change()
+    extreme = returns[returns.abs() > 0.5]
+    if len(extreme) > 0:
+        issues['issues'].append(f"Extreme returns: {len(extreme)} days with |r| > 50%")
+    
+    # Check 4: Duplicates
+    duplicates = data.index.duplicated().sum()
+    if duplicates > 0:
+        issues['issues'].append(f"Duplicate timestamps: {duplicates}")
+    
+    issues['passed'] = len(issues['issues']) == 0
+    return issues
+```
+
+### Success Criteria
+- [ ] All assets pass data quality checks
+- [ ] Issues documented and handled appropriately
+- [ ] Audit report generated
+
+---
+
+## Audit C: Reproducibility Check
+
+### Objective
+Ensure results can be reproduced by others.
+
+### Checklist
+
+| Item | Status | Value |
+|------|--------|-------|
+| Python version documented | ⬜ | 3.x.x |
+| All package versions pinned | ⬜ | requirements.txt |
+| Random seeds set | ⬜ | SEED = 42 |
+| Git commit hash recorded | ⬜ | For each run |
+| Data source documented | ⬜ | Binance, yfinance |
+| Hardware/OS documented | ⬜ | For timing benchmarks |
+
+### Code
+
+```python
+# src/utils/reproducibility.py
+
+import random
+import numpy as np
+import hashlib
+import subprocess
+import json
+
+def set_seeds(seed: int = 42):
+    """Set all random seeds for reproducibility."""
+    random.seed(seed)
+    np.random.seed(seed)
+    # If using PyTorch/TensorFlow, add those here
+
+def get_reproducibility_manifest() -> dict:
+    """Generate manifest for reproducibility."""
+    import sys
+    import pkg_resources
+    
+    manifest = {
+        'python_version': sys.version,
+        'packages': {pkg.key: pkg.version for pkg in pkg_resources.working_set},
+        'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode().strip(),
+        'git_dirty': subprocess.check_output(['git', 'status', '--porcelain']).decode().strip() != '',
+        'seed': 42,
+    }
+    return manifest
+
+def save_manifest(filepath: str):
+    """Save reproducibility manifest to file."""
+    manifest = get_reproducibility_manifest()
+    with open(filepath, 'w') as f:
+        json.dump(manifest, f, indent=2)
+```
+
+### Success Criteria
+- [ ] Reproducibility manifest generated
+- [ ] All random operations use fixed seed
+- [ ] Requirements.txt has pinned versions
+
+---
+
+## Audit D: Look-Ahead Bias Check
+
+### Objective
+Verify no future information is used in any calculation.
+
+### Critical Points to Check
+
+| Component | Check | Status |
+|-----------|-------|--------|
+| Regime classification | Uses only data[:t] at time t | ⬜ |
+| SI computation | Rolling window uses only past data | ⬜ |
+| Feature calculation | No future data in features | ⬜ |
+| Train/Val/Test split | Temporal order preserved | ⬜ |
+| Correlation analysis | No overlapping test data in training | ⬜ |
+
+### Code Review Checklist
+
+```python
+# For each function, verify:
+
+# ✅ CORRECT - uses only past data
+def classify_regime(data, idx, lookback=7):
+    window = data.iloc[idx-lookback:idx]  # Only past data
+    return compute_regime(window)
+
+# ❌ WRONG - uses future data
+def classify_regime_WRONG(data, idx, lookback=7):
+    window = data.iloc[idx-lookback:idx+lookback]  # Includes future!
+    return compute_regime(window)
+```
+
+### Success Criteria
+- [ ] Code review completed for all analysis functions
+- [ ] No future data used in any calculation
+- [ ] Documentation updated with verification
+
+---
+
+## Audit E: Economic vs Statistical Significance
+
+### Objective
+Verify that statistically significant correlations translate to tradeable edges.
+
+### Framework
+
+| Correlation | Statistical Significance | Economic Significance |
+|-------------|--------------------------|----------------------|
+| \|r\| = 0.10 | p < 0.05 may hold | ❌ Likely noise |
+| \|r\| = 0.15 | p < 0.01 likely | ⚠️ Marginal after costs |
+| \|r\| = 0.20 | p < 0.001 likely | ✅ Potentially tradeable |
+| \|r\| = 0.30 | Highly significant | ✅ Strong edge |
+
+### Calculation
+
+```python
+def assess_economic_significance(correlation: float, 
+                                  n_obs: int,
+                                  avg_trades_per_year: int,
+                                  cost_per_trade: float) -> dict:
+    """
+    Assess if correlation is economically significant.
+    
+    Rule of thumb: 
+    - Need |r| > 2 * sqrt(cost_drag) to be profitable
+    - cost_drag = trades_per_year * cost_per_trade / expected_annual_return
+    """
+    
+    # Rough estimate: correlation translates to IC
+    # Expected return ≈ IC * volatility * sqrt(trades)
+    estimated_ic = correlation
+    assumed_vol = 0.20  # 20% annual vol
+    annual_return_gross = estimated_ic * assumed_vol * np.sqrt(avg_trades_per_year)
+    
+    annual_cost = avg_trades_per_year * cost_per_trade * 2  # Round-trip
+    annual_return_net = annual_return_gross - annual_cost
+    
+    return {
+        'correlation': correlation,
+        'estimated_gross_return': annual_return_gross,
+        'annual_cost': annual_cost,
+        'estimated_net_return': annual_return_net,
+        'economically_significant': annual_return_net > 0.02,  # > 2% net
+        'break_even_correlation': annual_cost / (assumed_vol * np.sqrt(avg_trades_per_year))
+    }
+```
+
+### Success Criteria
+- [ ] All reported correlations assessed for economic significance
+- [ ] Break-even correlation computed for each strategy
+- [ ] Only economically significant findings emphasized
+
+---
+
+# P1: BACKTEST WITH REALISTIC COSTS
+
+**Timeline**: 3-4 days  
+**Dependencies**: P0 audits passed  
+**Gate**: Net Sharpe > 0 in at least 2/4 markets
+
+## Objective
 Validate that SI-based trading signals remain profitable after accounting for realistic transaction costs.
 
-### Implementation Plan
+## 1.1 Transaction Cost Model (Enhanced)
 
+### Base Costs
+
+| Market | Fee | Slippage | Total (one-way) |
+|--------|-----|----------|-----------------|
+| Crypto | 4 bps | 2 bps | 6 bps |
+| Forex | 0 bps | 1 bp | 1 bp |
+| Stocks | 1 bp | 1 bp | 2 bps |
+| Commodities | 2 bps | 1 bp | 3 bps |
+
+### Market Impact Model (NEW)
+
+For positions > 1% of ADV (Average Daily Volume):
+
+```python
+def market_impact(position_size: float, adv: float) -> float:
+    """
+    Square-root market impact model.
+    
+    Based on: Almgren & Chriss (2000)
+    Impact = base_cost + eta * sqrt(position_size / ADV)
+    """
+    participation_rate = position_size / adv
+    
+    if participation_rate < 0.01:
+        return 0  # No additional impact for small trades
+    
+    eta = 0.1  # Market impact coefficient (calibrated)
+    impact = eta * np.sqrt(participation_rate)
+    
+    return impact
 ```
-Timeline: 3-5 days
-Dependencies: Existing SI strategy code, transaction cost research
-Output: Cost-adjusted performance metrics
-```
 
-#### 1.1 Transaction Cost Model
+### Cost Sensitivity Analysis (NEW)
 
-| Market | Cost Type | Value | Source |
-|--------|-----------|-------|--------|
-| Crypto | Taker fee | 0.04% (4 bps) | Binance VIP |
-| Crypto | Slippage | 0.02% (2 bps) | Estimated |
-| Forex | Spread | 0.01% (1 bp) | Major pairs |
-| Stocks | Commission + spread | 0.02% (2 bps) | ETF average |
-| Commodities | Futures spread | 0.03% (3 bps) | Estimated |
+| Scenario | Multiplier | Use Case |
+|----------|------------|----------|
+| Optimistic | 0.5x | Best-case (market maker rebates) |
+| Base | 1.0x | Expected case |
+| Conservative | 2.0x | Stress test |
+| Extreme | 3.0x | Black swan / illiquidity |
 
-#### 1.2 Strategy Variants to Test
+## 1.2 Strategy Variants to Test
 
 | Variant | Description | Expected Turnover |
 |---------|-------------|-------------------|
-| SI Threshold Long | Long when SI > 0.6 | ~50 trades/year |
-| SI Momentum | Long when dSI/dt > 0 | ~100 trades/year |
-| SI Regime Switch | Different strategy per SI level | ~30 trades/year |
-| SI Risk Overlay | Reduce position when SI < 0.4 | ~20 adjustments/year |
+| **SI Threshold Long** | Long when SI > 0.6 | ~50 trades/year |
+| **SI Momentum** | Long when dSI/dt > 0 | ~100 trades/year |
+| **SI Regime Switch** | Different strategy per SI level | ~30 trades/year |
+| **SI Risk Overlay** | Reduce position when SI < 0.4 | ~20 adjustments/year |
 
-#### 1.3 Code Structure
+## 1.3 Code Structure
+
+```python
+# src/backtest/cost_model.py
+
+class EnhancedCostModel:
+    def __init__(self, market_type: str, cost_multiplier: float = 1.0):
+        self.base_costs = TRANSACTION_COSTS[market_type]
+        self.multiplier = cost_multiplier
+    
+    def calculate_total_cost(self, 
+                             trade_size: float, 
+                             adv: float,
+                             volatility: float) -> float:
+        """
+        Calculate total transaction cost including:
+        - Base fee
+        - Slippage (scaled by volatility)
+        - Market impact (for large trades)
+        """
+        base = self.base_costs['total'] * self.multiplier
+        
+        # Volatility-adjusted slippage
+        vol_adjustment = volatility / 0.20  # Normalize to 20% vol
+        slippage = self.base_costs['slippage'] * vol_adjustment
+        
+        # Market impact
+        impact = self.market_impact(trade_size, adv)
+        
+        return base + slippage + impact
+    
+    def market_impact(self, trade_size: float, adv: float) -> float:
+        if adv == 0 or trade_size / adv < 0.01:
+            return 0
+        return 0.1 * np.sqrt(trade_size / adv)
+```
 
 ```python
 # experiments/backtest_with_costs.py
 
-class CostModel:
-    def __init__(self, market_type: str):
-        self.costs = TRANSACTION_COSTS[market_type]
+def run_cost_sensitivity_analysis(data, si, strategy, market_type):
+    """Run backtest with multiple cost scenarios."""
     
-    def apply_costs(self, returns: pd.Series, trades: pd.Series) -> pd.Series:
-        """Apply round-trip costs to returns."""
-        cost_per_trade = self.costs['fee'] + self.costs['slippage']
-        return returns - (trades.abs() * cost_per_trade * 2)  # Round-trip
-
-def run_backtest_with_costs(data, si, strategy, cost_model):
-    signals = strategy.generate_signals(data, si)
-    trades = signals.diff().fillna(0)
-    gross_returns = calculate_returns(data, signals)
-    net_returns = cost_model.apply_costs(gross_returns, trades)
-    return {
-        'gross_sharpe': sharpe_ratio(gross_returns),
-        'net_sharpe': sharpe_ratio(net_returns),
-        'turnover': trades.abs().sum(),
-        'cost_drag': (gross_returns.sum() - net_returns.sum())
-    }
+    results = {}
+    
+    for multiplier in [0.5, 1.0, 2.0, 3.0]:
+        cost_model = EnhancedCostModel(market_type, multiplier)
+        
+        signals = strategy.generate_signals(data, si)
+        gross_returns = calculate_returns(data, signals)
+        net_returns = cost_model.apply_costs(gross_returns, signals)
+        
+        results[f'{multiplier}x'] = {
+            'gross_sharpe': sharpe_ratio(gross_returns),
+            'net_sharpe': sharpe_ratio(net_returns),
+            'gross_return': gross_returns.sum(),
+            'net_return': net_returns.sum(),
+            'cost_drag': (gross_returns.sum() - net_returns.sum()) / gross_returns.sum(),
+            'n_trades': (signals.diff() != 0).sum(),
+        }
+    
+    return results
 ```
 
-#### 1.4 Success Criteria
+## 1.4 Success Criteria
 
 | Metric | Threshold | Rationale |
 |--------|-----------|-----------|
-| Net Sharpe > 0.3 | Must be positive after costs | Minimum viability |
-| Cost drag < 50% of gross | Costs shouldn't dominate | Practical tradability |
-| Consistent across markets | 3/4 markets profitable | Robustness |
+| Net Sharpe > 0 at 1x costs | Required | Minimum viability |
+| Net Sharpe > 0 at 2x costs | Desired | Robust to cost uncertainty |
+| Cost drag < 50% of gross | Required | Costs shouldn't dominate |
+| Profitable in 2/4 markets | Required | Cross-market robustness |
 
-#### 1.5 Deliverables
+## 1.5 Deliverables
 
+- [ ] `src/backtest/cost_model.py` (enhanced with market impact)
 - [ ] `experiments/backtest_with_costs.py`
-- [ ] `results/cost_analysis/` directory with results
-- [ ] Performance comparison table (gross vs net)
-- [ ] Sensitivity analysis: cost ±50%
+- [ ] `results/cost_analysis/` directory
+- [ ] Cost sensitivity table (0.5x to 3x)
+- [ ] Market-by-market performance comparison
 
 ---
 
-## Step 2: Regime-Conditional SI Usage
+# P2: REGIME-CONDITIONAL SI
 
-### Objective
+**Timeline**: 2-3 days  
+**Dependencies**: P1 completed  
+**Gate**: Sign flip rate < 15%
+
+## Objective
 Implement SI signal usage that adapts to detected market regime, reducing sign flip issues.
 
-### Implementation Plan
-
-```
-Timeline: 2-3 days
-Dependencies: Regime detection module, SI computation
-Output: Regime-conditional strategy with reduced flip rate
-```
-
-#### 2.1 Regime-SI Mapping
-
-Based on our analysis, different regimes require different SI interpretation:
+## 2.1 Regime-SI Mapping
 
 | Regime | SI Interpretation | Action |
 |--------|------------------|--------|
@@ -114,406 +465,355 @@ Based on our analysis, different regimes require different SI interpretation:
 | **Volatile** (Vol > 2σ) | SI unreliable | Reduce exposure |
 | **Transition** (regime change) | SI lagging | Wait for confirmation |
 
-#### 2.2 Code Structure
+## 2.2 Look-Ahead Bias Audit (NEW)
+
+**Critical Check**: Regime classification must use only past data.
+
+```python
+# AUDIT: Verify no look-ahead in regime classification
+
+def audit_regime_classification():
+    """
+    Verify that regime classification at time t uses only data up to t.
+    """
+    
+    # Test case: Classify regime at t=100
+    t = 100
+    lookback = 7
+    
+    # Correct: uses data[t-lookback:t]
+    window_correct = data.iloc[t-lookback:t]
+    
+    # Check: Does the window include any data from t or later?
+    assert window_correct.index[-1] < data.index[t], "Look-ahead detected!"
+    
+    print("✅ No look-ahead bias in regime classification")
+```
+
+## 2.3 Regime Persistence Check (NEW)
+
+**Requirement**: Average regime duration > 5 days for tradability.
+
+```python
+def check_regime_persistence(regimes: pd.Series) -> dict:
+    """
+    Check that regimes persist long enough to be tradeable.
+    """
+    
+    # Compute regime durations
+    regime_changes = (regimes != regimes.shift()).cumsum()
+    durations = regimes.groupby(regime_changes).size()
+    
+    avg_duration = durations.mean()
+    min_duration = durations.min()
+    max_duration = durations.max()
+    
+    result = {
+        'avg_duration_days': avg_duration,
+        'min_duration_days': min_duration,
+        'max_duration_days': max_duration,
+        'n_regime_changes': len(durations) - 1,
+        'tradeable': avg_duration >= 5,
+    }
+    
+    if not result['tradeable']:
+        print(f"⚠️ Regimes too short: avg {avg_duration:.1f} days < 5 day minimum")
+    
+    return result
+```
+
+## 2.4 Transition Matrix (NEW)
+
+```python
+def compute_transition_matrix(regimes: pd.Series) -> pd.DataFrame:
+    """
+    Compute regime-to-regime transition probabilities.
+    """
+    
+    transitions = pd.crosstab(
+        regimes.shift(), 
+        regimes, 
+        normalize='index'
+    )
+    
+    return transitions
+```
+
+Expected output:
+```
+              trending  mean_rev  volatile
+trending         0.85      0.10      0.05
+mean_rev         0.12      0.80      0.08
+volatile         0.15      0.25      0.60
+```
+
+## 2.5 Code Structure
 
 ```python
 # src/strategies/regime_conditional_si.py
 
 class RegimeConditionalSI:
-    def __init__(self, si_threshold: float = 0.5):
+    def __init__(self, si_threshold: float = 0.5, min_regime_duration: int = 3):
         self.si_threshold = si_threshold
+        self.min_regime_duration = min_regime_duration
         self.regime_detector = RuleBasedRegimeDetector()
+        self.current_regime_duration = 0
     
     def generate_signal(self, data: pd.DataFrame, si: float, idx: int) -> float:
         regime = self.regime_detector.classify(data, idx)
         
+        # Wait for regime to stabilize
+        if self._regime_just_changed(regime):
+            self.current_regime_duration = 1
+            return 0.0  # No signal during transition
+        else:
+            self.current_regime_duration += 1
+        
+        if self.current_regime_duration < self.min_regime_duration:
+            return 0.0  # Still in transition
+        
+        # Regime-specific logic
         if regime == 'volatile':
             return 0.0  # No signal in volatile regime
         
         if regime == 'trending':
             if si > self.si_threshold:
                 trend_dir = np.sign(data['close'].iloc[idx] - data['close'].iloc[idx-7])
-                return trend_dir  # Follow trend when SI high
+                return trend_dir
             return 0.0
         
         if regime == 'mean_reverting':
             if si > self.si_threshold:
                 z_score = self._compute_zscore(data, idx)
-                return -np.sign(z_score)  # Mean revert when SI high
+                return -np.sign(z_score) if abs(z_score) > 1.5 else 0.0
             return 0.0
         
-        return 0.0  # Default: no signal
-    
-    def _compute_zscore(self, data, idx, lookback=20):
-        window = data['close'].iloc[idx-lookback:idx]
-        return (data['close'].iloc[idx] - window.mean()) / window.std()
+        return 0.0
 ```
 
-#### 2.3 Validation Tests
+## 2.6 Success Criteria
 
-| Test | Method | Success Criterion |
-|------|--------|-------------------|
-| Flip rate reduction | Compare conditional vs unconditional | < 10% flip rate |
-| Sharpe improvement | Compare Sharpe ratios | > 10% improvement |
-| Drawdown reduction | Compare max drawdowns | < 20% reduction |
-| Win rate by regime | Segment performance | > 50% in each regime |
+| Metric | Threshold | Status |
+|--------|-----------|--------|
+| Sign flip rate | < 15% | ⬜ |
+| Avg regime duration | > 5 days | ⬜ |
+| Sharpe improvement vs unconditional | > 10% | ⬜ |
+| Win rate per regime | > 50% each | ⬜ |
 
-#### 2.4 Deliverables
+## 2.7 Deliverables
 
 - [ ] `src/strategies/regime_conditional_si.py`
 - [ ] `experiments/test_regime_conditional.py`
-- [ ] Regime-performance breakdown table
+- [ ] Look-ahead bias audit report
+- [ ] Regime persistence analysis
+- [ ] Transition matrix for each market
 - [ ] Flip rate comparison (before/after)
 
 ---
 
-## Step 3: Out-of-Sample Walk-Forward Test
+# P3: WALK-FORWARD VALIDATION
 
-### Objective
+**Timeline**: 3-4 days  
+**Dependencies**: P2 completed  
+**Gate**: >55% profitable windows
+
+## Objective
 Validate SI signal with proper walk-forward methodology to ensure no look-ahead bias.
 
-### Implementation Plan
-
-```
-Timeline: 3-4 days
-Dependencies: All SI computation code, backtest framework
-Output: Walk-forward performance report
-```
-
-#### 3.1 Walk-Forward Design
+## 3.1 Walk-Forward Design
 
 ```
 Total Data: 5 years (2021-2026)
 
-Walk-Forward Windows:
+Option A: Rolling Window
+├── Window 1: Train 2021-2022 (24 mo) → Test 2023-Q1 (3 mo)
+├── Window 2: Train 2021Q2-2023Q1 (24 mo) → Test 2023-Q2 (3 mo)
+└── ... (rolling forward)
+
+Option B: Expanding Window (RECOMMENDED)
 ├── Window 1: Train 2021-2022 (24 mo) → Test 2023-Q1 (3 mo)
 ├── Window 2: Train 2021-2023Q1 (27 mo) → Test 2023-Q2 (3 mo)
 ├── Window 3: Train 2021-2023Q2 (30 mo) → Test 2023-Q3 (3 mo)
-├── ... (continue quarterly)
-└── Window N: Train 2021-2025Q3 → Test 2025-Q4 (3 mo)
+└── ... (expanding)
 
 Total: ~12 out-of-sample periods
 ```
 
-#### 3.2 Refit Protocol
+## 3.2 Parameter Stability Analysis (NEW)
 
-| Component | Refit Frequency | What Changes |
-|-----------|-----------------|--------------|
-| SI parameters | Quarterly | Window size, n_agents |
-| Regime thresholds | Quarterly | ADX, volatility cutoffs |
-| Strategy weights | Quarterly | If ensemble |
-| Feature selection | Never | Pre-registered features only |
+Track how optimal parameters change across windows:
 
-#### 3.3 Code Structure
+```python
+def analyze_parameter_stability(window_results: List[dict]) -> dict:
+    """
+    Check if optimal parameters are stable across walk-forward windows.
+    """
+    
+    optimal_si_windows = [r['best_si_window'] for r in window_results]
+    optimal_n_agents = [r['best_n_agents'] for r in window_results]
+    
+    si_window_stability = np.std(optimal_si_windows) / np.mean(optimal_si_windows)
+    n_agents_stability = np.std(optimal_n_agents) / np.mean(optimal_n_agents)
+    
+    return {
+        'si_window_cv': si_window_stability,  # Coefficient of variation
+        'n_agents_cv': n_agents_stability,
+        'stable': si_window_stability < 0.3 and n_agents_stability < 0.3,
+        'optimal_si_windows': optimal_si_windows,
+        'optimal_n_agents': optimal_n_agents,
+    }
+```
+
+## 3.3 Confidence Intervals (NEW)
+
+```python
+def bootstrap_oos_sharpe(oos_returns: pd.Series, n_bootstrap: int = 1000) -> dict:
+    """
+    Bootstrap confidence intervals for OOS Sharpe ratio.
+    """
+    
+    sharpes = []
+    n = len(oos_returns)
+    
+    for _ in range(n_bootstrap):
+        sample = oos_returns.sample(n=n, replace=True)
+        sharpes.append(sharpe_ratio(sample))
+    
+    return {
+        'mean_sharpe': np.mean(sharpes),
+        'ci_lower': np.percentile(sharpes, 2.5),
+        'ci_upper': np.percentile(sharpes, 97.5),
+        'prob_positive': np.mean(np.array(sharpes) > 0),
+    }
+```
+
+## 3.4 Code Structure
 
 ```python
 # experiments/walk_forward_test.py
 
 class WalkForwardValidator:
-    def __init__(self, train_months: int = 24, test_months: int = 3):
+    def __init__(self, 
+                 train_months: int = 24, 
+                 test_months: int = 3,
+                 expanding: bool = True):
         self.train_months = train_months
         self.test_months = test_months
+        self.expanding = expanding
     
-    def generate_windows(self, data: pd.DataFrame) -> List[Tuple[pd.DataFrame, pd.DataFrame]]:
+    def generate_windows(self, data: pd.DataFrame) -> List[Tuple]:
         windows = []
-        start = data.index[0]
         
-        while True:
+        if self.expanding:
+            start = data.index[0]
             train_end = start + pd.DateOffset(months=self.train_months)
-            test_end = train_end + pd.DateOffset(months=self.test_months)
             
-            if test_end > data.index[-1]:
-                break
-            
-            train = data[start:train_end]
-            test = data[train_end:test_end]
-            windows.append((train, test))
-            
-            start = start + pd.DateOffset(months=self.test_months)  # Rolling
+            while True:
+                test_end = train_end + pd.DateOffset(months=self.test_months)
+                if test_end > data.index[-1]:
+                    break
+                
+                train = data[start:train_end]  # Expanding from start
+                test = data[train_end:test_end]
+                windows.append((train, test))
+                
+                train_end = test_end  # Move forward
         
         return windows
     
-    def run(self, data, strategy_class) -> pd.DataFrame:
+    def run(self, data, strategy_class, cost_model) -> pd.DataFrame:
         results = []
+        all_oos_returns = []
         
         for i, (train, test) in enumerate(self.generate_windows(data)):
             # Fit on train
             strategy = strategy_class()
-            strategy.fit(train)
+            best_params = strategy.optimize(train)
+            strategy.fit(train, **best_params)
             
             # Test on out-of-sample
-            oos_returns = strategy.backtest(test)
+            oos_returns = strategy.backtest(test, cost_model)
+            all_oos_returns.append(oos_returns)
+            
+            # Bootstrap CI for this window
+            ci = bootstrap_oos_sharpe(oos_returns)
             
             results.append({
                 'window': i,
                 'train_start': train.index[0],
+                'train_end': train.index[-1],
                 'test_start': test.index[0],
                 'test_end': test.index[-1],
-                'oos_return': oos_returns.sum(),
+                'train_sharpe': sharpe_ratio(strategy.backtest(train, cost_model)),
                 'oos_sharpe': sharpe_ratio(oos_returns),
-                'oos_max_dd': max_drawdown(oos_returns)
+                'oos_sharpe_ci_lower': ci['ci_lower'],
+                'oos_sharpe_ci_upper': ci['ci_upper'],
+                'oos_return': oos_returns.sum(),
+                'oos_max_dd': max_drawdown(oos_returns),
+                'best_si_window': best_params.get('si_window'),
+                'best_n_agents': best_params.get('n_agents'),
+                'profitable': oos_returns.sum() > 0,
             })
         
-        return pd.DataFrame(results)
+        # Aggregate all OOS returns
+        combined_oos = pd.concat(all_oos_returns)
+        
+        return pd.DataFrame(results), combined_oos
 ```
 
-#### 3.4 Success Criteria
+## 3.5 Success Criteria
 
-| Metric | Threshold | Rationale |
-|--------|-----------|-----------|
-| % profitable windows | > 60% | More wins than losses |
-| Avg OOS Sharpe | > 0.3 | Consistent positive risk-adjusted |
-| OOS vs IS degradation | < 30% | Not heavily overfit |
-| Worst window drawdown | < 20% | Survivable losses |
+| Metric | Threshold | Status |
+|--------|-----------|--------|
+| % profitable windows | > 55% | ⬜ |
+| Avg OOS Sharpe | > 0.2 | ⬜ |
+| OOS Sharpe CI excludes 0 | Required | ⬜ |
+| IS vs OOS degradation | < 40% | ⬜ |
+| Parameter stability CV | < 0.3 | ⬜ |
 
-#### 3.5 Deliverables
+## 3.6 Deliverables
 
 - [ ] `experiments/walk_forward_test.py`
 - [ ] `results/walk_forward/` with window-by-window results
 - [ ] OOS performance chart over time
 - [ ] IS vs OOS comparison table
+- [ ] Parameter stability analysis
+- [ ] Bootstrap confidence intervals
 
 ---
 
-## Step 4: Combine with Other Signals (Ensemble)
+# P4: SI AS RISK OVERLAY
 
-### Objective
-Build an ensemble that combines SI with traditional signals for more robust performance.
+**Timeline**: 2 days  
+**Dependencies**: P1 completed  
+**Gate**: Drawdown reduction > 15%
 
-### Implementation Plan
-
-```
-Timeline: 4-5 days
-Dependencies: SI signal, traditional signal implementations
-Output: Ensemble model with improved Sharpe
-```
-
-#### 4.1 Candidate Signals to Combine
-
-| Signal | Type | Correlation with SI | Rationale |
-|--------|------|---------------------|-----------|
-| Momentum (12-1) | Trend | Expected ~0.3 | Classic factor |
-| Mean Reversion (5d) | Contrarian | Expected ~-0.2 | Opposite regime |
-| Volatility Timing | Risk | Expected ~-0.4 | SI captures vol |
-| RSI Divergence | Technical | Expected ~0.2 | Already correlated |
-| Volume Breakout | Momentum | Unknown | Liquidity signal |
-
-#### 4.2 Ensemble Methods
-
-| Method | Description | Complexity |
-|--------|-------------|------------|
-| **Equal Weight** | Average all signals | Low |
-| **Correlation Weight** | Weight by 1 - correlation | Medium |
-| **Risk Parity** | Weight by inverse volatility | Medium |
-| **ML Stacking** | Train meta-model on signals | High |
-
-#### 4.3 Code Structure
-
-```python
-# src/strategies/si_ensemble.py
-
-class SIEnsemble:
-    def __init__(self, method: str = 'correlation_weight'):
-        self.method = method
-        self.signals = {
-            'si': SISignal(),
-            'momentum': MomentumSignal(lookback=252),
-            'mean_rev': MeanReversionSignal(lookback=5),
-            'vol_timing': VolatilityTimingSignal(),
-        }
-        self.weights = None
-    
-    def fit(self, data: pd.DataFrame):
-        # Compute signal returns
-        signal_returns = {}
-        for name, signal in self.signals.items():
-            signal_returns[name] = signal.backtest(data)
-        
-        # Compute weights based on method
-        if self.method == 'equal_weight':
-            self.weights = {k: 1/len(self.signals) for k in self.signals}
-        
-        elif self.method == 'correlation_weight':
-            corr_matrix = pd.DataFrame(signal_returns).corr()
-            avg_corr = corr_matrix.mean()
-            self.weights = (1 - avg_corr) / (1 - avg_corr).sum()
-        
-        elif self.method == 'risk_parity':
-            vols = pd.DataFrame(signal_returns).std()
-            self.weights = (1 / vols) / (1 / vols).sum()
-    
-    def generate_signal(self, data, idx) -> float:
-        combined = 0
-        for name, signal in self.signals.items():
-            combined += self.weights[name] * signal.generate(data, idx)
-        return np.clip(combined, -1, 1)
-```
-
-#### 4.4 Success Criteria
-
-| Metric | Target | vs SI Alone |
-|--------|--------|-------------|
-| Sharpe Ratio | > 0.5 | +20% improvement |
-| Max Drawdown | < 15% | -20% reduction |
-| Calmar Ratio | > 0.3 | Improvement |
-| Correlation with SI | < 0.7 | Diversification benefit |
-
-#### 4.5 Deliverables
-
-- [ ] `src/strategies/si_ensemble.py`
-- [ ] `experiments/test_ensemble.py`
-- [ ] Signal correlation matrix
-- [ ] Ensemble vs individual signal comparison
-
----
-
-# MEDIUM PRIORITY (Research Extensions)
-
-## Step 5: Test at Higher Frequencies
-
-### Objective
-Investigate whether SI dynamics differ at intraday frequencies.
-
-### Implementation Plan
-
-```
-Timeline: 5-7 days
-Dependencies: Intraday data access, compute resources
-Output: Frequency comparison study
-```
-
-#### 5.1 Data Requirements
-
-| Frequency | Period | Data Points | Source |
-|-----------|--------|-------------|--------|
-| 1-hour | 1 year | ~8,760/asset | Binance (crypto) |
-| 15-min | 3 months | ~8,640/asset | Binance |
-| 5-min | 1 month | ~8,640/asset | Binance |
-| 1-min | 1 week | ~10,080/asset | Binance |
-
-#### 5.2 Hypotheses
-
-| H# | Hypothesis | Test |
-|----|------------|------|
-| H5.1 | SI converges faster at high frequency | Compare convergence time |
-| H5.2 | SI correlates with different features intraday | Repeat discovery pipeline |
-| H5.3 | SI has higher noise at high frequency | Compare signal-to-noise |
-| H5.4 | Optimal SI window differs by frequency | Sensitivity analysis |
-
-#### 5.3 Adjusted Parameters
-
-| Parameter | Daily | Hourly | 15-min | 5-min |
-|-----------|-------|--------|--------|-------|
-| SI Window | 7 bars | 168 bars | 672 bars | 2016 bars |
-| Regime lookback | 7 bars | 168 bars | 672 bars | 2016 bars |
-| Min data for competition | 30 | 720 | 2880 | 8640 |
-
-#### 5.4 Deliverables
-
-- [ ] `experiments/high_frequency_si.py`
-- [ ] Intraday data download scripts
-- [ ] Frequency comparison table
-- [ ] Optimal frequency recommendation
-
----
-
-## Step 6: Add Macro Features
-
-### Objective
-Improve regime detection by incorporating macroeconomic indicators.
-
-### Implementation Plan
-
-```
-Timeline: 4-5 days
-Dependencies: Macro data sources, regime detection module
-Output: Macro-enhanced regime model
-```
-
-#### 6.1 Macro Features to Add
-
-| Feature | Frequency | Source | Rationale |
-|---------|-----------|--------|-----------|
-| VIX | Daily | CBOE | Volatility expectation |
-| 10Y-2Y Spread | Daily | FRED | Yield curve / recession |
-| DXY (Dollar Index) | Daily | Yahoo | Currency regime |
-| Fed Funds Rate | Monthly | FRED | Monetary policy |
-| PMI | Monthly | ISM | Economic activity |
-| CPI YoY | Monthly | BLS | Inflation regime |
-
-#### 6.2 Integration Approach
-
-```python
-# src/analysis/macro_regime.py
-
-class MacroRegimeDetector:
-    def __init__(self):
-        self.macro_data = self._load_macro_data()
-    
-    def _load_macro_data(self):
-        return {
-            'vix': yf.download('^VIX'),
-            'yield_spread': self._get_yield_spread(),
-            'dxy': yf.download('DX-Y.NYB'),
-        }
-    
-    def get_macro_regime(self, date) -> str:
-        vix = self.macro_data['vix'].loc[:date, 'Close'].iloc[-1]
-        spread = self.macro_data['yield_spread'].loc[:date].iloc[-1]
-        
-        if vix > 30:
-            return 'crisis'
-        elif spread < 0:
-            return 'recession_warning'
-        elif vix < 15:
-            return 'calm'
-        else:
-            return 'normal'
-    
-    def enhance_regime(self, market_regime: str, date) -> str:
-        macro = self.get_macro_regime(date)
-        
-        # Override market regime in crisis
-        if macro == 'crisis':
-            return 'volatile'
-        
-        return market_regime
-```
-
-#### 6.3 Deliverables
-
-- [ ] `src/analysis/macro_regime.py`
-- [ ] Macro data download scripts
-- [ ] Comparison: market-only vs macro-enhanced regimes
-- [ ] SI correlation analysis with macro regimes
-
----
-
-## Step 7: SI as Risk Overlay
-
-### Objective
+## Objective
 Use SI as a risk signal to adjust position sizing, independent of alpha generation.
 
-### Implementation Plan
+## 4.1 Risk Overlay Logic
 
 ```
-Timeline: 3-4 days
-Dependencies: SI computation, portfolio framework
-Output: Risk overlay implementation
+SI Level → Position Adjustment
+
+SI > 0.7 (High confidence)     → Full position (100%)
+SI 0.5-0.7 (Moderate)          → Reduced position (75%)
+SI 0.3-0.5 (Low)               → Minimal position (50%)
+SI < 0.3 (Very low)            → Cash/hedge (25%)
 ```
 
-#### 7.1 Risk Overlay Logic
+## 4.2 Comparison with Alternatives (NEW)
 
-```
-SI Level → Risk Adjustment
+Compare SI overlay with:
 
-SI > 0.7 (High specialization)   → Full position (100%)
-SI 0.5-0.7 (Moderate)            → Reduced position (75%)
-SI 0.3-0.5 (Low)                 → Minimal position (50%)
-SI < 0.3 (Very low)              → Cash/hedge (25%)
-```
+| Method | Description | Benchmark |
+|--------|-------------|-----------|
+| **Constant sizing** | Always 100% | Baseline |
+| **1/Vol sizing** | Scale by inverse volatility | Traditional risk parity |
+| **VaR-based** | Size to target VaR | Institutional standard |
+| **SI overlay** | Size by SI level | Our method |
 
-#### 7.2 Code Structure
+## 4.3 Code Structure
 
 ```python
 # src/strategies/si_risk_overlay.py
@@ -521,257 +821,342 @@ SI < 0.3 (Very low)              → Cash/hedge (25%)
 class SIRiskOverlay:
     def __init__(self, thresholds: dict = None):
         self.thresholds = thresholds or {
-            'high': (0.7, 1.0),    # 100% position
-            'moderate': (0.5, 0.75),
-            'low': (0.3, 0.5),
-            'very_low': (0.0, 0.25)
+            0.7: 1.0,    # SI > 0.7 → 100% position
+            0.5: 0.75,   # SI 0.5-0.7 → 75%
+            0.3: 0.50,   # SI 0.3-0.5 → 50%
+            0.0: 0.25,   # SI < 0.3 → 25%
         }
     
     def get_position_multiplier(self, si: float) -> float:
-        if si > 0.7:
-            return 1.0
-        elif si > 0.5:
-            return 0.75
-        elif si > 0.3:
-            return 0.5
-        else:
-            return 0.25
+        for threshold, multiplier in sorted(self.thresholds.items(), reverse=True):
+            if si >= threshold:
+                return multiplier
+        return 0.25  # Default minimum
+
+
+class VolatilityOverlay:
+    """Benchmark: inverse volatility sizing."""
     
-    def apply_overlay(self, base_signal: float, si: float) -> float:
-        multiplier = self.get_position_multiplier(si)
-        return base_signal * multiplier
+    def __init__(self, target_vol: float = 0.15, lookback: int = 20):
+        self.target_vol = target_vol
+        self.lookback = lookback
+    
+    def get_position_multiplier(self, data: pd.DataFrame, idx: int) -> float:
+        if idx < self.lookback:
+            return 1.0
+        
+        recent_vol = data['close'].pct_change().iloc[idx-self.lookback:idx].std() * np.sqrt(252)
+        multiplier = self.target_vol / max(recent_vol, 0.05)
+        
+        return np.clip(multiplier, 0.25, 2.0)
+
+
+def compare_overlays(data, base_strategy, si, cost_model):
+    """Compare different position sizing methods."""
+    
+    base_signals = base_strategy.generate_signals(data)
+    
+    overlays = {
+        'constant': lambda d, i, s: 1.0,
+        'si_overlay': SIRiskOverlay().get_position_multiplier,
+        'vol_overlay': VolatilityOverlay().get_position_multiplier,
+    }
+    
+    results = {}
+    for name, overlay_func in overlays.items():
+        adjusted_signals = base_signals.copy()
+        
+        for i in range(len(data)):
+            if name == 'si_overlay':
+                mult = overlay_func(si.iloc[i] if i < len(si) else 0.5)
+            elif name == 'vol_overlay':
+                mult = overlay_func(data, i)
+            else:
+                mult = overlay_func(data, i, si)
+            
+            adjusted_signals.iloc[i] *= mult
+        
+        returns = calculate_returns(data, adjusted_signals)
+        net_returns = cost_model.apply_costs(returns, adjusted_signals)
+        
+        results[name] = {
+            'sharpe': sharpe_ratio(net_returns),
+            'return': net_returns.sum(),
+            'max_drawdown': max_drawdown(net_returns),
+            'calmar': net_returns.sum() / abs(max_drawdown(net_returns)),
+        }
+    
+    return results
 ```
 
-#### 7.3 Backtest Scenarios
+## 4.4 Success Criteria
 
-| Scenario | Base Strategy | With SI Overlay | Comparison |
-|----------|--------------|-----------------|------------|
-| Buy & Hold | Full exposure | SI-adjusted | Drawdown reduction |
-| Momentum | Trend following | SI-adjusted | Risk-adjusted return |
-| Mean Reversion | Contrarian | SI-adjusted | Win rate improvement |
+| Metric | Threshold | Status |
+|--------|-----------|--------|
+| Drawdown reduction vs constant | > 15% | ⬜ |
+| Sharpe improvement | > 5% | ⬜ |
+| SI overlay beats vol overlay | In 2/4 markets | ⬜ |
 
-#### 7.4 Deliverables
+## 4.5 Deliverables
 
 - [ ] `src/strategies/si_risk_overlay.py`
 - [ ] `experiments/test_risk_overlay.py`
-- [ ] Drawdown comparison charts
-- [ ] Risk-adjusted metrics with/without overlay
+- [ ] Comparison table (SI vs vol vs constant)
+- [ ] Drawdown charts
 
 ---
 
-## Step 8: Cross-Asset SI
+# P5: ENSEMBLE WITH OTHER SIGNALS
 
-### Objective
-Compute SI across multiple asset classes jointly for portfolio-level insights.
+**Timeline**: 4-5 days  
+**Dependencies**: P1-P3 completed  
+**Gate**: Sharpe improvement > 15%
 
-### Implementation Plan
+## Objective
+Build an ensemble that combines SI with traditional signals for more robust performance.
 
+## 5.1 Candidate Signals
+
+| Signal | Type | Expected Correlation with SI |
+|--------|------|------------------------------|
+| Momentum (12-1 month) | Trend | ~0.3 |
+| Mean Reversion (5-day) | Contrarian | ~-0.2 |
+| Volatility Timing | Risk | ~-0.4 |
+| RSI (14-day) | Technical | ~0.2 |
+
+## 5.2 Ensemble Methods (Enhanced)
+
+### Method 1: Equal Weight (Baseline)
+```python
+ensemble_signal = (si_signal + momentum + mean_rev + vol_timing) / 4
 ```
-Timeline: 5-7 days
-Dependencies: Multi-asset data, extended NichePopulation
-Output: Cross-asset SI implementation
+
+### Method 2: Correlation-Weighted
+```python
+# Weight by 1 - avg_correlation (diversification benefit)
+weights = (1 - correlation_matrix.mean()) / (1 - correlation_matrix.mean()).sum()
+ensemble_signal = sum(weights[i] * signals[i] for i in signals)
 ```
 
-#### 8.1 Design
-
-```
-Traditional SI: Agents compete on ONE asset, specialize by regime
-Cross-Asset SI: Agents compete on MULTIPLE assets, specialize by asset
-
-Niches = {BTC, ETH, SPY, EURUSD, Gold}
-Each agent develops affinity for specific assets
-SI measures cross-asset specialization
-```
-
-#### 8.2 Extended NichePopulation
+### Method 3: Ridge Regression Meta-Learner (NEW)
 
 ```python
-# src/competition/cross_asset_population.py
+from sklearn.linear_model import RidgeCV
+from sklearn.model_selection import TimeSeriesSplit
 
-class CrossAssetNichePopulation:
-    def __init__(self, assets: List[str], n_agents: int = 20):
-        self.assets = assets
-        self.n_niches = len(assets)  # Niches = assets
-        self.agents = [Agent(n_niches) for _ in range(n_agents)]
+class RidgeEnsemble:
+    def __init__(self, alphas=[0.01, 0.1, 1.0, 10.0]):
+        self.model = RidgeCV(alphas=alphas, cv=TimeSeriesSplit(n_splits=5))
     
-    def run(self, multi_data: Dict[str, pd.DataFrame]):
+    def fit(self, signal_matrix: pd.DataFrame, returns: pd.Series):
         """
-        multi_data: {'BTC': df, 'ETH': df, 'SPY': df, ...}
+        Fit ridge regression on training data.
+        signal_matrix: columns are individual signals
+        returns: target returns to predict
         """
-        # Align all data to common dates
-        common_dates = self._get_common_dates(multi_data)
+        # Use time-series cross-validation
+        self.model.fit(signal_matrix, returns)
+        self.weights = self.model.coef_
+        return self
+    
+    def predict(self, signal_matrix: pd.DataFrame) -> pd.Series:
+        return pd.Series(self.model.predict(signal_matrix), index=signal_matrix.index)
+```
+
+### Method 4: Dynamic Correlation Weighting (NEW)
+
+```python
+class DynamicCorrelationEnsemble:
+    def __init__(self, correlation_window: int = 60):
+        self.window = correlation_window
+    
+    def get_weights(self, signal_matrix: pd.DataFrame, idx: int) -> np.array:
+        """
+        Compute weights based on recent correlations.
+        """
+        if idx < self.window:
+            # Equal weight if not enough history
+            return np.ones(len(signal_matrix.columns)) / len(signal_matrix.columns)
         
-        for date in common_dates:
-            # Each agent generates signals for all assets
-            agent_returns = []
-            
-            for agent in self.agents:
-                total_return = 0
-                for i, asset in enumerate(self.assets):
-                    signal = agent.strategy.generate(multi_data[asset], date)
-                    ret = self._get_return(multi_data[asset], date, signal)
-                    total_return += agent.asset_weights[i] * ret
-                agent_returns.append(total_return)
-            
-            # Winner specializes in best-performing asset today
-            best_asset_idx = self._get_best_asset(multi_data, date)
-            winner_idx = np.argmax(agent_returns)
-            
-            self.agents[winner_idx].update_affinity(best_asset_idx)
+        recent = signal_matrix.iloc[idx-self.window:idx]
+        corr_matrix = recent.corr()
+        
+        # Weight by inverse of average correlation (for diversification)
+        avg_corr = corr_matrix.mean()
+        weights = (1 - avg_corr) / (1 - avg_corr).sum()
+        
+        return weights.values
+```
+
+## 5.3 Audit: Ensemble Weights Must Be OOS (NEW)
+
+**Critical**: Ensemble weights fitted on training data, tested on test data.
+
+```python
+def train_test_ensemble(data, signals, returns):
+    """
+    Properly split data for ensemble training.
+    """
     
-    def compute_cross_asset_si(self) -> float:
-        """SI measuring specialization across assets."""
-        return 1 - np.mean([agent.entropy() for agent in self.agents])
+    # Split: 70% train, 30% test
+    split_idx = int(len(data) * 0.7)
+    
+    train_signals = signals.iloc[:split_idx]
+    train_returns = returns.iloc[:split_idx]
+    
+    test_signals = signals.iloc[split_idx:]
+    test_returns = returns.iloc[split_idx:]
+    
+    # Fit on train
+    ensemble = RidgeEnsemble()
+    ensemble.fit(train_signals, train_returns)
+    
+    # Predict on test
+    test_predictions = ensemble.predict(test_signals)
+    
+    # Evaluate
+    oos_corr = test_predictions.corr(test_returns)
+    
+    return {
+        'weights': ensemble.weights,
+        'train_corr': train_signals @ ensemble.weights.corr(train_returns),
+        'test_corr': oos_corr,
+        'degradation': 1 - (oos_corr / train_corr),
+    }
 ```
 
-#### 8.3 Research Questions
+## 5.4 Success Criteria
 
-| Question | Hypothesis |
-|----------|------------|
-| Does cross-asset SI predict sector rotation? | High SI → concentrated opportunities |
-| Does low cross-asset SI predict correlation spikes? | Low SI → assets behaving similarly |
-| Is cross-asset SI regime-dependent? | Different patterns in risk-on vs risk-off |
+| Metric | Threshold | Status |
+|--------|-----------|--------|
+| Ensemble Sharpe > SI alone | +15% | ⬜ |
+| OOS degradation | < 30% | ⬜ |
+| Ensemble correlation with SI | < 0.8 | ⬜ |
 
-#### 8.4 Deliverables
+## 5.5 Deliverables
 
-- [ ] `src/competition/cross_asset_population.py`
-- [ ] `experiments/cross_asset_si.py`
-- [ ] Cross-asset SI time series
-- [ ] Correlation with asset correlations
+- [ ] `src/strategies/si_ensemble.py`
+- [ ] `experiments/test_ensemble.py`
+- [ ] Signal correlation matrix
+- [ ] Ensemble vs individual comparison
+- [ ] OOS weight validation
 
 ---
 
-# PUBLICATION TRACK
+# P6: EXTEND TO MORE ASSETS
 
-## Step 9: Submit to Quantitative Finance Journal
+**Timeline**: 1 week  
+**Dependencies**: P1-P5 completed  
+**Gate**: 20+ assets analyzed
 
-### Objective
-Prepare and submit research paper to peer-reviewed journal.
-
-### Implementation Plan
-
-```
-Timeline: 2-3 weeks for preparation, 3-6 months review
-Dependencies: All high-priority steps complete
-Output: Submitted manuscript
-```
-
-#### 9.1 Target Journals
-
-| Journal | Impact Factor | Fit | Timeline |
-|---------|---------------|-----|----------|
-| **Journal of Financial Economics** | 8.2 | High (if alpha proven) | 6-12 months |
-| **Quantitative Finance** | 2.1 | High | 3-6 months |
-| **Journal of Portfolio Management** | 1.8 | Good | 3-4 months |
-| **Journal of Trading** | 0.8 | Good | 2-3 months |
-| **arXiv** (preprint) | N/A | Immediate visibility | 1 week |
-
-#### 9.2 Paper Structure
-
-```
-1. Abstract (250 words)
-2. Introduction
-   - Motivation
-   - Research question
-   - Contributions
-3. Related Work
-   - Emergent specialization
-   - Regime detection
-   - Trading signals
-4. Methodology
-   - SI definition
-   - Competition mechanism
-   - Statistical framework
-5. Data
-6. Results
-   - Discovery findings
-   - Cross-market validation
-   - Regime analysis
-7. Discussion
-8. Conclusion
-9. References
-```
-
-#### 9.3 Deliverables
-
-- [ ] Extended LaTeX paper (20+ pages)
-- [ ] Supplementary materials
-- [ ] Cover letter
-- [ ] Submission to arXiv (preprint)
-- [ ] Submission to target journal
-
----
-
-## Step 10: Extend to More Assets
-
-### Objective
+## Objective
 Strengthen claims by testing on 20+ assets across more markets.
 
-### Implementation Plan
+## 6.1 Extended Asset Universe
 
-```
-Timeline: 1-2 weeks
-Dependencies: Data access, compute resources
-Output: Extended cross-asset validation
-```
+| Market | Current (11) | Extended (+14) | Total |
+|--------|--------------|----------------|-------|
+| Crypto | BTC, ETH, SOL | ADA, DOT, AVAX, LINK | 7 |
+| Forex | EUR, GBP, JPY | AUD, CAD, CHF | 6 |
+| Stocks | SPY, QQQ, AAPL | MSFT, GOOGL, XLF, XLE | 7 |
+| Commodities | Gold, Oil | Silver, Copper, Nat Gas | 5 |
+| **Total** | 11 | +14 | **25** |
 
-#### 10.1 Extended Asset Universe
+## 6.2 Quality Criteria
 
-| Market | Current | Extended |
-|--------|---------|----------|
-| **Crypto** | BTC, ETH, SOL | +ADA, DOT, AVAX, LINK, MATIC |
-| **Forex** | EUR/USD, GBP/USD, USD/JPY | +AUD/USD, USD/CAD, NZD/USD, EUR/GBP |
-| **Stocks** | SPY, QQQ, AAPL | +MSFT, GOOGL, AMZN, TSLA, XLF, XLE, XLK |
-| **Commodities** | Gold, Oil | +Silver, Copper, Natural Gas, Corn |
-| **Bonds** | (none) | TLT, IEF, HYG, LQD |
+| Criterion | Requirement |
+|-----------|-------------|
+| Liquidity | ADV > $10M for stocks, $100M for crypto |
+| History | 5+ years available |
+| Data quality | Passes Audit B |
 
-**Total: 30+ assets**
-
-#### 10.2 Statistical Power Analysis
-
-| # Assets | Power for r=0.15 | Power for r=0.20 |
-|----------|------------------|------------------|
-| 11 (current) | 0.72 | 0.88 |
-| 20 | 0.89 | 0.97 |
-| 30 | 0.96 | 0.99 |
-
-#### 10.3 Deliverables
+## 6.3 Deliverables
 
 - [ ] Extended data download scripts
-- [ ] Full 30-asset analysis
-- [ ] Updated cross-market tables
-- [ ] Power analysis documentation
+- [ ] 25-asset analysis
+- [ ] Cross-market consistency table
+- [ ] Power analysis update
 
 ---
 
-## Timeline Summary
+# P7: JOURNAL SUBMISSION
 
-| Week | Steps | Focus |
-|------|-------|-------|
-| 1 | #1, #2 | Cost validation, regime-conditional |
-| 2 | #3, #4 | Walk-forward, ensemble |
-| 3 | #5, #6 | High-frequency, macro features |
-| 4 | #7, #8 | Risk overlay, cross-asset |
-| 5-6 | #9, #10 | Paper prep, extended assets |
+**Timeline**: 2 weeks  
+**Dependencies**: P1-P6 completed
+
+## Pre-Submission Checklist
+
+| Item | Status |
+|------|--------|
+| arXiv preprint posted | ⬜ |
+| External review (1+ colleague) | ⬜ |
+| Trading performance section included | ⬜ |
+| Code/data availability statement | ⬜ |
+| Response to "so what?" prepared | ⬜ |
+| Cover letter drafted | ⬜ |
+
+## Target Journals
+
+| Priority | Journal | Timeline |
+|----------|---------|----------|
+| 1 | arXiv (preprint) | 1 week |
+| 2 | Quantitative Finance | 3-6 months |
+| 3 | Journal of Portfolio Management | 3-4 months |
 
 ---
 
-## Success Metrics
+# PHASE 2: DEFERRED ITEMS
 
-| Step | Success Metric | Threshold |
-|------|---------------|-----------|
-| #1 | Net Sharpe | > 0.3 |
-| #2 | Flip rate | < 10% |
-| #3 | % profitable windows | > 60% |
-| #4 | Ensemble Sharpe improvement | > 20% |
-| #5 | Frequency insight | Actionable finding |
-| #6 | Regime accuracy | > 70% |
-| #7 | Drawdown reduction | > 20% |
-| #8 | Cross-asset insight | Novel finding |
-| #9 | Paper acceptance | Submitted |
-| #10 | Asset coverage | 30+ assets |
+These items are deferred to Phase 2 based on expert recommendations:
+
+| Item | Original Step | Reason for Deferral |
+|------|---------------|---------------------|
+| Higher frequency testing | Step 5 | Microstructure noise, different cost structure |
+| Full macro features | Step 6 | Start with VIX + yield curve only |
+| Cross-asset SI | Step 8 | Scope creep, different research question |
+
+---
+
+# EXECUTION TIMELINE
+
+| Week | Priority | Steps | Gate |
+|------|----------|-------|------|
+| **1 (Days 1-2)** | P0 | Critical Audits A-E | All pass |
+| **1 (Days 3-5)** | P1 | Backtest with costs | Net Sharpe > 0 |
+| **2 (Days 1-3)** | P2 | Regime-conditional | Flip rate < 15% |
+| **2 (Days 4-5)** | P4 | Risk overlay | DD reduction > 15% |
+| **3** | P3 | Walk-forward | >55% profitable |
+| **4** | P5 | Ensemble | Sharpe +15% |
+| **5** | P6 | More assets | 20+ assets |
+| **6** | P7 | Paper submission | Submitted |
+
+---
+
+# GLOBAL SUCCESS METRICS
+
+| Metric | Threshold | Priority |
+|--------|-----------|----------|
+| Net Sharpe after costs | > 0.3 | Critical |
+| Cross-market replication | 3/4 markets | Critical |
+| Walk-forward hit rate | > 55% | High |
+| Flip rate (regime-conditional) | < 15% | High |
+| Drawdown reduction (overlay) | > 15% | Medium |
+| Ensemble Sharpe improvement | > 15% | Medium |
+
+---
+
+# AUDIT LOG
+
+| Audit | Date | Status | Notes |
+|-------|------|--------|-------|
+| A: Survivorship | - | ⬜ Pending | |
+| B: Data Quality | - | ⬜ Pending | |
+| C: Reproducibility | - | ⬜ Pending | |
+| D: Look-Ahead | - | ⬜ Pending | |
+| E: Economic Significance | - | ⬜ Pending | |
 
 ---
 
 *Plan created: January 17, 2026*  
+*Updated: January 17, 2026 (v2 - Post Expert Review)*  
 *Author: Yuhao Li, University of Pennsylvania*
