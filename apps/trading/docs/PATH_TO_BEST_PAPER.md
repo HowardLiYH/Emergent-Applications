@@ -1,9 +1,9 @@
 # Path to Best Paper (Score 9+/10)
 
-**Date**: January 17, 2026  
-**Current Score**: 7.6/10  
-**Target Score**: 9.0+/10  
-**Gap**: +1.4 points  
+**Date**: January 17, 2026
+**Current Score**: 7.6/10
+**Target Score**: 9.0+/10
+**Gap**: +1.4 points
 
 ---
 
@@ -242,7 +242,7 @@ A best paper (top 1%) needs ONE of these:
 
 ### Recommended Path: Option B (Empirical Breakthrough)
 
-**Strategy**: 
+**Strategy**:
 1. Frame SI as a **regime indicator**
 2. Create a benchmark: "Multi-Agent Regime Detection"
 3. Compare SI to: HMM, LSTM, Transformer, rule-based
@@ -313,7 +313,7 @@ A best paper (top 1%) needs ONE of these:
 ### The Formula
 
 ```
-Score = Base(7.6) 
+Score = Base(7.6)
       + Theory(+0.4: Replicator + Convergence)
       + Empirical(+0.4: Neural baseline + Economic significance)
       + Presentation(+0.3: Hero figure + Literature positioning)
