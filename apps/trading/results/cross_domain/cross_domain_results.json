@@ -90,22 +90,25 @@
   },
   "synthetic": {
     "Strong_Signal": {
-      "si_env_corr": 0.051,
-      "coint_pval": 0.0,
-      "hurst": 0.652,
-      "snr": 5.0
+      "si_env_corr": 0.13209853844896707,
+      "coint_pval": 7.693418427398311e-05,
+      "hurst": 0.65,
+      "snr": 5.0,
+      "note": "Average over 10 seeds"
     },
     "Weak_Signal": {
-      "si_env_corr": -0.072,
-      "coint_pval": 0.144551,
-      "hurst": 0.864,
-      "snr": 0.5
+      "si_env_corr": 0.048031685125944315,
+      "coint_pval": 4.272174824878866e-22,
+      "hurst": 0.86,
+      "snr": 0.5,
+      "note": "Average over 10 seeds"
     },
     "Random_Baseline": {
-      "si_env_corr": -0.031,
+      "si_env_corr": 0.03146732980472573,
       "coint_pval": 1.0,
-      "hurst": 1.005,
-      "snr": 0.0
+      "hurst": 1.0,
+      "snr": 0.0,
+      "note": "Average over 10 seeds"
     }
   }
 }
