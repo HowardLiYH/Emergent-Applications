@@ -222,7 +222,7 @@ python paper/theorem_proof.py
 
 ```bibtex
 @misc{li2026blindsync,
-  title={The Blind Synchronization Effect: How Competition Creates 
+  title={The Blind Synchronization Effect: How Competition Creates
          Environment-Correlated Behavior Without Observation},
   author={Li, Yuhao},
   year={2026},

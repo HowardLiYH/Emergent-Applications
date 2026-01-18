@@ -63,7 +63,7 @@
 % ABSTRACT
 % =============================================================================
 \begin{abstract}
-We discover the \textbf{Blind Synchronization Effect}: competing agents with no knowledge of their environment develop specialization patterns that become \textit{cointegrated} with environmental structure---despite never observing that structure. Using fitness-proportional competition (replicator dynamics), we define the dynamic Specialization Index SI$(t)$ measuring entropy reduction in agent affinities over time. \textbf{Remarkably, SI$(t)$ becomes cointegrated with market trend strength (ADX) despite agents having zero knowledge of market structure} ($p < 0.0001$ across 4 domains: finance, weather, traffic, and synthetic environments). We prove this emergence follows replicator dynamics from evolutionary game theory. Empirically, we find: (1) SI \textit{lags} environmental features (Transfer Entropy ratio $= 0.58$), confirming it is not predictive; (2) SI exhibits long memory (Hurst $H = 0.83$) with local mean reversion ($\tau_{1/2} \approx 5$ days); (3) a phase transition occurs at $\sim$30 days where SI-environment correlation switches from negative to positive; and (4) SI-based risk management improves Sharpe ratio by 14\%. \textbf{The Blind Synchronization Effect demonstrates that competition alone---without communication or environmental modeling---is sufficient for emergent environment-correlated behavior}, with implications for multi-agent AI coordination and AI safety.
+We discover the \textbf{Blind Synchronization Effect}: competing replicators with no knowledge of their environment develop specialization patterns that become \textit{cointegrated} with environmental structure---despite never observing that structure. Using fitness-proportional competition (replicator dynamics from evolutionary game theory), we define the dynamic Specialization Index SI$(t)$ measuring entropy reduction in replicator affinities over time. Remarkably, SI$(t)$ becomes cointegrated with market trend strength (ADX) despite replicators having zero knowledge of market structure ($p < 0.0001$ across 4 domains: finance, weather, traffic, and synthetic environments). Empirically, we find: (1) SI \textit{lags} environmental features (Transfer Entropy ratio $= 0.58$), confirming it is not predictive; (2) SI exhibits long memory (Hurst $H = 0.83$) with local mean reversion ($\tau_{1/2} \approx 5$ days); (3) a phase transition occurs at $\sim$30 days where SI-environment correlation switches from negative to positive; and (4) SI-based risk management improves Sharpe ratio by 14\%. The Blind Synchronization Effect demonstrates that competition alone---without communication or environmental modeling---is sufficient for emergent environment-correlated behavior, with implications for understanding self-organization in complex adaptive systems and evolutionary dynamics.
 \end{abstract}
 
 % =============================================================================
@@ -72,35 +72,25 @@ We discover the \textbf{Blind Synchronization Effect}: competing agents with no 
 \section{Introduction}
 \label{sec:intro}
 
-Fifty agents compete for resources across five strategies. None can observe each other. None knows the environment exists. Yet after 1,000 rounds of competition, their collective behavior becomes statistically indistinguishable from an environment detector---tracking market trends, weather patterns, and traffic flows they have never seen. \textbf{This is the Blind Synchronization Effect.}
+Fifty replicators compete for resources across five strategies. None can observe each other. None knows the environment exists. Yet after 1,000 rounds of competition, their collective behavior becomes statistically indistinguishable from an environment detector---tracking market trends, weather patterns, and traffic flows they have never seen. \textbf{This is the Blind Synchronization Effect.}
 
-We discover and characterize this surprising phenomenon: agents competing via simple fitness-proportional updates (replicator dynamics) develop specialization patterns that become \textit{cointegrated} with environmental structure---despite having zero knowledge of that structure. When we measure the aggregate Specialization Index SI$(t)$ over time, it tracks market trend strength (ADX), temperature volatility, and demand fluctuations, even though no agent ever observes these quantities. \textbf{The cointegration is statistically robust} ($p < 0.0001$ across 4 domains).
+We discover and characterize this surprising phenomenon: replicators competing via simple fitness-proportional updates (replicator dynamics from evolutionary game theory) develop specialization patterns that become \textit{cointegrated} with environmental structure---despite having zero knowledge of that structure. When we measure the aggregate Specialization Index SI$(t)$ over time, it tracks market trend strength (ADX), temperature volatility, and demand fluctuations, even though no replicator ever observes these quantities. The cointegration is statistically robust ($p < 0.0001$ across 4 domains).
 
-\paragraph{The Phenomenon.} Consider 50 agents competing across 5 niches (e.g., trading strategies). Each agent maintains an affinity distribution over niches, updated via fitness-proportional selection (replicator dynamics). Initially, all agents are identical. After many rounds of competition, the population spontaneously differentiates. \textbf{Crucially, we track SI$(t)$ as a dynamic time series}---unlike prior work that uses SI only as a final convergence metric. This SI$(t)$ time series becomes cointegrated with environmental indicators the agents never observe (Figure~\ref{fig:hero}).
+Consider 50 replicators competing across 5 niches (e.g., trading strategies). Each replicator maintains an affinity distribution over niches, updated via fitness-proportional selection. Initially, all replicators are identical. After many rounds of competition, the population spontaneously differentiates. Crucially, we track SI$(t)$ as a dynamic time series---unlike prior work that uses SI only as a final convergence metric. This SI$(t)$ time series becomes cointegrated with environmental indicators the replicators never observe (Figure~\ref{fig:hero}).
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/hero_figure.png}
-\caption{\textbf{The Blind Synchronization Effect.} (a) Replicator dynamics: agents compete over niches via fitness-proportional updates. (b) SI$(t)$ emergence tracks market structure (gray: price, blue: SI). (c) SI-ADX cointegration ($r = 0.13$, $p < 0.0001$) despite agents never observing ADX. (d) Phase transition: correlation is negative short-term, positive long-term, with threshold at $\sim$30 days.}
+\caption{\textbf{The Blind Synchronization Effect.} (a) Replicator dynamics: entities compete over niches via fitness-proportional updates. (b) SI$(t)$ emergence tracks market structure (gray: price, blue: SI). (c) SI-ADX cointegration ($r = 0.13$, $p < 0.0001$) despite replicators never observing ADX. (d) Phase transition: correlation is negative short-term, positive long-term, with threshold at $\sim$30 days.}
 \label{fig:hero}
 \end{figure}
 
-\paragraph{Why This Matters.} The Blind Synchronization Effect has implications beyond the specific domains we test. In AI safety, understanding how decentralized agents develop synchronized behaviors---without communication---is crucial for predicting emergent coordination in deployed systems. In multi-agent design, the effect suggests competition alone may suffice for coordination. In complexity science, we provide a concrete, statistically characterized example of micro-macro emergence.
+The Blind Synchronization Effect has broad implications. In evolutionary biology, it provides a mechanism for population-environment correlation without individual sensing. In market microstructure, it suggests how heterogeneous strategies may spontaneously align with market regimes. In complexity science, we provide a concrete, statistically characterized example of micro-macro emergence---where individual fitness-seeking behavior produces population-level patterns that track environmental structure.
 
-\paragraph{Important Clarification.} Our ``agents'' are \textit{not} LLM-based or neural network agents. They are simple \textbf{affinity vectors}---each agent is merely a probability distribution over niches that evolves via multiplicative weight updates. There is no learning, reasoning, or planning. This simplicity is intentional: we show that even minimal agents exhibit the Blind Synchronization Effect.
+Our ``replicators'' are simple \textbf{affinity vectors}---each replicator is merely a probability distribution over niches that evolves via multiplicative weight updates. There is no learning, reasoning, or planning. This simplicity is intentional and follows the tradition of evolutionary game theory~\cite{hofbauer1998evolutionary}: we show that even minimal competing entities exhibit the Blind Synchronization Effect, without requiring sophisticated decision-making.
 
 \vspace{0.5em}
-\noindent\textbf{Contributions.} We make four contributions:
-
-\begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=4pt]
-    \item \textbf{Discovery of the Blind Synchronization Effect}: We demonstrate that agents with zero environmental knowledge develop specialization patterns cointegrated with environmental structure across 4 domains (finance, weather, traffic, synthetic). This is surprising because cointegration implies a shared stochastic trend (Section~\ref{sec:experiments}).
-
-    \item \textbf{Theoretical characterization}: We prove that under replicator dynamics, SI$(t)$ converges to a bounded equilibrium and becomes cointegrated with environmental structure. Our theorem grounds the phenomenon in evolutionary game theory (Section~\ref{sec:theory}).
-
-    \item \textbf{Cross-domain empirical validation}: We validate the Blind Synchronization Effect across finance (11 assets), weather (5 cities), traffic (NYC), and synthetic environments, demonstrating universality with HAC standard errors and bootstrap confidence intervals (Section~\ref{sec:experiments}).
-
-    \item \textbf{Honest assessment of practical value}: SI-based risk management improves Sharpe ratio by 14\%. However, we emphasize that SI is a \textit{lagging} indicator (TE ratio $= 0.58$), not useful for short-term prediction (Section~\ref{sec:discussion}).
-\end{enumerate}
+\noindent\textbf{Contributions.} We make four contributions. \textit{First}, we discover and name the Blind Synchronization Effect: replicators with zero environmental knowledge develop specialization patterns cointegrated with environmental structure across 4 domains (finance, weather, traffic, synthetic), which is surprising because cointegration implies a shared stochastic trend (Section~\ref{sec:experiments}). \textit{Second}, we provide theoretical characterization: under replicator dynamics, SI$(t)$ converges to a bounded equilibrium and becomes cointegrated with environmental structure, grounding the phenomenon in evolutionary game theory (Section~\ref{sec:theory}). \textit{Third}, we validate the effect across finance (11 assets), weather (5 cities), traffic (NYC), and synthetic environments, demonstrating universality with HAC standard errors and bootstrap confidence intervals (Section~\ref{sec:experiments}). \textit{Fourth}, we provide honest assessment of practical value: SI-based risk management improves Sharpe ratio by 14\%, but SI is a lagging indicator (TE ratio $= 0.58$), not useful for short-term prediction (Section~\ref{sec:discussion}).
 
 % =============================================================================
 % SECTION 2: RELATED WORK
@@ -108,19 +98,19 @@ We discover and characterize this surprising phenomenon: agents competing via si
 \section{Related Work}
 \label{sec:related}
 
-Our work connects several research threads, synthesizing ideas from evolutionary game theory, complex systems, and agent-based computational economics into a novel framework for emergent specialization.
+Our work connects several research threads, synthesizing ideas from evolutionary game theory, complex systems, and computational economics into a novel framework for emergent specialization.
 
 \paragraph{Evolutionary Game Theory.} Replicator dynamics~\cite{hofbauer1998evolutionary, nowak2006evolutionary} describe how strategy frequencies evolve under fitness-proportional selection. Taylor and Jonker~\cite{taylor1978evolutionary} established the foundational mathematics; Weibull~\cite{weibull1995evolutionary} extended to general games. Our contribution is showing that replicator dynamics in a niche-competition setting leads to SI-environment cointegration---a previously uncharacterized phenomenon.
 
-\paragraph{Emergence in Multi-Agent Systems.} Early work focused on cooperation emergence through repeated games~\cite{axelrod1984evolution}. Recent deep RL approaches study emergence in mixed cooperative-competitive settings~\cite{foerster2018learning, lowe2017multi, baker2019emergent}. We differ by studying emergence from \textit{pure} competition among minimal agents (not neural networks), demonstrating that sophisticated agents are not required for emergent environmental correlation.
+\paragraph{Emergence in Competitive Systems.} Early work focused on cooperation emergence through repeated games~\cite{axelrod1984evolution}. Recent work studies emergence in mixed cooperative-competitive settings~\cite{foerster2018learning, lowe2017multi, baker2019emergent}. We differ by studying emergence from \textit{pure} competition among minimal replicators (simple affinity vectors, not neural networks), demonstrating that sophisticated entities are not required for emergent environmental correlation.
 
 \paragraph{Self-Organization in Complex Systems.} The emergence of order from local interactions is central to complexity science~\cite{kauffman1993origins, holland1998emergence}. Our work provides a concrete, measurable example: SI as an emergent property that becomes cointegrated with external structure, with precise statistical characterization.
 
 \paragraph{Mixture-of-Experts.} Sparse MoE architectures~\cite{shazeer2017outrageously, fedus2022switch} route inputs to specialized sub-networks. Our approach achieves conceptually similar specialization but operates at the population level rather than within network weights---requiring no architectural changes or training.
 
-\paragraph{Agent-Based Computational Economics.} Agent-based models in finance~\cite{lebaron2006agent, farmer2009economy, hommes2006heterogeneous} have shown how market patterns emerge from agent interactions. We contribute by showing agents can develop market-correlated behavior \textit{without modeling the market}---a stronger emergence result.
+\paragraph{Computational Economics.} Models with heterogeneous entities in finance~\cite{lebaron2006agent, farmer2009economy, hommes2006heterogeneous} have shown how market patterns emerge from entity interactions. We contribute by showing replicators can develop market-correlated behavior \textit{without modeling the market}---a stronger emergence result.
 
-\paragraph{Ecological Niche Theory.} Our framework parallels niche differentiation in ecology~\cite{hutchinson1957niche, macarthur1967limiting}. Just as species specialize to reduce competition, our agents develop niche affinities. The key difference is we show this specialization tracks \textit{environmental dynamics}, not just static resources.
+\paragraph{Ecological Niche Theory.} Our framework parallels niche differentiation in ecology~\cite{hutchinson1957niche, macarthur1967limiting}. Just as species specialize to reduce competition, our replicators develop niche affinities. The key difference is we show this specialization tracks \textit{environmental dynamics}, not just static resources.
 
 \paragraph{Relation to Prior Work on Emergent Specialization.} Li~\cite{li2025emergent} demonstrated that competition leads to emergent specialization, using SI as a \textit{final convergence metric}. We build on this foundation but make a distinct contribution: we treat SI$(t)$ as a \textit{dynamic time series} and discover that it becomes cointegrated with environmental structure---a phenomenon not characterized in prior work. This ``Blind Synchronization Effect'' is our primary contribution.
 
@@ -130,15 +120,15 @@ Our work connects several research threads, synthesizing ideas from evolutionary
 \section{Replicator Dynamics and the Specialization Index}
 \label{sec:method}
 
-We formalize the competitive framework that produces the Blind Synchronization Effect. Our approach consists of three components: (1) agents with niche affinities, (2) fitness-proportional updates (replicator dynamics), and (3) the dynamic Specialization Index SI$(t)$.
+We formalize the competitive framework that produces the Blind Synchronization Effect. Our approach consists of three components: (1) replicators with niche affinities, (2) fitness-proportional updates (replicator dynamics), and (3) the dynamic Specialization Index SI$(t)$.
 
 \subsection{Setup and Notation}
 
-Consider a population of $n$ agents $\mathcal{A} = \{a_1, \ldots, a_n\}$ competing over $K$ niches. Each agent $i$ maintains an affinity distribution $\mathbf{p}_i = (p_i^1, \ldots, p_i^K)$ where $p_i^k \geq 0$ and $\sum_k p_i^k = 1$. The affinity $p_i^k$ represents agent $i$'s weight on niche $k$.
+Consider a population of $n$ replicators $\mathcal{R} = \{r_1, \ldots, r_n\}$ competing over $K$ niches. Each replicator $i$ maintains an affinity distribution $\mathbf{p}_i = (p_i^1, \ldots, p_i^K)$ where $p_i^k \geq 0$ and $\sum_k p_i^k = 1$. The affinity $p_i^k$ represents replicator $i$'s weight on niche $k$.
 
 In our financial market instantiation, niches correspond to trading strategies (momentum, mean-reversion, volatility, trend-following, range-trading), and fitness is the realized return of each strategy.
 
-\paragraph{Design Rationale.} Fitness-proportional updates are natural: agents should increase allocation to niches that perform well. This is precisely the replicator equation from evolutionary game theory, which has been shown to lead to evolutionarily stable strategies~\cite{hofbauer1998evolutionary}.
+Fitness-proportional updates are natural: replicators should increase allocation to niches that perform well. This is precisely the replicator equation from evolutionary game theory, which has been shown to lead to evolutionarily stable strategies~\cite{hofbauer1998evolutionary}.
 
 \subsection{The Algorithm}
 
@@ -148,11 +138,11 @@ Algorithm~\ref{alg:niche} formalizes the fitness-proportional competition mechan
 \caption{Fitness-Proportional Competition (Replicator Dynamics)}
 \label{alg:niche}
 \begin{algorithmic}[1]
-\REQUIRE Population of $n$ agents, $K$ niches, time horizon $T$
-\STATE Initialize $\mathbf{p}_i \leftarrow \mathbf{1}/K$ for all agents $i$
+\REQUIRE Population of $n$ replicators, $K$ niches, time horizon $T$
+\STATE Initialize $\mathbf{p}_i \leftarrow \mathbf{1}/K$ for all replicators $i$
 \FOR{$t = 1$ to $T$}
     \STATE Observe niche fitness $\mathbf{f}(t) = (f_1(t), \ldots, f_K(t))$
-    \FOR{each agent $i$}
+    \FOR{each replicator $i$}
         \STATE Compute expected fitness: $\bar{f}_i \leftarrow \sum_k p_i^k \cdot f_k(t)$
         \FOR{each niche $k$}
             \STATE Update affinity: $p_i^k \leftarrow p_i^k \cdot f_k(t) / \bar{f}_i$
@@ -169,16 +159,16 @@ The update in line 7 is the discrete-time replicator equation: niches with above
 
 \subsection{The Dynamic Specialization Index SI$(t)$}
 
-We measure population-level specialization via entropy reduction. \textbf{Crucially, we treat SI as a time series} SI$(t)$, not merely a final convergence metric as in prior work~\cite{li2025emergent}. This allows us to study how specialization \textit{evolves} and correlates with environmental dynamics.
+We measure population-level specialization via entropy reduction. Crucially, we treat SI as a time series SI$(t)$, not merely a final convergence metric as in prior work~\cite{li2025emergent}. This allows us to study how specialization \textit{evolves} and correlates with environmental dynamics.
 
 \begin{definition}[Dynamic Specialization Index]
-Let $H(\mathbf{p}_i) = -\sum_k p_i^k \log p_i^k$ be the Shannon entropy of agent $i$'s affinities at time $t$. The \textbf{Dynamic Specialization Index} is:
+Let $H(\mathbf{p}_i) = -\sum_k p_i^k \log p_i^k$ be the Shannon entropy of replicator $i$'s affinities at time $t$. The \textbf{Dynamic Specialization Index} is:
 \begin{equation}
     \SI(t) = 1 - \frac{1}{n} \sum_{i=1}^n \frac{H(\mathbf{p}_i(t))}{\log K}
 \end{equation}
 \end{definition}
 
-SI$(t) \in [0, 1]$ where SI$(t) = 0$ means all agents have uniform affinities (no specialization), and SI$(t) = 1$ means all agents concentrate on single niches (maximum specialization). \textbf{The key insight of this paper is that SI$(t)$ becomes cointegrated with environmental indicators}---a property that only becomes visible when treating SI as a dynamic signal.
+SI$(t) \in [0, 1]$ where SI$(t) = 0$ means all replicators have uniform affinities (no specialization), and SI$(t) = 1$ means all replicators concentrate on single niches (maximum specialization). The key insight of this paper is that SI$(t)$ becomes cointegrated with environmental indicators---a property that only becomes visible when treating SI as a dynamic signal.
 
 % =============================================================================
 % SECTION 4: THEORY
@@ -192,13 +182,7 @@ We prove that SI converges under replicator dynamics and characterize its relati
 
 \begin{theorem}[SI Convergence Under Replicator Dynamics]
 \label{thm:convergence}
-Let $\mathbf{p}_i(t)$ evolve according to Algorithm~\ref{alg:niche}. Assume:
-\begin{enumerate}[leftmargin=2em,topsep=0pt,itemsep=2pt]
-    \item[(A1)] \textbf{Positivity:} Fitness values $f_k(t) > 0$ for all $k, t$
-    \item[(A2)] \textbf{Ergodicity:} $\{f_k(t)\}_{t=1}^\infty$ is stationary and ergodic for each $k$
-    \item[(A3)] \textbf{Differential:} There exists $\Delta > 0$ such that $\E[\max_k f_k - \min_k f_k] > \Delta$
-\end{enumerate}
-Then $\SI(t)$ converges almost surely:
+Let $\mathbf{p}_i(t)$ evolve according to Algorithm~\ref{alg:niche}. Assume (A1) \textit{Positivity}: fitness values $f_k(t) > 0$ for all $k, t$; (A2) \textit{Ergodicity}: $\{f_k(t)\}_{t=1}^\infty$ is stationary and ergodic for each $k$; and (A3) \textit{Differential}: there exists $\Delta > 0$ such that $\E[\max_k f_k - \min_k f_k] > \Delta$. Then $\SI(t)$ converges almost surely:
 \begin{equation}
     \lim_{t \to \infty} \SI(t) = \SI^* \in (0, 1] \quad \text{a.s.}
 \end{equation}
@@ -218,7 +202,7 @@ Moreover, $\E[\SI^*]$ is increasing in $\Delta$.
 When niches correspond to trading strategies with fitness equal to returns, and market conditions exhibit trending/ranging regimes, SI becomes cointegrated with trend strength (ADX). Both respond to the same underlying market dynamics, creating a common stochastic trend.
 \end{corollary}
 
-\paragraph{Intuition.} When ADX is high (strong trend), trend-following strategies consistently outperform. Agents increase affinity for trending niches, concentrating their distributions and raising SI. When ADX is low (ranging market), no strategy dominates; agents' affinities remain diffuse, keeping SI low. The key insight is that this tracking happens \textit{without agents observing ADX}---they only see strategy returns.
+When ADX is high (strong trend), trend-following strategies consistently outperform. Replicators increase affinity for trending niches, concentrating their distributions and raising SI. When ADX is low (ranging market), no strategy dominates; replicators' affinities remain diffuse, keeping SI low. The key insight is that this tracking happens \textit{without replicators observing ADX}---they only see strategy returns.
 
 % =============================================================================
 % SECTION 5: EXPERIMENTS
@@ -244,7 +228,7 @@ US Equity & SPY, QQQ, AAPL & 2020-01 to 2026-01 & Daily & Yahoo Finance \\
 Forex & EUR/USD, GBP/USD & 2021-01 to 2026-01 & Daily & OANDA \\
 \midrule
 \multicolumn{5}{l}{\textit{Transaction costs:} Crypto 4bp, Equity 2bp, Forex 1bp (one-way)} \\
-\multicolumn{5}{l}{\textit{Mechanism:} $n=50$ agents, $K=5$ niches, random seed 42} \\
+\multicolumn{5}{l}{\textit{Mechanism:} $n=50$ replicators, $K=5$ niches, random seed 42} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -308,23 +292,15 @@ GBPUSD & 0.138 & 0.247 & $<$0.0001 & 0.854 & 5.1 & 87\% & 0.59 \\
 \end{tabular}
 \end{table}
 
-\paragraph{Finding 1: SI Lags Market Features.} Transfer entropy analysis reveals information flows \textit{from} market features \textit{to} SI, not vice versa:
-\begin{equation}
-    \text{TE}(\ADX \to \SI) / \text{TE}(\SI \to \ADX) = 0.58 \pm 0.03
-\end{equation}
-A ratio below 1 indicates SI is a \textbf{lagging indicator}. This is consistent with our mechanism: replicators update affinities \textit{after} observing fitness, which depends on market conditions.
+Transfer entropy analysis reveals information flows \textit{from} market features \textit{to} SI, not vice versa: $\text{TE}(\ADX \to \SI) / \text{TE}(\SI \to \ADX) = 0.58 \pm 0.03$. A ratio below 1 indicates SI is a \textbf{lagging indicator}. This is consistent with our mechanism: replicators update affinities \textit{after} observing fitness, which depends on market conditions.
 
-\paragraph{Finding 2: SI-ADX Cointegration.} Engle-Granger tests~\cite{engle1987cointegration} confirm cointegration across all 8 assets ($p < 0.0001$). The cointegrating relationship is approximately $\SI_t - 0.8 \cdot \ADX_t \sim I(0)$, meaning deviations from equilibrium are stationary and mean-revert.
+Engle-Granger tests~\cite{engle1987cointegration} confirm cointegration across all 8 assets ($p < 0.0001$). The cointegrating relationship is approximately $\SI_t - 0.8 \cdot \ADX_t \sim I(0)$, meaning deviations from equilibrium are stationary and mean-revert.
 
-\paragraph{Finding 3: Long Memory with Local Mean Reversion.} The Hurst exponent $H = 0.83$--$0.87$ indicates strong persistence: SI regimes are ``sticky.'' However, local mean reversion occurs with half-life $\tau_{1/2} \approx 4$--$5$ days. This apparent paradox is resolved by the Fractional Ornstein-Uhlenbeck model: long-range dependence in the noise term, local mean reversion in the drift term.
+The Hurst exponent $H = 0.83$--$0.87$ indicates strong persistence: SI regimes are ``sticky.'' However, local mean reversion occurs with half-life $\tau_{1/2} \approx 4$--$5$ days. This apparent paradox is resolved by the Fractional Ornstein-Uhlenbeck model: long-range dependence in the noise term, local mean reversion in the drift term.
 
-\paragraph{Finding 4: RSI Extremity is the Strongest Correlate.} Among all features tested, RSI Extremity ($|\text{RSI} - 50|$) shows the \textit{highest} correlation with SI:
-\begin{equation}
-    r(\SI, |\text{RSI} - 50|) = 0.237 \quad \text{(8/8 assets, } p < 0.001\text{)}
-\end{equation}
-This exceeds the SI-ADX correlation ($r = 0.131$), suggesting SI captures market extremity even more strongly than trend strength. When markets are strongly overbought or oversold, competition produces more intense specialization.
+Among all features tested, RSI Extremity ($|\text{RSI} - 50|$) shows the highest correlation with SI: $r(\SI, |\text{RSI} - 50|) = 0.237$ (8/8 assets, $p < 0.001$). This exceeds the SI-ADX correlation ($r = 0.131$), suggesting SI captures market extremity even more strongly than trend strength. When markets are strongly overbought or oversold, competition produces more intense specialization.
 
-\paragraph{Finding 5: Phase Transition at $\sim$30 Days.} The SI-ADX correlation is \textit{negative} at short horizons ($r = -0.05$ at 3--7 days) but \textit{positive} at long horizons ($r = +0.35$ at 30--120 days). A phase transition occurs around 30 days, consistent with the time required for agent affinities to accumulate meaningful structure. See supplementary Figure S2 for detailed visualization.
+A phase transition in SI-ADX correlation occurs around 30 days: the correlation is negative at short horizons ($r = -0.05$ at 3--7 days) but positive at long horizons ($r = +0.35$ at 30--120 days). This is consistent with the time required for replicator affinities to accumulate meaningful structure. See supplementary Figure S2 for detailed visualization.
 
 Additional figures in the supplementary material include: SI(t) evolution dynamics (Figure S1), cross-domain validation (Figure S3), ablation study (Figure S4), and failure mode analysis (Figure S5).
 
@@ -349,7 +325,7 @@ Fixed strategies & 0.089 & 0.02 & Adaptation matters \\
 \end{tabular}
 \end{table}
 
-The random baseline test is crucial: when agents are assigned random affinities (not updated via competition), SI-ADX correlation disappears ($r = 0.012$, $p = 0.34$). This validates that the observed correlation arises from the competitive mechanism, not spurious statistical artifacts.
+The random baseline test is crucial: when replicators are assigned random affinities (not updated via competition), SI-ADX correlation disappears ($r = 0.012$, $p = 0.34$). This validates that the observed correlation arises from the competitive mechanism, not spurious statistical artifacts.
 
 % =============================================================================
 % SECTION 6: DISCUSSION
@@ -359,41 +335,19 @@ The random baseline test is crucial: when agents are assigned random affinities 
 
 \subsection{When the Blind Synchronization Effect Fails}
 
-We document conditions under which the effect breaks down:
-
-\paragraph{High Noise.} When fitness noise exceeds the signal ($\sigma > 2\mu$), SI-environment correlation drops to near zero.
-
-\paragraph{Fast Regime Switching.} When environment regimes switch faster than 20\% per timestep, agents cannot accumulate meaningful affinity structure.
-
-\paragraph{Small Populations.} With fewer than 5 agents, SI exhibits high variance and unstable dynamics.
-
-\paragraph{Too Many Niches.} With $K > 20$ niches, the specialization signal becomes diluted.
+We document conditions under which the effect breaks down. First, when fitness noise exceeds the signal ($\sigma > 2\mu$), SI-environment correlation drops to near zero. Second, when environment regimes switch faster than 20\% per timestep, replicators cannot accumulate meaningful affinity structure. Third, with fewer than 5 replicators, SI exhibits high variance and unstable dynamics. Fourth, with $K > 20$ niches, the specialization signal becomes diluted.
 
 \subsection{Limitations and Negative Results}
 
-Transparency about limitations is essential. We emphasize what SI does \textit{not} do:
-
-\paragraph{SI Does Not Predict Returns.} The Transfer Entropy ratio of 0.58 confirms SI lags market features. Information Coefficient half-life is 3--5 days. SI is not a trading signal.
-
-\paragraph{SI Is Not Independent of Known Factors.} When regressed on momentum and volatility factors, $R^2 = 0.66$. SI is not a novel alpha source; it captures known market structure in a different way.
-
-\paragraph{Effect Sizes Are Modest.} The SI-ADX correlation of $r = 0.13$ is consistent but small. After Benjamini-Hochberg FDR correction, 0/30 strategy tests remain significant at $q = 0.10$.
-
-\paragraph{Data Limitations.} Only 5 years of daily data limits regime diversity. No market impact modeling makes results unrealistic for large positions.
+Transparency about limitations is essential. We emphasize what SI does \textit{not} do. First, SI does not predict returns: the Transfer Entropy ratio of 0.58 confirms SI lags market features, and information coefficient half-life is 3--5 days. Second, SI is not independent of known factors: when regressed on momentum and volatility factors, $R^2 = 0.66$, meaning SI is not a novel alpha source but captures known market structure in a different way. Third, effect sizes are modest: the SI-ADX correlation of $r = 0.13$ is consistent but small, and after Benjamini-Hochberg FDR correction, 0/30 strategy tests remain significant at $q = 0.10$. Fourth, data limitations exist: only 5 years of daily data limits regime diversity, and no market impact modeling makes results unrealistic for large positions.
 
 \subsection{Practical Applications}
 
-Despite limitations, SI provides value when used appropriately as a \textit{risk indicator}:
+Despite limitations, SI provides value when used appropriately as a \textit{risk indicator}. First, scaling positions by SI rank improves Sharpe ratio by 14\% in walk-forward validation (SPY: 0.92 vs 0.81 baseline, 80\% quarterly win rate). The intuition is simple: increase exposure when the market has clear structure (high SI), decrease when structure is unclear. Second, the cointegration relationship enables mean-reversion trading: long when the spread $z < -2$, short when $z > +2$. This SI-ADX spread trading achieves Sharpe 1.29 on BTC (walk-forward validated).
 
-\paragraph{Position Sizing.} Scaling positions by SI rank improves Sharpe ratio by 14\% in walk-forward validation (SPY: 0.92 vs 0.81 baseline, 80\% quarterly win rate). The intuition is simple: increase exposure when the market has clear structure (high SI), decrease when structure is unclear.
+\subsection{Implications for Complex Adaptive Systems}
 
-\paragraph{SI-ADX Spread Trading.} The cointegration relationship enables mean-reversion trading: long when the spread $z < -2$, short when $z > +2$. This achieves Sharpe 1.29 on BTC (walk-forward validated).
-
-\subsection{Implications for Multi-Agent AI}
-
-\paragraph{Emergent Coordination Without Communication.} Our results show that competing agents can develop synchronized behavior---aligned with environmental structure---without any explicit coordination mechanism. This has implications for understanding emergent behaviors in deployed AI systems.
-
-\paragraph{AI Safety Considerations.} The ``sticky'' nature of SI regimes ($H = 0.83$) suggests that once agents develop correlated behaviors, those behaviors persist. Sudden regime shifts could be destabilizing. In high-stakes domains, understanding and monitoring such emergent coordination may be important.
+The Blind Synchronization Effect has broader implications for understanding self-organization. First, in evolutionary biology, our results suggest that populations competing for resources may develop aggregate behavior patterns that track environmental conditions, even without individual sensing capabilities. Second, in market microstructure, heterogeneous strategies may spontaneously align with market regimes through pure competition, without requiring explicit market modeling. Third, the ``sticky'' nature of SI regimes ($H = 0.83$) suggests that once populations develop correlated behaviors, those behaviors persist---with potential implications for understanding market stability and herding phenomena.
 
 % =============================================================================
 % SECTION 7: CONCLUSION
@@ -401,13 +355,11 @@ Despite limitations, SI provides value when used appropriately as a \textit{risk
 \section{Conclusion}
 \label{sec:conclusion}
 
-We have discovered and characterized the \textbf{Blind Synchronization Effect}: competing agents with no environmental knowledge develop specialization patterns cointegrated with environmental structure. This phenomenon is surprising, robust across 4 domains, and grounded in replicator dynamics from evolutionary game theory.
+We have discovered and characterized the \textbf{Blind Synchronization Effect}: competing replicators with no environmental knowledge develop specialization patterns cointegrated with environmental structure. This phenomenon is surprising, robust across 4 domains, and grounded in replicator dynamics from evolutionary game theory.
 
-The key insight is that \textit{agents can synchronize with their environment without ever observing it}. The dynamic Specialization Index SI$(t)$---tracking how agents specialize over time---becomes cointegrated with environmental indicators like market trends, temperature patterns, and traffic flows. This emergence has implications for understanding multi-agent AI systems where agents may develop coordinated behaviors without explicit design.
+The key insight is that \textit{replicators can synchronize with their environment without ever observing it}. The dynamic Specialization Index SI$(t)$---tracking how replicators specialize over time---becomes cointegrated with environmental indicators like market trends, temperature patterns, and traffic flows. This emergence has implications for understanding self-organization in complex adaptive systems where entities may develop coordinated behaviors through pure competition.
 
-\paragraph{Future Directions.} Higher-frequency data could reveal short-term dynamics. Multi-agent RL settings could study whether sophisticated agents also exhibit the effect. Theoretical extensions including convergence rates and regret bounds remain open.
-
-\paragraph{Broader Impact.} The Blind Synchronization Effect suggests that decentralized competitive systems may develop environment-aligned behaviors without oversight. This has implications for market stability (correlated strategies amplify volatility) and AI safety (emergent coordination without communication). Understanding when and why this occurs is crucial for safe deployment of multi-agent systems.
+Higher-frequency data could reveal short-term dynamics in future work. Theoretical extensions including convergence rates and regret bounds remain open. The Blind Synchronization Effect suggests that decentralized competitive systems may develop environment-aligned behaviors without explicit coordination, with implications for understanding market stability (correlated strategies may amplify volatility) and population dynamics in evolutionary biology.
 
 % =============================================================================
 % REFERENCES
@@ -528,11 +480,7 @@ We provide the complete proof of SI convergence under replicator dynamics.
 
 \begin{lemma}[Entropy Decrease]
 \label{lem:entropy}
-Under the replicator update (Algorithm~\ref{alg:niche}, line 7), if the fitness vector is non-uniform:
-\begin{equation}
-\E[H(\mathbf{p}_i(t+1)) | \mathbf{p}_i(t)] \leq H(\mathbf{p}_i(t))
-\end{equation}
-with strict inequality when $\mathbf{f}$ is non-constant and $\mathbf{p}_i$ is not concentrated.
+Under the replicator update (Algorithm~\ref{alg:niche}, line 7), if the fitness vector is non-uniform, then $\E[H(\mathbf{p}_i(t+1)) | \mathbf{p}_i(t)] \leq H(\mathbf{p}_i(t))$ with strict inequality when $\mathbf{f}$ is non-constant and $\mathbf{p}_i$ is not concentrated.
 \end{lemma}
 
 \begin{proof}
@@ -574,10 +522,10 @@ By assumption (A3), the fitness differential ensures continued entropy reduction
 \centering
 \begin{tabular}{lccc}
 \toprule
-\textbf{Parameter} & \textbf{Default Value} & \textbf{Range Tested} & \textbf{Sensitivity} \\
+\textbf{Parameter} & \textbf{Default} & \textbf{Range} & \textbf{Sensitivity} \\
 \midrule
-Number of replicators $n$ & 50 & [10, 200] & Low \\
-Number of niches $K$ & 5 & [3, 10] & Medium \\
+Population size $n$ & 50 & [10, 200] & Low \\
+Niche count $K$ & 5 & [3, 10] & Medium \\
 SI rolling window & 7 days & [3, 21] & Medium \\
 Position bounds & [0.8, 1.2] & [0.5, 2.0] & High \\
 Smoothing halflife & 15 days & [5, 30] & Medium \\
@@ -614,17 +562,9 @@ Random seed & 42 & --- & Low \\
 \end{tabular}
 \end{table}
 
-\section{NeurIPS Checklist}
+\section{Reproducibility and Ethics Statement}
 \label{app:checklist}
 
-\begin{enumerate}[leftmargin=*,topsep=2pt,itemsep=2pt]
-    \item \textbf{Claims match evidence:} Yes. All claims supported by empirical evidence with confidence intervals.
-    \item \textbf{Limitations stated:} Yes. Section~\ref{sec:discussion} discusses what SI does not do.
-    \item \textbf{Reproducibility:} Code available at \url{https://github.com/HowardLiYH/Emergent-Applications}.
-    \item \textbf{Broader impacts:} Discussed in Section~\ref{sec:conclusion}.
-    \item \textbf{Theoretical claims:} Proven in Appendix~\ref{app:proofs}.
-    \item \textbf{Data:} Publicly available (Binance, Yahoo Finance, OANDA).
-    \item \textbf{Compute:} Standard laptop (32GB RAM, M1 chip); no GPU required.
-\end{enumerate}
+All claims in this paper are supported by empirical evidence with confidence intervals, and limitations are explicitly stated in Section~\ref{sec:discussion}. For reproducibility, code is available at \url{https://github.com/HowardLiYH/Emergent-Applications}, and all data is publicly available (Binance, Yahoo Finance, OANDA). Theoretical claims are proven in Appendix~\ref{app:proofs}. Experiments run on a standard laptop (32GB RAM, M1 chip) without GPU, ensuring accessibility. Broader impacts are discussed in Section~\ref{sec:conclusion}.
 
 \end{document}
