@@ -96,6 +96,8 @@ We study this phenomenon in financial markets, a natural testbed where multiple 
 
 Consider a population of $n$ agents $\mathcal{A} = \{a_1, \ldots, a_n\}$ competing over $K$ niches (strategies). Each agent $i$ maintains an affinity distribution $\mathbf{p}_i = (p_i^1, \ldots, p_i^K)$ where $p_i^k \geq 0$ and $\sum_k p_i^k = 1$. The affinity $p_i^k$ represents agent $i$'s weight on niche $k$.
 
+\textbf{Note on terminology:} Our ``agents'' are \textit{not} LLM-based or neural network agents. They are simple \textbf{strategy instances}---each agent is merely an affinity vector $\mathbf{p}_i$ that evolves via multiplicative weight updates. There is no learning, reasoning, or planning. This simplicity is intentional: we show that even minimal agents exhibit emergent market-correlated behavior through competition alone.
+
 \textbf{Why fitness-proportional updates?} This update rule is natural: agents should increase allocation to niches that perform well. This is precisely the replicator dynamics from evolutionary game theory, which has been shown to lead to evolutionarily stable strategies \citep{hofbauer1998evolutionary}.
 
 \begin{algorithm}[t]

@@ -17,6 +17,25 @@
 
 We demonstrate that agents competing via simple fitness-proportional updates (replicator dynamics) spontaneously develop a Specialization Index (SI) that becomes **cointegrated with market trend strength (ADX)**—despite having no knowledge of market structure.
 
+### ⚠️ Important: What Are "Agents"?
+
+Our "agents" are **NOT** LLM-based or neural network agents. They are simple **strategy instances**:
+
+```python
+@dataclass
+class Agent:
+    strategy_idx: int           # Which trading strategy (momentum, mean-reversion, etc.)
+    niche_affinity: np.ndarray  # A 3-element probability vector - that's it!
+```
+
+Each agent is merely an **affinity vector** that evolves via multiplicative weight updates. There is:
+- ❌ No neural networks
+- ❌ No language models  
+- ❌ No learning from data
+- ❌ No reasoning or planning
+
+This simplicity is intentional: we show that even **minimal agents** exhibit emergent market-correlated behavior through competition alone.
+
 ---
 
 ## 🔬 Key Findings
