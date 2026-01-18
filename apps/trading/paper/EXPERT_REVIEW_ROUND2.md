@@ -1,7 +1,7 @@
 # Expert Review Panel - Round 2
 
-**Date:** January 18, 2026  
-**Focus:** Completeness check + additional graphs + README update  
+**Date:** January 18, 2026
+**Focus:** Completeness check + additional graphs + README update
 **Reviewers:** 30 Professors + 20 Industry Experts
 
 ---

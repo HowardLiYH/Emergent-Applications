@@ -6,7 +6,7 @@
 
 **How Replicator Dynamics Create Market-Correlated Behavior**
 
-*Yuhao Li, University of Pennsylvania*  
+*Yuhao Li, University of Pennsylvania*
 *Contact: li88@sas.upenn.edu*
 
 ---
@@ -35,9 +35,9 @@ We demonstrate that agents competing via simple fitness-proportional updates (re
 
 ![Hero Figure](paper/figures/hero_figure.png)
 
-**(a) NichePopulation Mechanism:** Agents compete over niches via fitness-proportional updates  
-**(b) SI Emergence:** Specialization tracks market structure over time  
-**(c) SI-ADX Cointegration:** Strong long-run relationship (r = 0.13, p < 0.0001)  
+**(a) NichePopulation Mechanism:** Agents compete over niches via fitness-proportional updates
+**(b) SI Emergence:** Specialization tracks market structure over time
+**(c) SI-ADX Cointegration:** Strong long-run relationship (r = 0.13, p < 0.0001)
 **(d) Phase Transition:** Correlation flips from negative to positive at ~30 days
 
 ---
@@ -179,7 +179,7 @@ python paper/theorem_proof.py
 
 ```bibtex
 @inproceedings{li2025emergent,
-  title={Emergent Specialization from Competition Alone: 
+  title={Emergent Specialization from Competition Alone:
          How Replicator Dynamics Create Market-Correlated Behavior},
   author={Li, Yuhao},
   booktitle={Advances in Neural Information Processing Systems (NeurIPS)},

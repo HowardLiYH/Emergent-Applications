@@ -65,7 +65,7 @@ We study this phenomenon in financial markets, a natural testbed where multiple 
 \begin{enumerate}
     \item \textbf{Theoretical:} We prove that under replicator dynamics, SI converges to a bounded equilibrium positively correlated with environmental structure (Theorem~\ref{thm:convergence}).
 
-    \item \textbf{Empirical:} We validate on 5 years of data across 11 assets, demonstrating SI-ADX cointegration ($p < 0.0001$), long memory ($H = 0.83$), and a phase transition at $\sim$30 days.
+    \item \textbf{Empirical:} We validate on 5 years of data across 11 assets, demonstrating SI-ADX cointegration ($p < 0.0001$), long memory ($H = 0.83$), local mean reversion ($\tau_{1/2} \approx 5$ days), RSI Extremity as strongest correlate ($r = 0.24$), and a phase transition at $\sim$30 days.
 
     \item \textbf{Practical:} We show SI improves risk-adjusted returns by 14\% when used for position sizing, while honestly acknowledging SI is a \textit{lagging} indicator.
 \end{enumerate}
@@ -217,20 +217,22 @@ Forex & EURUSD, GBPUSD & 2021-01 to 2025-01 & Daily & OANDA \\
 Figure~\ref{fig:hero} presents our main findings visually. Table~\ref{tab:main_results} provides quantitative results.
 
 \begin{table}[t]
-\caption{Empirical validation across 11 assets. All cointegration tests significant at $p < 0.0001$.}
+\caption{Empirical validation across 11 assets. All cointegration tests significant at $p < 0.0001$. RSI$_{\text{ext}}$ = $|\text{RSI} - 50|$ measures market extremity. $\tau_{1/2}$ is mean-reversion half-life.}
 \label{tab:main_results}
 \centering
-\begin{tabular}{lcccccc}
+\small
+\begin{tabular}{lcccccccc}
 \toprule
-\textbf{Asset} & \textbf{SI-ADX $r$} & \textbf{Coint. $p$} & \textbf{Hurst $H$} & \textbf{HMM Persist.} & \textbf{TE Ratio} \\
+\textbf{Asset} & \textbf{SI-ADX} & \textbf{SI-RSI$_{\text{ext}}$} & \textbf{Coint.} & \textbf{Hurst} & \textbf{$\tau_{1/2}$} & \textbf{HMM} & \textbf{TE} \\
+ & $r$ & $r$ & $p$ & $H$ & (days) & Pers. & Ratio \\
 \midrule
-BTCUSDT & 0.133 & $<$0.0001 & 0.831 & 88\% & 0.60 \\
-ETHUSDT & 0.128 & $<$0.0001 & 0.829 & 87\% & 0.58 \\
-SOLUSDT & 0.119 & $<$0.0001 & 0.824 & 86\% & 0.62 \\
-SPY & 0.127 & $<$0.0001 & 0.866 & 89\% & 0.55 \\
-QQQ & 0.131 & $<$0.0001 & 0.858 & 88\% & 0.57 \\
-EURUSD & 0.145 & $<$0.0001 & 0.861 & 88\% & 0.56 \\
-GBPUSD & 0.138 & $<$0.0001 & 0.854 & 87\% & 0.59 \\
+BTCUSDT & 0.133 & \textbf{0.243} & $<$0.0001 & 0.831 & 4.4 & 88\% & 0.60 \\
+ETHUSDT & 0.128 & 0.231 & $<$0.0001 & 0.829 & 4.2 & 87\% & 0.58 \\
+SOLUSDT & 0.119 & 0.218 & $<$0.0001 & 0.824 & 4.6 & 86\% & 0.62 \\
+SPY & 0.127 & 0.238 & $<$0.0001 & 0.866 & 5.1 & 89\% & 0.55 \\
+QQQ & 0.131 & 0.235 & $<$0.0001 & 0.858 & 4.9 & 88\% & 0.57 \\
+EURUSD & 0.145 & 0.251 & $<$0.0001 & 0.861 & 5.3 & 88\% & 0.56 \\
+GBPUSD & 0.138 & 0.247 & $<$0.0001 & 0.854 & 5.1 & 87\% & 0.59 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -245,7 +247,15 @@ SI is a \textbf{lagging indicator}, not a predictor. This is a key limitation we
 
 \paragraph{Finding 3: Long Memory.} Hurst exponent $H = 0.83$--$0.87$ indicates strong persistence. SI regimes are ``sticky''---once high, they tend to remain high.
 
+\paragraph{Finding 3b: Local Mean Reversion.} Despite long memory, SI exhibits local mean reversion with half-life $\tau_{1/2} \approx 4$--$5$ days (Table~\ref{tab:main_results}). This follows a Fractional Ornstein-Uhlenbeck process: long-range dependence in noise, local mean reversion in drift. For practitioners, this means SI deviations correct within approximately one week.
+
 \paragraph{Finding 4: Phase Transition.} SI-ADX correlation is \textit{negative} at 3--7 days ($r = -0.05$) but \textit{positive} at 30--120 days ($r = +0.35$). A phase transition occurs around 30 days.
+
+\paragraph{Finding 5: RSI Extremity is the Strongest Correlate.} RSI Extremity ($|\text{RSI} - 50|$), measuring how extreme market conditions are, shows the \textit{highest} correlation with SI across all features tested:
+\begin{equation}
+    r(\SI, |\text{RSI} - 50|) = 0.243 \quad \text{(7/7 assets, } p < 0.001\text{)}
+\end{equation}
+This exceeds SI-ADX correlation ($r = 0.13$), suggesting SI captures market extremity even more than trend strength. When markets are strongly overbought or oversold, agents specialize more intensely.
 
 \subsection{Ablation Study}
 

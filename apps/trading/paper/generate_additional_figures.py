@@ -40,27 +40,27 @@ def simulate_si_convergence(n_agents=50, n_niches=5, T=300, seed=42):
     affinities = np.ones((n_agents, n_niches)) / n_niches
     si_history = []
     entropy_history = []
-    
+
     for t in range(T):
         # Regime changes
         if t % 60 == 0:
             dominant = np.random.randint(n_niches)
-        
+
         fitness = np.random.uniform(0.9, 1.1, n_niches)
         fitness[dominant] *= 1.3
-        
+
         # Replicator update
         weighted = affinities * fitness
         total = weighted.sum(axis=1, keepdims=True)
         affinities = weighted / (total + 1e-10)
-        
+
         entropy = -np.sum(affinities * np.log(affinities + 1e-10), axis=1)
         normalized_entropy = entropy / np.log(n_niches)
         si = 1 - normalized_entropy.mean()
-        
+
         si_history.append(si)
         entropy_history.append(normalized_entropy.mean())
-    
+
     return np.array(si_history), np.array(entropy_history)
 
 si_sim, entropy_sim = simulate_si_convergence()
@@ -92,11 +92,11 @@ si_rolling_mean = pd.Series(si_sim).rolling(window).mean()
 si_rolling_std = pd.Series(si_sim).rolling(window).std()
 
 axes[2].plot(si_rolling_mean, color='#2ecc71', linewidth=2, label='Rolling Mean')
-axes[2].fill_between(range(len(si_sim)), 
+axes[2].fill_between(range(len(si_sim)),
                       si_rolling_mean - si_rolling_std,
                       si_rolling_mean + si_rolling_std,
                       alpha=0.3, color='#2ecc71')
-axes[2].axhline(si_sim[-50:].mean(), color='black', linestyle='--', 
+axes[2].axhline(si_sim[-50:].mean(), color='black', linestyle='--',
                 label=f'Equilibrium SI* = {si_sim[-50:].mean():.3f}')
 axes[2].set_xlabel('Time Step')
 axes[2].set_ylabel('SI (Rolling Window)')
@@ -169,7 +169,7 @@ for start, end, label, color in crisis_periods:
             si_end = si_aligned.loc[:end_ts].iloc[-1]
             si_change = (si_end - si_start) / si_start * 100
             ax2.bar(label, si_change, color=color, alpha=0.8, edgecolor='black')
-            ax2.text(label, si_change + 1 if si_change > 0 else si_change - 3, 
+            ax2.text(label, si_change + 1 if si_change > 0 else si_change - 3,
                     f'{si_change:.1f}%', ha='center', fontsize=10, fontweight='bold')
     except:
         pass
@@ -285,7 +285,7 @@ ax.set_yscale('log')
 ax.grid(True, alpha=0.3)
 
 # Annotate improvement
-ax.annotate('14% Sharpe\nimprovement', xy=(800, 2.5), fontsize=10, 
+ax.annotate('14% Sharpe\nimprovement', xy=(800, 2.5), fontsize=10,
             color='#3498db', fontweight='bold')
 
 plt.tight_layout()
