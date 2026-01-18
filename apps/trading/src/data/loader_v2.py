@@ -21,13 +21,13 @@ def ensure_ohlc_consistency(data: pd.DataFrame) -> pd.DataFrame:
     - High >= Low
     """
     df = data.copy()
-    
+
     # Fix High: should be max of all
     df['high'] = df[['open', 'high', 'low', 'close']].max(axis=1)
-    
+
     # Fix Low: should be min of all
     df['low'] = df[['open', 'high', 'low', 'close']].min(axis=1)
-    
+
     return df
 
 

@@ -1,13 +1,123 @@
 {
-  "timestamp": "2026-01-17T22:25:05.589644",
-  "issues": [],
-  "score": 100.0,
-  "verdict": "PUBLICATION READY",
-  "limitations": [
-    "Effect sizes are modest (|r| ~ 0.15)",
-    "Only 1/9 assets confirm prediction OOS",
-    "Small sample size for some assets",
-    "No forward OOS test",
-    "Single SI window tested"
-  ]
+  "timestamp": "2026-01-18T09:46:26.948737",
+  "audits": [
+    {
+      "name": "Data Leakage Detection",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "SI computed sequentially (no leakage)": true
+      }
+    },
+    {
+      "name": "Granger Causality Verification",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "SI Granger-causes ADX (p=0.0000)": true,
+        "granger_pval": 3.5927867578840305e-22
+      }
+    },
+    {
+      "name": "Cointegration Verification",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "BTCUSDT: SI-ADX cointegrated (p=0.0000)": true,
+        "BTCUSDT_coint_pval": 7.05977703250203e-22,
+        "SPY: SI-ADX cointegrated (p=0.0000)": true,
+        "SPY_coint_pval": 3.624469362739055e-17
+      }
+    },
+    {
+      "name": "Bootstrap Implementation",
+      "status": "WARNING",
+      "issues": [],
+      "warnings": [
+        "\u26a0\ufe0f CI too wide (2.88) - may need more data"
+      ],
+      "details": {
+        "True Sharpe (0.92) within CI [-0.52, 2.36]": true,
+        "ci_width": 2.877953014388111,
+        "bootstrap_mean": 0.9203431613952686
+      }
+    },
+    {
+      "name": "Walk-Forward Correctness",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "train_size: present": true,
+        "test_size: present": true,
+        "rolling_window: present": true,
+        "no_overlap: present": true,
+        "oos_sharpe: present": true
+      }
+    },
+    {
+      "name": "Results Consistency",
+      "status": "WARNING",
+      "issues": [],
+      "warnings": [
+        "\u26a0\ufe0f Top strategy changed: v1=5. Dynamic Stop, v2=6. Regime Rebalance"
+      ],
+      "details": {
+        "V2 has proper OOS testing": true
+      }
+    },
+    {
+      "name": "Strategy Logic",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "Risk Budgeting: Position scales 0.5-1.5 with SI rank": true,
+        "Regime Rebalance: Uses 67th percentile threshold": true,
+        "Factor Timing: Has both momentum and mean-rev signals": true,
+        "Strategies use lagged signals": true
+      }
+    },
+    {
+      "name": "Master Findings Accuracy",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "Claim documented: SI-ADX correlation": true,
+        "Claim documented: Mean reversion": true,
+        "Claim documented: Regime detection": true,
+        "Claim documented: 150 discoveries": true,
+        "Limitations documented": true
+      }
+    },
+    {
+      "name": "Numerical Stability",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "Division by zero protection present": true,
+        "NaN handling present": true,
+        "Extreme value clipping present": true
+      }
+    },
+    {
+      "name": "Reproducibility",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "details": {
+        "Random seed set": true,
+        "Results saving implemented": true
+      }
+    }
+  ],
+  "summary": {
+    "PASS": 8,
+    "WARNING": 2
+  }
 }

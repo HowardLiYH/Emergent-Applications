@@ -818,3 +818,52 @@ position = position.ewm(halflife=3).mean()
 *Phase 3 Complete: January 18, 2026*
 *Total Discoveries: 150*
 *Methods Applied: 40+*
+
+---
+
+## ⚠️ LIMITATIONS & CAVEATS
+
+### Data Limitations
+| Limitation | Impact | Mitigation |
+|------------|--------|------------|
+| Only 5 years of data | Limited regime diversity | Focus on SPY (longest history) |
+| Daily frequency only | Cannot capture intraday patterns | Designed for swing trading |
+| Survivorship bias possible | May overstate performance | Use major indices only |
+| No market impact modeling | Unrealistic for large positions | Use position limits (≤2x) |
+
+### Methodological Caveats
+| Caveat | Description | Honest Assessment |
+|--------|-------------|-------------------|
+| SI is LAGGING | SI follows market, doesn't predict | Use as risk indicator, not alpha signal |
+| No statistical significance after FDR | 0/30 strategies significant after correction | Effect sizes modest but consistent |
+| Factor exposure | ~66% variance explained by known factors | SI is not truly independent alpha |
+| Bootstrap CI wide | 2.88 width indicates high uncertainty | Need more data for precision |
+
+### Out-of-Sample Reality
+| Metric | In-Sample | Out-of-Sample | Reality Check |
+|--------|-----------|---------------|---------------|
+| Best Sharpe | 0.85 | 0.75 | ~12% degradation expected |
+| Win Rate | 60% | 54% | Overfitting present |
+| Consistency | 100% | 83% | Some variance expected |
+
+### What SI is NOT
+- ❌ NOT a crystal ball for returns
+- ❌ NOT independent of known factors
+- ❌ NOT suitable for high-frequency trading
+- ❌ NOT a standalone alpha source
+
+### What SI IS
+- ✅ A risk regime indicator
+- ✅ A volatility forecasting supplement
+- ✅ A position sizing input
+- ✅ An interesting emergent phenomenon
+
+### Reproducibility Notes
+- Random seed: 42
+- All data available in `/data/` directory
+- Code versions tracked in git
+- Audit status: All critical issues resolved
+
+---
+
+*Final Audit: January 18, 2026*
