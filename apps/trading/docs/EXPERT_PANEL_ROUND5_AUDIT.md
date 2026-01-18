@@ -1,7 +1,7 @@
 # Expert Panel Round 5: Final Audit for 9.0 Score
 
-**Date**: January 17, 2026  
-**Purpose**: Comprehensive audit to verify 9.0 standard and identify remaining gaps  
+**Date**: January 17, 2026
+**Purpose**: Comprehensive audit to verify 9.0 standard and identify remaining gaps
 **Panel Size**: 25 Professors + 25 Industry Experts
 
 ---
@@ -228,12 +228,12 @@ def generate_manifest():
         'generated': datetime.now().isoformat(),
         'files': []
     }
-    
+
     for fpath in Path('data').rglob('*.csv'):
         with open(fpath, 'rb') as f:
             md5 = hashlib.md5(f.read()).hexdigest()
         df = pd.read_csv(fpath, index_col=0, parse_dates=True)
-        
+
         manifest['files'].append({
             'path': str(fpath),
             'md5': md5,
@@ -241,7 +241,7 @@ def generate_manifest():
             'date_range': f"{df.index.min()} to {df.index.max()}",
             'columns': list(df.columns),
         })
-    
+
     return manifest
 ```
 
@@ -349,7 +349,7 @@ Future Returns ← SI (weak causal effect?)
 **The paper is at 8.4/10 and needs 3 critical additions to reach 9.0:**
 
 1. ✏️ Formal theorem proof in appendix
-2. 📊 Data manifest with checksums  
+2. 📊 Data manifest with checksums
 3. 🖼️ Hero figure (4-panel summary)
 
 These are all achievable in ~3.5 hours of focused work.
