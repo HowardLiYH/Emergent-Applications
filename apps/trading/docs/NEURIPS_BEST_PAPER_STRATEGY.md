@@ -1,6 +1,6 @@
 # NeurIPS Best Paper Strategy
 
-**Date:** January 18, 2026  
+**Date:** January 18, 2026
 **Goal:** Frame our SI research for NeurIPS Best Paper consideration
 
 ---
