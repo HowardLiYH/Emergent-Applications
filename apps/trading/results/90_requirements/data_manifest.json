@@ -1,0 +1,236 @@
+{
+  "generated": "2026-01-17T19:56:25.714845",
+  "description": "Data manifest for reproducibility",
+  "total_files": 14,
+  "total_rows": 147020,
+  "files": [
+    {
+      "path": "commodities/GOLD_1d.csv",
+      "md5": "c1fe00149dbcb7d87b15020ef9380d2d",
+      "rows": 1258,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-19 05:00:00",
+      "date_end": "2026-01-16 05:00:00",
+      "file_size_kb": 103.62
+    },
+    {
+      "path": "commodities/OIL_1d.csv",
+      "md5": "cb20429b33461ad51dc537393ffdd58f",
+      "rows": 1258,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-19 05:00:00",
+      "date_end": "2026-01-16 05:00:00",
+      "file_size_kb": 118.5
+    },
+    {
+      "path": "crypto/BTCUSDT_1d.csv",
+      "md5": "4ff61d75f4b3818b798e418142f339a7",
+      "rows": 1826,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 00:00:00",
+      "date_end": "2026-01-17 00:00:00",
+      "file_size_kb": 105.1
+    },
+    {
+      "path": "crypto/BTCUSDT_1h.csv",
+      "md5": "7a3346d4994d0aced3bddd68fed8ce52",
+      "rows": 43786,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 21:00:00",
+      "date_end": "2026-01-17 20:00:00",
+      "file_size_kb": 2833.44
+    },
+    {
+      "path": "crypto/ETHUSDT_1d.csv",
+      "md5": "881757ca75f0e8f2040e1700438f184f",
+      "rows": 1826,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 00:00:00",
+      "date_end": "2026-01-17 00:00:00",
+      "file_size_kb": 97.71
+    },
+    {
+      "path": "crypto/ETHUSDT_1h.csv",
+      "md5": "e948570b8a44c67d419a23518a1c4807",
+      "rows": 43786,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 21:00:00",
+      "date_end": "2026-01-17 20:00:00",
+      "file_size_kb": 2650.53
+    },
+    {
+      "path": "crypto/SOLUSDT_1d.csv",
+      "md5": "6611b91c6b8b12410fe3ce39a017cff7",
+      "rows": 1826,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 00:00:00",
+      "date_end": "2026-01-17 00:00:00",
+      "file_size_kb": 87.23
+    },
+    {
+      "path": "crypto/SOLUSDT_1h.csv",
+      "md5": "5c55af2371ede9e97b6d53c1aeab6a6c",
+      "rows": 43786,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 21:00:00",
+      "date_end": "2026-01-17 20:00:00",
+      "file_size_kb": 2394.11
+    },
+    {
+      "path": "forex/EURUSD_1d.csv",
+      "md5": "4ac5368fbe1d0a91186bfaed4e4cf873",
+      "rows": 1300,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 00:00:00",
+      "date_end": "2026-01-16 00:00:00",
+      "file_size_kb": 123.23
+    },
+    {
+      "path": "forex/GBPUSD_1d.csv",
+      "md5": "d3e9aa8cb4283b9bb7350bdf63bbc0f8",
+      "rows": 1300,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 00:00:00",
+      "date_end": "2026-01-16 00:00:00",
+      "file_size_kb": 123.12
+    },
+    {
+      "path": "forex/USDJPY_1d.csv",
+      "md5": "df3d92fda1e00ddc679aa2fe039bb489",
+      "rows": 1300,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-18 00:00:00",
+      "date_end": "2026-01-16 00:00:00",
+      "file_size_kb": 122.29
+    },
+    {
+      "path": "stocks/AAPL_1d.csv",
+      "md5": "4e0392748aaf620a2365dd9afe21b9fd",
+      "rows": 1256,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-19 05:00:00",
+      "date_end": "2026-01-16 05:00:00",
+      "file_size_kb": 126.95
+    },
+    {
+      "path": "stocks/QQQ_1d.csv",
+      "md5": "f5985cc364975679b10d870ac0882581",
+      "rows": 1256,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-19 05:00:00",
+      "date_end": "2026-01-16 05:00:00",
+      "file_size_kb": 124.85
+    },
+    {
+      "path": "stocks/SPY_1d.csv",
+      "md5": "bc24b6e31d6c3f83791fda542617b49b",
+      "rows": 1256,
+      "columns": [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+      ],
+      "date_start": "2021-01-19 05:00:00",
+      "date_end": "2026-01-16 05:00:00",
+      "file_size_kb": 124.63
+    }
+  ],
+  "summary": {
+    "commodities": {
+      "files": 2,
+      "rows": 2516
+    },
+    "crypto": {
+      "files": 6,
+      "rows": 136836
+    },
+    "forex": {
+      "files": 3,
+      "rows": 3900
+    },
+    "stocks": {
+      "files": 3,
+      "rows": 3768
+    }
+  }
+}

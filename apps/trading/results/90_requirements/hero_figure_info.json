@@ -1,0 +1,10 @@
+{
+  "png_path": "paper/figures/hero_figure.png",
+  "pdf_path": "paper/figures/hero_figure.pdf",
+  "panels": [
+    "SI Emergence",
+    "t-SNE Clustering",
+    "Factor Timing",
+    "Cross-Market"
+  ]
+}
