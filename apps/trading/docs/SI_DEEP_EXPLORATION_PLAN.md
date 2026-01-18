@@ -109,7 +109,7 @@ where p₊ = probability of up-move, p₋ = probability of down-move
 
 **SI decomposition**:
 ```
-SI = 1 - H̄ 
+SI = 1 - H̄
 
 For binary case (K=2): H = -p log p - (1-p) log(1-p)
 
@@ -201,7 +201,7 @@ def conditional_returns(si, adx, returns):
     """
     si_high = si > si.median()
     adx_high = adx > adx.median()
-    
+
     quadrants = {
         'high_SI_high_ADX': returns[si_high & adx_high].mean(),
         'high_SI_low_ADX': returns[si_high & ~adx_high].mean(),
@@ -233,7 +233,7 @@ def threshold_analysis(si, feature, returns, n_quantiles=5):
     Analyze relationship at different SI levels.
     """
     si_quantiles = pd.qcut(si, n_quantiles, labels=False)
-    
+
     results = []
     for q in range(n_quantiles):
         mask = si_quantiles == q
