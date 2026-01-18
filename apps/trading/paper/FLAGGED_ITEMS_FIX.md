@@ -1,6 +1,6 @@
 # Expert Consultation: Fixing Flagged Items
 
-**Date:** January 18, 2026  
+**Date:** January 18, 2026
 **Items to Fix:**
 1. Add RSI Extremity to main paper (currently r=0.243, stronger than ADX)
 2. Add mean reversion half-life (4-5 days)
@@ -108,7 +108,7 @@ Consider adding: "SI correlates most strongly with RSI Extremity (r=0.243)"
 ## Final Recommendations
 
 1. ✅ Add RSI Extremity column to Table 2
-2. ✅ Add OU half-life column to Table 2  
+2. ✅ Add OU half-life column to Table 2
 3. ✅ Add Finding 5 paragraph (RSI Extremity)
 4. ✅ Add Finding 3b paragraph (Mean Reversion)
 5. ❌ Skip abstract update (space)
