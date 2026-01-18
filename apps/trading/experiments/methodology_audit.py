@@ -53,7 +53,7 @@ bb_upper_2 = sma + 2 * std
 bb_lower_2 = sma - 2 * std
 within_2sigma = ((close >= bb_lower_2) & (close <= bb_upper_2)).mean()
 
-# Wider Bollinger (2.5σ) for fat-tailed distributions  
+# Wider Bollinger (2.5σ) for fat-tailed distributions
 bb_upper_25 = sma + 2.5 * std
 bb_lower_25 = sma - 2.5 * std
 within_25sigma = ((close >= bb_lower_25) & (close <= bb_upper_25)).mean()
@@ -139,12 +139,12 @@ print(f"  Ljung-Box test p-value (lag 10): {lb_pval:.6f}")
 if lb_pval < 0.05:
     print("  → Significant autocorrelation present")
     print("  → HAC standard errors REQUIRED for valid inference")
-    
+
     # Verify HAC is used
     v2_path = Path("experiments/test_all_applications_v2.py")
     with open(v2_path, 'r') as f:
         code = f.read()
-    
+
     if 'HAC' in code or 'newey' in code.lower() or 'block_bootstrap' in code:
         print("  → HAC/Block Bootstrap IS used ✓")
         fixes_applied.append("Autocorrelation: HAC/Block Bootstrap properly used")
@@ -233,7 +233,7 @@ print("-"*70)
 # Check for proper temporal split
 if 'train_end' in code and 'test_start' in code:
     print("  Temporal split: Implemented ✓")
-    
+
     # Check for gap (purging)
     if 'purge' in code.lower() or 'gap' in code.lower() or 'embargo' in code.lower():
         print("  Purging/Embargo gap: Implemented ✓")
@@ -258,12 +258,12 @@ if 'block' in code.lower():
 else:
     print("  Using IID bootstrap (may underestimate variance for time series)")
     print("  → For Sharpe ratio CI, IID bootstrap is acceptable if returns are ~uncorrelated")
-    
+
     # Check return autocorrelation
     returns = data['close'].pct_change().dropna()
     ret_lb = acorr_ljungbox(returns, lags=[1], return_df=True)
     ret_lb_pval = ret_lb['lb_pvalue'].values[0]
-    
+
     if ret_lb_pval > 0.05:
         print(f"  → Returns have low autocorrelation (p={ret_lb_pval:.3f}) ✓")
         print("  → IID bootstrap is acceptable")
@@ -281,7 +281,7 @@ print("-"*70)
 # Check OOS implementation
 if 'oos' in code.lower() or 'out_of_sample' in code.lower() or 'test_sharpe' in code:
     print("  OOS testing: Implemented ✓")
-    
+
     # Check for walk-forward
     if 'walk' in code.lower() or 'rolling' in code.lower():
         print("  Walk-forward validation: Implemented ✓")
@@ -305,7 +305,7 @@ if results_path.exists():
     import json
     with open(results_path) as f:
         results = json.load(f)
-    
+
     # Check consistency across assets
     if 'summary' in results:
         sharpes = [r.get('test_sharpe', 0) for r in results['summary'] if 'test_sharpe' in r]
@@ -315,7 +315,7 @@ if results_path.exists():
             print(f"  Mean OOS Sharpe: {mean_sharpe:.3f}")
             print(f"  Std OOS Sharpe: {std_sharpe:.3f}")
             print(f"  Consistency (CV): {std_sharpe/abs(mean_sharpe+0.001):.2f}")
-            
+
             if mean_sharpe > 0:
                 print("  → Positive mean OOS Sharpe ✓")
             else:

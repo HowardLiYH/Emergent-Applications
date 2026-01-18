@@ -44,20 +44,20 @@ def hac_standard_error(x, max_lag=None):
     n = len(x)
     if max_lag is None:
         max_lag = int(np.floor(4 * (n / 100) ** (2/9)))  # Optimal lag
-    
+
     x = np.array(x)
     x_demeaned = x - np.mean(x)
-    
+
     # Variance term
     gamma_0 = np.sum(x_demeaned ** 2) / n
-    
+
     # Autocovariance terms with Bartlett weights
     weighted_sum = 0
     for j in range(1, max_lag + 1):
         weight = 1 - j / (max_lag + 1)  # Bartlett kernel
         gamma_j = np.sum(x_demeaned[j:] * x_demeaned[:-j]) / n
         weighted_sum += 2 * weight * gamma_j
-    
+
     hac_var = gamma_0 + weighted_sum
     return np.sqrt(hac_var / n)
 
@@ -70,19 +70,19 @@ def hac_tstat(x):
 
 
 '''
-    
+
     # Find import section end
     import_end = content.find('RANDOM_SEED')
     if import_end == -1:
         import_end = content.find('# ===')
-    
+
     # Insert after imports
     insert_pos = content.find('\n', import_end) + 1
     new_content = content[:insert_pos] + hac_code + content[insert_pos:]
-    
+
     with open(v2_path, 'w') as f:
         f.write(new_content)
-    
+
     print("  ✅ Added hac_standard_error() function")
     print("  ✅ Added hac_tstat() function")
 
@@ -105,13 +105,13 @@ else:
 PURGE_DAYS = 7  # Gap between train and test to account for feature lookback
 
 '''
-    
+
     # Find after RANDOM_SEED
     seed_pos = content.find('RANDOM_SEED')
     if seed_pos != -1:
         insert_pos = content.find('\n', seed_pos) + 1
         new_content = content[:insert_pos] + purge_code + content[insert_pos:]
-        
+
         # Also update split logic if present
         if 'train_end' in new_content and 'test_start' in new_content:
             # Find and update split
@@ -125,7 +125,7 @@ PURGE_DAYS = 7  # Gap between train and test to account for feature lookback
             else:
                 print("  ✅ Added PURGE_DAYS = 7")
                 print("  ⚠️ Manual update needed for split logic")
-        
+
         with open(v2_path, 'w') as f:
             f.write(new_content)
     else:
@@ -151,32 +151,32 @@ def block_bootstrap_sharpe(returns, n_boot=1000, block_size=None, alpha=0.05):
     """
     Block bootstrap for Sharpe ratio CI.
     Uses non-overlapping blocks to preserve autocorrelation structure.
-    
+
     Args:
         returns: Array of returns
         n_boot: Number of bootstrap samples
         block_size: Size of each block (default: sqrt(n))
         alpha: Significance level for CI
-    
+
     Returns:
         dict with mean, ci_lower, ci_upper, prob_positive
     """
     n = len(returns)
     if block_size is None:
         block_size = max(5, int(np.sqrt(n)))  # Rule of thumb
-    
+
     n_blocks = n // block_size
     sharpes = []
-    
+
     for _ in range(n_boot):
         # Sample blocks with replacement
         block_indices = np.random.randint(0, n - block_size + 1, n_blocks)
         sample = np.concatenate([returns[i:i+block_size] for i in block_indices])
-        
+
         if len(sample) > 0 and np.std(sample) > 0:
             sharpe = np.mean(sample) / np.std(sample) * np.sqrt(252)
             sharpes.append(sharpe)
-    
+
     sharpes = np.array(sharpes)
     return {
         'mean': float(np.mean(sharpes)),
@@ -188,7 +188,7 @@ def block_bootstrap_sharpe(returns, n_boot=1000, block_size=None, alpha=0.05):
 
 
 '''
-    
+
     # Find after existing bootstrap function
     boot_pos = content.find('def bootstrap_sharpe')
     if boot_pos != -1:
@@ -198,12 +198,12 @@ def block_bootstrap_sharpe(returns, n_boot=1000, block_size=None, alpha=0.05):
             insert_pos = next_def
         else:
             insert_pos = boot_pos + 500  # Estimate
-        
+
         new_content = content[:insert_pos] + block_boot_code + content[insert_pos:]
-        
+
         with open(v2_path, 'w') as f:
             f.write(new_content)
-        
+
         print("  ✅ Added block_bootstrap_sharpe() function")
     else:
         # Add after HAC functions
@@ -214,12 +214,12 @@ def block_bootstrap_sharpe(returns, n_boot=1000, block_size=None, alpha=0.05):
                 insert_pos = next_def
             else:
                 insert_pos = hac_pos + 200
-            
+
             new_content = content[:insert_pos] + block_boot_code + content[insert_pos:]
-            
+
             with open(v2_path, 'w') as f:
                 f.write(new_content)
-            
+
             print("  ✅ Added block_bootstrap_sharpe() function")
         else:
             print("  ⚠️ Could not find insertion point")

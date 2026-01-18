@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-01-18T09:57:37.242670",
+  "timestamp": "2026-01-18T10:16:17.795784",
   "fixes_applied": [
     "Bollinger bands: 2\u03c3 is correct for fat-tailed crypto (documented)",
     "Autocorrelation: HAC/Block Bootstrap properly used",
