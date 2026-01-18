@@ -26,23 +26,23 @@ from typing import Dict
 def prove_regret_bound() -> Dict:
     """
     Prove that agents in NichePopulation achieve no-regret learning.
-    
+
     THEOREM: Under the affinity update rule with learning rate α ∈ (0,1),
     agents achieve sub-linear regret O(√T) where T is the number of rounds.
-    
+
     PROOF SKETCH:
     1. The affinity update rule is a form of multiplicative weights update
     2. Multiplicative weights achieves O(√T log K) regret where K is # of arms
     3. In our case, K = 3 (number of regimes)
     4. Therefore, cumulative regret grows as O(√T log 3) = O(√T)
-    
+
     EMPIRICAL VERIFICATION:
     - Run competition and track cumulative regret
     - Verify regret/T → 0 as T → ∞
     """
     print("\n  [R4_REGRET] Regret Bound Theorem")
     print("  " + "="*50)
-    
+
     # Theoretical result
     theorem = {
         'statement': (
@@ -68,11 +68,11 @@ def prove_regret_bound() -> Dict:
             "Online Learning (Cesa-Bianchi & Lugosi, 2006)",
         ],
     }
-    
+
     # Empirical verification
     from src.agents.strategies_v2 import get_default_strategies
     from src.competition.niche_population_v2 import NichePopulationV2
-    
+
     # Load sample data
     data_path = Path('data/crypto/BTCUSDT_1d.csv')
     if data_path.exists():
@@ -81,22 +81,22 @@ def prove_regret_bound() -> Dict:
     else:
         print("    ⚠️ No data for empirical verification")
         return theorem
-    
+
     # Run competition and track regret
     strategies = get_default_strategies('daily')
     population = NichePopulationV2(strategies, n_agents_per_strategy=3, frequency='daily')
-    
+
     # Track regret at different T values
     checkpoints = [100, 300, 500, 1000, min(len(data) - 20, 1500)]
     checkpoints = [cp for cp in checkpoints if cp < len(data) - 10]
-    
+
     regret_tracking = []
-    
+
     for T in checkpoints:
         subset = data.iloc[:T]
         pop = NichePopulationV2(strategies, n_agents_per_strategy=3, frequency='daily')
         pop.run(subset)
-        
+
         # Compute cumulative regret for each agent
         # Regret = optimal_return - actual_return
         total_regret = 0
@@ -106,34 +106,34 @@ def prove_regret_bound() -> Dict:
             actual_total = agent.cumulative_return
             agent_regret = max(0, optimal_total - actual_total)
             total_regret += agent_regret
-        
+
         avg_regret = total_regret / len(pop.agents)
         regret_per_round = avg_regret / T
-        
+
         regret_tracking.append({
             'T': T,
             'cumulative_regret': float(avg_regret),
             'regret_per_round': float(regret_per_round),
             'sqrt_T_normalized': float(avg_regret / np.sqrt(T)),
         })
-    
+
     # Check if regret/T → 0
     regret_per_round_trend = [r['regret_per_round'] for r in regret_tracking]
     no_regret_verified = regret_per_round_trend[-1] < regret_per_round_trend[0]
-    
+
     theorem['empirical_verification'] = {
         'regret_tracking': regret_tracking,
         'regret_decreasing': bool(no_regret_verified),
         'final_regret_per_round': regret_tracking[-1]['regret_per_round'],
         'sqrt_T_bound_holds': all(r['sqrt_T_normalized'] < 1.0 for r in regret_tracking),
     }
-    
+
     print(f"    Theorem: Agents achieve O(√T) regret bound")
     print(f"    Empirical: Regret/T decreasing: {no_regret_verified}")
     print(f"    Final regret per round: {regret_tracking[-1]['regret_per_round']:.6f}")
     print(f"    √T bound holds: {theorem['empirical_verification']['sqrt_T_bound_holds']}")
     print("    ✅ Regret bound theorem established")
-    
+
     return theorem
 
 
@@ -147,10 +147,10 @@ def create_literature_positioning() -> Dict:
     """
     print("\n  [R4_LITERATURE] Literature Positioning Table")
     print("  " + "="*50)
-    
+
     positioning = {
         'title': "Literature Positioning: Specialization Index (SI)",
-        
+
         'comparison_table': [
             {
                 'method': 'Hidden Markov Models (HMM)',
@@ -209,7 +209,7 @@ def create_literature_positioning() -> Dict:
                 'our_advantage': 'SI measures specialization, not just vol persistence',
             },
         ],
-        
+
         'unique_contributions': [
             "1. First to quantify emergent specialization in multi-agent financial systems",
             "2. SI bridges agent-based modeling and empirical finance",
@@ -217,7 +217,7 @@ def create_literature_positioning() -> Dict:
             "4. Connects to established theory (replicator dynamics, no-regret learning)",
             "5. Cross-market validation (4 asset classes, 11 assets)",
         ],
-        
+
         'explicit_novelty_claims': [
             "We are the FIRST to define Specialization Index (SI) for financial agents",
             "We are the FIRST to show SI emerges from competition alone (no design)",
@@ -225,14 +225,14 @@ def create_literature_positioning() -> Dict:
             "Unlike HMM/LSTM, SI provides interpretable agent-level dynamics",
             "Unlike factor models, SI captures emergent behavioral patterns",
         ],
-        
+
         'taxonomy': {
             'level_1': 'Market Analysis Methods',
             'level_2': 'Behavioral/Agent-Based',
             'level_3': 'Emergence Quantification',
             'our_position': 'New subcategory: Specialization Metrics',
         },
-        
+
         'key_references': [
             {'author': 'LeBaron (2006)', 'topic': 'Agent-based computational finance'},
             {'author': 'Hommes (2006)', 'topic': 'Heterogeneous agent models'},
@@ -243,16 +243,16 @@ def create_literature_positioning() -> Dict:
             {'author': 'Taylor & Jonker (1978)', 'topic': 'Replicator dynamics'},
         ],
     }
-    
+
     print("    Literature categories covered:")
     for item in positioning['comparison_table']:
         print(f"      • {item['method']} ({item['category']})")
-    
+
     print(f"\n    Unique contributions: {len(positioning['unique_contributions'])}")
     print(f"    Explicit novelty claims: {len(positioning['explicit_novelty_claims'])}")
     print(f"    Key references: {len(positioning['key_references'])}")
     print("    ✅ Literature positioning table created")
-    
+
     return positioning
 
 
@@ -269,26 +269,26 @@ def main():
     print("  1. R4_REGRET: Regret bound theorem")
     print("  2. R4_LITERATURE: Literature positioning table")
     print("="*70)
-    
+
     results = {}
-    
+
     # R4_REGRET
     results['regret_bound'] = prove_regret_bound()
-    
-    # R4_LITERATURE  
+
+    # R4_LITERATURE
     results['literature_positioning'] = create_literature_positioning()
-    
+
     # Save results
     output_path = Path('results/remaining_items/implementation.json')
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_path, 'w') as f:
         json.dump({
             'timestamp': datetime.now().isoformat(),
             'items_implemented': ['R4_REGRET', 'R4_LITERATURE'],
             'results': results,
         }, f, indent=2, default=str)
-    
+
     print("\n" + "="*70)
     print("SUMMARY")
     print("="*70)
@@ -298,7 +298,7 @@ def main():
     print("="*70)
     print("\n🎉 ALL 23/23 ITEMS NOW IMPLEMENTED!")
     print("="*70 + "\n")
-    
+
     return results
 
 
