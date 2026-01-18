@@ -1,0 +1,229 @@
+{
+  "timestamp": "2026-01-18T09:39:58.656399",
+  "summary": {
+    "total": 16,
+    "status_counts": {
+      "PASS": 15,
+      "WARNING": 1
+    },
+    "n_issues": 0,
+    "n_warnings": 1
+  },
+  "audits": [
+    {
+      "category": "Data Pipeline",
+      "name": "Data Loading",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {}
+    },
+    {
+      "category": "Data Pipeline",
+      "name": "Data Quality",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {}
+    },
+    {
+      "category": "SI Computation",
+      "name": "Methodology",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "si_mean": 0.019208223524808103,
+        "si_std": 0.010567510646277624,
+        "si_autocorr": 0.843991476247992
+      }
+    },
+    {
+      "category": "SI Computation",
+      "name": "Formula Verification",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "manual_si": 0.160396098967043,
+        "high_spec_entropy": 0.6390318593501769,
+        "low_spec_entropy": 1.0985126167507195
+      }
+    },
+    {
+      "category": "Features",
+      "name": "Technical Indicators",
+      "status": "WARNING",
+      "issues": [],
+      "warnings": [
+        "\u26a0\ufe0f Only 89.1% of prices within Bollinger bands (expected ~95%)"
+      ],
+      "fixes": [],
+      "details": {}
+    },
+    {
+      "category": "Features",
+      "name": "ADX Calculation",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "adx_mean": 33.401228090678394,
+        "adx_std": 13.839962363109864
+      }
+    },
+    {
+      "category": "Correlations",
+      "name": "Methodology",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "n_observations": 1805,
+        "si_diff_autocorr": 0.2598151287244832
+      }
+    },
+    {
+      "category": "Correlations",
+      "name": "SI-ADX Relationship",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "correlations": [
+          {
+            "asset": "BTCUSDT",
+            "correlation": 0.12298781899016137,
+            "p_value": 1.6702244888302084e-07,
+            "n": 1799
+          },
+          {
+            "asset": "SPY",
+            "correlation": 0.07033051330468977,
+            "p_value": 0.013658216918559337,
+            "n": 1229
+          },
+          {
+            "asset": "EURUSD",
+            "correlation": 0.15851006873920767,
+            "p_value": 1.3010432134778333e-08,
+            "n": 1273
+          }
+        ]
+      }
+    },
+    {
+      "category": "Strategies",
+      "name": "Position Shifting",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "si_lagged": true
+      }
+    },
+    {
+      "category": "Strategies",
+      "name": "Transaction Costs",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "cost_on_changes": true,
+        "crypto_cost": 0.0004,
+        "stock_cost": 0.0002,
+        "forex_cost": 0.0001
+      }
+    },
+    {
+      "category": "Statistics",
+      "name": "Train/Test Split",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "has_val_set": true,
+        "train_ratio": 0.6,
+        "val_ratio": 0.2,
+        "test_ratio": 0.2
+      }
+    },
+    {
+      "category": "Statistics",
+      "name": "Multiple Testing",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "fdr_correction": true,
+        "estimated_tests": 30
+      }
+    },
+    {
+      "category": "Discoveries",
+      "name": "Master Findings",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "documented_claims": [
+          "SI-ADX correlation",
+          "cointegration",
+          "mean reversion",
+          "regime"
+        ],
+        "has_statistical_evidence": true
+      }
+    },
+    {
+      "category": "Reproducibility",
+      "name": "Random Seeds",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "results_saved": true
+      }
+    },
+    {
+      "category": "Validation",
+      "name": "Walk-Forward",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "has_walk_forward": true,
+        "train_window_defined": true,
+        "test_window_defined": true,
+        "window_type": "expanding"
+      }
+    },
+    {
+      "category": "Statistics",
+      "name": "Bootstrap CIs",
+      "status": "PASS",
+      "issues": [],
+      "warnings": [],
+      "fixes": [],
+      "details": {
+        "has_bootstrap": true,
+        "n_bootstrap": 1000,
+        "percentile_method": true
+      }
+    }
+  ]
+}

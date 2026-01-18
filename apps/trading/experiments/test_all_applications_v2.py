@@ -28,6 +28,11 @@ from src.agents.strategies_v2 import get_default_strategies
 from src.competition.niche_population_v2 import NichePopulationV2
 from src.data.loader_v2 import DataLoaderV2, MarketType
 
+
+# Reproducibility
+RANDOM_SEED = 42
+np.random.seed(RANDOM_SEED)
+
 # ============================================================
 # CONFIGURATION
 # ============================================================
@@ -63,7 +68,7 @@ N_BOOTSTRAP = 1000
 def compute_si_full_data(data: pd.DataFrame, window: int = 7) -> pd.Series:
     """
     Compute SI on full data.
-    
+
     NOTE: This is NOT look-ahead bias because:
     1. SI at time t is computed from agent affinities up to time t
     2. The competition runs sequentially - each step only uses past data
@@ -71,10 +76,10 @@ def compute_si_full_data(data: pd.DataFrame, window: int = 7) -> pd.Series:
     """
     strategies = get_default_strategies('daily')
     population = NichePopulationV2(strategies, n_agents_per_strategy=3, frequency='daily')
-    
+
     # Run competition on full data (sequentially, no look-ahead)
     population.run(data)
-    
+
     # Compute SI timeseries
     return population.compute_si_timeseries(data, window=window)
 
@@ -84,11 +89,11 @@ def train_val_test_split(data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame
     n = len(data)
     train_end = int(n * TRAIN_RATIO)
     val_end = int(n * (TRAIN_RATIO + VAL_RATIO))
-    
+
     train = data.iloc[:train_end]
     val = data.iloc[train_end:val_end]
     test = data.iloc[val_end:]
-    
+
     return train, val, test, train_end, val_end
 
 
@@ -112,22 +117,22 @@ def bootstrap_ci(returns: pd.Series, n_boot: int = N_BOOTSTRAP, alpha: float = 0
     """
     if len(returns) < 20:
         return {'mean': 0, 'ci_lower': 0, 'ci_upper': 0, 'p_value': 1.0, 'significant': False}
-    
+
     sharpes = []
     n = len(returns)
-    
+
     for _ in range(n_boot):
         sample = returns.sample(n=n, replace=True)
         sharpes.append(sharpe_ratio(sample))
-    
+
     sharpes = np.array(sharpes)
     mean_sharpe = np.mean(sharpes)
     ci_lower = np.percentile(sharpes, 100 * alpha / 2)
     ci_upper = np.percentile(sharpes, 100 * (1 - alpha / 2))
-    
+
     # P-value: proportion of bootstrap samples <= 0
     p_value = (sharpes <= 0).mean()
-    
+
     return {
         'mean': mean_sharpe,
         'ci_lower': ci_lower,
@@ -144,16 +149,16 @@ def benjamini_hochberg_correction(p_values: List[float], alpha: float = 0.05) ->
     """
     n = len(p_values)
     sorted_pvals = sorted(enumerate(p_values), key=lambda x: x[1])
-    
+
     significant = [False] * n
-    
+
     for i, (orig_idx, pval) in enumerate(sorted_pvals):
         threshold = alpha * (i + 1) / n
         if pval <= threshold:
             significant[orig_idx] = True
         else:
             break  # Once we fail, all higher p-values also fail
-    
+
     return significant
 
 
@@ -197,7 +202,7 @@ def compute_adx(data: pd.DataFrame, period: int = 14) -> pd.Series:
 # WALK-FORWARD VALIDATION
 # ============================================================
 
-def walk_forward_validation(data: pd.DataFrame, si: pd.Series, 
+def walk_forward_validation(data: pd.DataFrame, si: pd.Series,
                             strategy_func, cost_rate: float,
                             train_size: int = 252, test_size: int = 63) -> Dict:
     """
@@ -206,23 +211,23 @@ def walk_forward_validation(data: pd.DataFrame, si: pd.Series,
     """
     results = []
     n = len(data)
-    
+
     start_idx = 0
     while start_idx + train_size + test_size <= n:
         # Train window
         train_end = start_idx + train_size
         test_end = train_end + test_size
-        
+
         # Get train and test data
         train_data = data.iloc[start_idx:train_end]
         test_data = data.iloc[train_end:test_end]
-        
+
         train_si = si.iloc[start_idx:train_end]
         test_si = si.iloc[train_end:test_end]
-        
+
         # Run strategy on test data
         test_returns = strategy_func(test_data, test_si, cost_rate)
-        
+
         results.append({
             'train_start': train_data.index[0],
             'train_end': train_data.index[-1],
@@ -232,16 +237,16 @@ def walk_forward_validation(data: pd.DataFrame, si: pd.Series,
             'oos_return': test_returns.sum(),
             'profitable': test_returns.sum() > 0,
         })
-        
+
         # Move forward
         start_idx += test_size
-    
+
     if not results:
         return {'error': 'Not enough data for walk-forward'}
-    
+
     avg_sharpe = np.mean([r['oos_sharpe'] for r in results])
     pct_profitable = np.mean([r['profitable'] for r in results])
-    
+
     return {
         'n_windows': len(results),
         'avg_oos_sharpe': avg_sharpe,
@@ -261,14 +266,14 @@ def create_risk_budgeting_strategy():
         common = si.index.intersection(returns.dropna().index)
         si_aligned = si.loc[common]
         returns_aligned = returns.loc[common]
-        
+
         si_rank = si_aligned.rank(pct=True)
         position = 0.5 + si_rank * 1.0
         position_shifted = position.shift(1).fillna(1.0)
-        
+
         gross_returns = position_shifted * returns_aligned
         return apply_costs(gross_returns, position_shifted, cost_rate)
-    
+
     return strategy
 
 
@@ -278,21 +283,21 @@ def create_spread_strategy():
                  entry_z: float = 2.0, exit_z: float = 0.5, lookback: int = 60) -> pd.Series:
         returns = data['close'].pct_change()
         adx = compute_adx(data) / 100
-        
+
         common = si.index.intersection(adx.dropna().index).intersection(returns.dropna().index)
         si_aligned = si.loc[common]
         adx_aligned = adx.loc[common]
         returns_aligned = returns.loc[common]
-        
+
         spread = si_aligned - adx_aligned
         spread_mean = spread.rolling(lookback).mean()
         spread_std = spread.rolling(lookback).std()
         z_score = (spread - spread_mean) / (spread_std + 1e-10)
-        
+
         position = pd.Series(0.0, index=z_score.index)
         in_trade = False
         current_pos = 0
-        
+
         for i in range(1, len(z_score)):
             if not in_trade:
                 if z_score.iloc[i] > entry_z:
@@ -306,10 +311,10 @@ def create_spread_strategy():
                     current_pos = 0
                     in_trade = False
             position.iloc[i] = current_pos
-        
+
         gross_returns = position.shift(1).fillna(0) * returns_aligned
         return apply_costs(gross_returns, position, cost_rate)
-    
+
     return strategy
 
 
@@ -318,30 +323,30 @@ def create_factor_timing_strategy():
     def strategy(data: pd.DataFrame, si: pd.Series, cost_rate: float,
                  threshold: float = 0.5) -> pd.Series:
         returns = data['close'].pct_change()
-        
+
         common = si.index.intersection(returns.dropna().index)
         si_aligned = si.loc[common]
         returns_aligned = returns.loc[common]
-        
+
         si_rank = si_aligned.rank(pct=True)
-        
+
         # FIX: Proper momentum signal with shift
         mom_5d = data['close'].pct_change(5).loc[common]
         momentum_signal = np.sign(mom_5d.shift(1))  # Use PREVIOUS 5-day return
-        
+
         # Mean-reversion signal (RSI extremes)
         rsi = compute_rsi(data['close'], 14).loc[common]
-        meanrev_signal = np.where(rsi.shift(1) > 70, -1, 
+        meanrev_signal = np.where(rsi.shift(1) > 70, -1,
                          np.where(rsi.shift(1) < 30, 1, 0))
-        
+
         # Combine based on SI
         position = np.where(si_rank.shift(1) > threshold, momentum_signal,
                     np.where(si_rank.shift(1) < (1 - threshold), meanrev_signal, 0))
         position = pd.Series(position, index=common)
-        
+
         gross_returns = position * returns_aligned
         return apply_costs(gross_returns, position.abs(), cost_rate)
-    
+
     return strategy
 
 
@@ -349,25 +354,25 @@ def create_regime_rebalance_strategy():
     """Returns a callable strategy function."""
     def strategy(data: pd.DataFrame, si: pd.Series, cost_rate: float) -> pd.Series:
         returns = data['close'].pct_change()
-        
+
         common = si.index.intersection(returns.dropna().index)
         si_aligned = si.loc[common]
         returns_aligned = returns.loc[common]
-        
+
         si_rank = si_aligned.rank(pct=True)
-        
+
         # FIX: Use lagged SI for regime (no look-ahead)
         regime = np.where(si_rank.shift(1) > 0.67, 'high',
                  np.where(si_rank.shift(1) < 0.33, 'low', 'mid'))
         equity_weight = np.where(regime == 'high', 1.0,
                         np.where(regime == 'low', 0.5, 0.75))
-        
+
         si_returns = pd.Series(equity_weight, index=common) * returns_aligned
-        
+
         # Apply costs for weight changes
         weight_series = pd.Series(equity_weight, index=common)
         return apply_costs(si_returns, weight_series, cost_rate)
-    
+
     return strategy
 
 
@@ -375,30 +380,30 @@ def create_entry_timing_strategy():
     """Returns a callable strategy function."""
     def strategy(data: pd.DataFrame, si: pd.Series, cost_rate: float) -> pd.Series:
         returns = data['close'].pct_change()
-        
+
         common = si.index.intersection(returns.dropna().index)
         si_aligned = si.loc[common]
         returns_aligned = returns.loc[common]
         close = data['close'].loc[common]
-        
+
         # FIX: Use lagged SI rank
         si_rank = si_aligned.rank(pct=True).shift(1)
-        
+
         # FIX: Use lagged price position
         high_20 = close.rolling(20).max().shift(1)
         low_20 = close.rolling(20).min().shift(1)
         price_pos = (close.shift(1) - low_20) / (high_20 - low_20 + 1e-10)
-        
+
         # Entry signal
         signal = np.where((si_rank > 0.7) & (price_pos < 0.2), 2,
                  np.where((si_rank > 0.6) & (price_pos < 0.5), 1,
                  np.where((si_rank < 0.3) & (price_pos > 0.8), -1,
                  np.where(si_rank < 0.3, 0, 0.5))))
         signal = pd.Series(signal, index=common)
-        
+
         gross_returns = signal * returns_aligned
         return apply_costs(gross_returns, signal.abs(), cost_rate)
-    
+
     return strategy
 
 
@@ -406,35 +411,35 @@ def create_entry_timing_strategy():
 # MAIN TESTING FUNCTION WITH OOS VALIDATION
 # ============================================================
 
-def test_application(data: pd.DataFrame, si: pd.Series, 
-                     strategy_func, cost_rate: float, 
+def test_application(data: pd.DataFrame, si: pd.Series,
+                     strategy_func, cost_rate: float,
                      train_end: int, val_end: int) -> Dict:
     """Test an application with proper train/val/test split."""
-    
+
     # In-sample (train)
     train_si = si.iloc[:train_end]
     train_data = data.iloc[:train_end]
     train_returns = strategy_func(train_data, train_si, cost_rate)
     train_sharpe = sharpe_ratio(train_returns)
-    
+
     # Validation
     val_si = si.iloc[train_end:val_end]
     val_data = data.iloc[train_end:val_end]
     val_returns = strategy_func(val_data, val_si, cost_rate)
     val_sharpe = sharpe_ratio(val_returns)
-    
+
     # Out-of-sample (test)
     test_si = si.iloc[val_end:]
     test_data = data.iloc[val_end:]
     test_returns = strategy_func(test_data, test_si, cost_rate)
     test_sharpe = sharpe_ratio(test_returns)
-    
+
     # Bootstrap CI on test
     test_ci = bootstrap_ci(test_returns)
-    
+
     # Walk-forward validation
     wf_results = walk_forward_validation(data, si, strategy_func, cost_rate)
-    
+
     return {
         'train_sharpe': train_sharpe,
         'val_sharpe': val_sharpe,
@@ -468,11 +473,11 @@ def main():
     print("    5. Fixed signals (lagged, no look-ahead)")
     print("    6. Proper position shifting")
     print("    7. Costs on position changes only")
-    
+
     loader = DataLoaderV2()
     all_results = {}
     all_p_values = []
-    
+
     # Define strategies to test
     strategies = [
         ("1. Risk Budgeting", create_risk_budgeting_strategy()),
@@ -481,87 +486,87 @@ def main():
         ("6. Regime Rebalance", create_regime_rebalance_strategy()),
         ("10. Entry Timing", create_entry_timing_strategy()),
     ]
-    
+
     all_assets = []
     for market, assets in ASSETS.items():
         all_assets.extend(assets)
-    
+
     print(f"\n  Testing {len(strategies)} strategies on {len(all_assets)} assets")
-    
+
     # Load data and compute SI
     print("\n  Loading data...")
     asset_data = {}
     asset_si = {}
     asset_splits = {}
-    
+
     for asset in all_assets:
         print(f"    {asset}...", end=" ")
         data = loader.load(asset, MARKET_TYPE_MAP[asset])
         train, val, test, train_end, val_end = train_val_test_split(data)
-        
+
         # Compute SI on full data (sequential, no look-ahead in SI computation)
         si = compute_si_full_data(data, window=SI_WINDOW)
-        
+
         asset_data[asset] = data
         asset_si[asset] = si
         asset_splits[asset] = (train_end, val_end)
         print("✓")
-    
+
     # Run tests
     print("\n" + "-"*70)
     print("  RUNNING TESTS")
     print("-"*70)
-    
+
     for strat_name, strat_func in strategies:
         print(f"\n  {strat_name}")
         app_results = {}
-        
+
         for asset in all_assets:
             data = asset_data[asset]
             si = asset_si[asset]
             train_end, val_end = asset_splits[asset]
             cost = TRANSACTION_COSTS[asset]
-            
+
             result = test_application(data, si, strat_func, cost, train_end, val_end)
             app_results[asset] = result
             all_p_values.append(result['test_p_value'])
-            
+
             # Print result
             test_sharpe = result['test_sharpe']
             sig = "✓" if result['test_significant'] else ""
             wf_sharpe = result['wf_avg_sharpe']
             wf_str = f"{wf_sharpe:.2f}" if wf_sharpe else "N/A"
             print(f"    {asset}: Test={test_sharpe:+.2f}{sig} WF={wf_str}")
-        
+
         all_results[strat_name] = app_results
-    
+
     # FDR correction
     print("\n" + "-"*70)
     print("  FDR CORRECTION (Multiple Testing)")
     print("-"*70)
-    
+
     significant_after_fdr = benjamini_hochberg_correction(all_p_values)
     n_sig_before = sum(1 for p in all_p_values if p < 0.05)
     n_sig_after = sum(significant_after_fdr)
-    
+
     print(f"  Tests significant at α=0.05: {n_sig_before}/{len(all_p_values)}")
     print(f"  Tests significant after FDR: {n_sig_after}/{len(all_p_values)}")
-    
+
     # Summary
     print("\n" + "="*70)
     print("  SUMMARY (Using OOS Test Sharpe)")
     print("="*70)
-    
+
     summary = []
     for strat_name, results in all_results.items():
         test_sharpes = [r['test_sharpe'] for r in results.values()]
         wf_sharpes = [r['wf_avg_sharpe'] for r in results.values() if r['wf_avg_sharpe']]
-        
+
         avg_test = np.mean(test_sharpes)
         avg_wf = np.mean(wf_sharpes) if wf_sharpes else None
         consistency = sum(1 for s in test_sharpes if s > 0) / len(test_sharpes)
         n_sig = sum(1 for r in results.values() if r['test_significant'])
-        
+
         summary.append({
             'strategy': strat_name,
             'avg_test_sharpe': avg_test,
@@ -569,27 +574,27 @@ def main():
             'consistency': consistency,
             'n_significant': n_sig,
         })
-    
+
     summary = sorted(summary, key=lambda x: x['avg_test_sharpe'] or 0, reverse=True)
-    
+
     print(f"\n  {'Rank':<6} {'Strategy':<25} {'Test Sharpe':>12} {'WF Sharpe':>12} {'Consist':>10} {'Sig':>6}")
     print("  " + "-"*75)
-    
+
     for i, s in enumerate(summary):
         wf_str = f"{s['avg_wf_sharpe']:.3f}" if s['avg_wf_sharpe'] else "N/A"
         print(f"  {i+1:<6} {s['strategy']:<25} {s['avg_test_sharpe']:>12.3f} {wf_str:>12} {s['consistency']:>10.0%} {s['n_significant']:>6}")
-    
+
     # Best strategy
     best = summary[0]
     print(f"\n  🏆 BEST STRATEGY: {best['strategy']}")
     print(f"     OOS Test Sharpe: {best['avg_test_sharpe']:.3f}")
     print(f"     Walk-Forward Sharpe: {best['avg_wf_sharpe']:.3f}" if best['avg_wf_sharpe'] else "     Walk-Forward: N/A")
     print(f"     Consistency: {best['consistency']:.0%}")
-    
+
     # Save results
     out_path = Path("results/application_testing_v2/full_results.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     output = {
         'timestamp': datetime.now().isoformat(),
         'fixes_applied': [
@@ -609,13 +614,13 @@ def main():
         },
         'detailed_results': all_results,
     }
-    
+
     with open(out_path, 'w') as f:
         json.dump(output, f, indent=2, default=str)
-    
+
     print(f"\n  Results saved: {out_path}")
     print("="*70 + "\n")
-    
+
     return summary, all_results
 
 if __name__ == "__main__":

@@ -13,6 +13,25 @@ from typing import Tuple, Optional
 from enum import Enum
 
 
+def ensure_ohlc_consistency(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Ensure OHLC data is consistent:
+    - High >= max(open, close)
+    - Low <= min(open, close)
+    - High >= Low
+    """
+    df = data.copy()
+    
+    # Fix High: should be max of all
+    df['high'] = df[['open', 'high', 'low', 'close']].max(axis=1)
+    
+    # Fix Low: should be min of all
+    df['low'] = df[['open', 'high', 'low', 'close']].min(axis=1)
+    
+    return df
+
+
+
 class MarketType(Enum):
     CRYPTO = "crypto"
     FOREX = "forex"
@@ -70,6 +89,9 @@ class DataLoaderV2:
         # Normalize timezone
         if df.index.tz is not None:
             df.index = df.index.tz_convert('UTC').tz_localize(None)
+
+        # Ensure OHLC consistency (fix any high < low issues)
+        df = ensure_ohlc_consistency(df)
 
         return df
 

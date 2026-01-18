@@ -1,6 +1,6 @@
 # Audit & Fixes Summary
 
-**Date:** January 18, 2026  
+**Date:** January 18, 2026
 **Author:** Yuhao Li, University of Pennsylvania
 
 ---
@@ -199,5 +199,5 @@ docs/
 
 ---
 
-*Audit Completed: January 18, 2026*  
+*Audit Completed: January 18, 2026*
 *Author: Yuhao Li, University of Pennsylvania*
