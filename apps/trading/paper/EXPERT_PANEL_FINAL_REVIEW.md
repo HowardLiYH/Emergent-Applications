@@ -1,7 +1,7 @@
 # Expert Panel Final Review: neurips_submission_v2.tex
 
-**Date**: 2026-01-18  
-**Reviewers**: 12 Distinguished CS Professors + 12 Industry Experts  
+**Date**: 2026-01-18
+**Reviewers**: 12 Distinguished CS Professors + 12 Industry Experts
 **Verdict**: ⚠️ **MAJOR REVISIONS REQUIRED**
 
 ---
@@ -45,7 +45,7 @@
 ## CRITICAL ISSUES IDENTIFIED
 
 ### Issue 1: Enumerated Lists / Bullet Points [SEVERE]
-**Location**: Lines 95-103, 196-199, 620-628  
+**Location**: Lines 95-103, 196-199, 620-628
 **Problem**: NeurIPS papers require **flowing prose**, not bullet points or numbered lists in the main body.
 
 **Specific Violations**:
@@ -86,7 +86,7 @@
 ---
 
 ### Issue 2: "Multi-Agent AI" and "AI Safety" Claims [SEVERE]
-**Location**: Lines 88, 392-397, 406, 410  
+**Location**: Lines 88, 392-397, 406, 410
 **Problem**: The paper claims implications for "multi-agent AI" and "AI safety" but uses simple affinity vectors, NOT modern AI agents (LLMs, neural networks, RL agents).
 
 **Specific Violations**:
@@ -96,7 +96,7 @@ This is important for... multi-agent AI coordination and AI safety.
 
 % Lines 392-397 - FALSE CLAIMS
 \subsection{Implications for Multi-Agent AI}
-\paragraph{Emergent Coordination Without Communication.} Our results show that 
+\paragraph{Emergent Coordination Without Communication.} Our results show that
 competing agents can develop synchronized behavior...
 \paragraph{AI Safety Considerations.} The ``sticky'' nature...
 ```
@@ -113,7 +113,7 @@ competing agents can develop synchronized behavior...
 ---
 
 ### Issue 3: "Agent" Terminology Still Used [MODERATE-SEVERE]
-**Location**: Lines 66, 75, 77, 79, 88, 90, 115, 122, and many more  
+**Location**: Lines 66, 75, 77, 79, 88, 90, 115, 122, and many more
 **Problem**: Despite user's repeated requests, "agent" is still used throughout, causing confusion with LLM/AI agents.
 
 **Count**: 40+ occurrences of "agent" or "agents" in the paper.
@@ -128,7 +128,7 @@ competing agents can develop synchronized behavior...
 ---
 
 ### Issue 4: Missing Proper Paragraph Structure [MODERATE]
-**Location**: Sections 6.1, 6.2  
+**Location**: Sections 6.1, 6.2
 **Problem**: Using \paragraph{} for what should be flowing text creates a choppy feel.
 
 **Reviewer Comments**:
@@ -138,7 +138,7 @@ competing agents can develop synchronized behavior...
 ---
 
 ### Issue 5: Abstract Claims Scope [MODERATE]
-**Location**: Line 66  
+**Location**: Line 66
 **Problem**: Abstract mentions "implications for multi-agent AI coordination and AI safety" which is unsupported.
 
 **Reviewer Comments**:
@@ -148,13 +148,13 @@ competing agents can develop synchronized behavior...
 ---
 
 ### Issue 6: Figure References Incomplete [MINOR]
-**Location**: Line 329  
+**Location**: Line 329
 **Problem**: References to supplementary figures (S1-S5) but no clear appendix figure placement.
 
 ---
 
 ### Issue 7: Code-Word Mismatch [MINOR]
-**Location**: Throughout  
+**Location**: Throughout
 **Problem**: Paper says "replicator dynamics" but code might still use "NichePopulation", "agent", etc.
 
 ---
