@@ -105,7 +105,7 @@
 1. **"Is the theorem novel?"**
    - The convergence result follows from standard theory
    - The **novelty** is the SI-environment cointegration discovery
-   
+
 2. **"Are assumptions realistic?"**
    - A1 (positivity): Ensured by strategy design
    - A2 (ergodicity): Reasonable for financial returns
@@ -113,7 +113,7 @@
 
 3. **"What about convergence rate?"**
    - Not proven; acknowledged as future work
-   
+
 4. **"How does this connect to prior work?"**
    - Explicitly cites replicator dynamics literature
    - Positions as application to emergent correlation

@@ -72,10 +72,10 @@ These are documented in Figure 6 (failure_modes.png).
 
 1. **"What if agents don't compete?"**
    - Fixed baseline shows reduced correlation (0.089 vs 0.133)
-   
+
 2. **"What if updates are random?"**
    - Random baseline shows no correlation (0.012, p = 0.34)
-   
+
 3. **"Is the effect robust to parameters?"**
    - Yes, 27 ablation configs all show positive correlation
 

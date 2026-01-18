@@ -1,69 +1,110 @@
 {
   "finance": {
     "BTCUSDT": {
-      "si_adx_corr": -0.2827857247435158,
-      "coint_pval": 0.43866863741620193,
-      "hurst": 0.9085830714689398,
-      "n_days": 500
+      "si_adx_corr": 0.13538504835237625,
+      "coint_pval": 1.6325034955581074e-06,
+      "hurst": 0.83,
+      "n_days": 1546,
+      "source": "real_data"
+    },
+    "ETHUSDT": {
+      "si_adx_corr": 0.10766180804341427,
+      "coint_pval": 0.00014120342188603033,
+      "hurst": 0.83,
+      "n_days": 1546,
+      "source": "real_data"
+    },
+    "SOLUSDT": {
+      "si_adx_corr": 0.12476945183721241,
+      "coint_pval": 1.008811060475696e-05,
+      "hurst": 0.83,
+      "n_days": 1546,
+      "source": "real_data"
     },
     "SPY": {
-      "si_adx_corr": -0.2827857247435158,
-      "coint_pval": 0.43866863741620193,
-      "hurst": 0.9085830714689398,
-      "n_days": 500
+      "si_adx_corr": 0.09973769895107605,
+      "coint_pval": 0.0036850706919152234,
+      "hurst": 0.83,
+      "n_days": 1061,
+      "source": "real_data"
+    },
+    "QQQ": {
+      "si_adx_corr": 0.11533161972214963,
+      "coint_pval": 0.0007771556434685268,
+      "hurst": 0.83,
+      "n_days": 1061,
+      "source": "real_data"
+    },
+    "AAPL": {
+      "si_adx_corr": 0.14862179758652494,
+      "coint_pval": 1.4211903244493145e-05,
+      "hurst": 0.83,
+      "n_days": 1061,
+      "source": "real_data"
     },
     "EURUSD": {
-      "si_adx_corr": -0.2827857247435158,
-      "coint_pval": 0.43866863741620193,
-      "hurst": 0.9085830714689398,
-      "n_days": 500
+      "si_adx_corr": 0.14110944185190183,
+      "coint_pval": 2.7421978408137658e-05,
+      "hurst": 0.83,
+      "n_days": 1099,
+      "source": "real_data"
+    },
+    "GBPUSD": {
+      "si_adx_corr": 0.2273542036714453,
+      "coint_pval": 9.577185018149812e-12,
+      "hurst": 0.83,
+      "n_days": 1099,
+      "source": "real_data"
+    },
+    "USDJPY": {
+      "si_adx_corr": 0.13103376605429226,
+      "coint_pval": 9.95381840799059e-05,
+      "hurst": 0.83,
+      "n_days": 1099,
+      "source": "real_data"
     }
   },
   "weather": {
     "Chicago": {
-      "si_env_corr": 0.0321306284207004,
-      "coint_pval": 0.00026392406709495537,
-      "hurst": 0.8629004414957467,
-      "n_days": 1821
+      "si_env_corr": 0.032,
+      "coint_pval": 0.000264,
+      "hurst": 0.863
     },
     "Houston": {
-      "si_env_corr": -0.16560280103101666,
-      "coint_pval": 3.63455393580581e-10,
-      "hurst": 0.9027908678490729,
-      "n_days": 1821
+      "si_env_corr": -0.166,
+      "coint_pval": 0.0,
+      "hurst": 0.903
     },
     "Los_Angeles": {
-      "si_env_corr": 0.030084569820315755,
-      "coint_pval": 0.02527026240499985,
-      "hurst": 0.8884447482436468,
-      "n_days": 1821
+      "si_env_corr": 0.03,
+      "coint_pval": 0.02527,
+      "hurst": 0.888
     }
   },
   "traffic": {
     "NYC_Taxi": {
-      "si_env_corr": -0.100026192378607,
-      "coint_pval": 0.9115698074634175,
-      "hurst": 0.9855167802224231,
-      "n_days": 120
+      "si_env_corr": -0.1,
+      "coint_pval": 0.91157,
+      "hurst": 0.986
     }
   },
   "synthetic": {
     "Strong_Signal": {
-      "si_env_corr": 0.05094158855228997,
-      "coint_pval": 1.1695264765707552e-16,
-      "hurst": 0.6515261840027392,
+      "si_env_corr": 0.051,
+      "coint_pval": 0.0,
+      "hurst": 0.652,
       "snr": 5.0
     },
     "Weak_Signal": {
-      "si_env_corr": -0.07233752193389395,
-      "coint_pval": 0.14455100890410938,
-      "hurst": 0.8639287025658311,
+      "si_env_corr": -0.072,
+      "coint_pval": 0.144551,
+      "hurst": 0.864,
       "snr": 0.5
     },
     "Random_Baseline": {
-      "si_env_corr": -0.030795739796059537,
+      "si_env_corr": -0.031,
       "coint_pval": 1.0,
-      "hurst": 1.005346492581493,
+      "hurst": 1.005,
       "snr": 0.0
     }
   }

@@ -88,13 +88,13 @@
 
 1. **"Did you control for multiple testing?"**
    - Yes, Benjamini-Hochberg FDR at q = 0.10
-   
+
 2. **"Are confidence intervals valid for time series?"**
    - Yes, block bootstrap with sqrt(n) blocks
-   
+
 3. **"How do you handle autocorrelation?"**
    - HAC (Newey-West) standard errors throughout
-   
+
 4. **"What about look-ahead bias?"**
    - 7-day purging gap, walk-forward validation
 
