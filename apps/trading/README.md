@@ -1,6 +1,6 @@
 # The Blind Synchronization Effect
 
-[![NeurIPS 2025](https://img.shields.io/badge/NeurIPS-2025-blue.svg)](https://neurips.cc/)
+[![Preprint](https://img.shields.io/badge/Status-Preprint-orange.svg)](https://github.com/HowardLiYH/Emergent-Applications)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -221,12 +221,13 @@ python paper/theorem_proof.py
 ## 📄 Citation
 
 ```bibtex
-@inproceedings{li2025emergent,
-  title={Emergent Specialization from Competition Alone:
-         How Replicator Dynamics Create Market-Correlated Behavior},
+@misc{li2026blindsync,
+  title={The Blind Synchronization Effect: How Competition Creates 
+         Environment-Correlated Behavior Without Observation},
   author={Li, Yuhao},
-  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
-  year={2025}
+  year={2026},
+  note={Preprint. University of Pennsylvania},
+  url={https://github.com/HowardLiYH/Emergent-Applications}
 }
 ```
 
