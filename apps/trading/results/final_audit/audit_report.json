@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-01-17T22:25:05.589644",
+  "issues": [],
+  "score": 100.0,
+  "verdict": "PUBLICATION READY",
+  "limitations": [
+    "Effect sizes are modest (|r| ~ 0.15)",
+    "Only 1/9 assets confirm prediction OOS",
+    "Small sample size for some assets",
+    "No forward OOS test",
+    "Single SI window tested"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-01-17T22:26:26.313065",
+  "results": [
+    {
+      "asset": "BTCUSDT",
+      "market": "crypto",
+      "no_opt": {
+        "train_sharpe": 0.9298950110530683,
+        "test_sharpe": -0.02251193805186946,
+        "test_ret": -0.07593031010105111,
+        "bh_ret": 0.40390578487156015,
+        "beats_bh": 
