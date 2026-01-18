@@ -33,12 +33,12 @@ def collect_forward_oos():
     This is data from Jan 2026 - data that didn't exist when analysis was designed.
     """
     print("\n  [ACTION 1] Collecting Forward OOS Data...")
-    
+
     import yfinance as yf
-    
+
     output_dir = Path('data/forward_oos')
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Assets to collect
     symbols = {
         'crypto': ['BTC-USD', 'ETH-USD', 'SOL-USD'],
@@ -46,13 +46,13 @@ def collect_forward_oos():
         'forex': ['EURUSD=X', 'GBPUSD=X'],
         'commodities': ['GC=F', 'CL=F'],
     }
-    
+
     results = []
-    
+
     for category, tickers in symbols.items():
         for ticker in tickers:
             try:
-                df = yf.download(ticker, start='2026-01-01', end='2026-01-18', 
+                df = yf.download(ticker, start='2026-01-01', end='2026-01-18',
                                interval='1d', progress=False)
                 if len(df) > 0:
                     filepath = output_dir / f'{ticker.replace("=", "").replace("-", "")}_forward.csv'
@@ -70,7 +70,7 @@ def collect_forward_oos():
             except Exception as e:
                 print(f"    ❌ {ticker}: {e}")
             time.sleep(0.5)
-    
+
     return results
 
 
@@ -83,11 +83,11 @@ def expand_asset_coverage():
     Expand to 40+ assets for robust cross-sectional validation.
     """
     print("\n  [ACTION 2] Expanding Asset Coverage...")
-    
+
     import yfinance as yf
-    
+
     output_dir = Path('data/expanded')
-    
+
     # Additional assets (30 more)
     additional_assets = {
         'stocks': [
@@ -103,13 +103,13 @@ def expand_asset_coverage():
             'XLE',   # Energy
         ],
     }
-    
+
     results = []
-    
+
     for category, tickers in additional_assets.items():
         cat_dir = output_dir / category
         cat_dir.mkdir(parents=True, exist_ok=True)
-        
+
         for ticker in tickers:
             try:
                 df = yf.download(ticker, start='2021-01-01', end='2026-01-01',
@@ -129,7 +129,7 @@ def expand_asset_coverage():
             except Exception as e:
                 print(f"    ❌ {ticker}: {e}")
             time.sleep(0.3)
-    
+
     print(f"\n    Total new assets: {len(results)}")
     return results
 
@@ -143,10 +143,10 @@ def create_reframing_document():
     Create document reframing results with academic context.
     """
     print("\n  [ACTION 3] Creating Reframing Document...")
-    
+
     reframing = {
         'title': 'Reframing SI Results in Academic Context',
-        
+
         'r_squared_context': {
             'our_result': 0.013,  # 1.3%
             'benchmark': {
@@ -158,7 +158,7 @@ def create_reframing_document():
             'comparison': 'Our R² of 1.3% is 3.25x higher than the benchmark',
             'conclusion': 'Our effect size is competitive by academic finance standards'
         },
-        
+
         'causal_disclaimer': {
             'what_we_show': 'Correlation between SI and market features',
             'what_we_dont_claim': 'Causal relationship from SI to returns',
@@ -173,7 +173,7 @@ def create_reframing_document():
                 '(SI is endogenous; correlation established, causation not claimed)'
             )
         },
-        
+
         'practical_limitations': {
             'standalone_trading': 'NO - R² too low for primary signal',
             'supplementary_use': 'YES - Confirms other signals, factor timing',
@@ -184,7 +184,7 @@ def create_reframing_document():
                 'Most valuable for conditioning factor exposure.'
             )
         },
-        
+
         'theorem_framing': {
             'claim': 'We apply known results (Hedge algorithm) to financial agents',
             'novelty': 'Empirical - showing emergence in real data, not theoretical innovation',
@@ -194,7 +194,7 @@ def create_reframing_document():
                 'measurable SI in real financial markets.'
             )
         },
-        
+
         'revised_contribution_statement': [
             '1. First empirical measurement of SI in multi-agent trading systems',
             '2. Cross-market validation (4 asset classes, 11→40+ assets)',
@@ -202,7 +202,7 @@ def create_reframing_document():
             '4. Rigorous methodology (pre-registration, FDR, block bootstrap)',
             '5. Honest reporting of negative results (regime conditioning failed)',
         ],
-        
+
         'what_we_explicitly_dont_claim': [
             '❌ Novel theoretical contribution',
             '❌ Standalone trading signal',
@@ -210,14 +210,14 @@ def create_reframing_document():
             '❌ Production-ready system',
         ]
     }
-    
+
     # Save
     output_path = Path('results/reframing/academic_context.json')
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_path, 'w') as f:
         json.dump(reframing, f, indent=2)
-    
+
     print(f"    ✅ Reframing document saved to {output_path}")
     return reframing
 
@@ -231,7 +231,7 @@ def create_docker_reproducibility():
     Create Docker files for one-click reproduction.
     """
     print("\n  [ACTION 4] Creating Docker Reproducibility...")
-    
+
     # Dockerfile
     dockerfile_content = '''FROM python:3.10-slim
 
@@ -257,7 +257,7 @@ ENV PYTHONPATH=/app
 # Default command
 CMD ["python", "experiments/run_corrected_analysis.py"]
 '''
-    
+
     # docker-compose.yml
     compose_content = '''version: '3.8'
 
@@ -270,7 +270,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
 '''
-    
+
     # reproduce.sh
     reproduce_content = '''#!/bin/bash
 # One-click reproduction script
@@ -291,16 +291,16 @@ echo "=================================="
 echo "Results saved to ./results/"
 echo "=================================="
 '''
-    
+
     # Write files
     Path('Dockerfile').write_text(dockerfile_content)
     Path('docker-compose.yml').write_text(compose_content)
     Path('reproduce.sh').write_text(reproduce_content)
-    
+
     print("    ✅ Dockerfile created")
     print("    ✅ docker-compose.yml created")
     print("    ✅ reproduce.sh created")
-    
+
     return {'dockerfile': True, 'compose': True, 'script': True}
 
 
@@ -313,18 +313,18 @@ def create_parameter_transparency():
     Document all parameter combinations tested to show no cherry-picking.
     """
     print("\n  [ACTION 5] Creating Parameter Transparency Report...")
-    
+
     transparency = {
         'title': 'Parameter Selection Transparency',
-        
+
         'parameters_tested': {
             'si_windows': [5, 7, 10, 14, 21, 30],
             'n_agents_per_strategy': [2, 3, 5, 7],
             'total_combinations': 24,
         },
-        
+
         'selection_method': 'Median performer, not best',
-        
+
         'results_all_combinations': {
             'best_window': 14,
             'worst_window': 5,
@@ -332,7 +332,7 @@ def create_parameter_transparency():
             'selected': 7,
             'rationale': 'Selected median to avoid cherry-picking bias',
         },
-        
+
         'sensitivity_analysis': {
             'window_5': {'mean_r': 0.12, 'significant_pct': 0.35},
             'window_7': {'mean_r': 0.15, 'significant_pct': 0.42},  # Median
@@ -341,18 +341,18 @@ def create_parameter_transparency():
             'window_21': {'mean_r': 0.13, 'significant_pct': 0.38},
             'window_30': {'mean_r': 0.11, 'significant_pct': 0.32},
         },
-        
+
         'conclusion': (
             'Results are robust across window sizes (all show positive correlations). '
             '7-day window was selected as median performer to avoid optimization bias. '
             'If we had selected the best (14-day), results would be stronger but less honest.'
         )
     }
-    
+
     output_path = Path('results/reframing/parameter_transparency.json')
     with open(output_path, 'w') as f:
         json.dump(transparency, f, indent=2)
-    
+
     print(f"    ✅ Parameter transparency saved to {output_path}")
     return transparency
 
@@ -373,38 +373,38 @@ def main():
     print("  4. Docker reproducibility (+0.10)")
     print("  5. Parameter transparency (+0.10)")
     print("="*70)
-    
+
     results = {}
-    
+
     # Action 1: Forward OOS
     results['forward_oos'] = collect_forward_oos()
-    
+
     # Action 2: Expand assets
     results['expanded_assets'] = expand_asset_coverage()
-    
+
     # Action 3: Reframing
     results['reframing'] = create_reframing_document()
-    
+
     # Action 4: Docker
     results['docker'] = create_docker_reproducibility()
-    
+
     # Action 5: Parameter transparency
     results['parameters'] = create_parameter_transparency()
-    
+
     # Summary
     print("\n" + "="*70)
     print("SUMMARY")
     print("="*70)
-    
+
     forward_days = sum(r['days'] for r in results['forward_oos']) if results['forward_oos'] else 0
     expanded_count = len(results['expanded_assets']) if results['expanded_assets'] else 0
-    
+
     print(f"  ✅ Forward OOS: {forward_days} days of truly new data")
     print(f"  ✅ Expanded assets: +{expanded_count} (total now 11 + {expanded_count} = {11 + expanded_count})")
     print(f"  ✅ Reframing: R² contextualized with Gu Kelly Xiu benchmark")
     print(f"  ✅ Docker: One-click reproduction ready")
     print(f"  ✅ Parameters: All 24 combinations documented")
-    
+
     print("\n  SCORE PROGRESSION:")
     print("    Previous: 7.8")
     print("    + Reframing: 7.8 + 0.15 = 7.95")
@@ -415,11 +415,11 @@ def main():
     print("    + Causal disclaimer (in doc): 8.65 + 0.10 = 8.75")
     print("    + Practical limits (in doc): 8.75 + 0.10 = 8.85")
     print("    → Rounds to 9.0")
-    
+
     # Save summary
     output_path = Path('results/action_plan/implementation_summary.json')
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_path, 'w') as f:
         json.dump({
             'timestamp': datetime.now().isoformat(),
@@ -431,10 +431,10 @@ def main():
             'score_after': 8.85,
             'rounded_score': 9.0,
         }, f, indent=2, default=str)
-    
+
     print(f"\n  Summary saved to {output_path}")
     print("="*70 + "\n")
-    
+
     return results
 
 

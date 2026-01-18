@@ -1,6 +1,6 @@
 # Action Plan: Honest Path to 9.0
 
-**Based on Round 6 Honest Audit (7.8/10)**  
+**Based on Round 6 Honest Audit (7.8/10)**
 **Goal**: Address each concern with quality solutions
 
 ---
@@ -58,7 +58,7 @@ for symbol in symbols:
     df.to_csv(f'data/forward_oos/{symbol}_forward.csv')
 ```
 
-**Time needed**: 1 hour  
+**Time needed**: 1 hour
 **Impact**: +0.3 to score
 
 ---
@@ -81,7 +81,7 @@ Market Conditions ←→ SI (correlation, not causation)
 **Explicit Statement for Paper**:
 > "We establish correlation, not causation. SI reflects agent adaptation to market conditions; whether SI *causes* future outcomes requires instrumental variable analysis beyond this paper's scope."
 
-**Time needed**: 30 minutes  
+**Time needed**: 30 minutes
 **Impact**: +0.1 (honesty bonus)
 
 ---
@@ -108,7 +108,7 @@ Market Conditions ←→ SI (correlation, not causation)
 4. **Factor timing**: Most promising practical application (91% assets)
 ```
 
-**Time needed**: 30 minutes  
+**Time needed**: 30 minutes
 **Impact**: +0.1
 
 ---
@@ -133,7 +133,7 @@ This is harder and may not be worth the effort.
 
 **Recommendation**: Option A. Honesty > fake novelty.
 
-**Time needed**: 15 minutes  
+**Time needed**: 15 minutes
 **Impact**: +0.05
 
 ---
@@ -172,7 +172,7 @@ for category, symbols in ADDITIONAL_ASSETS.items():
         df.to_csv(f'data/expanded/{category}/{symbol}_1d.csv')
 ```
 
-**Time needed**: 2 hours (download + run analysis)  
+**Time needed**: 2 hours (download + run analysis)
 **Impact**: +0.2
 
 ---
@@ -196,7 +196,7 @@ AGENTS_TESTED = [2, 3, 5, 7]
 **Add to Paper**:
 > "We report results for all 24 parameter combinations (6 windows × 4 agent counts). The 7-day, 3-agent configuration was selected as the **median performer**, not the best, to avoid cherry-picking."
 
-**Time needed**: 30 minutes  
+**Time needed**: 30 minutes
 **Impact**: +0.1
 
 ---
@@ -230,7 +230,7 @@ docker build -t si-trading .
 docker run -v $(pwd)/results:/app/results si-trading
 ```
 
-**Time needed**: 1 hour  
+**Time needed**: 1 hour
 **Impact**: +0.1
 
 ---
@@ -248,17 +248,17 @@ docker run -v $(pwd)/results:/app/results si-trading
 | 7 | Add Docker + reproduce.sh | 1 hr | +0.10 | 8.85 |
 | 8 | Accept theorem as application | 15 min | +0.05 | 8.90 |
 
-**Total Time**: ~6 hours  
+**Total Time**: ~6 hours
 **Final Score**: 8.9 → rounds to **9.0**
 
 ---
 
 ## What NOT to Do
 
-❌ **Don't add more complex analysis** - diminishing returns  
-❌ **Don't claim novel theorem** - honesty is better  
-❌ **Don't oversell** - the honest framing is actually stronger  
-❌ **Don't chase 100 assets** - 40 is sufficient for robustness  
+❌ **Don't add more complex analysis** - diminishing returns
+❌ **Don't claim novel theorem** - honesty is better
+❌ **Don't oversell** - the honest framing is actually stronger
+❌ **Don't chase 100 assets** - 40 is sufficient for robustness
 
 ---
 
