@@ -1,8 +1,8 @@
 # Master Findings Document
 
-**Date:** January 17, 2026  
-**Author:** Yuhao Li, University of Pennsylvania  
-**Total Discoveries:** 80+  
+**Date:** January 17, 2026
+**Author:** Yuhao Li, University of Pennsylvania
+**Total Discoveries:** 80+
 **Methods Applied:** 25+
 
 ---
@@ -282,7 +282,7 @@
 
 ---
 
-*Document Version: 1.0*  
+*Document Version: 1.0*
 *Last Updated: January 17, 2026*
 
 ---
@@ -469,8 +469,8 @@ From High   1%     19%     80%
 
 ---
 
-*Document Updated: January 17, 2026*  
-*Total Methods Applied: 35+*  
+*Document Updated: January 17, 2026*
+*Total Methods Applied: 35+*
 *Total Discoveries: 125*
 
 ---
@@ -562,7 +562,7 @@ SI captures volatility differences across regimes:
 | SPY | 0.70 | 2.9% | 73 |
 | EUR | 0.71 | 3.1% | 85 |
 
-**Strategy:** 
+**Strategy:**
 - Compute z-score of SI-ADX spread
 - Short when z > 2, long when z < -2
 - Mean reversion to equilibrium
@@ -815,6 +815,6 @@ position = position.ewm(halflife=3).mean()
 
 ---
 
-*Phase 3 Complete: January 18, 2026*  
-*Total Discoveries: 150*  
+*Phase 3 Complete: January 18, 2026*
+*Total Discoveries: 150*
 *Methods Applied: 40+*
