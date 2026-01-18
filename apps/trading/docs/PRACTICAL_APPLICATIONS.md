@@ -455,43 +455,43 @@ Predicts future volatility based on current SI level. Low SI → expect higher v
 class SIVolatilityForecaster:
     """
     Forecast volatility using SI.
-    
+
     Discovery: Low SI → High Volatility (r = -0.158)
     """
-    
+
     # Calibrated from empirical data
     VOL_MULTIPLIERS = {
         'low_si': 1.32,    # 32% higher vol when SI < p25
         'mid_si': 1.00,    # Baseline
         'high_si': 0.76,   # 24% lower vol when SI > p75
     }
-    
+
     def __init__(self, lookback: int = 20):
         self.lookback = lookback
         self.si_history = []
         self.vol_history = []
-        
+
     def forecast(self, current_si: float, current_vol: float) -> dict:
         """
         Forecast next-day volatility.
-        
+
         Args:
             current_si: Current SI value
             current_vol: Current realized volatility (daily)
-            
+
         Returns:
             Volatility forecast with confidence
         """
         self.si_history.append(current_si)
         self.vol_history.append(current_vol)
-        
+
         if len(self.si_history) < 60:
             return {'forecast': current_vol, 'confidence': 'LOW'}
-        
+
         # Compute SI percentile
         recent_si = self.si_history[-252:]
         si_percentile = sum(1 for s in recent_si if s <= current_si) / len(recent_si)
-        
+
         # Determine SI regime
         if si_percentile < 0.25:
             regime = 'low_si'
@@ -502,14 +502,14 @@ class SIVolatilityForecaster:
         else:
             regime = 'mid_si'
             multiplier = self.VOL_MULTIPLIERS['mid_si']
-        
+
         # Baseline: EWMA vol forecast
         recent_vol = self.vol_history[-self.lookback:]
         ewma_vol = sum(v * (0.94 ** i) for i, v in enumerate(reversed(recent_vol))) / sum(0.94 ** i for i in range(len(recent_vol)))
-        
+
         # SI-adjusted forecast
         forecast_vol = ewma_vol * multiplier
-        
+
         return {
             'forecast': round(forecast_vol, 6),
             'baseline_ewma': round(ewma_vol, 6),
@@ -542,25 +542,25 @@ Adjusts stop-loss distance based on SI regime. Tighter stops in high-SI (trendin
 class SIDynamicStopLoss:
     """
     Adjust stop-loss based on SI regime.
-    
+
     Discovery: High SI = lower volatility = tighter stops
     """
-    
+
     # ATR multipliers by SI regime
     STOP_MULTIPLIERS = {
         'high_si': 1.5,    # Tight stops when trending
         'mid_si': 2.0,     # Normal stops
         'low_si': 3.0,     # Wide stops when choppy
     }
-    
+
     def __init__(self):
         self.si_history = []
-        
-    def compute_stop(self, current_si: float, entry_price: float, 
+
+    def compute_stop(self, current_si: float, entry_price: float,
                      atr: float, direction: str = 'LONG') -> dict:
         """
         Compute SI-adjusted stop-loss.
-        
+
         Args:
             current_si: Current SI value
             entry_price: Entry price
@@ -568,14 +568,14 @@ class SIDynamicStopLoss:
             direction: 'LONG' or 'SHORT'
         """
         self.si_history.append(current_si)
-        
+
         if len(self.si_history) < 60:
             multiplier = 2.0  # Default
             regime = 'unknown'
         else:
             recent = self.si_history[-252:]
             percentile = sum(1 for s in recent if s <= current_si) / len(recent)
-            
+
             if percentile > 0.75:
                 regime = 'high_si'
                 multiplier = self.STOP_MULTIPLIERS['high_si']
@@ -585,14 +585,14 @@ class SIDynamicStopLoss:
             else:
                 regime = 'mid_si'
                 multiplier = self.STOP_MULTIPLIERS['mid_si']
-        
+
         stop_distance = atr * multiplier
-        
+
         if direction == 'LONG':
             stop_price = entry_price - stop_distance
         else:
             stop_price = entry_price + stop_distance
-        
+
         return {
             'stop_price': round(stop_price, 2),
             'stop_distance': round(stop_distance, 2),
@@ -625,10 +625,10 @@ Triggers portfolio rebalancing based on SI regime changes, not calendar dates.
 class SIRebalancer:
     """
     Trigger rebalancing on SI regime changes.
-    
+
     Discovery: High-SI regime is 80% persistent
     """
-    
+
     def __init__(self, threshold: float = 0.25):
         """
         Args:
@@ -637,19 +637,19 @@ class SIRebalancer:
         self.threshold = threshold
         self.si_history = []
         self.last_rebalance_regime = None
-        
+
     def should_rebalance(self, current_si: float) -> dict:
         """
         Check if rebalancing should be triggered.
         """
         self.si_history.append(current_si)
-        
+
         if len(self.si_history) < 60:
             return {'rebalance': False, 'reason': 'Warming up'}
-        
+
         recent = self.si_history[-252:]
         current_percentile = sum(1 for s in recent if s <= current_si) / len(recent)
-        
+
         # Determine current regime
         if current_percentile < 0.33:
             current_regime = 'LOW'
@@ -657,12 +657,12 @@ class SIRebalancer:
             current_regime = 'HIGH'
         else:
             current_regime = 'MID'
-        
+
         # Check for regime change
         if self.last_rebalance_regime is None:
             self.last_rebalance_regime = current_regime
             return {'rebalance': True, 'reason': 'Initial allocation'}
-        
+
         if current_regime != self.last_rebalance_regime:
             self.last_rebalance_regime = current_regime
             return {
@@ -672,13 +672,13 @@ class SIRebalancer:
                 'si_percentile': round(current_percentile, 2),
                 'action': self._get_rebalance_action(current_regime)
             }
-        
+
         return {
             'rebalance': False,
             'current_regime': current_regime,
             'si_percentile': round(current_percentile, 2)
         }
-    
+
     def _get_rebalance_action(self, regime: str) -> str:
         actions = {
             'HIGH': 'Increase equity allocation (trending market)',
@@ -714,10 +714,10 @@ Scales hedging positions based on SI level. Low SI = increased tail risk = more 
 class SITailHedge:
     """
     Scale hedges based on SI-implied tail risk.
-    
+
     Discovery: Low SI = 2.4x more extreme events
     """
-    
+
     # Hedge multipliers
     HEDGE_SCALING = {
         'very_low': 2.5,   # SI < p10: maximum hedge
@@ -726,7 +726,7 @@ class SITailHedge:
         'high': 0.5,       # SI > p75: reduced hedge
         'very_high': 0.25, # SI > p90: minimal hedge
     }
-    
+
     def __init__(self, base_hedge_pct: float = 0.05):
         """
         Args:
@@ -734,23 +734,23 @@ class SITailHedge:
         """
         self.base_hedge = base_hedge_pct
         self.si_history = []
-        
+
     def compute_hedge(self, current_si: float, portfolio_value: float) -> dict:
         """
         Compute recommended hedge position.
         """
         self.si_history.append(current_si)
-        
+
         if len(self.si_history) < 60:
             return {
                 'hedge_pct': self.base_hedge,
                 'hedge_value': portfolio_value * self.base_hedge,
                 'confidence': 'LOW'
             }
-        
+
         recent = self.si_history[-252:]
         percentile = sum(1 for s in recent if s <= current_si) / len(recent)
-        
+
         # Determine scaling
         if percentile < 0.10:
             regime = 'very_low'
@@ -762,10 +762,10 @@ class SITailHedge:
             regime = 'high'
         else:
             regime = 'normal'
-        
+
         multiplier = self.HEDGE_SCALING[regime]
         hedge_pct = self.base_hedge * multiplier
-        
+
         return {
             'hedge_pct': round(hedge_pct, 4),
             'hedge_value': round(portfolio_value * hedge_pct, 2),
@@ -775,7 +775,7 @@ class SITailHedge:
             'si_percentile': round(percentile, 2),
             'recommendation': self._get_hedge_instrument(regime)
         }
-    
+
     def _get_hedge_instrument(self, regime: str) -> str:
         recommendations = {
             'very_low': 'Buy OTM puts + VIX calls (max protection)',
@@ -805,51 +805,51 @@ Uses SI synchronization to identify cross-asset momentum opportunities.
 class SICrossAssetMomentum:
     """
     Trade cross-asset momentum using SI divergence/convergence.
-    
+
     Discovery: SPY-QQQ SI correlation = 0.53
     """
-    
+
     PAIRS = {
         ('SPY', 'QQQ'): 0.53,   # High correlation
         ('SPY', 'IWM'): 0.45,   # Moderate
         ('BTC', 'ETH'): 0.22,   # Crypto pair
     }
-    
+
     def __init__(self, pair: tuple):
         if pair not in self.PAIRS:
             raise ValueError(f"Unknown pair. Use: {list(self.PAIRS.keys())}")
         self.pair = pair
         self.expected_corr = self.PAIRS[pair]
         self.history = {'asset1': [], 'asset2': []}
-        
+
     def analyze(self, si_1: float, si_2: float, ret_1: float, ret_2: float) -> dict:
         """
         Analyze SI divergence for trading signal.
-        
+
         Args:
             si_1, si_2: SI values for each asset
             ret_1, ret_2: Recent returns for each asset
         """
         self.history['asset1'].append(si_1)
         self.history['asset2'].append(si_2)
-        
+
         if len(self.history['asset1']) < 30:
             return {'signal': 'WAIT', 'reason': 'Warming up'}
-        
+
         # Compute rolling SI correlation
         recent_1 = self.history['asset1'][-60:]
         recent_2 = self.history['asset2'][-60:]
-        
+
         import numpy as np
         actual_corr = np.corrcoef(recent_1, recent_2)[0, 1]
-        
+
         # SI spread
         si_spread = si_1 - si_2
         recent_spreads = [a - b for a, b in zip(recent_1, recent_2)]
         spread_z = (si_spread - np.mean(recent_spreads)) / (np.std(recent_spreads) + 1e-10)
-        
+
         signal = {'si_spread': round(si_spread, 4), 'spread_z': round(spread_z, 2)}
-        
+
         if spread_z > 2:
             # Asset 1 SI much higher -> Asset 1 likely to underperform
             signal['signal'] = f'LONG {self.pair[1]}, SHORT {self.pair[0]}'
@@ -862,7 +862,7 @@ class SICrossAssetMomentum:
             signal['reason'] = f'Correlation breakdown: {actual_corr:.2f} vs expected {self.expected_corr}'
         else:
             signal['signal'] = 'NEUTRAL'
-            
+
         signal['current_corr'] = round(actual_corr, 2)
         return signal
 ```
@@ -885,13 +885,13 @@ Combines multiple SI-based signals into a weighted ensemble.
 class SIEnsemble:
     """
     Combine multiple SI strategies into an ensemble.
-    
+
     Strategies:
     1. Risk Budgeting (position sizing)
     2. SI-ADX Spread (mean reversion)
     3. Factor Timing (regime switching)
     """
-    
+
     def __init__(self, weights: dict = None):
         """
         Args:
@@ -903,36 +903,36 @@ class SIEnsemble:
             'factor_timing': 0.3,
         }
         self.performance = {k: [] for k in self.weights}
-        
+
     def combine_signals(self, signals: dict) -> dict:
         """
         Combine signals from multiple strategies.
-        
+
         Args:
             signals: Dict of {strategy_name: {'position': float, 'confidence': float}}
         """
         combined_position = 0
         total_weight = 0
-        
+
         for strategy, signal in signals.items():
             if strategy in self.weights:
                 weight = self.weights[strategy] * signal.get('confidence', 1.0)
                 combined_position += weight * signal['position']
                 total_weight += weight
-        
+
         if total_weight > 0:
             combined_position /= total_weight
-        
+
         return {
             'ensemble_position': round(combined_position, 3),
             'component_signals': signals,
             'weights_used': {k: round(self.weights[k], 2) for k in signals if k in self.weights}
         }
-    
+
     def update_weights(self, returns: dict, decay: float = 0.95):
         """
         Update weights based on recent performance (optional).
-        
+
         Args:
             returns: Dict of {strategy_name: recent_return}
             decay: Weight decay factor
@@ -940,7 +940,7 @@ class SIEnsemble:
         for strategy, ret in returns.items():
             if strategy in self.performance:
                 self.performance[strategy].append(ret)
-        
+
         # Update weights based on Sharpe
         if all(len(v) >= 20 for v in self.performance.values()):
             import numpy as np
@@ -949,7 +949,7 @@ class SIEnsemble:
                 recent = rets[-60:]
                 sharpe = np.mean(recent) / (np.std(recent) + 1e-10)
                 sharpes[strategy] = max(sharpe, 0.01)  # Floor at 0.01
-            
+
             # Normalize to sum to 1
             total = sum(sharpes.values())
             for strategy in sharpes:
@@ -983,73 +983,73 @@ Times market entries based on SI level. Enter on dips when SI is high (clear tre
 class SIEntryTimer:
     """
     Time market entries using SI regime.
-    
+
     Discovery: High SI dips have +1.19% 5d return advantage (BTC)
     """
-    
+
     def __init__(self, lookback: int = 20):
         self.lookback = lookback
         self.si_history = []
         self.price_history = []
-        
+
     def should_enter(self, current_si: float, current_price: float) -> dict:
         """
         Determine if conditions are favorable for entry.
         """
         self.si_history.append(current_si)
         self.price_history.append(current_price)
-        
+
         if len(self.si_history) < 60:
             return {'entry': 'WAIT', 'reason': 'Warming up'}
-        
+
         # SI percentile
         recent_si = self.si_history[-252:]
         si_percentile = sum(1 for s in recent_si if s <= current_si) / len(recent_si)
-        
+
         # Price relative to recent range
         recent_prices = self.price_history[-self.lookback:]
         price_range = max(recent_prices) - min(recent_prices)
         price_position = (current_price - min(recent_prices)) / price_range if price_range > 0 else 0.5
-        
+
         # 5-day return
         if len(self.price_history) >= 5:
             ret_5d = (current_price / self.price_history[-5]) - 1
         else:
             ret_5d = 0
-        
+
         signal = {
             'si_percentile': round(si_percentile, 2),
             'price_position': round(price_position, 2),
             'ret_5d': round(ret_5d * 100, 2),
         }
-        
+
         # High SI + Pullback = BUY
         if si_percentile > 0.7 and price_position < 0.3:
             signal['entry'] = 'STRONG_BUY'
             signal['reason'] = 'High SI + price at local low'
             signal['expected_edge'] = '+1.2% over 5 days'
-        
+
         # High SI + Not overbought = BUY
         elif si_percentile > 0.6 and price_position < 0.7:
             signal['entry'] = 'BUY'
             signal['reason'] = 'High SI, favorable entry'
             signal['expected_edge'] = '+0.5% over 5 days'
-        
+
         # Low SI + Rally = AVOID
         elif si_percentile < 0.3 and price_position > 0.7:
             signal['entry'] = 'AVOID'
             signal['reason'] = 'Low SI + overbought'
             signal['expected_edge'] = '-0.3% over 5 days'
-        
+
         # Low SI = WAIT
         elif si_percentile < 0.3:
             signal['entry'] = 'WAIT'
             signal['reason'] = 'Low SI, uncertain market'
-        
+
         else:
             signal['entry'] = 'NEUTRAL'
             signal['reason'] = 'No strong signal'
-        
+
         return signal
 ```
 
@@ -1072,6 +1072,6 @@ class SIEntryTimer:
 
 ---
 
-*Document Version: 2.0*  
-*Based on: 150 discoveries, 40+ methods, 3+ years of data*  
+*Document Version: 2.0*
+*Based on: 150 discoveries, 40+ methods, 3+ years of data*
 *Last Updated: January 18, 2026*

@@ -1,0 +1,472 @@
+{
+  "timestamp": "2026-01-18T00:57:50.553103",
+  "summary": [
+    {
+      "application": "5. Dynamic Stop",
+      "avg_sharpe": 0.3999612878640744,
+      "avg_improvement": -0.026752457004008107,
+      "consistency": 0.6666666666666666,
+      "n_assets": 6
+    },
+    {
+      "application": "6. Regime Rebalance",
+      "avg_sharpe": 0.39990371045968204,
+      "avg_improvement": -0.0004759057025465428,
+      "consistency": 0.6666666666666666,
+      "n_assets": 6
+    },
+    {
+      "application": "1. Risk Budgeting",
+      "avg_sharpe": 0.3658136943752169,
+      "avg_improvement": -0.034565921787011664,
+      "consistency": 0.6666666666666666,
+      "n_assets": 6
+    },
+    {
+      "application": "2. SI-ADX Spread",
+      "avg_sharpe": 0.23490692677550143,
+      "avg_improvement": 0,
+      "consistency": 1.0,
+      "n_assets": 6
+    },
+    {
+      "application": "10. Entry Timing",
+      "avg_sharpe": 0.18511080272036748,
+      "avg_improvement": 0,
+      "consistency": 0.6666666666666666,
+      "n_assets": 6
+    },
+    {
+      "application": "3. Factor Timing",
+      "avg_sharpe": 0.18140457704413002,
+      "avg_improvement": 0.3673097573855461,
+      "consistency": 0.6666666666666666,
+      "n_assets": 6
+    },
+    {
+      "application": "4. Vol Forecasting",
+      "avg_sharpe": 0,
+      "avg_improvement": 0.03397355139998296,
+      "consistency": 0,
+      "n_assets": 0
+    },
+    {
+      "application": "7. Tail Hedge",
+      "avg_sharpe": 0,
+      "avg_improvement": 0,
+      "consistency": 0,
+      "n_assets": 0
+    },
+    {
+      "application": "9. Ensemble",
+      "avg_sharpe": 0,
+      "avg_improvement": -0.008354022943475613,
+      "consistency": 0,
+      "n_assets": 0
+    },
+    {
+      "application": "8. Cross-Asset",
+      "avg_sharpe": -0.199640836065651,
+      "avg_improvement": 0,
+      "consistency": 0.3333333333333333,
+      "n_assets": 3
+    }
+  ],
+  "detailed_results": {
+    "1. Risk Budgeting": {
+      "BTCUSDT": {
+        "baseline_sharpe": 0.5013444465154179,
+        "strategy_sharpe": 0.5759876342869374,
+        "improvement": 0.07464318777151957,
+        "max_dd": -0.7347310921188971,
+        "calmar": 0.38195625322629545
+      },
+      "ETHUSDT": {
+        "baseline_sharpe": 0.47630886478651596,
+        "strategy_sharpe": 0.5414361910944835,
+        "improvement": 0.06512732630796753,
+        "max_dd": -0.8015647644985259,
+        "calmar": 0.4489124247751045
+      },
+      "SPY": {
+        "baseline_sharpe": 0.8437264281638626,
+        "strategy_sharpe": 0.7747152219360396,
+        "improvement": -0.06901120622782297,
+        "max_dd": -0.28703870118557673,
+        "calmar": 0.4535329870957394
+      },
+      "QQQ": {
+        "baseline_sharpe": 0.6992390464498164,
+        "strategy_sharpe": 0.6171527400978334,
+        "improvement": -0.082086306351983,
+        "max_dd": -0.3408894262246651,
+        "calmar": 0.4238081958354532
+      },
+      "EURUSD": {
+        "baseline_sharpe": -0.07611878502159876,
+        "strategy_sharpe": -0.16535221404927058,
+        "improvement": -0.08923342902767183,
+        "max_dd": -0.23053523976191315,
+        "calmar": -0.05502797185577921
+      },
+      "GBPUSD": {
+        "baseline_sharpe": -0.042222303920642565,
+        "strategy_sharpe": -0.14905740711472185,
+        "improvement": -0.10683510319407928,
+        "max_dd": -0.22201766070334084,
+        "calmar": -0.05795237623239244
+      }
+    },
+    "2. SI-ADX Spread": {
+      "BTCUSDT": {
+        "strategy_sharpe": 0.22549083544662576,
+        "max_dd": -0.4787305269458658,
+        "n_trades": 47,
+        "win_rate": 0.09672040022234575
+      },
+      "ETHUSDT": {
+        "strategy_sharpe": 0.23315377581311308,
+        "max_dd": -0.6179229690190013,
+        "n_trades": 55,
+        "win_rate": 0.1217342968315731
+      },
+      "SPY": {
+        "strategy_sharpe": 0.15131310738865061,
+        "max_dd": -0.13792150832527017,
+        "n_trades": 28,
+        "win_rate": 0.08462164361269324
+      },
+      "QQQ": {
+        "strategy_sharpe": 0.4542582083541198,
+        "max_dd": -0.16973812410873124,
+        "n_trades": 33,
+        "win_rate": 0.10089503661513426
+      },
+      "EURUSD": {
+        "strategy_sharpe": 0.08237304155170654,
+        "max_dd": -0.05669055967695402,
+        "n_trades": 29,
+        "win_rate": 0.07855459544383346
+      },
+      "GBPUSD": {
+        "strategy_sharpe": 0.26285259209879275,
+        "max_dd": -0.09345516119270159,
+        "n_trades": 41,
+        "win_rate": 0.1021209740769835
+      }
+    },
+    "3. Factor Timing": {
+      "BTCUSDT": {
+        "baseline_sharpe": -0.46056489639675735,
+        "strategy_sharpe": -0.1259536500208771,
+        "improvement": 0.33461124637588024,
+        "max_dd": -0.7375459166416407
+      },
+      "ETHUSDT": {
+        "baseline_sharpe": -0.10418824740115504,
+        "strategy_sharpe": 0.2190914092300149,
+        "improvement": 0.32327965663117,
+        "max_dd": -0.7023039728173176
+      },
+      "SPY": {
+        "baseline_sharpe": -0.36748174734225014,
+        "strategy_sharpe": 0.48581003664911826,
+        "improvement": 0.8532917839913684,
+        "max_dd": -0.23066635259187274
+      },
+      "QQQ": {
+        "baseline_sharpe": 0.02653608811667915,
+        "strategy_sharpe": 0.26690363438897013,
+        "improvement": 0.24036754627229098,
+        "max_dd": -0.24058695856469892
+      },
+      "EURUSD": {
+        "baseline_sharpe": -0.17502798129897154,
+        "strategy_sharpe": -0.00291528681220342,
+        "improvement": 0.1721126944867681,
+        "max_dd": -0.11590534769246963
+      },
+      "GBPUSD": {
+        "baseline_sharpe": -0.034704297726041625,
+        "strategy_sharpe": 0.2454913188297573,
+        "improvement": 0.28019561655579894,
+        "max_dd": -0.10198180116863997
+      }
+    },
+    "4. Vol Forecasting": {
+      "BTCUSDT": {
+        "rmse_baseline": 0.006287579099604945,
+        "rmse_si": 0.0061246763984660595,
+        "improvement_pct": 2.5908652369736473,
+        "si_coef": 0.0278886369559844
+      },
+      "ETHUSDT": {
+        "rmse_baseline": 0.011516955780034872,
+        "rmse_si": 0.01101228423319276,
+        "improvement_pct": 4.3819873626412855,
+        "si_coef": 0.018859599140930453
+      },
+      "SPY": {
+        "rmse_baseline": 0.003571416089519009,
+        "rmse_si": 0.003475213858285976,
+        "improvement_pct": 2.6936718887322124,
+        "si_coef": 0.004958818132891372
+      },
+      "QQQ": {
+        "rmse_baseline": 0.004282500318966346,
+        "rmse_si": 0.004151852543899837,
+        "improvement_pct": 3.0507359097650575,
+        "si_coef": 0.015497799865913233
+      },
+      "EURUSD": {
+        "rmse_baseline": 0.0012895525195917236,
+        "rmse_si": 0.0012411450418793864,
+        "improvement_pct": 3.753819792284473,
+        "si_coef": 0.004449273461706423
+      },
+      "GBPUSD": {
+        "rmse_baseline": 0.0011171521259195774,
+        "rmse_si": 0.0010734373973993383,
+        "improvement_pct": 3.913050649593103,
+        "si_coef": 0.008403047211738422
+      }
+    },
+    "5. Dynamic Stop": {
+      "BTCUSDT": {
+        "baseline_sharpe": 0.552294961743116,
+        "strategy_sharpe": 0.48241499471094673,
+        "improvement": -0.06987996703216925,
+        "stops_triggered_baseline": 5,
+        "stops_triggered_dynamic": 8
+      },
+      "ETHUSDT": {
+        "baseline_sharpe": 0.47787423069241136,
+        "strategy_sharpe": 0.4982362179901608,
+        "improvement": 0.020361987297749462,
+        "stops_triggered_baseline": 2,
+        "stops_triggered_dynamic": 8
+      },
+      "SPY": {
+        "baseline_sharpe": 0.9043327066783596,
+        "strategy_sharpe": 0.8221102929321489,
+        "improvement": -0.08222241374621075,
+        "stops_triggered_baseline": 9,
+        "stops_triggered_dynamic": 12
+      },
+      "QQQ": {
+        "baseline_sharpe": 0.7540499224968197,
+        "strategy_sharpe": 0.7262454451718964,
+        "improvement": -0.027804477324923305,
+        "stops_triggered_baseline": 6,
+        "stops_triggered_dynamic": 15
+      },
+      "EURUSD": {
+        "baseline_sharpe": -0.0913688728696037,
+        "strategy_sharpe": -0.08914257744018919,
+        "improvement": 0.002226295429414507,
+        "stops_triggered_baseline": 1,
+        "stops_triggered_dynamic": 2
+      },
+      "GBPUSD": {
+        "baseline_sharpe": -0.03690047953260747,
+        "strategy_sharpe": -0.04009664618051675,
+        "improvement": -0.003196166647909275,
+        "stops_triggered_baseline": 1,
+        "stops_triggered_dynamic": 2
+      }
+    },
+    "6. Regime Rebalance": {
+      "BTCUSDT": {
+        "baseline_sharpe": 0.5013444465154179,
+        "strategy_sharpe": 0.5971625841851098,
+        "improvement": 0.09581813766969194,
+        "max_dd_baseline": -0.7662925431645939,
+        "max_dd_strategy": -0.6148941522129214,
+        "n_rebalances": 516
+      },
+      "ETHUSDT": {
+        "baseline_sharpe": 0.47630886478651596,
+        "strategy_sharpe": 0.5576801685135274,
+        "improvement": 0.08137130372701146,
+        "max_dd_baseline": -0.7930253453633336,
+        "max_dd_strategy": -0.6766994195575053,
+        "n_rebalances": 599
+      },
+      "SPY": {
+        "baseline_sharpe": 0.8437264281638626,
+        "strategy_sharpe": 0.8538349178632566,
+        "improvement": 0.010108489699394041,
+        "max_dd_baseline": -0.24496386686202498,
+        "max_dd_strategy": -0.21136804190842806,
+        "n_rebalances": 344
+      },
+      "QQQ": {
+        "baseline_sharpe": 0.6992390464498164,
+        "strategy_sharpe": 0.5995960859343341,
+        "improvement": -0.09964296051548227,
+        "max_dd_baseline": -0.3511871952873966,
+        "max_dd_strategy": -0.27314723618526293,
+        "n_rebalances": 345
+      },
+      "EURUSD": {
+        "baseline_sharpe": -0.07611878502159876,
+        "strategy_sharpe": -0.10111283719527092,
+        "improvement": -0.024994052173672163,
+        "max_dd_baseline": -0.2165794152258944,
+        "max_dd_strategy": -0.17510681962788954,
+        "n_rebalances": 371
+      },
+      "GBPUSD": {
+        "baseline_sharpe": -0.042222303920642565,
+        "strategy_sharpe": -0.10773865654286482,
+        "improvement": -0.06551635262222226,
+        "max_dd_baseline": -0.24596113181151202,
+        "max_dd_strategy": -0.1738207210836169,
+        "n_rebalances": 409
+      }
+    },
+    "7. Tail Hedge": {
+      "BTCUSDT": {
+        "unhedged_sharpe": 0.5013444465154179,
+        "hedged_sharpe": 0.5200250057819469,
+        "tail_loss_unhedged": -0.06884812846984743,
+        "tail_loss_hedged": -0.06319833275866904,
+        "tail_protection_pct": -8.20617181141353
+      },
+      "ETHUSDT": {
+        "unhedged_sharpe": 0.47630886478651596,
+        "hedged_sharpe": 0.4916216060724546,
+        "tail_loss_unhedged": -0.0899583497482783,
+        "tail_loss_hedged": -0.08306378769276436,
+        "tail_protection_pct": -7.6641713357418375
+      },
+      "SPY": {
+        "unhedged_sharpe": 0.8437264281638626,
+        "hedged_sharpe": 0.8647229765689016,
+        "tail_loss_unhedged": -0.024757745136634222,
+        "tail_loss_hedged": -0.02243126507232584,
+        "tail_protection_pct": -9.396978809939657
+      },
+      "QQQ": {
+        "unhedged_sharpe": 0.6992390464498164,
+        "hedged_sharpe": 0.7018874603398257,
+        "tail_loss_unhedged": -0.032706645383120944,
+        "tail_loss_hedged": -0.030053063852267047,
+        "tail_protection_pct": -8.113279426153996
+      },
+      "EURUSD": {
+        "unhedged_sharpe": -0.07611878502159876,
+        "hedged_sharpe": -0.058701179632389175,
+        "tail_loss_unhedged": -0.010382393686384692,
+        "tail_loss_hedged": -0.009476799519378562,
+        "tail_protection_pct": -8.722402505249944
+      },
+      "GBPUSD": {
+        "unhedged_sharpe": -0.042222303920642565,
+        "hedged_sharpe": -0.045158519380062975,
+        "tail_loss_unhedged": -0.012126020883658863,
+        "tail_loss_hedged": -0.01113944688388823,
+        "tail_protection_pct": -8.136007757500634
+      }
+    },
+    "8. Cross-Asset": {
+      "BTCUSDT-ETHUSDT": {
+        "strategy_sharpe": -0.6731156325541594,
+        "max_dd": -0.47711116038684664,
+        "n_trades": 121
+      },
+      "SPY-QQQ": {
+        "strategy_sharpe": -0.23857489093660125,
+        "max_dd": -0.039538966250444396,
+        "n_trades": 71
+      },
+      "EURUSD-GBPUSD": {
+        "strategy_sharpe": 0.3127680152938076,
+        "max_dd": -0.027885355320210303,
+        "n_trades": 70
+      }
+    },
+    "9. Ensemble": {
+      "BTCUSDT": {
+        "si_only_sharpe": 0.5459914461383434,
+        "ensemble_sharpe": 0.33916778630552663,
+        "improvement": -0.20682365983281675,
+        "max_dd": -0.4916241078107323
+      },
+      "ETHUSDT": {
+        "si_only_sharpe": 0.534258768270139,
+        "ensemble_sharpe": 0.5249717259110266,
+        "improvement": -0.009287042359112374,
+        "max_dd": -0.46191188041317155
+      },
+      "SPY": {
+        "si_only_sharpe": 0.8457164059944249,
+        "ensemble_sharpe": 0.9244533413124736,
+        "improvement": 0.0787369353180487,
+        "max_dd": -0.08678425445157689
+      },
+      "QQQ": {
+        "si_only_sharpe": 0.7263400096752562,
+        "ensemble_sharpe": 0.692115316645882,
+        "improvement": -0.034224693029374254,
+        "max_dd": -0.08772989320223545
+      },
+      "EURUSD": {
+        "si_only_sharpe": -0.13877624804548747,
+        "ensemble_sharpe": -0.14121545237236177,
+        "improvement": -0.0024392043268743058,
+        "max_dd": -0.09427634894899839
+      },
+      "GBPUSD": {
+        "si_only_sharpe": -0.1544630362478877,
+        "ensemble_sharpe": -0.0305495096786124,
+        "improvement": 0.1239135265692753,
+        "max_dd": -0.08560129402427685
+      }
+    },
+    "10. Entry Timing": {
+      "BTCUSDT": {
+        "strategy_sharpe": 0.5739175492889239,
+        "strong_buy_edge": 0.009602835313148771,
+        "buy_edge": 0.0047520492625834,
+        "avoid_edge": -0.011491210558371856,
+        "max_dd": -0.45499218673079944
+      },
+      "ETHUSDT": {
+        "strategy_sharpe": 0.307107088876286,
+        "strong_buy_edge": 0.013676391237721925,
+        "buy_edge": -0.0049957510368368934,
+        "avoid_edge": 0.0010958645391653402,
+        "max_dd": -0.6883024614517819
+      },
+      "SPY": {
+        "strategy_sharpe": 0.3469784692443137,
+        "strong_buy_edge": 0.011690089616471035,
+        "buy_edge": -0.0034147437071605155,
+        "avoid_edge": 0.003902254841904332,
+        "max_dd": -0.2573427991593894
+      },
+      "QQQ": {
+        "strategy_sharpe": 0.25776264266886467,
+        "strong_buy_edge": 0.00825699929193061,
+        "buy_edge": 0.00645084250973884,
+        "avoid_edge": 0.00505319214094371,
+        "max_dd": -0.24000501932424734
+      },
+      "EURUSD": {
+        "strategy_sharpe": -0.21690584114728653,
+        "strong_buy_edge": -0.003413287955141775,
+        "buy_edge": -0.0007149745097109911,
+        "avoid_edge": 0.0006480994910721686,
+        "max_dd": -0.17514651163254336
+      },
+      "GBPUSD": {
+        "strategy_sharpe": -0.15819509260889683,
+        "strong_buy_edge": -0.0007572550570541959,
+        "buy_edge": -0.0018624366466098781,
+        "avoid_edge": 0.0018490895299932177,
+        "max_dd": -0.1221455598078851
+      }
+    }
+  }
+}
