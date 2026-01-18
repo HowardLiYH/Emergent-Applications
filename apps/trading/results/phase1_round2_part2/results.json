@@ -1,0 +1,331 @@
+{
+  "timestamp": "2026-01-18T00:03:50.922982",
+  "discoveries": [
+    "SI trajectory is highly complex in BTCUSDT (24 extrema/window)",
+    "SI trajectory is highly complex in SPY (25 extrema/window)",
+    "SI trajectory is highly complex in EURUSD (25 extrema/window)",
+    "SI decorrelates quickly in BTCUSDT (half-life=3 days)",
+    "SI decorrelates quickly in SPY (half-life=3 days)",
+    "SI decorrelates quickly in EURUSD (half-life=3 days)",
+    "volatility \u2192 SI (unidirectional causality) in BTCUSDT",
+    "momentum \u2192 SI (unidirectional causality) in BTCUSDT",
+    "volatility \u2192 SI (unidirectional causality) in SPY",
+    "momentum \u2192 SI (unidirectional causality) in SPY",
+    "volatility \u2192 SI (unidirectional causality) in EURUSD",
+    "SI sweet spot at p90 in BTCUSDT (Sharpe=1.33)",
+    "SI sweet spot at p10 in SPY (Sharpe=1.63)",
+    "SI sweet spot at p90 in EURUSD (Sharpe=2.35)"
+  ],
+  "results": {
+    "tda_proxy": {
+      "BTCUSDT": {
+        "mean_complexity": 4.595561146181454,
+        "std_complexity": 0.7011871019591707,
+        "mean_extrema_per_window": 23.931818181818183
+      },
+      "SPY": {
+        "mean_complexity": 4.995414904700855,
+        "std_complexity": 0.6821413432447385,
+        "mean_extrema_per_window": 25.322033898305083
+      },
+      "EURUSD": {
+        "mean_complexity": 4.884010082219843,
+        "std_complexity": 0.6356312077365481,
+        "mean_extrema_per_window": 25.37704918032787
+      }
+    },
+    "acf": {
+      "BTCUSDT": {
+        "acf_lag1": 0.8434894491019391,
+        "acf_lag5": 0.11448750497820427,
+        "acf_lag10": 0.014283325563165479,
+        "acf_lag20": 0.023613916596544417,
+        "half_life": 3,
+        "decorrelation_lag": 6
+      },
+      "SPY": {
+        "acf_lag1": 0.8632658747755662,
+        "acf_lag5": 0.1678524576059158,
+        "acf_lag10": -0.11952592533668478,
+        "acf_lag20": -0.09974928823395224,
+        "half_life": 3,
+        "decorrelation_lag": 6
+      },
+      "EURUSD": {
+        "acf_lag1": 0.8676427533329707,
+        "acf_lag5": 0.1828985915524894,
+        "acf_lag10": -0.05598477541309794,
+        "acf_lag20": -0.007271444823328144,
+        "half_life": 3,
+        "decorrelation_lag": 7
+      }
+    },
+    "causal_graph": {
+      "BTCUSDT": {
+        "adx": {
+          "si_causes_feat": "True",
+          "si_causes_feat_p": 1.8200239820826335e-12,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.004534405393168953
+        },
+        "rsi_extremity": {
+          "si_causes_feat": "True",
+          "si_causes_feat_p": 0.012018219042411208,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 4.982911625195088e-06
+        },
+        "volatility": {
+          "si_causes_feat": "False",
+          "si_causes_feat_p": 0.08289908192284123,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.0010575531863102996
+        },
+        "momentum": {
+          "si_causes_feat": "False",
+          "si_causes_feat_p": 0.7757117902968105,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.01966475995234911
+        }
+      },
+      "SPY": {
+        "adx": {
+          "si_causes_feat": "True",
+          "si_causes_feat_p": 3.592786757886149e-22,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.02370369168672806
+        },
+        "rsi_extremity": {
+          "si_causes_feat": "True",
+          "si_causes_feat_p": 0.017077149569240984,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 2.3329544760037508e-05
+        },
+        "volatility": {
+          "si_causes_feat": "False",
+          "si_causes_feat_p": 0.13467759500332083,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.0011574442455658444
+        },
+        "momentum": {
+          "si_causes_feat": "False",
+          "si_causes_feat_p": 0.08726628278795238,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.0018247398232528035
+        }
+      },
+      "EURUSD": {
+        "adx": {
+          "si_causes_feat": "True",
+          "si_causes_feat_p": 3.164674086891134e-14,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.00048024939557991786
+        },
+        "rsi_extremity": {
+          "si_causes_feat": "True",
+          "si_causes_feat_p": 0.018326092286710925,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 0.0002816417802435811
+        },
+        "volatility": {
+          "si_causes_feat": "False",
+          "si_causes_feat_p": 0.13124999780274554,
+          "feat_causes_si": "True",
+          "feat_causes_si_p": 1.2480372586738936e-08
+        },
+        "momentum": {
+          "si_causes_feat": "False",
+          "si_causes_feat_p": 0.6063606261427325,
+          "feat_causes_si": "False",
+          "feat_causes_si_p": 0.3778789518285467
+        }
+      }
+    },
+    "asymmetry": {
+      "BTCUSDT": {
+        "mean_si_pos_returns": 0.01951717918426149,
+        "mean_si_neg_returns": 0.018902333577521288,
+        "std_si_pos_returns": 0.010412761932735881,
+        "std_si_neg_returns": 0.010715487654318753,
+        "asymmetry": 0.0006148456067402025,
+        "interpretation": "Higher SI in up days"
+      },
+      "SPY": {
+        "mean_si_pos_returns": 0.022339882425127817,
+        "mean_si_neg_returns": 0.02196793306110246,
+        "std_si_pos_returns": 0.011244907632687637,
+        "std_si_neg_returns": 0.01109726461409969,
+        "asymmetry": 0.00037194936402535836,
+        "interpretation": "Higher SI in up days"
+      },
+      "EURUSD": {
+        "mean_si_pos_returns": 0.02211092781441617,
+        "mean_si_neg_returns": 0.022132611236927897,
+        "std_si_pos_returns": 0.011637529003562973,
+        "std_si_neg_returns": 0.011832632803300736,
+        "asymmetry": -2.16834225117285e-05,
+        "interpretation": "Higher SI in down days"
+      }
+    },
+    "threshold_effects": {
+      "BTCUSDT": {
+        "p10": {
+          "count": 181,
+          "mean_ret_ann": 0.1385327051917714,
+          "sharpe": 0.28140004892485765
+        },
+        "p25": {
+          "count": 270,
+          "mean_ret_ann": -0.340371360817541,
+          "sharpe": -0.7129685986706084
+        },
+        "p50": {
+          "count": 451,
+          "mean_ret_ann": -0.05057600921576519,
+          "sharpe": -0.10383636384354267
+        },
+        "p75": {
+          "count": 451,
+          "mean_ret_ann": 0.5893251500802505,
+          "sharpe": 1.2979971132350352
+        },
+        "p90": {
+          "count": 270,
+          "mean_ret_ann": 0.6080770794297508,
+          "sharpe": 1.3273754657527064
+        },
+        "p100": {
+          "count": 181,
+          "mean_ret_ann": 0.22575183994982176,
+          "sharpe": 0.4991556320347662
+        }
+      },
+      "SPY": {
+        "p10": {
+          "count": 124,
+          "mean_ret_ann": 0.3744608104313981,
+          "sharpe": 1.6293279132976144
+        },
+        "p25": {
+          "count": 185,
+          "mean_ret_ann": 0.12287266606683803,
+          "sharpe": 0.7007989093915556
+        },
+        "p50": {
+          "count": 308,
+          "mean_ret_ann": 0.08448473814555307,
+          "sharpe": 0.4846544370160537
+        },
+        "p75": {
+          "count": 308,
+          "mean_ret_ann": 0.17171407169685765,
+          "sharpe": 1.0829348359746012
+        },
+        "p90": {
+          "count": 185,
+          "mean_ret_ann": 0.08264259430107875,
+          "sharpe": 0.5697628222437585
+        },
+        "p100": {
+          "count": 124,
+          "mean_ret_ann": 0.12869010843522494,
+          "sharpe": 0.8243751301926091
+        }
+      },
+      "EURUSD": {
+        "p10": {
+          "count": 128,
+          "mean_ret_ann": -0.1443596843011075,
+          "sharpe": -2.0927476646828818
+        },
+        "p25": {
+          "count": 192,
+          "mean_ret_ann": 0.11009869711047345,
+          "sharpe": 1.3411604864968447
+        },
+        "p50": {
+          "count": 319,
+          "mean_ret_ann": 0.010976110509601029,
+          "sharpe": 0.14079403208701186
+        },
+        "p75": {
+          "count": 319,
+          "mean_ret_ann": -0.06413438657280923,
+          "sharpe": -0.8702071069786721
+        },
+        "p90": {
+          "count": 192,
+          "mean_ret_ann": 0.17225292639959688,
+          "sharpe": 2.346263601820742
+        },
+        "p100": {
+          "count": 128,
+          "mean_ret_ann": -0.2053896551581197,
+          "sharpe": -3.1413503548479764
+        }
+      }
+    },
+    "vol_of_vol": {
+      "BTCUSDT": {
+        "mean_si_vol": 0.008957886609069795,
+        "mean_vol_of_vol": 0.0013924914226611533,
+        "vol_of_vol_ratio": 0.15544865473640468
+      },
+      "SPY": {
+        "mean_si_vol": 0.009724077522810775,
+        "mean_vol_of_vol": 0.0015924428384056118,
+        "vol_of_vol_ratio": 0.16376286950305094
+      },
+      "EURUSD": {
+        "mean_si_vol": 0.00991038873471522,
+        "mean_vol_of_vol": 0.0015765527242008867,
+        "vol_of_vol_ratio": 0.15908081573817193
+      }
+    },
+    "interaction": {
+      "BTCUSDT": {
+        "r_si_returns": 0.024463110150579948,
+        "r_mom_returns": -0.027245717325631257,
+        "r_interaction_returns": 0.014754816800713668,
+        "p_interaction": 0.5318103211194958
+      },
+      "SPY": {
+        "r_si_returns": -0.008693009460278029,
+        "r_mom_returns": -0.04584576137562304,
+        "r_interaction_returns": 0.012879329195168801,
+        "p_interaction": 0.652070830156256
+      },
+      "EURUSD": {
+        "r_si_returns": -0.017570269144062005,
+        "r_mom_returns": -0.04107432958595365,
+        "r_interaction_returns": 0.01446987960268759,
+        "p_interaction": 0.6061411793683822
+      }
+    },
+    "moments": {
+      "BTCUSDT": {
+        "overall_skew": 0.571909101366878,
+        "overall_kurt": -0.4080124410485819,
+        "mean_rolling_skew": 0.5143000890700017,
+        "std_rolling_skew": 0.29308143880010507,
+        "mean_rolling_kurt": -0.31989261329406293,
+        "std_rolling_kurt": 0.6912373002354657
+      },
+      "SPY": {
+        "overall_skew": 0.22556934935123663,
+        "overall_kurt": -0.8662720610732522,
+        "mean_rolling_skew": 0.19384037921579006,
+        "std_rolling_skew": 0.2853156526639662,
+        "mean_rolling_kurt": -0.8154389045936031,
+        "std_rolling_kurt": 0.3842518426059044
+      },
+      "EURUSD": {
+        "overall_skew": 0.271946266793381,
+        "overall_kurt": -0.8960406118948923,
+        "mean_rolling_skew": 0.3236062574380632,
+        "std_rolling_skew": 0.29969107579021576,
+        "mean_rolling_kurt": -0.7488428983288263,
+        "std_rolling_kurt": 0.551067373518963
+      }
+    }
+  }
+}

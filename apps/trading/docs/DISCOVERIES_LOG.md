@@ -336,3 +336,21 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - SI is multifractal in EURUSD (ΔH=0.735)
 - SI dropped 27% during Crypto_Crash_2022 in BTCUSDT
 - 3/6 tests remain significant after FDR correction
+
+
+## Phase 1 Round 2 Part 2 - 2026-01-18 00:03
+
+- SI trajectory is highly complex in BTCUSDT (24 extrema/window)
+- SI trajectory is highly complex in SPY (25 extrema/window)
+- SI trajectory is highly complex in EURUSD (25 extrema/window)
+- SI decorrelates quickly in BTCUSDT (half-life=3 days)
+- SI decorrelates quickly in SPY (half-life=3 days)
+- SI decorrelates quickly in EURUSD (half-life=3 days)
+- volatility → SI (unidirectional causality) in BTCUSDT
+- momentum → SI (unidirectional causality) in BTCUSDT
+- volatility → SI (unidirectional causality) in SPY
+- momentum → SI (unidirectional causality) in SPY
+- volatility → SI (unidirectional causality) in EURUSD
+- SI sweet spot at p90 in BTCUSDT (Sharpe=1.33)
+- SI sweet spot at p10 in SPY (Sharpe=1.63)
+- SI sweet spot at p90 in EURUSD (Sharpe=2.35)
