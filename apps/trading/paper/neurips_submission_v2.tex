@@ -29,6 +29,7 @@
 \usepackage{amsthm}
 \usepackage{multirow}
 \usepackage{enumitem}
+\usepackage{float}  % For [H] placement specifier
 
 % Theorem environments
 \newtheorem{theorem}{Theorem}
@@ -477,7 +478,7 @@ By assumption (A3), the fitness differential ensures continued entropy reduction
 \section{Additional Experimental Details}
 \label{app:experiments}
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{Hyperparameter settings and sensitivity analysis.}
 \label{tab:hyperparams}
 \centering
@@ -496,7 +497,7 @@ Random seed & 42 & --- & Low \\
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{Walk-forward validation results for SPY (15 quarterly windows).}
 \label{tab:walkforward}
 \centering
@@ -526,7 +527,7 @@ Random seed & 42 & --- & Low \\
 \section{Algorithm Details}
 \label{app:algorithm}
 
-\begin{algorithm}[h]
+\begin{algorithm}[H]
 \caption{Fitness-Proportional Competition (Replicator Dynamics)}
 \label{alg:niche}
 \begin{algorithmic}[1]
@@ -550,7 +551,7 @@ Random seed & 42 & --- & Low \\
 \section{Experimental Setup Details}
 \label{app:setup}
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{Data sources and experimental configuration.}
 \label{tab:setup}
 \centering
@@ -572,7 +573,7 @@ Forex & EUR/USD, GBP/USD & 2021-01 to 2026-01 & Daily & OANDA \\
 \section{Ablation Study Details}
 \label{app:ablation}
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{Ablation study: impact of mechanism parameters on SI-ADX correlation and cointegration.}
 \label{tab:ablation}
 \centering
@@ -600,7 +601,7 @@ d\SI_t = \theta(\mu - \SI_t)dt + \sigma dB_t^H
 \end{equation}
 where $B^H$ is fractional Brownian motion with Hurst parameter $H$.
 
-\begin{table}[h]
+\begin{table}[H]
 \caption{Fitted fOU parameters across assets. All fits significant at $p < 0.01$.}
 \label{tab:fou}
 \centering
@@ -625,7 +626,7 @@ The mean-reversion speed $\theta \approx 0.14$ implies half-life $\tau_{1/2} = \
 
 To illustrate the Blind Synchronization Effect in a controlled setting, we construct a simple two-niche environment with deterministic regime switching (Figure~\ref{fig:toy}).
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/toy_example.png}
 \caption{\textbf{Toy Example of SI Emergence.} (a) SI rises from 0 to $\sim$0.98 as replicators specialize; colored regions show regime alternation. (b) Individual replicator affinities oscillate with regimes. (c) SI-regime correlation increases with observation window. (d) Larger fitness differential $\Delta$ accelerates SI convergence.}
