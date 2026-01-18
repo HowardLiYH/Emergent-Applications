@@ -73,35 +73,35 @@ def simulate_replicator_dynamics(n_agents=100, n_niches=5, T=500, seed=42):
     Simulate replicator dynamics and track SI evolution.
     """
     np.random.seed(seed)
-    
+
     # Initialize uniform affinities
     affinities = np.ones((n_agents, n_niches)) / n_niches
-    
+
     # Track SI over time
     si_history = []
     entropy_history = []
-    
+
     for t in range(T):
         # Generate niche fitness (with occasional regime changes)
         if t % 50 == 0:
             dominant_niche = np.random.randint(n_niches)
-        
+
         fitness = np.random.uniform(0.8, 1.2, n_niches)
         fitness[dominant_niche] *= 1.5  # Dominant niche has higher fitness
-        
+
         # Replicator dynamics update
         weighted_fitness = affinities * fitness
         total_fitness = weighted_fitness.sum(axis=1, keepdims=True)
         affinities = weighted_fitness / (total_fitness + 1e-10)
-        
+
         # Compute SI
         entropy = -np.sum(affinities * np.log(affinities + 1e-10), axis=1)
         normalized_entropy = entropy / np.log(n_niches)
         si = 1 - normalized_entropy.mean()
-        
+
         si_history.append(si)
         entropy_history.append(normalized_entropy.mean())
-    
+
     return np.array(si_history), np.array(entropy_history)
 
 # Run simulation

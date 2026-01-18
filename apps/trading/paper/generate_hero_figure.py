@@ -126,13 +126,13 @@ ax2 = fig.add_subplot(2, 2, 2)
 ax2_twin = ax2.twinx()
 
 # Price (gray, background)
-ax2_twin.plot(price_aligned.index, price_aligned.values, 
+ax2_twin.plot(price_aligned.index, price_aligned.values,
               color='#95a5a6', alpha=0.3, linewidth=1, label='SPY Price')
 ax2_twin.set_ylabel('SPY Price ($)', color='#95a5a6')
 ax2_twin.tick_params(axis='y', labelcolor='#95a5a6')
 
 # SI (blue, foreground)
-ax2.plot(si_aligned.index, si_aligned.values, 
+ax2.plot(si_aligned.index, si_aligned.values,
          color='#3498db', linewidth=1.5, label='SI')
 ax2.fill_between(si_aligned.index, 0, si_aligned.values, alpha=0.2, color='#3498db')
 ax2.set_ylabel('Specialization Index (SI)', color='#3498db')
@@ -146,7 +146,7 @@ crisis_periods = [
 ]
 for start, end, label in crisis_periods:
     if start in price_aligned.index.astype(str).values:
-        ax2.axvspan(pd.Timestamp(start), pd.Timestamp(end), 
+        ax2.axvspan(pd.Timestamp(start), pd.Timestamp(end),
                     alpha=0.2, color='#e74c3c', label=f'{label} Crisis')
 
 ax2.set_xlabel('Date')
@@ -157,14 +157,14 @@ ax2.legend(loc='upper left', fontsize=8)
 ax3 = fig.add_subplot(2, 2, 3)
 
 # Scatter plot with regression line
-ax3.scatter(adx_aligned.values, si_aligned.values, 
+ax3.scatter(adx_aligned.values, si_aligned.values,
             alpha=0.3, s=10, c='#3498db', edgecolors='none')
 
 # Regression line
 z = np.polyfit(adx_aligned.values, si_aligned.values, 1)
 p = np.poly1d(z)
 x_line = np.linspace(adx_aligned.min(), adx_aligned.max(), 100)
-ax3.plot(x_line, p(x_line), color='#e74c3c', linewidth=2, 
+ax3.plot(x_line, p(x_line), color='#e74c3c', linewidth=2,
          label=f'r = {np.corrcoef(adx_aligned, si_aligned)[0,1]:.3f}')
 
 ax3.set_xlabel('ADX (Trend Strength)')
@@ -173,9 +173,9 @@ ax3.set_title('(c) SI-ADX Cointegration (p < 0.0001)', fontsize=12, weight='bold
 ax3.legend(loc='upper left', fontsize=10)
 
 # Add cointegration annotation
-ax3.text(0.95, 0.05, 'Engle-Granger:\np < 0.0001', 
+ax3.text(0.95, 0.05, 'Engle-Granger:\np < 0.0001',
          transform=ax3.transAxes, ha='right', va='bottom',
-         fontsize=9, style='italic', 
+         fontsize=9, style='italic',
          bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
 
 # Panel D: Phase Transition (Short vs Long-term correlation)
@@ -195,7 +195,7 @@ for freq in frequencies:
     else:
         correlations.append(np.nan)
 
-ax4.bar(range(len(frequencies)), correlations, 
+ax4.bar(range(len(frequencies)), correlations,
         color=['#e74c3c' if c < 0 else '#2ecc71' for c in correlations],
         alpha=0.8, edgecolor='black', linewidth=0.5)
 ax4.axhline(y=0, color='black', linestyle='-', linewidth=0.5)
@@ -203,12 +203,12 @@ ax4.set_xticks(range(len(frequencies)))
 ax4.set_xticklabels([f'{f}d' for f in frequencies], rotation=45)
 ax4.set_xlabel('Rolling Window (days)')
 ax4.set_ylabel('SI-ADX Correlation')
-ax4.set_title('(d) Phase Transition: Short-term Negative → Long-term Positive', 
+ax4.set_title('(d) Phase Transition: Short-term Negative → Long-term Positive',
               fontsize=12, weight='bold', pad=10)
 
 # Add phase transition annotation
 ax4.axvline(x=4, color='#9b59b6', linestyle='--', linewidth=2, alpha=0.7)
-ax4.text(4.2, max(correlations)*0.9, '~30 day\nthreshold', 
+ax4.text(4.2, max(correlations)*0.9, '~30 day\nthreshold',
          fontsize=9, color='#9b59b6', weight='bold')
 
 # Adjust layout
@@ -217,7 +217,7 @@ plt.subplots_adjust(hspace=0.3, wspace=0.3)
 
 # Save figure
 Path("paper/figures").mkdir(parents=True, exist_ok=True)
-fig.savefig("paper/figures/hero_figure.png", dpi=300, bbox_inches='tight', 
+fig.savefig("paper/figures/hero_figure.png", dpi=300, bbox_inches='tight',
             facecolor='white', edgecolor='none')
 fig.savefig("paper/figures/hero_figure.pdf", bbox_inches='tight',
             facecolor='white', edgecolor='none')
