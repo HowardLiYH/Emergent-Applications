@@ -25,9 +25,10 @@ We demonstrate that agents competing via simple fitness-proportional updates (re
 |---|---------|----------|-------------|
 | **1** | SI is a **lagging indicator** | Transfer Entropy ratio = 0.6 | Use for risk management, not prediction |
 | **2** | SI-ADX are **cointegrated** | p < 0.0001 across 11 assets | Tradeable mean-reversion strategy |
-| **3** | SI has **long memory** | Hurst H = 0.83-0.87 | Regimes persist for weeks |
-| **4** | **Phase transition** at 30 days | r = -0.05 (short) → +0.35 (long) | Only monthly+ SI is meaningful |
-| **5** | SI improves **Sharpe by 14%** | Walk-forward validated | Practical risk-sizing application |
+| **3** | SI has **long memory** + **local mean reversion** | Hurst H = 0.83, τ₁/₂ ≈ 5 days | Regimes persist but correct within a week |
+| **4** | **RSI Extremity** is strongest correlate | r = 0.24 (stronger than ADX!) | SI captures market extremes |
+| **5** | **Phase transition** at 30 days | r = -0.05 (short) → +0.35 (long) | Only monthly+ SI is meaningful |
+| **6** | SI improves **Sharpe by 14%** | Walk-forward validated | Practical risk-sizing application |
 
 ---
 
@@ -161,11 +162,13 @@ python paper/theorem_proof.py
 
 ### Main Results
 
-| Asset | SI-ADX Corr | Cointegration | Hurst H | Sharpe Improvement |
-|-------|-------------|---------------|---------|-------------------|
-| SPY | 0.127 | p < 0.0001 | 0.866 | +14% |
-| BTC | 0.133 | p < 0.0001 | 0.831 | +16% |
-| EUR | 0.145 | p < 0.0001 | 0.861 | +7% |
+| Asset | SI-ADX r | SI-RSI_ext r | Coint. p | Hurst H | τ₁/₂ (days) | Sharpe Δ |
+|-------|----------|--------------|----------|---------|-------------|----------|
+| SPY | 0.127 | **0.238** | < 0.0001 | 0.866 | 5.1 | +14% |
+| BTC | 0.133 | **0.243** | < 0.0001 | 0.831 | 4.4 | +16% |
+| EUR | 0.145 | **0.251** | < 0.0001 | 0.861 | 5.3 | +7% |
+
+*Note: RSI_ext = |RSI - 50| measures market extremity. τ₁/₂ is mean-reversion half-life.*
 
 ### Honest Limitations
 - SI is **lagging** (not predictive)
