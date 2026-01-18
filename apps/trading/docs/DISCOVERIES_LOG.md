@@ -255,3 +255,28 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - High SI periods have lower volatility in SPY (15.5% vs 20.4%)
 - SI negatively correlates with market entropy in SPY (r=-0.167) - THEORY CONFIRMED
 - SI negatively correlates with market entropy in EURUSD (r=-0.146) - THEORY CONFIRMED
+
+
+## Phase 1 Advanced Stats - 2026-01-17 23:20
+
+- adx predicts SI (TE ratio=0.63) in BTCUSDT
+- adx predicts SI (TE ratio=0.61) in SPY
+- volatility predicts SI (TE ratio=0.46) in SPY
+- adx predicts SI (TE ratio=0.61) in EURUSD
+- volatility predicts SI (TE ratio=0.56) in EURUSD
+- Asymmetric tail dependence SI-rsi_extremity in BTCUSDT (L=0.13, U=0.31)
+- Asymmetric tail dependence SI-rsi_extremity in SPY (L=0.12, U=0.39)
+- Asymmetric tail dependence SI-rsi_extremity in EURUSD (L=0.16, U=0.31)
+- SI-ADX relationship varies by quantile in BTCUSDT (Δβ=0.174)
+- SI and adx are cointegrated in BTCUSDT (long-run equilibrium)
+- SI and rsi_extremity are cointegrated in BTCUSDT (long-run equilibrium)
+- SI and adx are cointegrated in SPY (long-run equilibrium)
+- SI and rsi_extremity are cointegrated in SPY (long-run equilibrium)
+- SI and adx are cointegrated in EURUSD (long-run equilibrium)
+- SI and rsi_extremity are cointegrated in EURUSD (long-run equilibrium)
+- SI-ADX significantly positive in BTCUSDT (CI: [0.020, 0.215])
+- SI-ADX significantly positive in EURUSD (CI: [0.047, 0.268])
+- Frequent SI regime changes in BTCUSDT (39 breaks)
+- Frequent SI regime changes in SPY (29 breaks)
+- Frequent SI regime changes in EURUSD (28 breaks)
+- SI-ADX relationship robustly positive in EURUSD (83% of windows)
