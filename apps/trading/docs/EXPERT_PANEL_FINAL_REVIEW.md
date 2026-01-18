@@ -1,8 +1,8 @@
 # Expert Panel Final Review
 
-**Date**: January 17, 2026  
-**Project**: SI Signal Discovery from Emergent Specialization  
-**Status**: Pre-submission review  
+**Date**: January 17, 2026
+**Project**: SI Signal Discovery from Emergent Specialization
+**Status**: Pre-submission review
 
 ---
 

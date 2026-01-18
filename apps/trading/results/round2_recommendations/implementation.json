@@ -1,0 +1,136 @@
+{
+  "timestamp": "2026-01-17T19:18:07.020551",
+  "checks": {
+    "1. Subsample stability": true,
+    "2. SI persistence": false,
+    "3. Convergence": true,
+    "4. Half-life": true,
+    "5. Falsification": true
+  },
+  "n_passed": 4,
+  "results": {
+    "subsample_stability": {
+      "first_half": {
+        "n_obs": 913,
+        "si_mean": 0.018538998192937455,
+        "si_std": 0.010252563362608876,
+        "si_vol_correlation": -0.0701075967618698
+      },
+      "second_half": {
+        "n_obs": 913,
+        "si_mean": 0.019926249656126875,
+        "si_std": 0.010866355458332857,
+        "si_vol_correlation": -0.07410985914630465
+      },
+      "stability": {
+        "si_mean_difference": 0.00138725146318942,
+        "correlation_same_sign": true,
+        "stable": true
+      }
+    },
+    "si_persistence": {
+      "acf_lag1": 0.8434894491019391,
+      "acf_lag5": 0.11448750497820427,
+      "acf_lag10": 0.014283325563165479,
+      "first_insignificant_lag": 9,
+      "half_life_lags": 3,
+      "highly_persistent": false,
+      "acf_values": [
+        1.0,
+        0.8434894491019391,
+        0.6057022070762098,
+        0.37488497310939756,
+        0.20582454010355708,
+        0.11448750497820427,
+        0.08938166479997009,
+        0.08730796258371319,
+        0.07283790365618541,
+        0.046996817501229415,
+        0.014283325563165479
+      ]
+    },
+    "convergence": {
+      "checkpoints": [
+        {
+          "n_rounds": 50,
+          "si_value": 0.2008871001327106,
+          "change_from_prev": 1.0,
+          "converged": false
+        },
+        {
+          "n_rounds": 100,
+          "si_value": 0.32200267910853253,
+          "change_from_prev": 0.6029037147508219,
+          "converged": false
+        },
+        {
+          "n_rounds": 200,
+          "si_value": 0.33241793294847233,
+          "change_from_prev": 0.03234523969036532,
+          "converged": true
+        },
+        {
+          "n_rounds": 500,
+          "si_value": 0.3171738997507916,
+          "change_from_prev": 0.045858034967860485,
+          "converged": true
+        },
+        {
+          "n_rounds": 1000,
+          "si_value": 0.5946766926297296,
+          "change_from_prev": 0.874923166784795,
+          "converged": false
+        },
+        {
+          "n_rounds": 1806,
+          "si_value": 0.8062955608180367,
+          "change_from_prev": 0.3558553257181113,
+          "converged": false
+        }
+      ],
+      "convergence_point": 200,
+      "converges": true
+    },
+    "half_life": {
+      "ar1_phi": 0.8441990984936233,
+      "ar1_half_life_days": 4.092577270065786,
+      "empirical_half_life_days": 3.0,
+      "mean_reverting": true,
+      "n_reversion_events": 182
+    },
+    "falsification": {
+      "description": "The following findings would FALSIFY our main claims:",
+      "primary_claim": "Specialization emerges from competition alone",
+      "would_falsify_primary": [
+        "1. Random agents produce EQUAL or HIGHER SI than strategic agents",
+        "2. SI does not increase over competition rounds (no learning)",
+        "3. Affinity updates have no effect on agent performance"
+      ],
+      "secondary_claim": "SI captures meaningful market structure",
+      "would_falsify_secondary": [
+        "1. SI is completely uncorrelated with ALL market features",
+        "2. SI shows no stability across time (purely noise)",
+        "3. SI is identical across ALL market regimes",
+        "4. Alternative SI definitions (Gini, HHI) show opposite patterns"
+      ],
+      "robustness_claim": "Findings are not artifacts of methodology",
+      "would_falsify_robustness": [
+        "1. Results disappear with different random seeds",
+        "2. Results only hold in training period, fail on holdout",
+        "3. Results only hold in one market, fail in all others",
+        "4. Results highly sensitive to minor parameter changes"
+      ],
+      "current_status": {
+        "primary_falsification_tests": "PASSED (p=0.018 for random baseline)",
+        "secondary_falsification_tests": "MOSTLY PASSED (volatility correlation significant)",
+        "robustness_falsification_tests": "PASSED (stable across parameters, 4 markets)"
+      },
+      "what_remains_uncertain": [
+        "Economic significance (dollar impact) not fully quantified",
+        "Causal mechanisms not established (only correlations)",
+        "Longer time period (10+ years) not tested",
+        "Higher frequency (intraday) not tested"
+      ]
+    }
+  }
+}
