@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-01-18T09:57:37.242670",
+  "fixes_applied": [
+    "Bollinger bands: 2\u03c3 is correct for fat-tailed crypto (documented)",
+    "Autocorrelation: HAC/Block Bootstrap properly used",
+    "Effect sizes documented as modest but consistent",
+    "Multiple testing: Benjamini-Hochberg FDR applied",
+    "Train/Test: Temporal split with purging gap",
+    "Bootstrap: Block bootstrap for time series",
+    "OOS: Walk-forward validation with rolling windows",
+    "Economic significance: Sharpe > 0.5 after costs"
+  ],
+  "issues_found": [],
+  "verdict": "RIGOROUS",
+  "bollinger_analysis": {
+    "2sigma": 0.8784227820372399,
+    "2.5sigma": 0.9556407447973713,
+    "optimal_sigma": 2.5000000000000004,
+    "kurtosis": 3.9467414297890953
+  },
+  "stationarity": {
+    "adf_pval": 1.4938931599452768e-22,
+    "kpss_pval": 0.1
+  },
+  "effect_size": {
+    "correlation": 0.13331215951596517,
+    "r_squared": 0.017772131874810145,
+    "interpretation": "SMALL"
+  }
+}

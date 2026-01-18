@@ -31,6 +31,45 @@ from src.data.loader_v2 import DataLoaderV2, MarketType
 
 # Reproducibility
 RANDOM_SEED = 42
+
+# Purging gap to prevent data leakage
+PURGE_DAYS = 7  # Gap between train and test to account for feature lookback
+
+
+# HAC Standard Errors for autocorrelated data
+def hac_standard_error(x, max_lag=None):
+    """
+    Newey-West HAC standard error estimator.
+    Accounts for autocorrelation in time series.
+    """
+    n = len(x)
+    if max_lag is None:
+        max_lag = int(np.floor(4 * (n / 100) ** (2/9)))  # Optimal lag
+    
+    x = np.array(x)
+    x_demeaned = x - np.mean(x)
+    
+    # Variance term
+    gamma_0 = np.sum(x_demeaned ** 2) / n
+    
+    # Autocovariance terms with Bartlett weights
+    weighted_sum = 0
+    for j in range(1, max_lag + 1):
+        weight = 1 - j / (max_lag + 1)  # Bartlett kernel
+        gamma_j = np.sum(x_demeaned[j:] * x_demeaned[:-j]) / n
+        weighted_sum += 2 * weight * gamma_j
+    
+    hac_var = gamma_0 + weighted_sum
+    return np.sqrt(hac_var / n)
+
+
+def hac_tstat(x):
+    """Compute t-statistic using HAC standard errors."""
+    mean = np.mean(x)
+    se = hac_standard_error(x)
+    return mean / se if se > 0 else 0
+
+
 np.random.seed(RANDOM_SEED)
 
 # ============================================================
@@ -64,6 +103,48 @@ N_BOOTSTRAP = 1000
 # ============================================================
 # UTILITY FUNCTIONS
 # ============================================================
+
+# Block Bootstrap for time series with autocorrelation
+def block_bootstrap_sharpe(returns, n_boot=1000, block_size=None, alpha=0.05):
+    """
+    Block bootstrap for Sharpe ratio CI.
+    Uses non-overlapping blocks to preserve autocorrelation structure.
+    
+    Args:
+        returns: Array of returns
+        n_boot: Number of bootstrap samples
+        block_size: Size of each block (default: sqrt(n))
+        alpha: Significance level for CI
+    
+    Returns:
+        dict with mean, ci_lower, ci_upper, prob_positive
+    """
+    n = len(returns)
+    if block_size is None:
+        block_size = max(5, int(np.sqrt(n)))  # Rule of thumb
+    
+    n_blocks = n // block_size
+    sharpes = []
+    
+    for _ in range(n_boot):
+        # Sample blocks with replacement
+        block_indices = np.random.randint(0, n - block_size + 1, n_blocks)
+        sample = np.concatenate([returns[i:i+block_size] for i in block_indices])
+        
+        if len(sample) > 0 and np.std(sample) > 0:
+            sharpe = np.mean(sample) / np.std(sample) * np.sqrt(252)
+            sharpes.append(sharpe)
+    
+    sharpes = np.array(sharpes)
+    return {
+        'mean': float(np.mean(sharpes)),
+        'ci_lower': float(np.percentile(sharpes, 100 * alpha / 2)),
+        'ci_upper': float(np.percentile(sharpes, 100 * (1 - alpha / 2))),
+        'prob_positive': float(np.mean(sharpes > 0)),
+        'n_samples': len(sharpes)
+    }
+
+
 
 def compute_si_full_data(data: pd.DataFrame, window: int = 7) -> pd.Series:
     """
