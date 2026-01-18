@@ -1,0 +1,310 @@
+{
+  "timestamp": "2026-01-18T00:33:14.035058",
+  "results": {
+    "window_optimization": {
+      "BTCUSDT": {
+        "best_window": 7,
+        "best_sharpe": 0.5258342084597492
+      },
+      "SPY": {
+        "best_window": 7,
+        "best_sharpe": 0.7836954270115783
+      },
+      "EURUSD": {
+        "best_window": 21,
+        "best_sharpe": 0.030684793535617007
+      }
+    },
+    "scaling_optimization": {
+      "BTCUSDT": {
+        "best_scaling": "threshold",
+        "best_sharpe": 0.6059145267208959,
+        "all": {
+          "linear": {
+            "sharpe": 0.5258342084597492,
+            "turnover": 31.2939210272814
+          },
+          "quantile_5": {
+            "sharpe": 0.5215116358756058,
+            "turnover": 29.406988352745426
+          },
+          "quantile_3": {
+            "sharpe": 0.5185088659763429,
+            "turnover": 24.971713810316132
+          },
+          "sigmoid_3": {
+            "sharpe": 0.5103032491496025,
+            "turnover": 21.07425569795141
+          },
+          "sigmoid_5": {
+            "sharpe": 0.5388272562614583,
+            "turnover": 30.249260641153985
+          },
+          "threshold": {
+            "sharpe": 0.6059145267208959,
+            "turnover": 37.597337770382694
+          }
+        }
+      },
+      "SPY": {
+        "best_scaling": "threshold",
+        "best_sharpe": 0.8343283575264668,
+        "all": {
+          "linear": {
+            "sharpe": 0.7836954270115783,
+            "turnover": 27.045787405065166
+          },
+          "quantile_5": {
+            "sharpe": 0.756251113848605,
+            "turnover": 25.34306569343066
+          },
+          "quantile_3": {
+            "sharpe": 0.8252812150735437,
+            "turnover": 24.253041362530407
+          },
+          "sigmoid_3": {
+            "sharpe": 0.8173292860132371,
+            "turnover": 18.088407797375243
+          },
+          "sigmoid_5": {
+            "sharpe": 0.7962132259144697,
+            "turnover": 25.684369055156818
+          },
+          "threshold": {
+            "sharpe": 0.8343283575264668,
+            "turnover": 34.131386861313864
+          }
+        }
+      },
+      "EURUSD": {
+        "best_scaling": "threshold",
+        "best_sharpe": 0.11058694271289535,
+        "all": {
+          "linear": {
+            "sharpe": 0.030684793535617007,
+            "turnover": 11.813769211269989
+          },
+          "quantile_5": {
+            "sharpe": 0.01211479049594345,
+            "turnover": 10.973871733966746
+          },
+          "quantile_3": {
+            "sharpe": 0.05849126780099447,
+            "turnover": 9.44418052256532
+          },
+          "sigmoid_3": {
+            "sharpe": 0.015954757445659704,
+            "turnover": 7.828744831846572
+          },
+          "sigmoid_5": {
+            "sharpe": 0.02934570026031623,
+            "turnover": 10.9863501442303
+          },
+          "threshold": {
+            "sharpe": 0.11058694271289535,
+            "turnover": 15.163895486935868
+          }
+        }
+      }
+    },
+    "lookback_optimization": {
+      "BTCUSDT": {
+        "best_lookback": 120,
+        "best_sharpe": 0.6298274250139116
+      },
+      "SPY": {
+        "best_lookback": 30,
+        "best_sharpe": 0.8703381230287215
+      },
+      "EURUSD": {
+        "best_lookback": 30,
+        "best_sharpe": 0.1643166694150899
+      }
+    },
+    "bounds_optimization": {
+      "BTCUSDT": {
+        "best_bounds": [
+          0.0,
+          2.0
+        ],
+        "best_sharpe": 0.5592176740083851
+      },
+      "SPY": {
+        "best_bounds": [
+          0.8,
+          1.2
+        ],
+        "best_sharpe": 0.8341430195181887
+      },
+      "EURUSD": {
+        "best_bounds": [
+          0.0,
+          2.0
+        ],
+        "best_sharpe": 0.06907384548877897
+      }
+    },
+    "vol_target_combination": {
+      "BTCUSDT": {
+        "si_only": {
+          "sharpe": 0.5258342084597492,
+          "sortino": 0.739154482967357,
+          "calmar": 0.34499413516875216,
+          "max_dd": -0.7347310921188968,
+          "ann_return": 0.25347791770715156,
+          "ann_vol": 0.48204912048158327
+        },
+        "si_plus_vol_target": {
+          "sharpe": 0.5539051327831533,
+          "sortino": 0.7780343724098808,
+          "calmar": 0.3064255892085254,
+          "max_dd": -0.4495464943920052,
+          "ann_return": 0.13775254942069726,
+          "ann_vol": 0.24869339760140044
+        },
+        "improvement": 0.02807092432340419
+      },
+      "SPY": {
+        "si_only": {
+          "sharpe": 0.7836954270115783,
+          "sortino": 1.040425543229463,
+          "calmar": 0.45910897535262724,
+          "max_dd": -0.2870387011855777,
+          "ann_return": 0.13178204398785953,
+          "ann_vol": 0.1681546675477954
+        },
+        "si_plus_vol_target": {
+          "sharpe": 0.7907023454559705,
+          "sortino": 1.0420037675115594,
+          "calmar": 0.611123913695231,
+          "max_dd": -0.20062095805670166,
+          "ann_return": 0.1226042650568983,
+          "ann_vol": 0.1550574192191079
+        },
+        "improvement": 0.007006918444392163
+      },
+      "EURUSD": {
+        "si_only": {
+          "sharpe": 0.030684793535617007,
+          "sortino": 0.04523885301952635,
+          "calmar": 0.011716123716742674,
+          "max_dd": -0.21001587442965475,
+          "ann_return": 0.0024605719672977293,
+          "ann_vol": 0.08018864342175384
+        },
+        "si_plus_vol_target": {
+          "sharpe": -0.08213628054221117,
+          "sortino": -0.11746544934215357,
+          "calmar": -0.03302457587708044,
+          "max_dd": -0.3309774341748124,
+          "ann_return": -0.01093038938850749,
+          "ann_vol": 0.13307626442726714
+        },
+        "improvement": -0.11282107407782818
+      }
+    },
+    "smoothing_optimization": {
+      "BTCUSDT": {
+        "best_halflife": 3,
+        "best_sharpe": 0.5331026743888041
+      },
+      "SPY": {
+        "best_halflife": 15,
+        "best_sharpe": 0.7892678228334887
+      },
+      "EURUSD": {
+        "best_halflife": 1,
+        "best_sharpe": 0.030684793535617007
+      }
+    },
+    "final_optimized": {
+      "BTCUSDT": {
+        "parameters": {
+          "si_window": 7,
+          "min_pos": 0.0,
+          "max_pos": 2.0,
+          "smoothing_halflife": 3
+        },
+        "optimized": {
+          "sharpe": 0.5958881191476298,
+          "sortino": 0.8571918417333749,
+          "calmar": 0.3910935421725817,
+          "max_dd": -0.7387496216992389,
+          "ann_return": 0.28892020632901005,
+          "ann_vol": 0.4848564638984366
+        },
+        "baseline": {
+          "sharpe": 0.4494024028226191,
+          "sortino": 0.63352599946821,
+          "calmar": 0.2757481081708185,
+          "max_dd": -0.7662925431645939,
+          "ann_return": 0.21130371908304207,
+          "ann_vol": 0.47018822720101144
+        },
+        "improvement": {
+          "sharpe": 0.14648571632501073,
+          "calmar": 0.11534543400176317
+        },
+        "turnover": 21.24775689701942
+      },
+      "SPY": {
+        "parameters": {
+          "si_window": 7,
+          "min_pos": 0.8,
+          "max_pos": 1.2,
+          "smoothing_halflife": 15
+        },
+        "optimized": {
+          "sharpe": 0.8273103759205989,
+          "sortino": 1.1322322068822865,
+          "calmar": 0.5697102401829786,
+          "max_dd": -0.248703949396212,
+          "ann_return": 0.14168918674497127,
+          "ann_vol": 0.1712648491653511
+        },
+        "baseline": {
+          "sharpe": 0.8492158771003171,
+          "sortino": 1.1676684209358859,
+          "calmar": 0.5932150993524026,
+          "max_dd": -0.2449638668620252,
+          "ann_return": 0.145316264618305,
+          "ann_vol": 0.1711181674022552
+        },
+        "improvement": {
+          "sharpe": -0.021905501179718234,
+          "calmar": -0.02350485916942402
+        },
+        "turnover": 1.1604188243663804
+      },
+      "EURUSD": {
+        "parameters": {
+          "si_window": 21,
+          "min_pos": 0.0,
+          "max_pos": 2.0,
+          "smoothing_halflife": 1
+        },
+        "optimized": {
+          "sharpe": 0.06907384548877897,
+          "sortino": 0.09371364708800765,
+          "calmar": 0.0304857975956069,
+          "max_dd": -0.2042071080400557,
+          "ann_return": 0.006225416563293369,
+          "ann_vol": 0.09012697236184262
+        },
+        "baseline": {
+          "sharpe": -0.033751909447338746,
+          "sortino": -0.052144561074706566,
+          "calmar": -0.011723222329856425,
+          "max_dd": -0.2165794152258933,
+          "ann_return": -0.002539008636763439,
+          "ann_vol": 0.0752256295521566
+        },
+        "improvement": {
+          "sharpe": 0.10282575493611772,
+          "calmar": 0.042209019925463324
+        },
+        "turnover": 23.627538422539974
+      }
+    }
+  }
+}
