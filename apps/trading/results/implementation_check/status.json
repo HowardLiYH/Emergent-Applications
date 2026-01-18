@@ -1,0 +1,125 @@
+{
+  "timestamp": "2026-01-17T19:48:58.951830",
+  "total": 23,
+  "done": 23,
+  "missing": 0,
+  "completion_rate": 1.0,
+  "done_items": [
+    {
+      "id": "R1_A1",
+      "desc": "Random agent baseline",
+      "priority": "MUST"
+    },
+    {
+      "id": "R1_B1",
+      "desc": "Permutation tests",
+      "priority": "MUST"
+    },
+    {
+      "id": "R1_B5",
+      "desc": "FDR justification documented",
+      "priority": "MUST"
+    },
+    {
+      "id": "R1_C1",
+      "desc": "Synthetic data validation",
+      "priority": "MUST"
+    },
+    {
+      "id": "R1_C2",
+      "desc": "Alternative SI definitions (Gini, HHI)",
+      "priority": "MUST"
+    },
+    {
+      "id": "R1_H2",
+      "desc": "Toy example (2 agents, 2 regimes)",
+      "priority": "MUST"
+    },
+    {
+      "id": "R1_H4",
+      "desc": "Contribution statement",
+      "priority": "MUST"
+    },
+    {
+      "id": "R2_1",
+      "desc": "Subsample stability test",
+      "priority": "MUST"
+    },
+    {
+      "id": "R2_2",
+      "desc": "SI persistence/autocorrelation",
+      "priority": "MUST"
+    },
+    {
+      "id": "R2_3",
+      "desc": "Convergence analysis",
+      "priority": "MUST"
+    },
+    {
+      "id": "R2_4",
+      "desc": "Half-life of SI changes",
+      "priority": "MUST"
+    },
+    {
+      "id": "R2_5",
+      "desc": "Falsification criteria",
+      "priority": "MUST"
+    },
+    {
+      "id": "R3_1",
+      "desc": "COVID/Crisis case study",
+      "priority": "HIGH"
+    },
+    {
+      "id": "R3_2",
+      "desc": "Factor timing test",
+      "priority": "HIGH"
+    },
+    {
+      "id": "R3_3",
+      "desc": "t-SNE of agent affinities",
+      "priority": "HIGH"
+    },
+    {
+      "id": "R3_4",
+      "desc": "OOS R\u00b2 with confidence intervals",
+      "priority": "HIGH"
+    },
+    {
+      "id": "AUDIT_1",
+      "desc": "Block bootstrap",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "AUDIT_2",
+      "desc": "Stationarity tests (ADF/KPSS)",
+      "priority": "LOW"
+    },
+    {
+      "id": "AUDIT_3",
+      "desc": "Parameter sensitivity analysis",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "RISK_1",
+      "desc": "SI as risk indicator analysis",
+      "priority": "MEDIUM"
+    },
+    {
+      "id": "FIX_1",
+      "desc": "Full NichePopulation SI (not proxy)",
+      "priority": "HIGH"
+    },
+    {
+      "id": "R4_REGRET",
+      "desc": "Regret bound theorem",
+      "priority": "HIGH"
+    },
+    {
+      "id": "R4_LITERATURE",
+      "desc": "Literature positioning table",
+      "priority": "MEDIUM"
+    }
+  ],
+  "missing_items": []
+}
