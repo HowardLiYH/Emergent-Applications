@@ -13,7 +13,7 @@
 | # | Discovery | Evidence | Implication |
 |---|-----------|----------|-------------|
 | 1 | **SI-ADX correlation consistent** | r=+0.137 across 9/9 assets | SI captures trend strength |
-| 2 | **SI Granger-causes ADX** | 100% of assets | SI is a leading indicator |
+| 2 | **ADX/Volatility Granger-causes SI** | TE ratio=0.6 | SI is a LAGGING indicator |
 | 3 | **RSI Extremity strongest correlate** | r=+0.246 (2x ADX) | Mathematical connection confirmed |
 | 4 | **MCI ≠ SI (not trivial)** | R²=0.050 | SI is emergent, not just price-based |
 | 5 | **SI half-life = 3 days** | Consistent across all assets | Trading window identified |
