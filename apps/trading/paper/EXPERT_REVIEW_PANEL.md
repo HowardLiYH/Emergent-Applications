@@ -1,7 +1,7 @@
 # Expert Review Panel: NeurIPS Paper Review
 
-**Date:** January 18, 2026  
-**Paper:** "Emergent Specialization from Competition Alone"  
+**Date:** January 18, 2026
+**Paper:** "Emergent Specialization from Competition Alone"
 **Reviewers:** 30 Professors + 20 Industry Experts
 
 ---
