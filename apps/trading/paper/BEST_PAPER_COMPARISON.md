@@ -66,7 +66,7 @@
 > 2. **Hero figure that tells the whole story** - yours is good but needs refinement
 > 3. **Clear 'so what'** - Hivemind says 'LLMs are homogenizing thought'. What do you say?
 > 4. **Scale** - your 11 assets feels like a case study, not a phenomenon discovery
-> 
+>
 > **Recommendation**: Rename the phenomenon. 'Emergent Market Echo' or 'Competitive Synchronization Effect' or something memorable."
 
 #### Prof. F (Evolutionary Game Theory, Oxford):
