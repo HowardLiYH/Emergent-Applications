@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  si-trading:
+    build: .
+    volumes:
+      - ./results:/app/results
+      - ./data:/app/data:ro
+    environment:
+      - PYTHONUNBUFFERED=1

@@ -1,7 +1,7 @@
 # Expert Panel Round 6: Brutally Honest Audit
 
-**Date**: January 17, 2026  
-**Purpose**: Independent, critical review with no bias  
+**Date**: January 17, 2026
+**Purpose**: Independent, critical review with no bias
 **Panel**: Fresh reviewers who haven't seen previous work
 
 ---
@@ -259,8 +259,8 @@
 | 6.0-6.9 (Major issues) | 5 | 17% |
 | <6.0 (Fundamental problems) | 1 | 3% |
 
-**Median: 7.5**  
-**Mean: 7.6**  
+**Median: 7.5**
+**Mean: 7.6**
 **Mode: 7.8**
 
 ---
@@ -298,7 +298,7 @@
 
 **Honest Score: 7.8/10**
 
-**Best Venue**: 
+**Best Venue**:
 - ICAIF (ACM International Conference on AI in Finance)
 - Journal of Financial Data Science
 - NeurIPS Workshop on ML for Finance

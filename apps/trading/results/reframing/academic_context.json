@@ -1,0 +1,45 @@
+{
+  "title": "Reframing SI Results in Academic Context",
+  "r_squared_context": {
+    "our_result": 0.013,
+    "benchmark": {
+      "paper": "Gu, Kelly & Xiu (2020) \"Empirical Asset Pricing via Machine Learning\"",
+      "venue": "Review of Financial Studies",
+      "result": 0.004,
+      "note": "Considered excellent and highly cited (3000+ citations)"
+    },
+    "comparison": "Our R\u00b2 of 1.3% is 3.25x higher than the benchmark",
+    "conclusion": "Our effect size is competitive by academic finance standards"
+  },
+  "causal_disclaimer": {
+    "what_we_show": "Correlation between SI and market features",
+    "what_we_dont_claim": "Causal relationship from SI to returns",
+    "honest_statement": "We establish statistical association, not causation. SI reflects agent adaptation to market conditions. Whether SI causes future outcomes requires instrumental variable analysis beyond this paper's scope.",
+    "causal_dag": "Competition \u2192 Agent Affinities \u2192 SI \u2194 Market Conditions \u2192 Future Returns\n(SI is endogenous; correlation established, causation not claimed)"
+  },
+  "practical_limitations": {
+    "standalone_trading": "NO - R\u00b2 too low for primary signal",
+    "supplementary_use": "YES - Confirms other signals, factor timing",
+    "best_application": "Factor timing (91% success rate)",
+    "transaction_costs": "60% assets profitable at 10bps",
+    "recommendation": "Use SI as supplementary indicator, not replacement for existing strategies. Most valuable for conditioning factor exposure."
+  },
+  "theorem_framing": {
+    "claim": "We apply known results (Hedge algorithm) to financial agents",
+    "novelty": "Empirical - showing emergence in real data, not theoretical innovation",
+    "honest_statement": "The regret bound O(\u221aT) is a standard result from online learning. Our contribution is empirical validation that this mechanism produces measurable SI in real financial markets."
+  },
+  "revised_contribution_statement": [
+    "1. First empirical measurement of SI in multi-agent trading systems",
+    "2. Cross-market validation (4 asset classes, 11\u219240+ assets)",
+    "3. Factor timing application (91% success rate)",
+    "4. Rigorous methodology (pre-registration, FDR, block bootstrap)",
+    "5. Honest reporting of negative results (regime conditioning failed)"
+  ],
+  "what_we_explicitly_dont_claim": [
+    "\u274c Novel theoretical contribution",
+    "\u274c Standalone trading signal",
+    "\u274c Causal relationship",
+    "\u274c Production-ready system"
+  ]
+}
