@@ -1,7 +1,7 @@
 # SI Application Testing Plan
 
-**Date:** January 18, 2026  
-**Author:** Yuhao Li, University of Pennsylvania  
+**Date:** January 18, 2026
+**Author:** Yuhao Li, University of Pennsylvania
 **Goal:** Test all 10 SI applications and select the best for thesis
 
 ---
@@ -85,7 +85,7 @@ C. Threshold: pos = 0.5 if SI < p25, 1.5 if SI > p75, else 1.0
 def test_risk_budgeting(data, si, variant='linear'):
     returns = data['close'].pct_change()
     si_rank = si.rank(pct=True)
-    
+
     if variant == 'linear':
         position = 0.5 + si_rank * 1.0
     elif variant == 'quantile':
@@ -95,7 +95,7 @@ def test_risk_budgeting(data, si, variant='linear'):
     elif variant == 'threshold':
         position = np.where(si_rank < 0.25, 0.5,
                    np.where(si_rank > 0.75, 1.5, 1.0))
-    
+
     strategy_returns = position.shift(1) * returns
     return apply_costs(strategy_returns, position, cost_rate)
 ```
@@ -131,17 +131,17 @@ Parameters to test:
 def test_si_adx_spread(data, si, adx, entry_z=2.0, exit_z=0.5, lookback=60):
     # Normalize ADX to SI scale
     adx_norm = adx / 100
-    
+
     # Compute spread
     spread = si - adx_norm
     spread_mean = spread.rolling(lookback).mean()
     spread_std = spread.rolling(lookback).std()
     z_score = (spread - spread_mean) / spread_std
-    
+
     # Generate signals
     position = pd.Series(0, index=data.index)
     in_trade = False
-    
+
     for i in range(1, len(z_score)):
         if not in_trade:
             if z_score.iloc[i] > entry_z:
@@ -156,7 +156,7 @@ def test_si_adx_spread(data, si, adx, entry_z=2.0, exit_z=0.5, lookback=60):
                 in_trade = False
             else:
                 position.iloc[i] = position.iloc[i-1]
-    
+
     returns = data['close'].pct_change()
     return position.shift(1) * returns
 ```
@@ -190,18 +190,18 @@ BASELINE: Always momentum, always mean-rev, 50/50 mix
 def test_factor_timing(data, si, threshold=0.5):
     returns = data['close'].pct_change()
     si_rank = si.rank(pct=True)
-    
+
     # Momentum signal (5-day return sign)
     momentum_signal = np.sign(data['close'].pct_change(5))
-    
+
     # Mean-reversion signal (RSI extremes)
     rsi = compute_rsi(data['close'], 14)
     meanrev_signal = np.where(rsi > 70, -1, np.where(rsi < 30, 1, 0))
-    
+
     # Combine based on SI
     position = np.where(si_rank > threshold, momentum_signal,
                 np.where(si_rank < (1-threshold), meanrev_signal, 0))
-    
+
     strategy_returns = pd.Series(position).shift(1) * returns
     return strategy_returns
 ```
@@ -233,25 +233,25 @@ def test_vol_forecasting(data, si):
     returns = data['close'].pct_change()
     realized_vol = returns.rolling(20).std()
     future_vol = realized_vol.shift(-1)  # Next day's vol
-    
+
     # Baseline: EWMA
     ewma_vol = returns.ewm(span=20).std()
-    
+
     # SI-enhanced
     from sklearn.linear_model import LinearRegression
     X = pd.concat([si, ewma_vol], axis=1).dropna()
     y = future_vol.loc[X.index]
-    
+
     # Train/test split
     split = int(len(X) * 0.7)
     model = LinearRegression()
     model.fit(X.iloc[:split], y.iloc[:split])
-    
+
     pred = model.predict(X.iloc[split:])
     rmse_si = np.sqrt(np.mean((pred - y.iloc[split:])**2))
     rmse_ewma = np.sqrt(np.mean((ewma_vol.iloc[split:] - y.iloc[split:])**2))
-    
-    return {'rmse_si': rmse_si, 'rmse_ewma': rmse_ewma, 
+
+    return {'rmse_si': rmse_si, 'rmse_ewma': rmse_ewma,
             'improvement': (rmse_ewma - rmse_si) / rmse_ewma}
 ```
 
@@ -283,16 +283,16 @@ TEST: Stop = ATR × f(SI_regime)
 def test_dynamic_stop(data, si, base_strategy_signals):
     atr = compute_atr(data, 14)
     si_rank = si.rank(pct=True)
-    
+
     # ATR multiplier based on SI
     multiplier = np.where(si_rank > 0.7, 1.5,
                  np.where(si_rank < 0.3, 3.0, 2.0))
     stop_distance = atr * multiplier
-    
+
     # Apply stops to base strategy
     returns = data['close'].pct_change()
     position = base_strategy_signals.copy()
-    
+
     for i in range(1, len(data)):
         if position.iloc[i-1] != 0:
             # Check if stop hit
@@ -301,7 +301,7 @@ def test_dynamic_stop(data, si, base_strategy_signals):
                 position.iloc[i] = 0  # Stopped out
             elif position.iloc[i-1] < 0 and price_change > stop_distance.iloc[i]:
                 position.iloc[i] = 0
-    
+
     return position.shift(1) * returns
 ```
 
@@ -335,20 +335,20 @@ ALLOCATION:
 def test_regime_rebalancing(equity_data, bond_data, si):
     equity_returns = equity_data['close'].pct_change()
     bond_returns = bond_data['close'].pct_change()
-    
+
     si_rank = si.rank(pct=True)
     regime = np.where(si_rank > 0.67, 'high',
              np.where(si_rank < 0.33, 'low', 'mid'))
-    
+
     # SI-based allocation
     equity_weight = np.where(regime == 'high', 0.7,
                     np.where(regime == 'low', 0.5, 0.6))
-    
+
     si_returns = equity_weight * equity_returns + (1 - equity_weight) * bond_returns
-    
+
     # Baseline: quarterly rebalance (60/40)
     baseline_returns = 0.6 * equity_returns + 0.4 * bond_returns
-    
+
     return {
         'si_sharpe': sharpe_ratio(si_returns),
         'baseline_sharpe': sharpe_ratio(baseline_returns),
@@ -384,24 +384,24 @@ TEST: Hedge = 5% × f(SI_percentile)
 def test_tail_hedge(data, si, hedge_returns):
     returns = data['close'].pct_change()
     si_rank = si.rank(pct=True)
-    
+
     # Hedge multiplier
     hedge_mult = np.where(si_rank < 0.1, 2.5,
                  np.where(si_rank < 0.25, 1.5,
                  np.where(si_rank > 0.75, 0.5, 1.0)))
-    
+
     base_hedge = 0.05
     hedge_weight = base_hedge * hedge_mult
     equity_weight = 1 - hedge_weight
-    
+
     # Portfolio returns
     portfolio = equity_weight * returns + hedge_weight * hedge_returns
-    
+
     # Metrics
     tail_events = returns < returns.quantile(0.05)
     portfolio_tail_loss = portfolio[tail_events].mean()
     baseline_tail_loss = returns[tail_events].mean()
-    
+
     return {
         'sharpe': sharpe_ratio(portfolio),
         'tail_protection': (baseline_tail_loss - portfolio_tail_loss) / abs(baseline_tail_loss),
@@ -435,21 +435,21 @@ TRADE: Long laggard, short leader when z > 2
 def test_cross_asset_momentum(data1, data2, si1, si2, lookback=60):
     returns1 = data1['close'].pct_change()
     returns2 = data2['close'].pct_change()
-    
+
     # SI spread
     si_spread = si1 - si2
     spread_mean = si_spread.rolling(lookback).mean()
     spread_std = si_spread.rolling(lookback).std()
     z_score = (si_spread - spread_mean) / spread_std
-    
+
     # Position: long asset2, short asset1 when z > 2
     position = np.where(z_score > 2, -1,
                np.where(z_score < -2, 1, 0))
-    
+
     # Relative returns
     relative_returns = returns1 - returns2
     strategy_returns = pd.Series(position).shift(1) * relative_returns
-    
+
     return strategy_returns
 ```
 
@@ -487,22 +487,22 @@ def test_ensemble(data, si, adx):
     sig1 = generate_risk_budgeting_signal(data, si)
     sig2 = generate_spread_signal(data, si, adx)
     sig3 = generate_factor_timing_signal(data, si)
-    
+
     signals = pd.DataFrame({'rb': sig1, 'spread': sig2, 'timing': sig3})
     returns = data['close'].pct_change()
-    
+
     # Equal weight ensemble
     equal_ensemble = signals.mean(axis=1)
-    
+
     # Correlation-weighted
     corr = signals.rolling(60).corr()
     # ... weight by inverse correlation
-    
+
     # Performance-weighted
     rolling_sharpe = signals.rolling(60).apply(sharpe_ratio)
     weights = rolling_sharpe / rolling_sharpe.sum(axis=1)
     perf_ensemble = (signals * weights).sum(axis=1)
-    
+
     return {
         'equal_sharpe': sharpe_ratio(equal_ensemble.shift(1) * returns),
         'perf_sharpe': sharpe_ratio(perf_ensemble.shift(1) * returns),
@@ -537,24 +537,24 @@ SIGNAL:
 def test_entry_timing(data, si):
     returns = data['close'].pct_change()
     si_rank = si.rank(pct=True)
-    
+
     # Price position
     high_20 = data['close'].rolling(20).max()
     low_20 = data['close'].rolling(20).min()
     price_pos = (data['close'] - low_20) / (high_20 - low_20)
-    
+
     # Entry signal
     signal = np.where((si_rank > 0.7) & (price_pos < 0.2), 2,    # Strong buy
              np.where((si_rank > 0.6) & (price_pos < 0.5), 1,     # Buy
              np.where((si_rank < 0.3) & (price_pos > 0.8), -1,    # Avoid
              np.where(si_rank < 0.3, 0, 0.5))))                   # Wait / Neutral
-    
+
     # Calculate returns for each signal type
     strategy_returns = pd.Series(signal).shift(1) * returns
-    
+
     # Track 5-day forward returns by signal
     fwd_5d = returns.rolling(5).sum().shift(-5)
-    
+
     return {
         'sharpe': sharpe_ratio(strategy_returns),
         'strong_buy_edge': fwd_5d[signal == 2].mean(),
@@ -663,5 +663,5 @@ results/application_testing/
 
 ---
 
-*Plan Created: January 18, 2026*  
+*Plan Created: January 18, 2026*
 *Author: Yuhao Li, University of Pennsylvania*

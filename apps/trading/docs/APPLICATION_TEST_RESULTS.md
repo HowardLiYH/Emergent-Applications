@@ -1,6 +1,6 @@
 # SI Application Test Results
 
-**Date:** January 18, 2026  
+**Date:** January 18, 2026
 **Author:** Yuhao Li, University of Pennsylvania
 
 ---

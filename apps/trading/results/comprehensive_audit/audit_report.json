@@ -1,0 +1,134 @@
+{
+  "timestamp": "2026-01-18T01:12:11.064880",
+  "total_audits": 15,
+  "passed": 15,
+  "failed": 0,
+  "total_issues": 0,
+  "total_warnings": 13,
+  "audits": [
+    {
+      "name": "Data Integrity: BTCUSDT",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Data Integrity: ETHUSDT",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Data Integrity: SPY",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Data Integrity: QQQ",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Data Integrity: EURUSD",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Data Integrity: GBPUSD",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Look-Ahead Bias Check",
+      "passed": true,
+      "issues": [],
+      "warnings": [
+        "Forward shift found but appears intentional for forward returns: .shift(-1)",
+        "Forward shift found but appears intentional for forward returns: .shift(-5)",
+        "SI may be computed on full data instead of train only",
+        "Rolling windows used - verify they're applied correctly",
+        "Low shift(1) count (11) relative to position usage (41)"
+      ],
+      "fixes_applied": []
+    },
+    {
+      "name": "SI Computation: BTCUSDT",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Return Calculation",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Transaction Costs",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    },
+    {
+      "name": "Statistical Significance",
+      "passed": true,
+      "issues": [],
+      "warnings": [
+        "Multiple testing: 60 tests - need FDR correction",
+        "Verify each test has sufficient sample size (>100 observations)",
+        "No confidence intervals computed - consider bootstrapping",
+        "No p-values computed - statistical significance not assessed"
+      ],
+      "fixes_applied": []
+    },
+    {
+      "name": "Overfitting Detection",
+      "passed": true,
+      "issues": [],
+      "warnings": [
+        "No out-of-sample testing detected",
+        "No walk-forward validation detected"
+      ],
+      "fixes_applied": []
+    },
+    {
+      "name": "Cross-Market Consistency",
+      "passed": true,
+      "issues": [],
+      "warnings": [
+        "3. Factor Timing: Inconsistent crypto signs"
+      ],
+      "fixes_applied": []
+    },
+    {
+      "name": "Application-Specific Checks",
+      "passed": true,
+      "issues": [],
+      "warnings": [
+        "Factor Timing: Momentum signal may be incorrect"
+      ],
+      "fixes_applied": []
+    },
+    {
+      "name": "Code Quality",
+      "passed": true,
+      "issues": [],
+      "warnings": [],
+      "fixes_applied": []
+    }
+  ],
+  "recommended_fixes": []
+}
