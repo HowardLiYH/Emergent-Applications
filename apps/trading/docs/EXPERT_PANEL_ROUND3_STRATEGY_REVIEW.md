@@ -1,8 +1,8 @@
 # Expert Panel Round 3: Strategy Review
 
-**Date**: January 17, 2026  
-**Purpose**: Review "Path to Best Paper" strategy and compare with Round 2 advice  
-**Focus**: Is the 9+ strategy correct? What are we missing?  
+**Date**: January 17, 2026
+**Purpose**: Review "Path to Best Paper" strategy and compare with Round 2 advice
+**Focus**: Is the 9+ strategy correct? What are we missing?
 
 ---
 
