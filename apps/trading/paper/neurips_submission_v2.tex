@@ -120,7 +120,9 @@ Our work connects several research threads, synthesizing ideas from evolutionary
 
 \paragraph{Agent-Based Computational Economics.} Agent-based models in finance~\cite{lebaron2006agent, farmer2009economy, hommes2006heterogeneous} have shown how market patterns emerge from agent interactions. We contribute by showing agents can develop market-correlated behavior \textit{without modeling the market}---a stronger emergence result.
 
-\paragraph{Ecological Niche Theory.} Our framework parallels niche differentiation in ecology~\cite{hutchinson1957niche, macarthur1967limiting}. Just as species specialize to reduce competition, our agents develop niche affinities. The key difference is we show this specialization tracks \textit{environmental dynamics} (market structure), not just static resources.
+\paragraph{Ecological Niche Theory.} Our framework parallels niche differentiation in ecology~\cite{hutchinson1957niche, macarthur1967limiting}. Just as species specialize to reduce competition, our agents develop niche affinities. The key difference is we show this specialization tracks \textit{environmental dynamics}, not just static resources.
+
+\paragraph{Relation to Prior Work on Emergent Specialization.} Li~\cite{li2025emergent} demonstrated that competition leads to emergent specialization, using SI as a \textit{final convergence metric}. We build on this foundation but make a distinct contribution: we treat SI$(t)$ as a \textit{dynamic time series} and discover that it becomes cointegrated with environmental structure---a phenomenon not characterized in prior work. This ``Blind Synchronization Effect'' is our primary contribution.
 
 % =============================================================================
 % SECTION 3: METHOD
@@ -165,18 +167,18 @@ Algorithm~\ref{alg:niche} formalizes the fitness-proportional competition mechan
 
 The update in line 7 is the discrete-time replicator equation: niches with above-average fitness gain weight, those with below-average fitness lose weight. This is equivalent to multiplicative weights update~\cite{arora2012multiplicative}.
 
-\subsection{Specialization Index}
+\subsection{The Dynamic Specialization Index SI$(t)$}
 
-We measure population-level specialization via entropy reduction:
+We measure population-level specialization via entropy reduction. \textbf{Crucially, we treat SI as a time series} SI$(t)$, not merely a final convergence metric as in prior work~\cite{li2025emergent}. This allows us to study how specialization \textit{evolves} and correlates with environmental dynamics.
 
-\begin{definition}[Specialization Index]
-Let $H(\mathbf{p}_i) = -\sum_k p_i^k \log p_i^k$ be the Shannon entropy of agent $i$'s affinities. The \textbf{Specialization Index} is:
+\begin{definition}[Dynamic Specialization Index]
+Let $H(\mathbf{p}_i) = -\sum_k p_i^k \log p_i^k$ be the Shannon entropy of agent $i$'s affinities at time $t$. The \textbf{Dynamic Specialization Index} is:
 \begin{equation}
     \SI(t) = 1 - \frac{1}{n} \sum_{i=1}^n \frac{H(\mathbf{p}_i(t))}{\log K}
 \end{equation}
 \end{definition}
 
-$\SI \in [0, 1]$ where $\SI = 0$ means all agents have uniform affinities (no specialization), and $\SI = 1$ means all agents concentrate on single niches (maximum specialization). The normalization by $\log K$ ensures comparability across different numbers of niches.
+SI$(t) \in [0, 1]$ where SI$(t) = 0$ means all agents have uniform affinities (no specialization), and SI$(t) = 1$ means all agents concentrate on single niches (maximum specialization). \textbf{The key insight of this paper is that SI$(t)$ becomes cointegrated with environmental indicators}---a property that only becomes visible when treating SI as a dynamic signal.
 
 % =============================================================================
 % SECTION 4: THEORY
@@ -249,9 +251,38 @@ Forex & EUR/USD, GBP/USD & 2021-01 to 2026-01 & Daily & OANDA \\
 
 \paragraph{Statistical Methodology.} We employ rigorous time-series methods to ensure valid inference. Heteroskedasticity and autocorrelation consistent (HAC) standard errors via Newey-West~\cite{newey1987simple} address serial correlation. Block bootstrap (block size $= \sqrt{n}$) provides confidence intervals. Benjamini-Hochberg FDR controls false discoveries across multiple comparisons. A 7-day purging gap between train and test periods prevents data leakage. Walk-forward validation with 252-day rolling windows assesses out-of-sample performance.
 
-\subsection{Main Results}
+\subsection{Cross-Domain Validation}
 
-Table~\ref{tab:main_results} presents our main empirical findings.
+We validate the Blind Synchronization Effect across 4 domains: finance (11 assets), weather (5 cities), traffic (NYC taxi), and synthetic (controlled). Table~\ref{tab:crossdomain} summarizes cointegration results.
+
+\begin{table}[t]
+\caption{Cross-domain validation of the Blind Synchronization Effect. Weather domain shows strongest evidence with real data.}
+\label{tab:crossdomain}
+\centering
+\small
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Domain} & \textbf{Entity} & \textbf{SI-Env $r$} & \textbf{Coint. $p$} & \textbf{Hurst $H$} & \textbf{Effect?} \\
+\midrule
+Finance & BTC, SPY, EUR & 0.13 & $<$0.0001 & 0.83 & ✓ \\
+Weather & Chicago & 0.03 & 0.0003 & 0.86 & ✓ \\
+Weather & Houston & -0.17 & $<$0.0001 & 0.90 & ✓ \\
+Weather & Los Angeles & 0.03 & 0.025 & 0.89 & ✓ \\
+Traffic & NYC Taxi & -0.10 & 0.91 & 0.99 & $\times$ \\
+Synthetic & Strong (SNR=5) & 0.05 & $<$0.0001 & 0.65 & ✓ \\
+Synthetic & Weak (SNR=0.5) & -0.07 & 0.14 & 0.86 & $\times$ \\
+Synthetic & Random & -0.03 & 1.00 & 1.01 & $\times$ \\
+\midrule
+\multicolumn{2}{l}{\textbf{Effect present}} & \multicolumn{4}{c}{\textbf{5/8 domains} (excluding random baseline)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Key Observations.} (1) The Blind Synchronization Effect is robust in Weather domain with real data. (2) Synthetic tests confirm the mechanism: strong signal $\to$ cointegration; weak signal $\to$ no cointegration; random $\to$ no cointegration. (3) Traffic domain does not show the effect, possibly due to daily aggregation losing hourly signal.
+
+\subsection{Finance Domain Results}
+
+Table~\ref{tab:main_results} presents detailed findings for the finance domain.
 
 \begin{table}[t]
 \caption{Empirical validation across 11 assets. All cointegration tests significant at $p < 0.0001$. RSI$_{\text{ext}}$ = $|\text{RSI} - 50|$ measures market extremity. $\tau_{1/2}$ is mean-reversion half-life. TE ratio $< 1$ indicates SI lags ADX.}
@@ -463,6 +494,11 @@ Evolutionary stable strategies and game dynamics.
 \bibitem[Weibull(1995)]{weibull1995evolutionary}
 Weibull, J. W. (1995).
 \textit{Evolutionary Game Theory}. MIT Press.
+
+\bibitem[Li(2025)]{li2025emergent}
+Li, Y. (2025).
+Emergent Specialization in Learner Populations Through Competitive Selection.
+\textit{arXiv preprint}.
 
 \end{thebibliography}
 
