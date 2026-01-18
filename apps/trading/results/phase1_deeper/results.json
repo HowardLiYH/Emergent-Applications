@@ -1,0 +1,145 @@
+{
+  "timestamp": "2026-01-17T23:12:06.418070",
+  "discoveries": [
+    "SI distribution is skewed in BTCUSDT (skew=0.572)",
+    "High SI periods have lower volatility in SPY (15.5% vs 20.4%)",
+    "SI negatively correlates with market entropy in SPY (r=-0.167) - THEORY CONFIRMED",
+    "SI negatively correlates with market entropy in EURUSD (r=-0.146) - THEORY CONFIRMED"
+  ],
+  "results": {
+    "distribution": {
+      "BTCUSDT": {
+        "mean": 0.019208223524808103,
+        "std": 0.010567510646277624,
+        "min": 0.0010941204679725258,
+        "max": 0.04664904815066029,
+        "skewness": 0.5723848773153983,
+        "kurtosis": -0.4058134473235402,
+        "range": 0.04555492768268776
+      },
+      "SPY": {
+        "mean": 0.022188765257160646,
+        "std": 0.011179279967752554,
+        "min": 0.0011635897315120936,
+        "max": 0.04664904815066029,
+        "skewness": 0.22584374609403723,
+        "kurtosis": -0.8649154067252227,
+        "range": 0.045485458419148195
+      },
+      "EURUSD": {
+        "mean": 0.022131046423072682,
+        "std": 0.011726277244159837,
+        "min": 0.0011001186130692453,
+        "max": 0.04664904815066029,
+        "skewness": 0.2722656816812261,
+        "kurtosis": -0.8948475159514615,
+        "range": 0.04554892953759104
+      }
+    },
+    "dynamics": {
+      "BTCUSDT": {
+        "mean_daily_change": 0.004283730506373887,
+        "max_daily_change": 0.014608437895275772,
+        "volatility_of_si": 0.005902733488549618,
+        "autocorr_1": 0.2598151287244832,
+        "autocorr_5": -0.2101391549697292
+      },
+      "SPY": {
+        "mean_daily_change": 0.004022277400691476,
+        "max_daily_change": 0.014754042027273373,
+        "volatility_of_si": 0.005824899991281465,
+        "autocorr_1": 0.22718365008464406,
+        "autocorr_5": -0.16146423724670267
+      },
+      "EURUSD": {
+        "mean_daily_change": 0.004120482150957606,
+        "max_daily_change": 0.014663706083660633,
+        "volatility_of_si": 0.006002008295640105,
+        "autocorr_1": 0.2695460714853573,
+        "autocorr_5": -0.15797821260205863
+      }
+    },
+    "si_regimes": {
+      "BTCUSDT": {
+        "high_si_return": 0.433557632885453,
+        "medium_si_return": 0.27707163918235345,
+        "low_si_return": -0.03394058229754059,
+        "high_si_vol": 0.4684279337542618,
+        "low_si_vol": 0.46537853087121295
+      },
+      "SPY": {
+        "high_si_return": 0.18317862866749035,
+        "medium_si_return": 0.1984166850181416,
+        "low_si_return": -0.002516314803419683,
+        "high_si_vol": 0.15497110229610211,
+        "low_si_vol": 0.20404357669464607
+      },
+      "EURUSD": {
+        "high_si_return": 0.07192481784915493,
+        "medium_si_return": -0.022582507039002265,
+        "low_si_return": -0.04906429071876706,
+        "high_si_vol": 0.06956217658455043,
+        "low_si_vol": 0.07460445684576876
+      }
+    },
+    "spectral": {
+      "BTCUSDT": {
+        "dominant_periods_days": [
+          98.66666666666666,
+          88.8,
+          80.72727272727272,
+          74.0
+        ]
+      },
+      "SPY": {
+        "dominant_periods_days": [
+          86.14285714285714,
+          70.94117647058823,
+          63.47368421052631,
+          57.42857142857142
+        ]
+      },
+      "EURUSD": {
+        "dominant_periods_days": [
+          78.125,
+          62.5,
+          56.81818181818181
+        ]
+      }
+    },
+    "persistence": {
+      "BTCUSDT": {
+        "avg_high_run": 4.234375,
+        "avg_medium_run": 2.827450980392157,
+        "avg_low_run": 3.8439716312056738,
+        "total_transitions": 523
+      },
+      "SPY": {
+        "avg_high_run": 4.469879518072289,
+        "avg_medium_run": 3.04320987654321,
+        "avg_low_run": 4.313953488372093,
+        "total_transitions": 330
+      },
+      "EURUSD": {
+        "avg_high_run": 4.571428571428571,
+        "avg_medium_run": 2.8707865168539324,
+        "avg_low_run": 4.0,
+        "total_transitions": 357
+      }
+    },
+    "formula_verification": {
+      "BTCUSDT": {
+        "si_in_range": true,
+        "si_entropy_corr": -0.004102957822695593
+      },
+      "SPY": {
+        "si_in_range": true,
+        "si_entropy_corr": -0.166742151044302
+      },
+      "EURUSD": {
+        "si_in_range": true,
+        "si_entropy_corr": -0.14591261088485277
+      }
+    }
+  }
+}

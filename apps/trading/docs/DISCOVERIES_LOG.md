@@ -247,3 +247,11 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - Reverse causality: volatility → SI in ETHUSDT
 - Reverse causality: rsi_extremity → SI in SOLUSDT
 - High SI sync: SPY-QQQ r=0.530
+
+
+## Phase 1 Deeper - 2026-01-17 23:12
+
+- SI distribution is skewed in BTCUSDT (skew=0.572)
+- High SI periods have lower volatility in SPY (15.5% vs 20.4%)
+- SI negatively correlates with market entropy in SPY (r=-0.167) - THEORY CONFIRMED
+- SI negatively correlates with market entropy in EURUSD (r=-0.146) - THEORY CONFIRMED
