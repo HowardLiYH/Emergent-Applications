@@ -43,7 +43,7 @@
 % ABSTRACT (REVISED - removed "Surprisingly", added quantitative result)
 % ============================================================
 \begin{abstract}
-We study how specialization emerges in competitive multi-agent systems without explicit design. Using a NichePopulation mechanism where agents compete for resources across multiple niches via fitness-proportional updates, we define the Specialization Index (SI) measuring entropy reduction in agent affinities. We find that SI becomes cointegrated with market trend strength (ADX)---a measure of directional movement---despite agents having no knowledge of market structure. We prove this emergence follows replicator dynamics from evolutionary game theory. Empirically, across 11 assets in cryptocurrency, equity, and forex markets over 5 years (2020--2026), we find: (1) SI \textit{lags} market features (Transfer Entropy ratio 0.6), (2) SI-ADX are cointegrated ($p < 0.0001$), (3) SI exhibits long memory (Hurst $H = 0.83$) with local mean reversion ($\tau_{1/2} \approx 5$ days), (4) RSI Extremity is the strongest SI correlate ($r = 0.24$), and (5) SI-based position sizing improves Sharpe ratio by 14\%. Our findings suggest competition alone is sufficient for emergent market-correlated behavior, with implications for multi-agent AI coordination.
+We study how specialization emerges in competitive systems without explicit design. Using a NichePopulation mechanism where replicators compete for resources across multiple niches via fitness-proportional updates, we define the Specialization Index (SI) measuring entropy reduction in replicator affinities. We find that SI becomes cointegrated with market trend strength (ADX)---a measure of directional movement---despite replicators having no knowledge of market structure. We prove this emergence follows replicator dynamics from evolutionary game theory. Empirically, across 11 assets in cryptocurrency, equity, and forex markets over 5 years (2020--2026), we find: (1) SI \textit{lags} market features (Transfer Entropy ratio 0.6), (2) SI-ADX are cointegrated ($p < 0.0001$), (3) SI exhibits long memory (Hurst $H = 0.83$) with local mean reversion ($\tau_{1/2} \approx 5$ days), (4) RSI Extremity is the strongest SI correlate ($r = 0.24$), and (5) SI-based position sizing improves Sharpe ratio by 14\%. Our findings suggest competition alone is sufficient for emergent market-correlated behavior, with implications for multi-agent AI coordination.
 \end{abstract}
 
 % ============================================================
@@ -51,13 +51,13 @@ We study how specialization emerges in competitive multi-agent systems without e
 % ============================================================
 \section{Introduction}
 
-A fundamental question in complex systems is: \textit{Can order emerge from competition alone?} While coordination typically requires explicit communication or shared objectives, we demonstrate that pure resource competition among agents naturally produces specialization patterns that become synchronized with the external environment---without any explicit design for such synchronization.
+A fundamental question in complex systems is: \textit{Can order emerge from competition alone?} While coordination typically requires explicit communication or shared objectives, we demonstrate that pure resource competition among replicators naturally produces specialization patterns that become synchronized with the external environment---without any explicit design for such synchronization.
 
-We study this phenomenon in financial markets, a natural testbed where multiple trading strategies compete for returns. Our key finding is that agents competing via simple fitness-proportional updates---with no knowledge of market microstructure---develop specialization patterns that are \textit{cointegrated} with fundamental market indicators like the Average Directional Index (ADX), which measures trend strength.
+We study this phenomenon in financial markets, a natural testbed where multiple trading strategies compete for returns. Our key finding is that replicators competing via simple fitness-proportional updates---with no knowledge of market microstructure---develop specialization patterns that are \textit{cointegrated} with fundamental market indicators like the Average Directional Index (ADX), which measures trend strength.
 
 \textbf{ADX Definition:} The Average Directional Index is a technical indicator measuring trend strength regardless of direction, defined as the smoothed ratio of directional movement to true range. ADX $\in [0, 1]$ where higher values indicate stronger trends.
 
-\paragraph{Why This Matters.} The emergence of market-correlated behavior without explicit market modeling has implications beyond finance. In multi-agent AI systems, understanding how decentralized agents develop synchronized behavior---without communication---is crucial for both capability enhancement and safety considerations.
+\paragraph{Why This Matters.} The emergence of market-correlated behavior without explicit market modeling has implications beyond finance. In multi-agent AI systems, understanding how decentralized replicators develop synchronized behavior---without communication---is crucial for both capability enhancement and safety considerations.
 
 \paragraph{Paper Roadmap.} Section~\ref{sec:related} reviews related work. Section~\ref{sec:method} presents the NichePopulation mechanism and defines SI. Section~\ref{sec:theory} proves SI convergence. Section~\ref{sec:experiments} validates empirically on 11 assets. Section~\ref{sec:discussion} discusses implications, limitations, and applications. Section~\ref{sec:conclusion} concludes.
 
@@ -83,7 +83,7 @@ We study this phenomenon in financial markets, a natural testbed where multiple 
 
 \paragraph{Mixture-of-Experts.} The specialization of experts in MoE architectures \citep{shazeer2017outrageously, fedus2022switch, zhou2022mixture} shares surface similarity with our work. However, MoE specialization is \textit{designed} via gating mechanisms, while our specialization \textit{emerges} from competition alone.
 
-\paragraph{Agent-Based Computational Economics.} Agent-based models in finance \citep{lebaron2006agent, farmer2009economy, hommes2006heterogeneous} have shown how market patterns emerge from agent interactions. We contribute by showing agents can develop market-correlated behavior \textit{without modeling the market}.
+\paragraph{Agent-Based Computational Economics.} Agent-based models in finance \citep{lebaron2006agent, farmer2009economy, hommes2006heterogeneous} have shown how market patterns emerge from agent interactions. We contribute by showing replicators can develop market-correlated behavior \textit{without modeling the market}.
 
 \paragraph{Multi-Task Learning and Specialization.} In multi-task learning \citep{ruder2017overview, crawshaw2020multi}, specialization is achieved via architectural choices. Our contribution is characterizing specialization as emergent from competition rather than engineered.
 
@@ -94,21 +94,21 @@ We study this phenomenon in financial markets, a natural testbed where multiple 
 
 \subsection{Setup and Motivation}
 
-Consider a population of $n$ agents $\mathcal{A} = \{a_1, \ldots, a_n\}$ competing over $K$ niches (strategies). Each agent $i$ maintains an affinity distribution $\mathbf{p}_i = (p_i^1, \ldots, p_i^K)$ where $p_i^k \geq 0$ and $\sum_k p_i^k = 1$. The affinity $p_i^k$ represents agent $i$'s weight on niche $k$.
+Consider a population of $n$ replicators $\mathcal{A} = \{a_1, \ldots, a_n\}$ competing over $K$ niches (strategies). Each replicator $i$ maintains an affinity distribution $\mathbf{p}_i = (p_i^1, \ldots, p_i^K)$ where $p_i^k \geq 0$ and $\sum_k p_i^k = 1$. The affinity $p_i^k$ represents replicator $i$'s weight on niche $k$.
 
-\textbf{Note on terminology:} Our ``agents'' are \textit{not} LLM-based or neural network agents. They are simple \textbf{strategy instances}---each agent is merely an affinity vector $\mathbf{p}_i$ that evolves via multiplicative weight updates. There is no learning, reasoning, or planning. This simplicity is intentional: we show that even minimal agents exhibit emergent market-correlated behavior through competition alone.
+\textbf{Note on terminology:} Our ``replicators'' are \textit{not} LLM-based or neural network agents. They are simple \textbf{strategy instances}---each replicator is merely an affinity vector $\mathbf{p}_i$ that evolves via multiplicative weight updates. There is no learning, reasoning, or planning. This simplicity is intentional: we show that even minimal replicators exhibit emergent market-correlated behavior through competition alone.
 
-\textbf{Why fitness-proportional updates?} This update rule is natural: agents should increase allocation to niches that perform well. This is precisely the replicator dynamics from evolutionary game theory, which has been shown to lead to evolutionarily stable strategies \citep{hofbauer1998evolutionary}.
+\textbf{Why fitness-proportional updates?} This update rule is natural: replicators should increase allocation to niches that perform well. This is precisely the replicator dynamics from evolutionary game theory, which has been shown to lead to evolutionarily stable strategies \citep{hofbauer1998evolutionary}.
 
 \begin{algorithm}[t]
 \caption{NichePopulation Mechanism}
 \label{alg:niche}
 \begin{algorithmic}[1]
-\REQUIRE $n$ agents, $K$ niches, time horizon $T$
-\STATE Initialize $\mathbf{p}_i \leftarrow \mathbf{1}/K$ for all agents $i$ \COMMENT{Uniform affinities}
+\REQUIRE $n$ replicators, $K$ niches, time horizon $T$
+\STATE Initialize $\mathbf{p}_i \leftarrow \mathbf{1}/K$ for all replicators $i$ \COMMENT{Uniform affinities}
 \FOR{$t = 1$ to $T$}
     \STATE Observe niche fitness $\mathbf{f}(t) = (f_1(t), \ldots, f_K(t))$ \COMMENT{e.g., strategy returns}
-    \FOR{each agent $i$}
+    \FOR{each replicator $i$}
         \STATE Compute expected fitness: $\bar{f}_i \leftarrow \sum_k p_i^k \cdot f_k(t)$
         \FOR{each niche $k$}
             \STATE Update: $p_i^k \leftarrow p_i^k \cdot f_k(t) / \bar{f}_i$ \COMMENT{Replicator dynamics}
@@ -126,13 +126,13 @@ Consider a population of $n$ agents $\mathcal{A} = \{a_1, \ldots, a_n\}$ competi
 We measure specialization via entropy reduction:
 
 \begin{definition}[Specialization Index]
-Let $H(\mathbf{p}_i) = -\sum_k p_i^k \log p_i^k$ be the Shannon entropy of agent $i$'s affinities. The Specialization Index is:
+Let $H(\mathbf{p}_i) = -\sum_k p_i^k \log p_i^k$ be the Shannon entropy of replicator $i$'s affinities. The Specialization Index is:
 \begin{equation}
     \SI(t) = 1 - \frac{1}{n} \sum_{i=1}^n \frac{H(\mathbf{p}_i(t))}{\log K}
 \end{equation}
 \end{definition}
 
-$\SI \in [0, 1]$ where $\SI = 0$ means all agents have uniform affinities (no specialization), and $\SI = 1$ means all agents concentrate on single niches (maximum specialization).
+$\SI \in [0, 1]$ where $\SI = 0$ means all replicators have uniform affinities (no specialization), and $\SI = 1$ means all replicators concentrate on single niches (maximum specialization).
 
 % ============================================================
 % 4. THEORETICAL ANALYSIS (EXPANDED with intuition)
@@ -141,7 +141,7 @@ $\SI \in [0, 1]$ where $\SI = 0$ means all agents have uniform affinities (no sp
 
 \subsection{Intuition}
 
-Before stating the theorem, we provide intuition. When one niche consistently outperforms others (e.g., trend-following in a trending market), agents following replicator dynamics will increase their affinity for that niche. Over time, this concentrates the affinity distribution, reducing entropy and increasing SI. The key insight is that this concentration tracks the \textit{market's} behavior (captured by ADX), even though agents have no explicit model of the market.
+Before stating the theorem, we provide intuition. When one niche consistently outperforms others (e.g., trend-following in a trending market), replicators following replicator dynamics will increase their affinity for that niche. Over time, this concentrates the affinity distribution, reducing entropy and increasing SI. The key insight is that this concentration tracks the \textit{market's} behavior (captured by ADX), even though replicators have no explicit model of the market.
 
 \subsection{Convergence Theorem}
 
@@ -212,7 +212,7 @@ Forex & EURUSD, GBPUSD & 2021-01 to 2025-01 & Daily & OANDA \\
 \begin{figure}[t]
     \centering
     \includegraphics[width=\textwidth]{figures/hero_figure.png}
-    \caption{\textbf{Emergent specialization from competition.} (a) NichePopulation mechanism: agents compete over niches via fitness-proportional updates. (b) SI emergence tracks market structure (gray: price, blue: SI). (c) SI-ADX cointegration ($r = 0.13$, $p < 0.0001$). (d) Phase transition: correlation is negative short-term, positive long-term, with threshold at $\sim$30 days.}
+    \caption{\textbf{Emergent specialization from competition.} (a) NichePopulation mechanism: replicators compete over niches via fitness-proportional updates. (b) SI emergence tracks market structure (gray: price, blue: SI). (c) SI-ADX cointegration ($r = 0.13$, $p < 0.0001$). (d) Phase transition: correlation is negative short-term, positive long-term, with threshold at $\sim$30 days.}
     \label{fig:hero}
 \end{figure}
 
@@ -257,7 +257,7 @@ SI is a \textbf{lagging indicator}, not a predictor. This is a key limitation we
 \begin{equation}
     r(\SI, |\text{RSI} - 50|) = 0.243 \quad \text{(7/7 assets, } p < 0.001\text{)}
 \end{equation}
-This exceeds SI-ADX correlation ($r = 0.13$), suggesting SI captures market extremity even more than trend strength. When markets are strongly overbought or oversold, agents specialize more intensely.
+This exceeds SI-ADX correlation ($r = 0.13$), suggesting SI captures market extremity even more than trend strength. When markets are strongly overbought or oversold, replicators specialize more intensely.
 
 \subsection{Ablation Study}
 
@@ -270,8 +270,8 @@ This exceeds SI-ADX correlation ($r = 0.13$), suggesting SI captures market extr
 \textbf{Configuration} & \textbf{SI-ADX $r$} & \textbf{Coint. $p$} & \textbf{Notes} \\
 \midrule
 Default ($n=50$, $K=5$) & 0.133 & $<$0.0001 & Baseline \\
-$n=10$ agents & 0.128 & $<$0.0001 & Slightly lower \\
-$n=200$ agents & 0.136 & $<$0.0001 & Slightly higher \\
+$n=10$ replicators & 0.128 & $<$0.0001 & Slightly lower \\
+$n=200$ replicators & 0.136 & $<$0.0001 & Slightly higher \\
 $K=3$ niches & 0.141 & $<$0.0001 & Higher specialization \\
 $K=10$ niches & 0.118 & $<$0.0001 & More diffuse \\
 Random baseline & 0.012 & 0.34 & Not significant \\
@@ -282,9 +282,9 @@ Fixed strategies & 0.089 & 0.02 & Weaker \\
 
 Table~\ref{tab:ablation} shows that:
 \begin{itemize}
-    \item SI-ADX cointegration is robust to agent count ($n$)
+    \item SI-ADX cointegration is robust to replicator count ($n$)
     \item Fewer niches ($K$) leads to stronger correlation
-    \item Random agents show no significant correlation (validates mechanism)
+    \item Random replicators show no significant correlation (validates mechanism)
     \item Fixed strategies show weaker correlation (adaptation matters)
 \end{itemize}
 
@@ -340,7 +340,7 @@ Walk-forward validation shows 14\% Sharpe improvement for SPY with 80\% quarterl
 \paragraph{AI Safety Considerations.}
 \begin{itemize}
     \item \textbf{Positive:} Emergent specialization enables efficient resource allocation without central planning.
-    \item \textbf{Concerning:} Correlated agent behaviors may amplify systemic risks. The ``sticky'' nature of SI regimes ($H = 0.83$) suggests sudden regime shifts could be destabilizing.
+    \item \textbf{Concerning:} Correlated replicator behaviors may amplify systemic risks. The ``sticky'' nature of SI regimes ($H = 0.83$) suggests sudden regime shifts could be destabilizing.
 \end{itemize}
 
 This has implications for understanding emergent coordination in large-scale AI systems, where agents may develop synchronized behaviors without explicit design.
@@ -350,7 +350,7 @@ This has implications for understanding emergent coordination in large-scale AI 
 % ============================================================
 \section{Conclusion}\label{sec:conclusion}
 
-We have shown that competition alone---without explicit design---is sufficient for agents to develop specialization patterns cointegrated with environmental structure. Our theoretical analysis connects this to replicator dynamics, and our empirical validation spans 11 assets across three markets over 5 years.
+We have shown that competition alone---without explicit design---is sufficient for replicators to develop specialization patterns cointegrated with environmental structure. Our theoretical analysis connects this to replicator dynamics, and our empirical validation spans 11 assets across three markets over 5 years.
 
 \paragraph{Key Takeaways.}
 \begin{enumerate}
@@ -494,7 +494,7 @@ The correlation with $\Delta$ follows from the rate of entropy reduction being p
 \toprule
 \textbf{Parameter} & \textbf{Value} & \textbf{Sensitivity} \\
 \midrule
-Number of agents $n$ & 50 & Low \\
+Number of replicators $n$ & 50 & Low \\
 Number of niches $K$ & 5 & Medium \\
 SI window & 7 days & Medium \\
 Position bounds & [0.8, 1.2] & High \\

@@ -39,25 +39,25 @@ def simulate_si_convergence(n_agents=50, n_niches=5, T=300, seed=42):
     affinities = np.ones((n_agents, n_niches)) / n_niches
     si_history = []
     entropy_history = []
-    
+
     for t in range(T):
         if t % 60 == 0:
             dominant = np.random.randint(n_niches)
-        
+
         fitness = np.random.uniform(0.9, 1.1, n_niches)
         fitness[dominant] *= 1.3
-        
+
         weighted = affinities * fitness
         total = weighted.sum(axis=1, keepdims=True)
         affinities = weighted / (total + 1e-10)
-        
+
         entropy = -np.sum(affinities * np.log(affinities + 1e-10), axis=1)
         normalized_entropy = entropy / np.log(n_niches)
         si = 1 - normalized_entropy.mean()
-        
+
         si_history.append(si)
         entropy_history.append(normalized_entropy.mean())
-    
+
     return np.array(si_history), np.array(entropy_history)
 
 si_sim, entropy_sim = simulate_si_convergence()
@@ -85,11 +85,11 @@ si_rolling_mean = pd.Series(si_sim).rolling(window).mean()
 si_rolling_std = pd.Series(si_sim).rolling(window).std()
 
 axes[2].plot(si_rolling_mean, color='#2ecc71', linewidth=2, label='Rolling Mean')
-axes[2].fill_between(range(len(si_sim)), 
+axes[2].fill_between(range(len(si_sim)),
                       si_rolling_mean - si_rolling_std,
                       si_rolling_mean + si_rolling_std,
                       alpha=0.3, color='#2ecc71')
-axes[2].axhline(si_sim[-50:].mean(), color='black', linestyle='--', 
+axes[2].axhline(si_sim[-50:].mean(), color='black', linestyle='--',
                 label=f'Equilibrium SI* = {si_sim[-50:].mean():.3f}')
 axes[2].set_xlabel('Time Step')
 axes[2].set_ylabel('SI (Rolling Window)')
@@ -167,15 +167,15 @@ for start, end, label, color in crisis_periods:
     try:
         start_ts = pd.Timestamp(start)
         end_ts = pd.Timestamp(end)
-        
+
         # Find nearest available dates
         mask_start = si_aligned.index >= start_ts
         mask_end = si_aligned.index <= end_ts
-        
+
         if mask_start.any() and mask_end.any():
             si_at_start = si_aligned.loc[mask_start].iloc[0]
             si_at_end = si_aligned.loc[mask_end].iloc[-1]
-            
+
             if si_at_start > 0:
                 si_change = (si_at_end - si_at_start) / si_at_start * 100
                 crisis_changes.append(si_change)
@@ -189,7 +189,7 @@ if crisis_changes:
     bars = ax2.bar(crisis_labels, crisis_changes, color=crisis_colors, alpha=0.8, edgecolor='black')
     for bar, change in zip(bars, crisis_changes):
         y_pos = change + 2 if change > 0 else change - 5
-        ax2.text(bar.get_x() + bar.get_width()/2, y_pos, f'{change:.1f}%', 
+        ax2.text(bar.get_x() + bar.get_width()/2, y_pos, f'{change:.1f}%',
                 ha='center', fontsize=10, fontweight='bold')
 else:
     ax2.text(0.5, 0.5, 'No crisis periods in data range', ha='center', va='center', transform=ax2.transAxes)
@@ -250,18 +250,18 @@ print(f"\n    Common dates: {len(common_dates)} days")
 if len(common_dates) > 30:  # Need enough data for correlation
     si_aligned = si_df.loc[common_dates]
     corr_matrix = si_aligned.corr()
-    
+
     print("\n    Correlation matrix:")
     print(corr_matrix.round(3))
-    
+
     fig, ax = plt.subplots(figsize=(8, 6))
     im = ax.imshow(corr_matrix.values, cmap='RdYlBu_r', vmin=-0.2, vmax=0.6)
-    
+
     ax.set_xticks(range(len(corr_matrix.columns)))
     ax.set_yticks(range(len(corr_matrix.columns)))
     ax.set_xticklabels(corr_matrix.columns, fontsize=10)
     ax.set_yticklabels(corr_matrix.columns, fontsize=10)
-    
+
     for i in range(len(corr_matrix)):
         for j in range(len(corr_matrix)):
             val = corr_matrix.iloc[i, j]
@@ -270,16 +270,16 @@ if len(common_dates) > 30:  # Need enough data for correlation
                 ax.text(j, i, f'{val:.2f}', ha='center', va='center', color=color, fontsize=10)
             else:
                 ax.text(j, i, 'N/A', ha='center', va='center', color='gray', fontsize=8)
-    
+
     plt.colorbar(im, ax=ax, label='SI Correlation')
     ax.set_title('Cross-Asset SI Correlation Heatmap')
-    
+
     # Add market groupings
     ax.axhline(1.5, color='black', linewidth=2)
     ax.axhline(3.5, color='black', linewidth=2)
     ax.axvline(1.5, color='black', linewidth=2)
     ax.axvline(3.5, color='black', linewidth=2)
-    
+
     plt.tight_layout()
     fig.savefig("paper/figures/cross_asset_heatmap.png", dpi=300, bbox_inches='tight', facecolor='white')
     fig.savefig("paper/figures/cross_asset_heatmap.pdf", bbox_inches='tight', facecolor='white')
@@ -287,12 +287,12 @@ if len(common_dates) > 30:  # Need enough data for correlation
     print("  ✅ Figure 4 saved")
 else:
     print(f"  ⚠️ Not enough common dates ({len(common_dates)}). Creating figure with available data...")
-    
+
     # Use pairwise correlations instead
     asset_names = list(si_series.keys())
     n = len(asset_names)
     corr_matrix = pd.DataFrame(np.eye(n), index=asset_names, columns=asset_names)
-    
+
     for i, name1 in enumerate(asset_names):
         for j, name2 in enumerate(asset_names):
             if i != j:
@@ -303,21 +303,21 @@ else:
                     corr_matrix.iloc[i, j] = s1.loc[common].corr(s2.loc[common])
                 else:
                     corr_matrix.iloc[i, j] = np.nan
-    
+
     print("\n    Pairwise correlation matrix:")
     print(corr_matrix.round(3))
-    
+
     fig, ax = plt.subplots(figsize=(8, 6))
-    
+
     # Handle NaN values in visualization
     masked_corr = np.ma.masked_invalid(corr_matrix.values)
     im = ax.imshow(masked_corr, cmap='RdYlBu_r', vmin=-0.2, vmax=0.6)
-    
+
     ax.set_xticks(range(len(corr_matrix.columns)))
     ax.set_yticks(range(len(corr_matrix.columns)))
     ax.set_xticklabels(corr_matrix.columns, fontsize=10)
     ax.set_yticklabels(corr_matrix.columns, fontsize=10)
-    
+
     for i in range(len(corr_matrix)):
         for j in range(len(corr_matrix)):
             val = corr_matrix.iloc[i, j]
@@ -326,15 +326,15 @@ else:
                 ax.text(j, i, f'{val:.2f}', ha='center', va='center', color=color, fontsize=10)
             else:
                 ax.text(j, i, 'N/A', ha='center', va='center', color='gray', fontsize=8)
-    
+
     plt.colorbar(im, ax=ax, label='SI Correlation')
     ax.set_title('Cross-Asset SI Correlation Heatmap')
-    
+
     ax.axhline(1.5, color='black', linewidth=2)
     ax.axhline(3.5, color='black', linewidth=2)
     ax.axvline(1.5, color='black', linewidth=2)
     ax.axvline(3.5, color='black', linewidth=2)
-    
+
     plt.tight_layout()
     fig.savefig("paper/figures/cross_asset_heatmap.png", dpi=300, bbox_inches='tight', facecolor='white')
     fig.savefig("paper/figures/cross_asset_heatmap.pdf", bbox_inches='tight', facecolor='white')
@@ -375,7 +375,7 @@ ax.legend(loc='upper left', fontsize=9)
 ax.set_yscale('log')
 ax.grid(True, alpha=0.3)
 
-ax.annotate('14% Sharpe\nimprovement', xy=(800, 2.5), fontsize=10, 
+ax.annotate('14% Sharpe\nimprovement', xy=(800, 2.5), fontsize=10,
             color='#3498db', fontweight='bold')
 
 plt.tight_layout()

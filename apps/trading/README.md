@@ -13,17 +13,17 @@
 
 ## 🎯 Thesis Statement
 
-> **Competition alone—without explicit design—is sufficient for agents to develop specialization patterns cointegrated with environmental structure.**
+> **Competition alone—without explicit design—is sufficient for replicators to develop specialization patterns cointegrated with environmental structure.**
 
-We demonstrate that agents competing via simple fitness-proportional updates (replicator dynamics) spontaneously develop a Specialization Index (SI) that becomes **cointegrated with market trend strength (ADX)**—despite having no knowledge of market structure.
+We demonstrate that replicators competing via simple fitness-proportional updates (replicator dynamics) spontaneously develop a Specialization Index (SI) that becomes **cointegrated with market trend strength (ADX)**—despite having no knowledge of market structure.
 
-### ⚠️ Important: What Are "Agents"?
+### ⚠️ Important: What Are "Replicators"?
 
-Our "agents" are **NOT** LLM-based or neural network agents. They are simple **strategy instances**:
+Our "replicators" are **NOT** LLM-based or neural network agents. They are simple **strategy instances**:
 
 ```python
 @dataclass
-class Agent:
+class Replicator:
     strategy_idx: int           # Which trading strategy (momentum, mean-reversion, etc.)
     niche_affinity: np.ndarray  # A 3-element probability vector - that's it!
 ```
@@ -34,7 +34,7 @@ Each agent is merely an **affinity vector** that evolves via multiplicative weig
 - ❌ No learning from data
 - ❌ No reasoning or planning
 
-This simplicity is intentional: we show that even **minimal agents** exhibit emergent market-correlated behavior through competition alone.
+This simplicity is intentional: we show that even **minimal replicators** exhibit emergent market-correlated behavior through competition alone.
 
 ---
 

@@ -1,6 +1,6 @@
 # Paper Audit Report
 
-**Date:** January 18, 2026  
+**Date:** January 18, 2026
 **Paper:** neurips_submission_v2.tex
 
 ---
@@ -8,9 +8,9 @@
 ## ✅ FIXED ISSUES
 
 ### 1. Cross-Asset Heatmap (Figure 4)
-**Problem:** All values were NaN  
-**Cause:** Different assets had different date ranges; `dropna()` removed all rows  
-**Fix:** Aligned SI series by date before computing correlation  
+**Problem:** All values were NaN
+**Cause:** Different assets had different date ranges; `dropna()` removed all rows
+**Fix:** Aligned SI series by date before computing correlation
 **Result:** Now shows real correlations:
 - BTC-ETH: 0.25 (same market ✓)
 - SPY-QQQ: 0.54 (same market ✓)
@@ -18,8 +18,8 @@
 - Cross-market: ~0 (expected ✓)
 
 ### 2. Crisis Analysis (Figure 3)
-**Problem:** COVID crash not showing (data starts 2021)  
-**Fix:** Gracefully handles missing crisis periods  
+**Problem:** COVID crash not showing (data starts 2021)
+**Fix:** Gracefully handles missing crisis periods
 **Result:** Shows Rate Hikes (2022) with 66.7% SI change
 
 ---
