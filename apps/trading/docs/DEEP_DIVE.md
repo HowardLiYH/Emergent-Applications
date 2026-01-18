@@ -9,6 +9,10 @@
 
 ---
 
+> 📄 **Full LaTeX Version Available**: For the complete 80-page deep dive with all mathematical derivations, worked examples, and code listings, see [`paper/deep_dive.tex`](../paper/deep_dive.tex) (~5,000 lines of LaTeX).
+
+---
+
 ## Abstract
 
 This document provides an exhaustive, ground-up explanation of **emergent specialization in competing trading strategies** and its surprising cointegration with market structure. We combine rigorous mathematical treatment with intuitive explanations, worked examples, and visualizations. The document is designed for readers with a strong mathematical/quantitative background who want to understand every detail of how and why simple replicators develop behavior patterns that become cointegrated with market indicators—despite having no knowledge of market structure.
@@ -67,7 +71,7 @@ Our "replicators" are **NOT** LLM agents or neural networks. They are deliberate
 class Replicator:
     strategy_idx: int           # Which trading strategy (0-4)
     niche_affinity: np.ndarray  # 3-element probability vector
-    
+
     def update_affinity(self, regime_idx: int, won: bool, alpha=0.1):
         if won:
             self.niche_affinity[regime_idx] += alpha * (1 - self.niche_affinity[regime_idx])
@@ -125,7 +129,7 @@ We found instead:
 ### Shannon Entropy
 
 > **Definition:** For a discrete probability distribution **p** = (p₁, ..., pₖ) over K outcomes:
-> 
+>
 > $$H(\mathbf{p}) = -\sum_{k=1}^{K} p_k \log p_k$$
 
 **Interpretation:**
@@ -314,7 +318,7 @@ Output: SI time series
 def classify_regime(data, lookback=7):
     returns = data['close'].pct_change(lookback)
     volatility = returns.rolling(lookback).std()
-    
+
     if returns > volatility:
         return BULL   # 0
     elif returns < -volatility:
@@ -342,7 +346,7 @@ def update_affinity(self, regime_idx, won, alpha=0.1):
     else:
         # Loser: decrease affinity toward current regime
         self.niche_affinity[regime_idx] *= (1 - alpha)
-    
+
     # Normalize to maintain probability distribution
     self.niche_affinity /= self.niche_affinity.sum()
 ```
@@ -403,7 +407,7 @@ This is a **multiplicative weight update** with exponential moving toward specia
 ### Proof Sketch
 
 1. **Entropy Decrease:** Under replicator dynamics, entropy H(p_i) is non-increasing when one niche dominates:
-   
+
    $$\frac{dH}{dt} = -\sum_k p_k \log p_k \cdot \dot{p}_k \leq 0$$
 
 2. **Bounded Equilibrium:** As entropy decreases, SI = 1 - H̄/log(K) increases toward a bounded equilibrium SI* ∈ (0, 1).
@@ -911,5 +915,5 @@ paper/
 
 *End of Deep Dive*
 
-**Word count:** ~5,000 words  
+**Word count:** ~5,000 words
 **Last updated:** January 18, 2026
