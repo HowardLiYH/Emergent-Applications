@@ -324,7 +324,9 @@ A ratio below 1 indicates SI is a \textbf{lagging indicator}. This is consistent
 \end{equation}
 This exceeds the SI-ADX correlation ($r = 0.131$), suggesting SI captures market extremity even more strongly than trend strength. When markets are strongly overbought or oversold, competition produces more intense specialization.
 
-\paragraph{Finding 5: Phase Transition at $\sim$30 Days.} The SI-ADX correlation is \textit{negative} at short horizons ($r = -0.05$ at 3--7 days) but \textit{positive} at long horizons ($r = +0.35$ at 30--120 days). A phase transition occurs around 30 days, consistent with the time required for agent affinities to accumulate meaningful structure.
+\paragraph{Finding 5: Phase Transition at $\sim$30 Days.} The SI-ADX correlation is \textit{negative} at short horizons ($r = -0.05$ at 3--7 days) but \textit{positive} at long horizons ($r = +0.35$ at 30--120 days). A phase transition occurs around 30 days, consistent with the time required for agent affinities to accumulate meaningful structure. See supplementary Figure S2 for detailed visualization.
+
+Additional figures in the supplementary material include: SI(t) evolution dynamics (Figure S1), cross-domain validation (Figure S3), ablation study (Figure S4), and failure mode analysis (Figure S5).
 
 \subsection{Ablation Study}
 
@@ -354,6 +356,18 @@ The random baseline test is crucial: when agents are assigned random affinities 
 % =============================================================================
 \section{Discussion}
 \label{sec:discussion}
+
+\subsection{When the Blind Synchronization Effect Fails}
+
+We document conditions under which the effect breaks down:
+
+\paragraph{High Noise.} When fitness noise exceeds the signal ($\sigma > 2\mu$), SI-environment correlation drops to near zero.
+
+\paragraph{Fast Regime Switching.} When environment regimes switch faster than 20\% per timestep, agents cannot accumulate meaningful affinity structure.
+
+\paragraph{Small Populations.} With fewer than 5 agents, SI exhibits high variance and unstable dynamics.
+
+\paragraph{Too Many Niches.} With $K > 20$ niches, the specialization signal becomes diluted.
 
 \subsection{Limitations and Negative Results}
 
