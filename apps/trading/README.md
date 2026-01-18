@@ -30,7 +30,7 @@ class Agent:
 
 Each agent is merely an **affinity vector** that evolves via multiplicative weight updates. There is:
 - ❌ No neural networks
-- ❌ No language models  
+- ❌ No language models
 - ❌ No learning from data
 - ❌ No reasoning or planning
 
