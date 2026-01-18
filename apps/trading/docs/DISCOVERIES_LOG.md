@@ -280,3 +280,20 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - Frequent SI regime changes in SPY (29 breaks)
 - Frequent SI regime changes in EURUSD (28 breaks)
 - SI-ADX relationship robustly positive in EURUSD (83% of windows)
+
+
+## Phase 1 Decomposition - 2026-01-17 23:23
+
+- SI-ADX correlation is dominated by low-freq trend in BTCUSDT
+- SI-ADX correlation is dominated by low-freq trend in SPY
+- SI-ADX correlation is dominated by low-freq trend in EURUSD
+- SI→Returns IC half-life = 5 days in BTCUSDT
+- SI→Returns IC half-life = 3 days in SPY
+- SI strongly correlates with PC1 in SPY (r=-0.232)
+- SI strongly correlates with PC1 in EURUSD (r=0.301)
+- SI-ADX relationship strongest at long frequency in BTCUSDT (r=0.244)
+- SI-ADX relationship strongest at very_long frequency in SPY (r=0.304)
+- SI-ADX relationship strongest at very_long frequency in EURUSD (r=0.347)
+- SI correlates with independent component IC2 in BTCUSDT (r=-0.225)
+- SI correlates with independent component IC2 in SPY (r=0.238)
+- SI correlates with independent component IC3 in EURUSD (r=0.317)

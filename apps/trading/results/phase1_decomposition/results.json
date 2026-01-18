@@ -1,0 +1,302 @@
+{
+  "timestamp": "2026-01-17T23:23:46.020942",
+  "discoveries": [
+    "SI-ADX correlation is dominated by low-freq trend in BTCUSDT",
+    "SI-ADX correlation is dominated by low-freq trend in SPY",
+    "SI-ADX correlation is dominated by low-freq trend in EURUSD",
+    "SI\u2192Returns IC half-life = 5 days in BTCUSDT",
+    "SI\u2192Returns IC half-life = 3 days in SPY",
+    "SI strongly correlates with PC1 in SPY (r=-0.232)",
+    "SI strongly correlates with PC1 in EURUSD (r=0.301)",
+    "SI-ADX relationship strongest at long frequency in BTCUSDT (r=0.244)",
+    "SI-ADX relationship strongest at very_long frequency in SPY (r=0.304)",
+    "SI-ADX relationship strongest at very_long frequency in EURUSD (r=0.347)",
+    "SI correlates with independent component IC2 in BTCUSDT (r=-0.225)",
+    "SI correlates with independent component IC2 in SPY (r=0.238)",
+    "SI correlates with independent component IC3 in EURUSD (r=0.317)"
+  ],
+  "results": {
+    "wavelet": {
+      "BTCUSDT": {
+        "variances": {
+          "approx": 36.43778266206747,
+          "detail_1": 22.421712111016372,
+          "detail_2": 26.208010274952432,
+          "detail_3": 11.090452613102435,
+          "detail_4": 3.7696670246592587
+        },
+        "correlations_with_adx": {
+          "approx": 0.20609518574464497,
+          "detail_1": 0.03979749182949454,
+          "detail_2": -0.008019783165491973,
+          "detail_3": -0.0014368588984569562,
+          "detail_4": -0.0008924642557775785
+        }
+      },
+      "SPY": {
+        "variances": {
+          "approx": 32.93806139837756,
+          "detail_1": 32.34220637997941,
+          "detail_2": 21.474617223508602,
+          "detail_3": 9.31541491613582,
+          "detail_4": 3.6331058611606792
+        },
+        "correlations_with_adx": {
+          "approx": 0.21755817266099708,
+          "detail_1": -0.08644577111893571,
+          "detail_2": 0.014872539202011606,
+          "detail_3": -0.007140440855486335,
+          "detail_4": -0.0034051496296920707
+        }
+      },
+      "EURUSD": {
+        "variances": {
+          "approx": 37.3136118976314,
+          "detail_1": 28.805038530247923,
+          "detail_2": 20.267496627605738,
+          "detail_3": 9.926964201378214,
+          "detail_4": 3.3061855791857395
+        },
+        "correlations_with_adx": {
+          "approx": 0.21093947140512434,
+          "detail_1": 0.07153790706554619,
+          "detail_2": 0.01146233727016859,
+          "detail_3": -0.000329740365905123,
+          "detail_4": -0.01083689740596722
+        }
+      }
+    },
+    "ic_decay": {
+      "BTCUSDT": [
+        {
+          "lag": 1,
+          "ic_returns": 0.024463110150579948,
+          "ic_adx": 0.10185670016371305
+        },
+        {
+          "lag": 2,
+          "ic_returns": 0.022127000621618497,
+          "ic_adx": 0.08073858565627447
+        },
+        {
+          "lag": 3,
+          "ic_returns": 0.02008000931799514,
+          "ic_adx": 0.059230730418844295
+        },
+        {
+          "lag": 5,
+          "ic_returns": -0.0002375840956498998,
+          "ic_adx": 0.02426914730538658
+        },
+        {
+          "lag": 7,
+          "ic_returns": -0.008211844753367404,
+          "ic_adx": 0.008137939818750968
+        },
+        {
+          "lag": 10,
+          "ic_returns": -0.01702969598006833,
+          "ic_adx": -0.003212417363997548
+        },
+        {
+          "lag": 14,
+          "ic_returns": -0.011658994540988168,
+          "ic_adx": 0.006897018559362183
+        },
+        {
+          "lag": 21,
+          "ic_returns": -0.008466791492630656,
+          "ic_adx": -0.00829561392880284
+        }
+      ],
+      "SPY": [
+        {
+          "lag": 1,
+          "ic_returns": -0.008693009460278029,
+          "ic_adx": 0.028223083060441866
+        },
+        {
+          "lag": 2,
+          "ic_returns": -0.013505129990422889,
+          "ic_adx": -0.011378155638912809
+        },
+        {
+          "lag": 3,
+          "ic_returns": -0.0008255609235899716,
+          "ic_adx": -0.046311221978628254
+        },
+        {
+          "lag": 5,
+          "ic_returns": -0.026259607912414554,
+          "ic_adx": -0.09437177118928337
+        },
+        {
+          "lag": 7,
+          "ic_returns": -0.02026813723788637,
+          "ic_adx": -0.10372317613387706
+        },
+        {
+          "lag": 10,
+          "ic_returns": -0.013933642600911896,
+          "ic_adx": -0.06924435646415174
+        },
+        {
+          "lag": 14,
+          "ic_returns": 0.01600399760234582,
+          "ic_adx": -0.03156235653402026
+        },
+        {
+          "lag": 21,
+          "ic_returns": -0.04940176606310543,
+          "ic_adx": -0.014660928088844458
+        }
+      ],
+      "EURUSD": [
+        {
+          "lag": 1,
+          "ic_returns": -0.017570269144062005,
+          "ic_adx": 0.12389126704571586
+        },
+        {
+          "lag": 2,
+          "ic_returns": -0.024613743010501253,
+          "ic_adx": 0.08501622903888405
+        },
+        {
+          "lag": 3,
+          "ic_returns": -0.011683929182675423,
+          "ic_adx": 0.04780070904308297
+        },
+        {
+          "lag": 5,
+          "ic_returns": -0.021546963334073164,
+          "ic_adx": -0.014337245314767254
+        },
+        {
+          "lag": 7,
+          "ic_returns": 0.028475071086172872,
+          "ic_adx": -0.049233931453419234
+        },
+        {
+          "lag": 10,
+          "ic_returns": 0.012277250717988781,
+          "ic_adx": -0.07320044865194228
+        },
+        {
+          "lag": 14,
+          "ic_returns": 0.022099286935088044,
+          "ic_adx": -0.10767529737201273
+        },
+        {
+          "lag": 21,
+          "ic_returns": -0.014583924040192065,
+          "ic_adx": -0.19769248382753432
+        }
+      ]
+    },
+    "pca": {
+      "BTCUSDT": {
+        "variance_explained": [
+          0.30043977087278895,
+          0.22311375608336928,
+          0.212155739554704
+        ],
+        "si_pc_correlations": [
+          0.19061047536620318,
+          -0.09026149723200792,
+          0.0875629555736173
+        ],
+        "pc1_loadings": {
+          "adx": 0.6432222963746467,
+          "rsi_extremity": 0.6580753851770462,
+          "volatility": 0.20476122903182303,
+          "momentum": 0.3155144773205756,
+          "vol_ratio": 0.10828351008860684
+        }
+      },
+      "SPY": {
+        "variance_explained": [
+          0.3031928854274819,
+          0.26833659107731916,
+          0.1884542090801006
+        ],
+        "si_pc_correlations": [
+          -0.23236135993794743,
+          -0.22584832409293876,
+          -0.026482311572585307
+        ],
+        "pc1_loadings": {
+          "adx": -0.2046552129946628,
+          "rsi_extremity": -0.27414606402960834,
+          "volatility": 0.28951324919240984,
+          "momentum": -0.6602402654914039,
+          "vol_ratio": 0.6026815491925048
+        }
+      },
+      "EURUSD": {
+        "variance_explained": [
+          0.36266900805342395,
+          0.2709955004079313,
+          0.20711490100327265
+        ],
+        "si_pc_correlations": [
+          0.3006034150514612,
+          0.0645170257840724,
+          -0.11490502458418325
+        ],
+        "pc1_loadings": {
+          "adx": 0.606546063706215,
+          "rsi_extremity": 0.6270895738638687,
+          "volatility": -0.3735683525897196,
+          "momentum": -0.31513048868227805
+        }
+      }
+    },
+    "frequency_bands": {
+      "BTCUSDT": {
+        "very_short": -0.055020285854849124,
+        "short": -0.012383844029857979,
+        "medium": -0.005481152446782222,
+        "long": 0.24414124313697125,
+        "very_long": 0.20122529036545045
+      },
+      "SPY": {
+        "very_short": -0.013878358617512753,
+        "short": 0.08262605528338063,
+        "medium": -0.17569263572403443,
+        "long": 0.06522984729294687,
+        "very_long": 0.3041357780442102
+      },
+      "EURUSD": {
+        "very_short": 0.005487472786211041,
+        "short": 0.08094804304915613,
+        "medium": -0.13424071402709206,
+        "long": 0.3084479777246613,
+        "very_long": 0.34731085173298837
+      }
+    },
+    "ica": {
+      "BTCUSDT": {
+        "si_ic_correlations": [
+          -0.10867944914938021,
+          -0.22540310323418275,
+          0.056439857624107394
+        ]
+      },
+      "SPY": {
+        "si_ic_correlations": [
+          -0.22303861203229766,
+          0.2384803407869535,
+          -0.14672849613525088
+        ]
+      },
+      "EURUSD": {
+        "si_ic_correlations": [
+          0.07437483129518639,
+          -0.07930601139488652,
+          0.31655639110007194
+        ]
+      }
+    }
+  }
+}
