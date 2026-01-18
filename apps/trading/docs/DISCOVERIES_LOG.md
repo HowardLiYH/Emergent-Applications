@@ -236,3 +236,14 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 
 - Multiplicative Weights Update (MWU) → O(√T log K) regret
 - Replicator Dynamics → Evolutionary specialization
+
+
+## Phase 1 Extended - 2026-01-17 23:10
+
+- Optimal SI window for BTCUSDT: 14 days (r_adx=0.161)
+- Optimal SI window for ETHUSDT: 7 days (r_adx=0.139)
+- Optimal SI window for SOLUSDT: 30 days (r_adx=0.162)
+- Reverse causality: volatility → SI in BTCUSDT
+- Reverse causality: volatility → SI in ETHUSDT
+- Reverse causality: rsi_extremity → SI in SOLUSDT
+- High SI sync: SPY-QQQ r=0.530

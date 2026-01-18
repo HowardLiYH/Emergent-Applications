@@ -1,0 +1,379 @@
+{
+  "timestamp": "2026-01-17T23:10:06.326745",
+  "discoveries": [
+    "Optimal SI window for BTCUSDT: 14 days (r_adx=0.161)",
+    "Optimal SI window for ETHUSDT: 7 days (r_adx=0.139)",
+    "Optimal SI window for SOLUSDT: 30 days (r_adx=0.162)",
+    "Reverse causality: volatility \u2192 SI in BTCUSDT",
+    "Reverse causality: volatility \u2192 SI in ETHUSDT",
+    "Reverse causality: rsi_extremity \u2192 SI in SOLUSDT",
+    "High SI sync: SPY-QQQ r=0.530"
+  ],
+  "results": {
+    "window_sensitivity": {
+      "BTCUSDT": [
+        {
+          "window": 5,
+          "r_adx": 0.09597074093481818,
+          "r_rsi_ext": 0.21783127577509784
+        },
+        {
+          "window": 7,
+          "r_adx": 0.12298781899016137,
+          "r_rsi_ext": 0.22233628023892965
+        },
+        {
+          "window": 10,
+          "r_adx": 0.14676090208330772,
+          "r_rsi_ext": 0.18731719212129322
+        },
+        {
+          "window": 14,
+          "r_adx": 0.16054475965444265,
+          "r_rsi_ext": 0.1427405426513788
+        },
+        {
+          "window": 21,
+          "r_adx": 0.10606790353068883,
+          "r_rsi_ext": 0.09371763003297948
+        },
+        {
+          "window": 30,
+          "r_adx": 0.08312443829144545,
+          "r_rsi_ext": 0.08581596237519373
+        }
+      ],
+      "ETHUSDT": [
+        {
+          "window": 5,
+          "r_adx": 0.12133595204251876,
+          "r_rsi_ext": 0.16702277776500452
+        },
+        {
+          "window": 7,
+          "r_adx": 0.13922382705027123,
+          "r_rsi_ext": 0.19703554150225835
+        },
+        {
+          "window": 10,
+          "r_adx": 0.12058299805251674,
+          "r_rsi_ext": 0.18898583092036264
+        },
+        {
+          "window": 14,
+          "r_adx": 0.10525067692515877,
+          "r_rsi_ext": 0.1972114253267144
+        },
+        {
+          "window": 21,
+          "r_adx": 0.1382704185833397,
+          "r_rsi_ext": 0.20335089420232313
+        },
+        {
+          "window": 30,
+          "r_adx": 0.12207864514114541,
+          "r_rsi_ext": 0.15415582154572868
+        }
+      ],
+      "SOLUSDT": [
+        {
+          "window": 5,
+          "r_adx": 0.13590476723918427,
+          "r_rsi_ext": 0.23317258596354623
+        },
+        {
+          "window": 7,
+          "r_adx": 0.13373528010128485,
+          "r_rsi_ext": 0.22372790138865606
+        },
+        {
+          "window": 10,
+          "r_adx": 0.10595064153791887,
+          "r_rsi_ext": 0.14324211470722223
+        },
+        {
+          "window": 14,
+          "r_adx": 0.060535485872075745,
+          "r_rsi_ext": 0.11367694272740865
+        },
+        {
+          "window": 21,
+          "r_adx": 0.06482688824877246,
+          "r_rsi_ext": 0.14829970056177347
+        },
+        {
+          "window": 30,
+          "r_adx": 0.16208567572831034,
+          "r_rsi_ext": 0.15332149473269432
+        }
+      ]
+    },
+    "mutual_information": {
+      "BTCUSDT": {
+        "adx": {
+          "spearman": 0.12298781899016137,
+          "mutual_info": 0.07264401244920915
+        },
+        "rsi_extremity": {
+          "spearman": 0.22233628023892965,
+          "mutual_info": 0.045447798427952435
+        },
+        "volatility": {
+          "spearman": -0.1009534967180303,
+          "mutual_info": 0.060676130504920156
+        }
+      },
+      "ETHUSDT": {
+        "adx": {
+          "spearman": 0.13922382705027123,
+          "mutual_info": 0.07657612651973533
+        },
+        "rsi_extremity": {
+          "spearman": 0.19703554150225835,
+          "mutual_info": 0.07563372094372323
+        },
+        "volatility": {
+          "spearman": -0.10279998172696225,
+          "mutual_info": 0.09514577125099688
+        }
+      },
+      "SOLUSDT": {
+        "adx": {
+          "spearman": 0.13373528010128485,
+          "mutual_info": 0.05847748533911812
+        },
+        "rsi_extremity": {
+          "spearman": 0.22372790138865606,
+          "mutual_info": 0.07047377774585684
+        },
+        "volatility": {
+          "spearman": -0.1186550250232149,
+          "mutual_info": 0.11508302891634692
+        }
+      }
+    },
+    "causality": {
+      "BTCUSDT": {
+        "adx": {
+          "si_causes_feat": "True",
+          "feat_causes_si": "True"
+        },
+        "rsi_extremity": {
+          "si_causes_feat": "True",
+          "feat_causes_si": "True"
+        },
+        "volatility": {
+          "si_causes_feat": "False",
+          "feat_causes_si": "True"
+        }
+      },
+      "ETHUSDT": {
+        "adx": {
+          "si_causes_feat": "True",
+          "feat_causes_si": "True"
+        },
+        "rsi_extremity": {
+          "si_causes_feat": "True",
+          "feat_causes_si": "True"
+        },
+        "volatility": {
+          "si_causes_feat": "False",
+          "feat_causes_si": "True"
+        }
+      },
+      "SOLUSDT": {
+        "adx": {
+          "si_causes_feat": "True",
+          "feat_causes_si": "True"
+        },
+        "rsi_extremity": {
+          "si_causes_feat": "False",
+          "feat_causes_si": "True"
+        },
+        "volatility": {
+          "si_causes_feat": "True",
+          "feat_causes_si": "True"
+        }
+      }
+    },
+    "macro_lead_lag": {
+      "BTCUSDT": {
+        "HY_CREDIT": {
+          "best_lag": 0,
+          "best_r": 0.07915017470758494
+        },
+        "IG_CREDIT": {
+          "best_lag": 0,
+          "best_r": 0.06947448576341793
+        },
+        "OIL": {
+          "best_lag": 0,
+          "best_r": -0.08456331149242018
+        },
+        "US10Y": {
+          "best_lag": -8,
+          "best_r": 0.03815458694964448
+        },
+        "SP500": {
+          "best_lag": -2,
+          "best_r": 0.057642058116902546
+        },
+        "DXY": {
+          "best_lag": 0,
+          "best_r": -0.03390243681308487
+        },
+        "GOLD": {
+          "best_lag": -2,
+          "best_r": 0.03633150513375606
+        },
+        "VIX": {
+          "best_lag": 0,
+          "best_r": -0.053226255671117495
+        }
+      },
+      "ETHUSDT": {
+        "HY_CREDIT": {
+          "best_lag": -5,
+          "best_r": -0.04044205351876771
+        },
+        "IG_CREDIT": {
+          "best_lag": -5,
+          "best_r": -0.028647525065753434
+        },
+        "OIL": {
+          "best_lag": -2,
+          "best_r": 0.04505905251259478
+        },
+        "US10Y": {
+          "best_lag": -7,
+          "best_r": 0.01817466841673629
+        },
+        "SP500": {
+          "best_lag": 0,
+          "best_r": -0.053660409752583196
+        },
+        "DXY": {
+          "best_lag": -10,
+          "best_r": 0.020868629610261827
+        },
+        "GOLD": {
+          "best_lag": 0,
+          "best_r": -0.05901203318342443
+        },
+        "VIX": {
+          "best_lag": -9,
+          "best_r": -0.05560642486389818
+        }
+      }
+    },
+    "tail_dependence": {
+      "BTCUSDT": {
+        "si_before_extreme_down": 0.01896719863575517,
+        "si_before_extreme_up": 0.01868327868519972,
+        "si_before_normal": 0.01921113102077676
+      },
+      "ETHUSDT": {
+        "si_before_extreme_down": 0.019599737927544526,
+        "si_before_extreme_up": 0.02107674629222577,
+        "si_before_normal": 0.019438241697676505
+      },
+      "SOLUSDT": {
+        "si_before_extreme_down": 0.020484349695807567,
+        "si_before_extreme_up": 0.020316577274070713,
+        "si_before_normal": 0.021102057701270997
+      }
+    },
+    "cross_asset_sync": [
+      {
+        "pair": "BTCUSDT-ETHUSDT",
+        "r": 0.21779572013495213,
+        "same_market": true
+      },
+      {
+        "pair": "BTCUSDT-SOLUSDT",
+        "r": 0.21366345873502773,
+        "same_market": true
+      },
+      {
+        "pair": "BTCUSDT-EURUSD",
+        "r": -0.16838033939890493,
+        "same_market": false
+      },
+      {
+        "pair": "BTCUSDT-GBPUSD",
+        "r": -0.03069333054010201,
+        "same_market": false
+      },
+      {
+        "pair": "BTCUSDT-USDJPY",
+        "r": -0.023890149351984653,
+        "same_market": false
+      },
+      {
+        "pair": "ETHUSDT-SOLUSDT",
+        "r": 0.13424795925474667,
+        "same_market": true
+      },
+      {
+        "pair": "ETHUSDT-EURUSD",
+        "r": -0.06752408724941816,
+        "same_market": false
+      },
+      {
+        "pair": "ETHUSDT-GBPUSD",
+        "r": -0.057419069856814164,
+        "same_market": false
+      },
+      {
+        "pair": "ETHUSDT-USDJPY",
+        "r": 0.07490668411403328,
+        "same_market": false
+      },
+      {
+        "pair": "SOLUSDT-EURUSD",
+        "r": -0.09657534654881375,
+        "same_market": false
+      },
+      {
+        "pair": "SOLUSDT-GBPUSD",
+        "r": -0.1266908831831304,
+        "same_market": false
+      },
+      {
+        "pair": "SOLUSDT-USDJPY",
+        "r": -0.08254239790774802,
+        "same_market": false
+      },
+      {
+        "pair": "SPY-QQQ",
+        "r": 0.5295565436993913,
+        "same_market": true
+      },
+      {
+        "pair": "SPY-AAPL",
+        "r": 0.2460791778114547,
+        "same_market": true
+      },
+      {
+        "pair": "QQQ-AAPL",
+        "r": 0.2086497692305771,
+        "same_market": true
+      },
+      {
+        "pair": "EURUSD-GBPUSD",
+        "r": 0.21958905590978972,
+        "same_market": true
+      },
+      {
+        "pair": "EURUSD-USDJPY",
+        "r": 0.10452185597568846,
+        "same_market": true
+      },
+      {
+        "pair": "GBPUSD-USDJPY",
+        "r": 0.08228566673682683,
+        "same_market": true
+      }
+    ]
+  }
+}
