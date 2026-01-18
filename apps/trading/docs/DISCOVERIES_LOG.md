@@ -354,3 +354,13 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - SI sweet spot at p90 in BTCUSDT (Sharpe=1.33)
 - SI sweet spot at p10 in SPY (Sharpe=1.63)
 - SI sweet spot at p90 in EURUSD (Sharpe=2.35)
+
+
+## Phase 1 Round 2 Part 3 - 2026-01-18 00:08
+
+- High-SI regime is very sticky in BTCUSDT (P=80%)
+- High-SI regime is very sticky in EURUSD (P=81%)
+- SI mean reverts quickly in BTCUSDT (half-life=4.1 days)
+- SI mean reverts quickly in SPY (half-life=4.7 days)
+- SI mean reverts quickly in EURUSD (half-life=4.9 days)
+- SI extremes predict different returns in BTCUSDT (spread=1.2bp)
