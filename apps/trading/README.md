@@ -28,7 +28,7 @@ class Replicator:
     niche_affinity: np.ndarray  # A 3-element probability vector - that's it!
 ```
 
-Each agent is merely an **affinity vector** that evolves via multiplicative weight updates. There is:
+Each replicator is merely an **affinity vector** that evolves via multiplicative weight updates. There is:
 - ❌ No neural networks
 - ❌ No language models
 - ❌ No learning from data
