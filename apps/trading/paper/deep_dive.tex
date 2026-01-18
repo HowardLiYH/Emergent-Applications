@@ -273,7 +273,7 @@ Each replicator is simply:
 class Replicator:
     strategy_idx: int           # Which trading strategy (0-4)
     niche_affinity: np.ndarray  # 3-element probability vector
-    
+
     def update_affinity(self, regime_idx: int, won: bool, alpha=0.1):
         if won:
             self.niche_affinity[regime_idx] += alpha * (1 - self.niche_affinity[regime_idx])
@@ -568,7 +568,7 @@ def update_affinity(self, regime_idx, won, alpha=0.1):
     else:
         # Loser: exponential decay toward 0
         self.niche_affinity[regime_idx] *= (1 - alpha)
-    
+
     # Maintain probability constraint
     self.niche_affinity /= self.niche_affinity.sum()
 \end{lstlisting}
@@ -779,7 +779,7 @@ $\TE(X \to Y) \approx \TE(Y \to X)$ & Bidirectional or spurious \\
 def classify_regime(data: pd.DataFrame, idx: int, lookback: int = 7) -> int:
     """
     Classify market regime at time idx.
-    
+
     Returns:
         0 = Bull (strong uptrend)
         1 = Bear (strong downtrend)
@@ -787,10 +787,10 @@ def classify_regime(data: pd.DataFrame, idx: int, lookback: int = 7) -> int:
     """
     if idx < lookback:
         return 2  # Neutral by default
-    
+
     returns = data['close'].pct_change(lookback).iloc[idx]
     volatility = data['close'].pct_change().rolling(lookback).std().iloc[idx]
-    
+
     if returns > volatility:
         return 0  # Bull
     elif returns < -volatility:
@@ -846,12 +846,12 @@ def compute_fitness(data: pd.DataFrame, idx: int, strategies: List) -> np.ndarra
     Compute fitness (return) for each strategy at time idx.
     """
     fitness = np.zeros(len(strategies))
-    
+
     for s_idx, strategy in enumerate(strategies):
         signal = strategy.generate_signal(data, idx)
         next_return = data['close'].pct_change().iloc[idx + 1]
         fitness[s_idx] = signal * next_return  # Long/short return
-    
+
     return fitness
 \end{lstlisting}
 
@@ -916,7 +916,7 @@ The mechanism creates a feedback loop between market structure and replicator be
         \item Winners accumulate in trend regime
         \item Affinities concentrate $\Rightarrow$ SI increases
     \end{itemize}
-    
+
     \item \textbf{When ADX is low} (no clear trend):
     \begin{itemize}
         \item No strategy consistently wins
@@ -975,9 +975,9 @@ with probability 1, and $\SI^*$ is increasing in fitness variance across niches.
 
 \begin{enumerate}
     \item[(A1)] \textbf{Fitness Regularity}: Niche fitness is bounded: $0 < f_{\min} \leq f_k(t) \leq f_{\max} < \infty$
-    
+
     \item[(A2)] \textbf{Ergodicity}: The fitness process is ergodic with a stationary distribution
-    
+
     \item[(A3)] \textbf{Full Support}: Initial affinities have full support: $p_i^k(0) > 0$ for all $i, k$
 \end{enumerate}
 
@@ -1112,7 +1112,7 @@ SI-ADX correlation \textbf{changes sign} depending on the time horizon:
 
 \begin{enumerate}
     \item \textbf{Short-term ($<$30 days)}: Competition outcomes are noisy. Win/loss is somewhat random. No clear pattern accumulates.
-    
+
     \item \textbf{Long-term ($>$30 days)}: Consistent fitness advantages accumulate. Replicators ``learn'' which regimes favor their strategies. SI begins to track market structure.
 \end{enumerate}
 
@@ -1942,14 +1942,14 @@ class MomentumStrategy:
     """
     def __init__(self, lookback: int = 20):
         self.lookback = lookback
-    
+
     def generate_signal(self, data: pd.DataFrame, idx: int) -> float:
         if idx < self.lookback:
             return 0.0
-        
+
         current_price = data['close'].iloc[idx]
         sma = data['close'].iloc[idx-self.lookback:idx].mean()
-        
+
         if current_price > sma * 1.01:  # 1% above
             return 1.0  # Long
         elif current_price < sma * 0.99:  # 1% below
@@ -1969,19 +1969,19 @@ class MeanReversionStrategy:
     def __init__(self, lookback: int = 20, n_std: float = 2.0):
         self.lookback = lookback
         self.n_std = n_std
-    
+
     def generate_signal(self, data: pd.DataFrame, idx: int) -> float:
         if idx < self.lookback:
             return 0.0
-        
+
         prices = data['close'].iloc[idx-self.lookback:idx+1]
         current_price = prices.iloc[-1]
         sma = prices[:-1].mean()
         std = prices[:-1].std()
-        
+
         upper_band = sma + self.n_std * std
         lower_band = sma - self.n_std * std
-        
+
         if current_price < lower_band:
             return 1.0  # Long (expect reversion up)
         elif current_price > upper_band:
@@ -2000,30 +2000,30 @@ class VolatilityStrategy:
     """
     def __init__(self, lookback: int = 14):
         self.lookback = lookback
-    
+
     def compute_atr(self, data: pd.DataFrame, idx: int) -> float:
         """Average True Range"""
         if idx < self.lookback:
             return 0.0
-        
+
         high = data['high'].iloc[idx-self.lookback:idx+1]
         low = data['low'].iloc[idx-self.lookback:idx+1]
         close = data['close'].iloc[idx-self.lookback:idx+1]
-        
+
         tr1 = high - low
         tr2 = abs(high - close.shift(1))
         tr3 = abs(low - close.shift(1))
-        
+
         tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
         return tr.mean()
-    
+
     def generate_signal(self, data: pd.DataFrame, idx: int) -> float:
         if idx < self.lookback + 5:
             return 0.0
-        
+
         current_atr = self.compute_atr(data, idx)
         past_atr = self.compute_atr(data, idx - 5)
-        
+
         if current_atr > past_atr * 1.1:  # ATR expanding
             # Follow the trend
             recent_return = data['close'].pct_change(5).iloc[idx]
@@ -2045,30 +2045,30 @@ class TrendFollowingStrategy:
         self.fast = fast
         self.slow = slow
         self.rsi_period = rsi_period
-    
+
     def compute_rsi(self, data: pd.DataFrame, idx: int) -> float:
         if idx < self.rsi_period:
             return 50.0
-        
+
         prices = data['close'].iloc[idx-self.rsi_period:idx+1]
         delta = prices.diff()
-        
+
         gain = delta.where(delta > 0, 0).mean()
         loss = (-delta.where(delta < 0, 0)).mean()
-        
+
         if loss == 0:
             return 100.0
         rs = gain / loss
         return 100 - (100 / (1 + rs))
-    
+
     def generate_signal(self, data: pd.DataFrame, idx: int) -> float:
         if idx < self.slow:
             return 0.0
-        
+
         fast_ma = data['close'].iloc[idx-self.fast:idx+1].mean()
         slow_ma = data['close'].iloc[idx-self.slow:idx+1].mean()
         rsi = self.compute_rsi(data, idx)
-        
+
         if fast_ma > slow_ma and rsi < 70:  # Uptrend, not overbought
             return 1.0
         elif fast_ma < slow_ma and rsi > 30:  # Downtrend, not oversold
@@ -2087,19 +2087,19 @@ class RangeTradingStrategy:
     def __init__(self, lookback: int = 20, n_std: float = 2.0):
         self.lookback = lookback
         self.n_std = n_std
-    
+
     def generate_signal(self, data: pd.DataFrame, idx: int) -> float:
         if idx < self.lookback:
             return 0.0
-        
+
         prices = data['close'].iloc[idx-self.lookback:idx+1]
         current_price = prices.iloc[-1]
         sma = prices[:-1].mean()
         std = prices[:-1].std()
-        
+
         upper_band = sma + self.n_std * std
         lower_band = sma - self.n_std * std
-        
+
         # How close to bands
         if current_price <= lower_band:
             return 1.0  # Long at support
@@ -2250,13 +2250,13 @@ Metric & SCI & SI \\
         \item Paper 1: Complex LLM agents with billions of parameters
         \item Paper 2: Trivial affinity vectors (3 numbers)
     \end{itemize}
-    
+
     \item \textbf{Environment}:
     \begin{itemize}
         \item Paper 1: Static task distribution
         \item Paper 2: Dynamic market conditions
     \end{itemize}
-    
+
     \item \textbf{Discovery}:
     \begin{itemize}
         \item Paper 1: Agents develop specialized preferences
@@ -2758,11 +2758,11 @@ class Replicator:
     """A simple replicator with strategy and niche affinities."""
     strategy_idx: int
     niche_affinity: np.ndarray
-    
+
     def __post_init__(self):
         # Ensure affinity is normalized
         self.niche_affinity = self.niche_affinity / self.niche_affinity.sum()
-    
+
     def update_affinity(self, regime_idx: int, won: bool, alpha: float = 0.1):
         """Update affinity based on competition outcome."""
         if won:
@@ -2771,10 +2771,10 @@ class Replicator:
         else:
             # Loser: exponential decay
             self.niche_affinity[regime_idx] *= (1 - alpha)
-        
+
         # Normalize to maintain probability
         self.niche_affinity /= self.niche_affinity.sum()
-    
+
     def get_entropy(self) -> float:
         """Compute entropy of affinity distribution."""
         p = self.niche_affinity
@@ -2786,12 +2786,12 @@ class Replicator:
 class NichePopulation:
     """
     NichePopulation mechanism for emergent specialization.
-    
+
     Replicators compete based on strategy fitness in different
     market regimes. Winners increase affinity for current regime,
     losers decrease. Over time, specialization emerges.
     """
-    
+
     def __init__(
         self,
         n_replicators: int = 50,
@@ -2804,20 +2804,20 @@ class NichePopulation:
         self.n_niches = n_niches
         self.n_strategies = n_strategies
         self.alpha = alpha
-        
+
         np.random.seed(random_seed)
-        
+
         # Initialize replicators with uniform affinities
         self.replicators = []
         for i in range(n_replicators):
             strategy_idx = i % n_strategies
             affinity = np.ones(n_niches) / n_niches
             self.replicators.append(Replicator(strategy_idx, affinity))
-    
+
     def classify_regime(self, data: pd.DataFrame, idx: int, lookback: int = 7) -> int:
         """
         Classify market regime at given index.
-        
+
         Returns:
             0 = Bull (uptrend)
             1 = Bear (downtrend)
@@ -2825,51 +2825,51 @@ class NichePopulation:
         """
         if idx < lookback:
             return 2  # Default to neutral
-        
+
         returns = data['close'].pct_change(lookback).iloc[idx]
         volatility = data['close'].pct_change().rolling(lookback).std().iloc[idx]
-        
+
         if pd.isna(volatility) or volatility == 0:
             return 2
-        
+
         if returns > volatility:
             return 0  # Bull
         elif returns < -volatility:
             return 1  # Bear
         else:
             return 2  # Neutral
-    
+
     def compute_fitness(self, data: pd.DataFrame, idx: int) -> np.ndarray:
         """
         Compute fitness for each strategy at given index.
-        
+
         Fitness = strategy signal * next period return
         """
         fitness = np.zeros(self.n_strategies)
-        
+
         if idx >= len(data) - 1:
             return fitness
-        
+
         # Strategy signals (simplified)
         close = data['close']
-        
+
         # Momentum: long if above SMA, short if below
         if idx >= 20:
             sma = close.iloc[idx-20:idx].mean()
             momentum_signal = 1.0 if close.iloc[idx] > sma else -1.0
         else:
             momentum_signal = 0.0
-        
+
         # Mean-reversion: opposite of momentum
         mean_rev_signal = -momentum_signal
-        
+
         # Volatility: long in high vol
         if idx >= 14:
             vol = close.pct_change().iloc[idx-14:idx].std()
             vol_signal = 1.0 if vol > vol * 1.5 else -1.0
         else:
             vol_signal = 0.0
-        
+
         # Trend: SMA crossover
         if idx >= 20:
             fast = close.iloc[idx-5:idx].mean()
@@ -2877,7 +2877,7 @@ class NichePopulation:
             trend_signal = 1.0 if fast > slow else -1.0
         else:
             trend_signal = 0.0
-        
+
         # Range: mean to bands
         if idx >= 20:
             sma = close.iloc[idx-20:idx].mean()
@@ -2886,32 +2886,32 @@ class NichePopulation:
             range_signal = 1.0 - 2.0 * pos
         else:
             range_signal = 0.0
-        
-        signals = [momentum_signal, mean_rev_signal, vol_signal, 
+
+        signals = [momentum_signal, mean_rev_signal, vol_signal,
                    trend_signal, range_signal]
-        
+
         # Next return
         next_return = close.pct_change().iloc[idx + 1]
-        
+
         for i, signal in enumerate(signals):
             fitness[i] = signal * next_return
-        
+
         return fitness
-    
+
     def run_competition(self, regime: int, fitness: np.ndarray):
         """
         Run pairwise competition among replicators.
         """
         # Random pairing
         indices = np.random.permutation(self.n_replicators)
-        
+
         for i in range(0, self.n_replicators - 1, 2):
             idx1, idx2 = indices[i], indices[i + 1]
             rep1, rep2 = self.replicators[idx1], self.replicators[idx2]
-            
+
             f1 = fitness[rep1.strategy_idx]
             f2 = fitness[rep2.strategy_idx]
-            
+
             if f1 > f2:
                 rep1.update_affinity(regime, won=True, alpha=self.alpha)
                 rep2.update_affinity(regime, won=False, alpha=self.alpha)
@@ -2919,45 +2919,45 @@ class NichePopulation:
                 rep2.update_affinity(regime, won=True, alpha=self.alpha)
                 rep1.update_affinity(regime, won=False, alpha=self.alpha)
             # Tie: no update
-    
+
     def compute_si(self) -> float:
         """
         Compute Specialization Index for the population.
-        
+
         SI = 1 - mean(normalized_entropy)
         """
         max_entropy = np.log(self.n_niches)
         normalized_entropies = []
-        
+
         for rep in self.replicators:
             h = rep.get_entropy()
             normalized_entropies.append(h / max_entropy)
-        
+
         return 1 - np.mean(normalized_entropies)
-    
+
     def run(self, data: pd.DataFrame) -> pd.Series:
         """
         Run the NichePopulation mechanism on data.
-        
+
         Returns:
             SI time series
         """
         si_values = []
-        
+
         for idx in range(len(data) - 1):
             # Classify regime
             regime = self.classify_regime(data, idx)
-            
+
             # Compute fitness
             fitness = self.compute_fitness(data, idx)
-            
+
             # Run competition
             self.run_competition(regime, fitness)
-            
+
             # Compute SI
             si = self.compute_si()
             si_values.append(si)
-        
+
         return pd.Series(si_values, index=data.index[:-1], name='SI')
 \end{lstlisting}
 
@@ -2975,11 +2975,11 @@ def si_risk_budgeting(
 ) -> pd.DataFrame:
     """
     SI-based position sizing strategy.
-    
+
     Scales position by SI percentile rank:
     - High SI -> larger position (clearer market)
     - Low SI -> smaller position (unclear market)
-    
+
     Args:
         data: OHLCV data
         si: SI time series
@@ -2988,36 +2988,36 @@ def si_risk_budgeting(
         position_bounds: (min, max) position multiplier
         smoothing_halflife: EMA halflife for smoothing
         transaction_cost: Cost per unit traded
-    
+
     Returns:
         DataFrame with strategy results
     """
     # Compute SI rank
     si_rank = si.rolling(si_window).rank(pct=True)
-    
+
     # Scale position
     min_pos, max_pos = position_bounds
     position_scale = min_pos + (max_pos - min_pos) * si_rank
-    
+
     # Smooth position
     position_scale = position_scale.ewm(halflife=smoothing_halflife).mean()
-    
+
     # Final position
     position = base_signal * position_scale
-    
+
     # Returns
     returns = data['close'].pct_change().shift(-1)
-    
+
     # Strategy returns (before costs)
     strategy_returns = position * returns
-    
+
     # Transaction costs
     turnover = position.diff().abs()
     costs = turnover * transaction_cost
-    
+
     # Net returns
     net_returns = strategy_returns - costs
-    
+
     # Results
     results = pd.DataFrame({
         'position': position,
@@ -3027,7 +3027,7 @@ def si_risk_budgeting(
         'net_returns': net_returns,
         'cumulative_returns': (1 + net_returns).cumprod()
     })
-    
+
     return results
 
 
@@ -3048,37 +3048,37 @@ def walk_forward_validation(
 ) -> List[dict]:
     """
     Walk-forward validation of SI strategy.
-    
+
     Returns list of results for each test window.
     """
     results = []
-    
+
     for start in range(0, len(data) - train_days - test_days - purge_days, test_days):
         # Train period
         train_end = start + train_days
-        
+
         # Purge period (skip)
         test_start = train_end + purge_days
         test_end = test_start + test_days
-        
+
         if test_end > len(data):
             break
-        
+
         # Test data
         test_data = data.iloc[test_start:test_end]
         test_si = si.iloc[test_start:test_end]
-        
+
         # Base signal (simple momentum)
         base_signal = np.sign(test_data['close'].pct_change(5))
-        
+
         # Run strategy
         strategy_results = si_risk_budgeting(
             test_data, test_si, base_signal
         )
-        
+
         # Compute metrics
         sharpe = compute_sharpe(strategy_results['net_returns'])
-        
+
         results.append({
             'start': test_data.index[0],
             'end': test_data.index[-1],
@@ -3086,7 +3086,7 @@ def walk_forward_validation(
             'cumulative_return': strategy_results['cumulative_returns'].iloc[-1] - 1,
             'turnover': strategy_results['position'].diff().abs().sum()
         })
-    
+
     return results
 \end{lstlisting}
 
@@ -3094,31 +3094,31 @@ def walk_forward_validation(
 
 \begin{description}
     \item[ADX] Average Directional Index. Measures trend strength regardless of direction. Range: [0, 100].
-    
+
     \item[Affinity] A replicator's probability distribution over niches. Updated via competition.
-    
+
     \item[Cointegration] When two non-stationary series share a stationary linear combination.
-    
+
     \item[Entropy] Measure of uncertainty/disorder in a distribution. High entropy = uniform.
-    
+
     \item[FDR] False Discovery Rate. Expected proportion of false positives among rejected hypotheses.
-    
+
     \item[Fitness] A strategy's return in a given market condition.
-    
+
     \item[HAC] Heteroskedasticity and Autocorrelation Consistent. Robust standard errors.
-    
+
     \item[Hurst Exponent] Measure of long-range dependence. $H > 0.5$ indicates persistence.
-    
+
     \item[Niche] A market regime (Bull, Bear, Neutral) that favors certain strategies.
-    
+
     \item[Replicator] A simple entity with a strategy and affinity vector. NOT an LLM agent.
-    
+
     \item[Replicator Dynamics] Update rule where fitter strategies increase in frequency.
-    
+
     \item[SI] Specialization Index. Measures average concentration of affinity distributions.
-    
+
     \item[Transfer Entropy] Measure of directed information flow between time series.
-    
+
     \item[Walk-Forward] Out-of-sample validation with rolling training windows.
 \end{description}
 
@@ -3244,9 +3244,9 @@ The replicators have \textbf{no knowledge of ADX}. The correlation emerges becau
 
 \begin{enumerate}
     \item \textbf{Origin}: ADX is designed to measure trends. SI emerges from competition.
-    
+
     \item \textbf{Information}: SI captures aggregate behavior of competing strategies, which may encode additional market information beyond what any single indicator measures.
-    
+
     \item \textbf{Theoretical Foundation}: SI connects to evolutionary game theory and replicator dynamics, providing theoretical grounding for its behavior.
 \end{enumerate}
 
@@ -3454,11 +3454,11 @@ SI is fundamentally an entropy-based measure. We connect information-theoretic c
 
 \begin{enumerate}
     \item \textbf{Cointegration with zero market knowledge}: We expected some weak correlation, not cointegration.
-    
+
     \item \textbf{Universality across assets}: The same mechanism works for crypto, equities, and forex despite very different market structures.
-    
+
     \item \textbf{Phase transition at 30 days}: The sign change in correlation was unexpected and provides practical guidance.
-    
+
     \item \textbf{RSI Extremity stronger than ADX}: We designed experiments around ADX, but RSI Extremity emerged as the strongest correlate.
 \end{enumerate}
 
@@ -3466,9 +3466,9 @@ SI is fundamentally an entropy-based measure. We connect information-theoretic c
 
 \begin{enumerate}
     \item \textbf{Start with simpler metrics}: We spent time on complex features when simple ones (RSI Extremity) were more powerful.
-    
+
     \item \textbf{More emphasis on negative results}: The 0/30 post-FDR significance is important and should be prominently discussed.
-    
+
     \item \textbf{Higher-frequency data from the start}: Daily data limits practical applications.
 \end{enumerate}
 
@@ -3476,11 +3476,11 @@ SI is fundamentally an entropy-based measure. We connect information-theoretic c
 
 \begin{enumerate}
     \item Why does RSI Extremity correlate more strongly than ADX?
-    
+
     \item Can the mechanism be adapted for higher-frequency trading?
-    
+
     \item What happens with more sophisticated replicators?
-    
+
     \item Are there other domains where this mechanism applies?
 \end{enumerate}
 
@@ -4360,9 +4360,9 @@ Does SI (a population-level property) causally affect individual replicators?
 
 \begin{enumerate}
     \item \textbf{Coordination without Communication}: Market participants may synchronize behavior without explicit coordination.
-    
+
     \item \textbf{Self-Organizing Efficiency}: Markets may develop structure through competition alone.
-    
+
     \item \textbf{Limits of Design}: Emergent properties may be difficult to predict or control.
 \end{enumerate}
 
@@ -4448,7 +4448,7 @@ This section documents the exact experimental protocol for reproducibility.
         \item Apply OHLC consistency check
         \item Save to CSV with UTC timestamps
     \end{itemize}
-    
+
     \item \textbf{Equity}
     \begin{itemize}
         \item Use yfinance library
@@ -4457,7 +4457,7 @@ This section documents the exact experimental protocol for reproducibility.
         \item Forward-fill weekend/holiday gaps
         \item Save to CSV
     \end{itemize}
-    
+
     \item \textbf{Forex}
     \begin{itemize}
         \item Use OANDA API
@@ -4479,7 +4479,7 @@ This section documents the exact experimental protocol for reproducibility.
         \item Number of strategies: 5
         \item Update rate $\alpha$: 0.1
     \end{itemize}
-    
+
     \item \textbf{For each asset}
     \begin{itemize}
         \item Load data
@@ -4521,13 +4521,13 @@ For each asset, compute:
         \item Compute p-value using HAC standard errors
         \item Record significance level
     \end{itemize}
-    
+
     \item \textbf{Cross-Asset Consistency}
     \begin{itemize}
         \item Count assets where correlation has same sign
         \item Compute mean and std of correlations across assets
     \end{itemize}
-    
+
     \item \textbf{FDR Correction}
     \begin{itemize}
         \item Collect all p-values (30 features $\times$ 11 assets = 330 tests)
@@ -4545,7 +4545,7 @@ For each asset, compute:
         \item Run ADF test on ADX for each asset
         \item Verify both are I(1)
     \end{itemize}
-    
+
     \item \textbf{Engle-Granger Test}
     \begin{itemize}
         \item Regress SI on ADX
@@ -4553,7 +4553,7 @@ For each asset, compute:
         \item Run ADF test on residuals
         \item Record test statistic and p-value
     \end{itemize}
-    
+
     \item \textbf{Error Correction Model}
     \begin{itemize}
         \item Estimate ECM for SI and ADX
@@ -4572,7 +4572,7 @@ For each asset, compute:
         \item Compute using wavelet analysis
         \item Report mean and range
     \end{itemize}
-    
+
     \item \textbf{OU Parameters}
     \begin{itemize}
         \item Estimate $\theta$ from lag-1 autocorrelation
@@ -4592,7 +4592,7 @@ For each asset, compute:
         \item Test window: 63 days
         \item Roll forward by 63 days
     \end{itemize}
-    
+
     \item \textbf{For each window}
     \begin{itemize}
         \item Use training data to compute SI parameters
@@ -4600,7 +4600,7 @@ For each asset, compute:
         \item Compute Sharpe ratio (net of transaction costs)
         \item Record result
     \end{itemize}
-    
+
     \item \textbf{Aggregate}
     \begin{itemize}
         \item Compute mean Sharpe across windows
@@ -4727,14 +4727,14 @@ Note: This assumes IID returns. For autocorrelated returns, the effective sample
 
 We develop a simplified model to explain why SI correlates with ADX.
 
-\textbf{Setup}: 
+\textbf{Setup}:
 \begin{itemize}
     \item $N$ replicators, each with one of $S$ strategies
     \item Market has ``trend clarity'' $C \in [0, 1]$
     \item When $C$ is high, trend-following strategies dominate
 \end{itemize}
 
-\textbf{Model}: 
+\textbf{Model}:
 Strategy $s$ wins with probability:
 \begin{equation}
 P(\text{win} | s, C) = \frac{e^{\beta_s C}}{\sum_{s'} e^{\beta_{s'} C}}
@@ -4782,7 +4782,7 @@ class RealTimeSI:
             for s in range(n_replicators)
         ]
         self.current_si = 0.0
-    
+
     def update(self, regime: int, strategy_returns: np.ndarray):
         """Update SI with new market data."""
         # Run competition
@@ -4796,11 +4796,11 @@ class RealTimeSI:
             elif f2 > f1:
                 r2.update_affinity(regime, True)
                 r1.update_affinity(regime, False)
-        
+
         # Compute SI
         max_h = np.log(len(self.replicators[0].niche_affinity))
         self.current_si = 1 - np.mean([r.get_entropy() / max_h for r in self.replicators])
-        
+
         return self.current_si
 \end{lstlisting}
 
@@ -4813,32 +4813,32 @@ class SIRiskManager:
         self.base_position = base_position
         self.si_history = []
         self.lookback = 63  # days
-    
+
     def compute_position_size(self, signal: float) -> float:
         """Compute position size based on SI."""
         current_si = self.si_computer.current_si
         self.si_history.append(current_si)
-        
+
         if len(self.si_history) < self.lookback:
             return signal * self.base_position  # No SI adjustment yet
-        
+
         # Compute SI rank
         recent_si = self.si_history[-self.lookback:]
         rank = sum(1 for s in recent_si if s < current_si) / len(recent_si)
-        
+
         # Scale position
         multiplier = 0.5 + 1.0 * rank  # Range: 0.5 to 1.5
-        
+
         return signal * self.base_position * multiplier
-    
+
     def generate_order(self, signal: float, current_position: float) -> dict:
         """Generate order based on SI-adjusted position."""
         target_position = self.compute_position_size(signal)
         delta = target_position - current_position
-        
+
         if abs(delta) < 0.01:  # Threshold for trading
             return None
-        
+
         return {
             'side': 'buy' if delta > 0 else 'sell',
             'quantity': abs(delta),
@@ -4855,32 +4855,32 @@ class RiskControls:
         self.max_daily_loss = max_daily_loss
         self.daily_pnl = 0.0
         self.last_reset = None
-    
+
     def check_position_limit(self, proposed_position: float) -> float:
         """Ensure position is within limits."""
         return np.clip(proposed_position, -self.max_position, self.max_position)
-    
+
     def check_daily_loss(self, pnl: float) -> bool:
         """Check if daily loss limit is breached."""
         # Reset at start of day
         if self.last_reset != datetime.now().date():
             self.daily_pnl = 0.0
             self.last_reset = datetime.now().date()
-        
+
         self.daily_pnl += pnl
-        
+
         return self.daily_pnl > -self.max_daily_loss
-    
+
     def apply_controls(self, order: dict, current_pnl: float) -> dict:
         """Apply all risk controls to order."""
         if order is None:
             return None
-        
+
         if not self.check_daily_loss(current_pnl):
             return None  # Stop trading for the day
-        
+
         order['quantity'] = self.check_position_limit(order['quantity'])
-        
+
         return order
 \end{lstlisting}
 
@@ -4899,57 +4899,57 @@ class Backtester:
         self.si_manager = si_risk_manager
         self.transaction_cost = transaction_cost
         self.slippage = slippage
-    
+
     def run(self, signal_generator: callable) -> pd.DataFrame:
         """Run backtest."""
         positions = []
         returns = []
         costs = []
-        
+
         current_position = 0.0
-        
+
         for i in range(len(self.data) - 1):
             # Generate signal
             signal = signal_generator(self.data.iloc[:i+1])
-            
+
             # Update SI and get position
             regime = self.si_manager.si_computer.classify_regime(self.data, i)
             strategy_returns = self.compute_strategy_returns(i)
             self.si_manager.si_computer.update(regime, strategy_returns)
-            
+
             target_position = self.si_manager.compute_position_size(signal)
-            
+
             # Compute trade
             trade = target_position - current_position
             trade_cost = abs(trade) * (self.transaction_cost + self.slippage)
-            
+
             # Compute return
             next_return = self.data['close'].pct_change().iloc[i + 1]
             strategy_return = current_position * next_return - trade_cost
-            
+
             positions.append(target_position)
             returns.append(strategy_return)
             costs.append(trade_cost)
-            
+
             current_position = target_position
-        
+
         results = pd.DataFrame({
             'position': positions,
             'return': returns,
             'cost': costs,
             'cumulative': (1 + pd.Series(returns)).cumprod()
         }, index=self.data.index[:-1])
-        
+
         return results
-    
+
     def compute_metrics(self, results: pd.DataFrame) -> dict:
         """Compute performance metrics."""
         returns = results['return']
-        
+
         sharpe = np.sqrt(252) * returns.mean() / returns.std()
         max_dd = (results['cumulative'] / results['cumulative'].cummax() - 1).min()
         turnover = results['position'].diff().abs().sum() / len(results) * 252
-        
+
         return {
             'sharpe': sharpe,
             'max_drawdown': max_dd,
