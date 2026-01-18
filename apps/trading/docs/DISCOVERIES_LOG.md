@@ -297,3 +297,11 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - SI correlates with independent component IC2 in BTCUSDT (r=-0.225)
 - SI correlates with independent component IC2 in SPY (r=0.238)
 - SI correlates with independent component IC3 in EURUSD (r=0.317)
+
+
+## Phase 1 Distributions - 2026-01-17 23:42
+
+- SI is NOT normally distributed in 5/5 assets
+- t-distribution fits SI better than normal in BTCUSDT (df=655390198.2)
+- t-distribution fits SI better than normal in SPY (df=266219165.4)
+- 4 asset pairs have statistically same SI distribution
