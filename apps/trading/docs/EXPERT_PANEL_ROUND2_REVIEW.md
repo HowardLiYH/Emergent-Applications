@@ -1,8 +1,8 @@
 # Expert Panel Round 2 Review
 
-**Date**: January 17, 2026  
-**Purpose**: Final review before NeurIPS submission  
-**Status**: Post-implementation review  
+**Date**: January 17, 2026
+**Purpose**: Final review before NeurIPS submission
+**Status**: Post-implementation review
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Prof. Andrew Lo (MIT Sloan) - Adaptive Markets
 > **Rating**: 8/10
-> 
+>
 > **Strengths**: The non-trivial emergence proof (p=0.018) is solid. The adaptive nature of agents aligns with my Adaptive Markets Hypothesis.
 >
 > **Recommendations**:
