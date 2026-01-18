@@ -1,0 +1,251 @@
+{
+  "timestamp": "2026-01-17T23:48:40.517313",
+  "discoveries": [
+    "SI has long memory in BTCUSDT (H=0.831)",
+    "SI has long memory in SPY (H=0.866)",
+    "SI has long memory in EURUSD (H=0.861)",
+    "SI is mean-reverting with half-life=4.4 days in BTCUSDT",
+    "SI is mean-reverting with half-life=5.1 days in SPY",
+    "SI is mean-reverting with half-life=5.3 days in EURUSD",
+    "SI has heavy right tail in BTCUSDT (shape=1.416)",
+    "SI has heavy right tail in SPY (shape=0.454)",
+    "SI has heavy right tail in EURUSD (shape=0.476)",
+    "SI-ADX correlation is highly significant by permutation test in BTCUSDT",
+    "SI-ADX correlation is highly significant by permutation test in EURUSD",
+    "SI is highly predictable from its past in BTCUSDT (H=0.444)",
+    "SI is highly predictable from its past in SPY (H=0.423)",
+    "SI is highly predictable from its past in EURUSD (H=0.413)",
+    "SI-ADX relationship survives HAC correction in EURUSD",
+    "SI-ADX survives factor neutralization in BTCUSDT (r=0.134)",
+    "SI-ADX survives factor neutralization in SPY (r=0.070)",
+    "SI-ADX survives factor neutralization in EURUSD (r=0.140)"
+  ],
+  "results": {
+    "hurst": {
+      "BTCUSDT": {
+        "hurst": 0.8305958998195667
+      },
+      "SPY": {
+        "hurst": 0.866406549761272
+      },
+      "EURUSD": {
+        "hurst": 0.8607439370091367
+      }
+    },
+    "ornstein_uhlenbeck": {
+      "BTCUSDT": {
+        "theta": 0.15580090150637682,
+        "mu": 0.01913934761031235,
+        "sigma": 0.005666965885105522,
+        "half_life_days": 4.448929202964691,
+        "r_squared": 0.7123216119792646
+      },
+      "SPY": {
+        "theta": 0.13634994200503947,
+        "mu": 0.02204855065863939,
+        "sigma": 0.005619566113838927,
+        "half_life_days": 5.0835898451231225,
+        "r_squared": 0.7468714968365062
+      },
+      "EURUSD": {
+        "theta": 0.13016663891636027,
+        "mu": 0.02229245580658018,
+        "sigma": 0.005802755838774017,
+        "half_life_days": 5.325075505754844,
+        "r_squared": 0.7550205541972228
+      }
+    },
+    "evt": {
+      "BTCUSDT": {
+        "right_tail": {
+          "shape": 1.416294013468495,
+          "scale": 0.0012696820468032174,
+          "threshold": 0.03961995748310132,
+          "n_exceedances": 90,
+          "tail_type": "heavy"
+        },
+        "left_tail": {
+          "shape": 0.48136262480756165,
+          "scale": 0.0015586907411919374,
+          "threshold": -0.004428519424742383,
+          "n_exceedances": 91,
+          "tail_type": "heavy"
+        }
+      },
+      "SPY": {
+        "right_tail": {
+          "shape": 0.4538709944361693,
+          "scale": 0.0010689319225749452,
+          "threshold": 0.041169046142870175,
+          "n_exceedances": 62,
+          "tail_type": "heavy"
+        },
+        "left_tail": {
+          "shape": 0.4591314559602898,
+          "scale": 0.0014372534776404945,
+          "threshold": -0.0050780000975718135,
+          "n_exceedances": 62,
+          "tail_type": "heavy"
+        }
+      },
+      "EURUSD": {
+        "right_tail": {
+          "shape": 0.4763404407084309,
+          "scale": 0.0017959310265617174,
+          "threshold": 0.04143218919723579,
+          "n_exceedances": 60,
+          "tail_type": "heavy"
+        },
+        "left_tail": {
+          "shape": 0.47601810219822815,
+          "scale": 0.0021259669064420937,
+          "threshold": -0.004657582938444683,
+          "n_exceedances": 64,
+          "tail_type": "heavy"
+        }
+      }
+    },
+    "permutation": {
+      "BTCUSDT": {
+        "observed_r": 0.12298781899016137,
+        "p_value_perm": 0.0,
+        "null_mean": 0.0008884125671065763,
+        "null_std": 0.023296717562341487
+      },
+      "SPY": {
+        "observed_r": 0.07033051330468977,
+        "p_value_perm": 0.015,
+        "null_mean": 0.0012404783042749754,
+        "null_std": 0.028272304535584426
+      },
+      "EURUSD": {
+        "observed_r": 0.15898843316565234,
+        "p_value_perm": 0.0,
+        "null_mean": 0.0002861806950191175,
+        "null_std": 0.02839984095452875
+      }
+    },
+    "entropy_rate": {
+      "BTCUSDT": {
+        "entropy_rate": 1.0221025367573677,
+        "normalized": 0.4438934916530404,
+        "joint_entropy": 5.572390264767524,
+        "past_entropy": 4.550287728010156
+      },
+      "SPY": {
+        "entropy_rate": 0.9732807388741982,
+        "normalized": 0.422690454235784,
+        "joint_entropy": 5.548912484345583,
+        "past_entropy": 4.575631745471385
+      },
+      "EURUSD": {
+        "entropy_rate": 0.9506166039482684,
+        "normalized": 0.4128475455003419,
+        "joint_entropy": 5.408639568903261,
+        "past_entropy": 4.458022964954993
+      }
+    },
+    "hmm": {
+      "BTCUSDT": {
+        "n_states": 2,
+        "state_means": [
+          0.019168695566279655,
+          0.01303951027231931
+        ],
+        "transition_matrix": [
+          [
+            0.8776139290828866,
+            0.12238607091711337
+          ],
+          [
+            0.9988055250431953,
+            0.001194474956804712
+          ]
+        ],
+        "persistence_low_si": 0.001194474956804712,
+        "persistence_high_si": 0.8776139290828866
+      },
+      "SPY": {
+        "n_states": 2,
+        "state_means": [
+          0.02217192712232159,
+          0.014391406667564777
+        ],
+        "transition_matrix": [
+          [
+            0.8850077029447273,
+            0.11499229705527267
+          ],
+          [
+            0.9988654365747694,
+            0.001134563425230511
+          ]
+        ],
+        "persistence_low_si": 0.001134563425230511,
+        "persistence_high_si": 0.8850077029447273
+      },
+      "EURUSD": {
+        "n_states": 2,
+        "state_means": [
+          0.022193897086988486,
+          0.0018493053159467365
+        ],
+        "transition_matrix": [
+          [
+            0.881946754561088,
+            0.11805324543891202
+          ],
+          [
+            0.9988302940241016,
+            0.0011697059758983685
+          ]
+        ],
+        "persistence_low_si": 0.0011697059758983685,
+        "persistence_high_si": 0.881946754561088
+      }
+    },
+    "hac": {
+      "BTCUSDT": {
+        "beta": 203.8463220711319,
+        "beta_tstat": 2.5018159832531772,
+        "beta_pvalue": 0.01235581277953559,
+        "r_squared": 0.01777213187480986
+      },
+      "SPY": {
+        "beta": 95.38790527492947,
+        "beta_tstat": 1.379638652695149,
+        "beta_pvalue": 0.16769793016905066,
+        "r_squared": 0.006656682516694157
+      },
+      "EURUSD": {
+        "beta": 161.73023386958423,
+        "beta_tstat": 2.83295624149876,
+        "beta_pvalue": 0.00461196989035974,
+        "r_squared": 0.02147742321336299
+      }
+    },
+    "factor_neutralization": {
+      "BTCUSDT": {
+        "r_original": 0.12298781899016137,
+        "r_residual": 0.13372994266373422,
+        "factor_r_squared": 0.01232928723788873,
+        "volatility_beta": -0.08406419553366343,
+        "momentum_beta": 0.007136176639656448
+      },
+      "SPY": {
+        "r_original": 0.07033051330468977,
+        "r_residual": 0.06988196004466359,
+        "factor_r_squared": 0.020939727983089296,
+        "volatility_beta": -0.2795853501808572,
+        "momentum_beta": 0.024472634932267617
+      },
+      "EURUSD": {
+        "r_original": 0.15898843316565234,
+        "r_residual": 0.14013575232748904,
+        "factor_r_squared": 0.031935017508827546,
+        "volatility_beta": -1.3000762041497302,
+        "momentum_beta": 0.038959789263052644
+      }
+    }
+  }
+}

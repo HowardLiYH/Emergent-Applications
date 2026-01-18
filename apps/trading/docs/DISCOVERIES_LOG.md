@@ -305,3 +305,25 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - t-distribution fits SI better than normal in BTCUSDT (df=655390198.2)
 - t-distribution fits SI better than normal in SPY (df=266219165.4)
 - 4 asset pairs have statistically same SI distribution
+
+
+## Phase 1 Expert Suggestions - 2026-01-17 23:48
+
+- SI has long memory in BTCUSDT (H=0.831)
+- SI has long memory in SPY (H=0.866)
+- SI has long memory in EURUSD (H=0.861)
+- SI is mean-reverting with half-life=4.4 days in BTCUSDT
+- SI is mean-reverting with half-life=5.1 days in SPY
+- SI is mean-reverting with half-life=5.3 days in EURUSD
+- SI has heavy right tail in BTCUSDT (shape=1.416)
+- SI has heavy right tail in SPY (shape=0.454)
+- SI has heavy right tail in EURUSD (shape=0.476)
+- SI-ADX correlation is highly significant by permutation test in BTCUSDT
+- SI-ADX correlation is highly significant by permutation test in EURUSD
+- SI is highly predictable from its past in BTCUSDT (H=0.444)
+- SI is highly predictable from its past in SPY (H=0.423)
+- SI is highly predictable from its past in EURUSD (H=0.413)
+- SI-ADX relationship survives HAC correction in EURUSD
+- SI-ADX survives factor neutralization in BTCUSDT (r=0.134)
+- SI-ADX survives factor neutralization in SPY (r=0.070)
+- SI-ADX survives factor neutralization in EURUSD (r=0.140)
