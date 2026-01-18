@@ -1,0 +1,147 @@
+{
+  "timestamp": "2026-01-18T00:21:52.384241",
+  "applications": [
+    "SI momentum works in SPY (Sharpe=0.39)",
+    "SI risk budgeting improves BTCUSDT (0.50 \u2192 0.59)",
+    "SI risk budgeting improves SPY (0.84 \u2192 0.92)",
+    "SI risk budgeting improves EURUSD (-0.08 \u2192 -0.01)",
+    "SI ensemble outperforms individuals in SPY (Sharpe=0.47)",
+    "SI vol targeting outperforms standard in SPY",
+    "SI vol targeting outperforms standard in EURUSD"
+  ],
+  "results": {
+    "si_momentum": {
+      "BTCUSDT": {
+        "sharpe": 0.1398552135343246,
+        "max_dd": -0.7852667769311626,
+        "win_rate": 0.5152523571824736,
+        "benchmark_sharpe": 0.4492350562674039
+      },
+      "SPY": {
+        "sharpe": 0.39230153169967225,
+        "max_dd": -0.31464815155418346,
+        "win_rate": 0.5158150851581509,
+        "benchmark_sharpe": 0.8516845181479138
+      },
+      "EURUSD": {
+        "sharpe": -0.3350656476635743,
+        "max_dd": -0.2170472475114531,
+        "win_rate": 0.49569303054032887,
+        "benchmark_sharpe": -0.06977915576364407
+      }
+    },
+    "cross_asset": {
+      "BTCUSDT-EURUSD": {
+        "correlation": -0.16838033939890493,
+        "sharpe": 1.1417438919209415,
+        "n_trades": 28
+      }
+    },
+    "si_mean_reversion": {
+      "BTCUSDT": {
+        "sharpe": -0.2576544014715152,
+        "max_dd": -0.7210677615941763,
+        "win_rate": 0.19068736141906872
+      },
+      "SPY": {
+        "sharpe": 0.05421137864384828,
+        "max_dd": -0.22824417969084487,
+        "win_rate": 0.22123176661264182
+      },
+      "EURUSD": {
+        "sharpe": -0.15396903861166916,
+        "max_dd": -0.10965681128848614,
+        "win_rate": 0.2190923317683881
+      }
+    },
+    "si_breakout": {
+      "BTCUSDT": {
+        "sharpe": -0.32040899577282483,
+        "max_dd": -0.5495993273769348,
+        "win_rate": 0.07317073170731707,
+        "n_signals": 286
+      },
+      "SPY": {
+        "sharpe": -0.010977830852047319,
+        "max_dd": -0.2470637568091869,
+        "win_rate": 0.08995137763371151,
+        "n_signals": 225
+      },
+      "EURUSD": {
+        "sharpe": -0.15807741690421864,
+        "max_dd": -0.10325091405713749,
+        "win_rate": 0.09154929577464789,
+        "n_signals": 245
+      }
+    },
+    "risk_budgeting": {
+      "BTCUSDT": {
+        "constant_sharpe": 0.5013444465154179,
+        "si_scaled_sharpe": 0.5888196893140206,
+        "constant_calmar": 0.31118857529004806,
+        "si_scaled_calmar": 0.4086656707460172,
+        "sharpe_improvement": 0.08747524279860275
+      },
+      "SPY": {
+        "constant_sharpe": 0.8437264281638626,
+        "si_scaled_sharpe": 0.9159016173049149,
+        "constant_calmar": 0.5891895955956236,
+        "si_scaled_calmar": 0.6014979719227939,
+        "sharpe_improvement": 0.07217518914105236
+      },
+      "EURUSD": {
+        "constant_sharpe": -0.07611878502159876,
+        "si_scaled_sharpe": -0.005186618528838257,
+        "constant_calmar": -0.026367271585646643,
+        "si_scaled_calmar": -0.0018642208213201883,
+        "sharpe_improvement": 0.0709321664927605
+      }
+    },
+    "ensemble": {
+      "BTCUSDT": {
+        "momentum_sharpe": 0.1398552135343246,
+        "zscore_sharpe": -0.25772582234634356,
+        "breakout_sharpe": 0.047245932594461956,
+        "ensemble_sharpe": 0.04204485146123744,
+        "ensemble_max_dd": -0.8214876130530244
+      },
+      "SPY": {
+        "momentum_sharpe": 0.39230153169967225,
+        "zscore_sharpe": 0.054233340135916956,
+        "breakout_sharpe": 0.0375525296327392,
+        "ensemble_sharpe": 0.4701255108297665,
+        "ensemble_max_dd": -0.26654764644465856
+      },
+      "EURUSD": {
+        "momentum_sharpe": -0.3350656476635743,
+        "zscore_sharpe": -0.15402927071462674,
+        "breakout_sharpe": -0.3424205096373814,
+        "ensemble_sharpe": -0.2941845305414245,
+        "ensemble_max_dd": -0.18789275908291003
+      }
+    },
+    "vol_targeting": {
+      "BTCUSDT": {
+        "unscaled_vol": 0.4671845917733606,
+        "standard_vol_target_vol": 0.1517468919761379,
+        "si_vol_target_vol": 0.15193964158001647,
+        "standard_sharpe": 0.5112269337297527,
+        "si_sharpe": 0.4782993907032005
+      },
+      "SPY": {
+        "unscaled_vol": 0.17086660563247272,
+        "standard_vol_target_vol": 0.150854932030416,
+        "si_vol_target_vol": 0.15819145581379357,
+        "standard_sharpe": 1.1688616267834468,
+        "si_sharpe": 1.1863841532956316
+      },
+      "EURUSD": {
+        "unscaled_vol": 0.07523247434364423,
+        "standard_vol_target_vol": 0.14581019190774017,
+        "si_vol_target_vol": 0.14582747873285726,
+        "standard_sharpe": -0.2007631197395405,
+        "si_sharpe": -0.13576649544480326
+      }
+    }
+  }
+}

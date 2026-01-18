@@ -1,0 +1,252 @@
+{
+  "timestamp": "2026-01-18T00:19:45.900665",
+  "applications": [
+    "SI regimes capture volatility in BTCUSDT (Low-High spread: 0.0030)",
+    "SI regimes capture volatility in SPY (Low-High spread: 0.0015)",
+    "SI regimes capture volatility in EURUSD (Low-High spread: 0.0008)",
+    "SI sizing improves Sharpe in BTCUSDT (0.45 \u2192 0.52)",
+    "SI timing improves momentum in BTCUSDT (-0.32 \u2192 -0.17)",
+    "SI timing improves momentum in SPY (-0.17 \u2192 0.17)",
+    "SI timing improves momentum in EURUSD (-0.26 \u2192 0.00)",
+    "SI-ADX spread trading works in BTCUSDT (Sharpe=1.29)",
+    "SI-ADX spread trading works in SPY (Sharpe=0.70)",
+    "SI-ADX spread trading works in EURUSD (Sharpe=0.71)"
+  ],
+  "results": {
+    "regime_detection": {
+      "BTCUSDT": {
+        "vol_by_regime": {
+          "Low_SI": 0.028690066453147756,
+          "Mid_SI": 0.027639059577415075,
+          "High_SI": 0.025666043497326967
+        },
+        "persistence": 0.7141274238227147,
+        "regime_counts": {
+          "Mid_SI": 613,
+          "High_SI": 596,
+          "Low_SI": 596
+        }
+      },
+      "SPY": {
+        "vol_by_regime": {
+          "Low_SI": 0.010218865532465024,
+          "Mid_SI": 0.009929525301769253,
+          "High_SI": 0.008696869939869954
+        },
+        "persistence": 0.7214574898785425,
+        "regime_counts": {
+          "Mid_SI": 419,
+          "High_SI": 408,
+          "Low_SI": 408
+        }
+      },
+      "EURUSD": {
+        "vol_by_regime": {
+          "Low_SI": 0.004804993470365907,
+          "Mid_SI": 0.004567114066605095,
+          "High_SI": 0.004047798423558423
+        },
+        "persistence": 0.7114933541829555,
+        "regime_counts": {
+          "Mid_SI": 434,
+          "Low_SI": 423,
+          "High_SI": 422
+        }
+      }
+    },
+    "position_sizing": {
+      "BTCUSDT": {
+        "constant": {
+          "sharpe": 0.4494024028226191,
+          "max_dd": -0.7662925431645939
+        },
+        "si_sizing": {
+          "sharpe": 0.5161873839959031,
+          "max_dd": -0.6928353790585755
+        },
+        "inv_vol": {
+          "sharpe": 0.5736174013575319,
+          "max_dd": -0.6674348866000268
+        }
+      },
+      "SPY": {
+        "constant": {
+          "sharpe": 0.8492158771003171,
+          "max_dd": -0.2449638668620252
+        },
+        "si_sizing": {
+          "sharpe": 0.8020944543525063,
+          "max_dd": -0.26767380433048416
+        },
+        "inv_vol": {
+          "sharpe": 0.8669704572580632,
+          "max_dd": -0.1852151067513227
+        }
+      },
+      "EURUSD": {
+        "constant": {
+          "sharpe": -0.07833922645176185,
+          "max_dd": -0.21657941522589363
+        },
+        "si_sizing": {
+          "sharpe": -0.1190252520997003,
+          "max_dd": -0.21598651237531807
+        },
+        "inv_vol": {
+          "sharpe": -0.20830005070201688,
+          "max_dd": -0.21483597334376425
+        }
+      }
+    },
+    "crisis_warning": {
+      "BTCUSDT": {
+        "n_warnings": 49,
+        "avg_return_after_warning": 0.025590074292331812,
+        "avg_return_normal": 0.015434527058841541,
+        "precision": 0.20408163265264473,
+        "true_warnings": 10,
+        "false_alarms": 28
+      },
+      "SPY": {
+        "n_warnings": 55,
+        "avg_return_after_warning": 0.015592476973884986,
+        "avg_return_normal": 0.011544031050387333,
+        "precision": 0.03636363636357025,
+        "true_warnings": 2,
+        "false_alarms": 37
+      },
+      "EURUSD": {
+        "n_warnings": 58,
+        "avg_return_after_warning": -0.0014347803091676258,
+        "avg_return_normal": -0.000165788545096442,
+        "precision": 0.0,
+        "true_warnings": 0,
+        "false_alarms": 29
+      }
+    },
+    "vol_forecasting": {
+      "BTCUSDT": {
+        "baseline_rmse": 0.005445629212635763,
+        "si_model_rmse": 0.006448461619187293,
+        "improvement_pct": -18.415363356443898,
+        "si_coefficient": -0.004823581690741911
+      },
+      "SPY": {
+        "baseline_rmse": 0.0040763594060589225,
+        "si_model_rmse": 0.005869737030177317,
+        "improvement_pct": -43.99459040468307,
+        "si_coefficient": -0.025557574588532642
+      },
+      "EURUSD": {
+        "baseline_rmse": 0.001158769593567241,
+        "si_model_rmse": 0.0017044712230357543,
+        "improvement_pct": -47.09319544609257,
+        "si_coefficient": -0.004610113612308997
+      }
+    },
+    "factor_timing": {
+      "BTCUSDT": {
+        "momentum_always": {
+          "sharpe": -0.315584236093054
+        },
+        "momentum_high_si": {
+          "sharpe": -0.3557377683061645
+        },
+        "regime_switching": {
+          "sharpe": -0.17054935298405602
+        }
+      },
+      "SPY": {
+        "momentum_always": {
+          "sharpe": -0.16518739609832084
+        },
+        "momentum_high_si": {
+          "sharpe": 0.0018925476703579081
+        },
+        "regime_switching": {
+          "sharpe": 0.16759968920070129
+        }
+      },
+      "EURUSD": {
+        "momentum_always": {
+          "sharpe": -0.2634530223406689
+        },
+        "momentum_high_si": {
+          "sharpe": -0.18993281662910438
+        },
+        "regime_switching": {
+          "sharpe": 0.004410818955922714
+        }
+      }
+    },
+    "pairs_trading": {
+      "BTCUSDT": {
+        "sharpe": 1.2938575302793853,
+        "win_rate": 0.034482758620689655,
+        "n_trades": 121
+      },
+      "SPY": {
+        "sharpe": 0.6980498145328212,
+        "win_rate": 0.029315960912052116,
+        "n_trades": 73
+      },
+      "EURUSD": {
+        "sharpe": 0.7067880750706703,
+        "win_rate": 0.031446540880503145,
+        "n_trades": 85
+      }
+    },
+    "drawdown_prediction": {
+      "BTCUSDT": {
+        "correlation": -0.03965422473908768,
+        "p_value": 0.0939642931384075,
+        "auc_roc": 0.5432565340132958,
+        "major_dd_rate": 0.7787114845938375
+      },
+      "SPY": {
+        "correlation": -0.0961039576132177,
+        "p_value": 0.0007959493756496901,
+        "auc_roc": 0.5009363295880149,
+        "major_dd_rate": 0.21975308641975308
+      },
+      "EURUSD": {
+        "correlation": 0.03151585480409122,
+        "p_value": 0.2638128008434071,
+        "auc_roc": 0.513157894736842,
+        "major_dd_rate": 0.015091342335186657
+      }
+    },
+    "enhanced_signals": {
+      "BTCUSDT": {
+        "rsi_only": {
+          "sharpe": -0.1854540676007551,
+          "win_rate": 0.5091277890466531
+        },
+        "rsi_plus_si": {
+          "sharpe": -0.547746837479676,
+          "win_rate": 0.4790996784565916
+        }
+      },
+      "SPY": {
+        "rsi_only": {
+          "sharpe": 0.6474699444083283,
+          "win_rate": 0.4797507788161994
+        },
+        "rsi_plus_si": {
+          "sharpe": -0.07507481988454442,
+          "win_rate": 0.44396551724137934
+        }
+      },
+      "EURUSD": {
+        "rsi_only": {
+          "sharpe": 0.7572295429022938,
+          "win_rate": 0.5627009646302251
+        },
+        "rsi_plus_si": {
+          "sharpe": 0.4618310402880894,
+          "win_rate": 0.5380952380952381
+        }
+      }
+    }
+  }
+}
