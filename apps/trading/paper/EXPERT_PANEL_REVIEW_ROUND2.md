@@ -1,7 +1,7 @@
 # Expert Panel Review: Round 2
 
-**Date**: 2026-01-18  
-**Paper Version**: neurips_submission_v2.tex (post-revision)  
+**Date**: 2026-01-18
+**Paper Version**: neurips_submission_v2.tex (post-revision)
 **Reviewers**: 12 Distinguished CS Professors + 12 Industry Experts
 
 ---
@@ -22,16 +22,16 @@
 ## ISSUES IDENTIFIED
 
 ### Issue 1: Algorithm Box Takes Significant Space [MEDIUM]
-**Location**: Lines 137-156 (Algorithm 1)  
+**Location**: Lines 137-156 (Algorithm 1)
 **Problem**: The algorithm box consumes ~20 lines of main body space.
 
-**Panel Vote**: 18/24 recommend moving to appendix  
+**Panel Vote**: 18/24 recommend moving to appendix
 **Recommendation**: Move Algorithm 1 to appendix, reference it in main text.
 
 ---
 
 ### Issue 2: Multiple Tables in Main Body [MEDIUM]
-**Location**: Tables 1-4 (setup, cross-domain, main results, ablation)  
+**Location**: Tables 1-4 (setup, cross-domain, main results, ablation)
 **Problem**: 4 tables in main body consume significant space (~2 pages).
 
 **Options**:
@@ -41,7 +41,7 @@
 | B (Recommended) | 2 (Main Results + Cross-Domain) | 4 |
 | C (Minimal) | 1 (Main Results only) | 5 |
 
-**Panel Vote**: 
+**Panel Vote**:
 - Option A: 4/24
 - Option B: 16/24 ✅
 - Option C: 4/24
@@ -51,7 +51,7 @@
 ---
 
 ### Issue 3: Hero Figure Could Be Enhanced [LOW]
-**Location**: Figure 1 (hero_figure.png)  
+**Location**: Figure 1 (hero_figure.png)
 **Problem**: Current figure is good but could be more impactful.
 
 **Suggestions**:
@@ -62,7 +62,7 @@
 ---
 
 ### Issue 4: Proof Sketch Could Be More Concise [LOW]
-**Location**: Lines 192-198  
+**Location**: Lines 192-198
 **Problem**: Proof sketch in main body is somewhat detailed.
 
 **Panel Vote**: 14/24 recommend keeping as-is (acceptable for NeurIPS)
@@ -70,7 +70,7 @@
 ---
 
 ### Issue 5: Related Work Could Reference More Recent Papers [LOW]
-**Location**: Lines 98-116  
+**Location**: Lines 98-116
 **Problem**: Some citations are from 1984-2006; could add 2023-2025 references.
 
 **Suggestions**:
@@ -80,25 +80,25 @@
 ---
 
 ### Issue 6: Title Length [TRIVIAL]
-**Current**: "The Blind Synchronization Effect: How Competition Creates Environment-Correlated Behavior Without Observation"  
+**Current**: "The Blind Synchronization Effect: How Competition Creates Environment-Correlated Behavior Without Observation"
 **Concern**: 14 words, slightly long.
 
-**Panel Vote**: 
+**Panel Vote**:
 - Keep as-is: 15/24 ✅
 - Shorten to "The Blind Synchronization Effect": 9/24
 
 ---
 
 ### Issue 7: Abstract Word Count [OK]
-**Current**: ~200 words  
-**NeurIPS Limit**: 250 words  
+**Current**: ~200 words
+**NeurIPS Limit**: 250 words
 **Status**: ✅ Within limit
 
 ---
 
 ### Issue 8: Main Body Page Count Estimate [OK]
-**Current Estimate**: ~8-9 pages (main body)  
-**NeurIPS Limit**: 10 pages  
+**Current Estimate**: ~8-9 pages (main body)
+**NeurIPS Limit**: 10 pages
 **Status**: ✅ Room for expansion
 
 ---
@@ -178,7 +178,7 @@ Appendix G: Reproducibility Statement (already exists)
 
 ### P0: SHOULD DO (High Impact)
 1. ⬜ Move Algorithm 1 to Appendix B
-2. ⬜ Move Table 1 (Setup) to Appendix C  
+2. ⬜ Move Table 1 (Setup) to Appendix C
 3. ⬜ Move Table 4 (Ablation) to Appendix D
 4. ⬜ Add confidence intervals to Table 3 (Main Results)
 
