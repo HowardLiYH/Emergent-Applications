@@ -1,7 +1,7 @@
 # SI Discoveries Log
 
-**Author:** Yuhao Li, University of Pennsylvania  
-**Started:** January 17, 2026  
+**Author:** Yuhao Li, University of Pennsylvania
+**Started:** January 17, 2026
 **Last Updated:** January 17, 2026
 
 ---
@@ -327,3 +327,12 @@ Under competitive dynamics with multiplicative affinity updates, SI converges to
 - SI-ADX survives factor neutralization in BTCUSDT (r=0.134)
 - SI-ADX survives factor neutralization in SPY (r=0.070)
 - SI-ADX survives factor neutralization in EURUSD (r=0.140)
+
+
+## Phase 1 Round 2 - 2026-01-17 23:58
+
+- SI is multifractal in BTCUSDT (ΔH=0.318)
+- SI is multifractal in SPY (ΔH=0.362)
+- SI is multifractal in EURUSD (ΔH=0.735)
+- SI dropped 27% during Crypto_Crash_2022 in BTCUSDT
+- 3/6 tests remain significant after FDR correction
