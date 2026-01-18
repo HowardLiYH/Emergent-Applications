@@ -1,8 +1,8 @@
 # Expert Panel Round 4: Final Synthesis
 
-**Date**: January 17, 2026  
-**Purpose**: Final review and synthesis of all 4 rounds  
-**Goal**: Definitive action plan for 9+ score  
+**Date**: January 17, 2026
+**Purpose**: Final review and synthesis of all 4 rounds
+**Goal**: Definitive action plan for 9+ score
 
 ---
 
@@ -30,7 +30,7 @@
 ---
 
 #### Prof. Andrew Lo (MIT Sloan)
-> **Single Most Important**: 
+> **Single Most Important**:
 > "**Show SI behavior before/during/after the COVID crash.** This is the 'poster child' example. If SI drops before March 2020, you have a Nature paper."
 >
 > **Definitely NOT Do**:
@@ -293,7 +293,7 @@ Target Score:                         9.1
 > **"After 4 rounds of review, the path to 9+ is clear:**
 >
 > 1. **One killer example**: COVID crash behavior
-> 2. **One solid theorem**: Regret bound or convergence  
+> 2. **One solid theorem**: Regret bound or convergence
 > 3. **One memorable figure**: t-SNE emergence
 > 4. **One practical use case**: Factor timing
 >

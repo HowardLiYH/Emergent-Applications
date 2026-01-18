@@ -1,0 +1,514 @@
+{
+  "timestamp": "2026-01-17T19:37:54.689671",
+  "summary": {
+    "covid_assets_warned": 0,
+    "covid_assets_covered": 0,
+    "factor_timing_helped": 10,
+    "factor_timing_tested": 11,
+    "tsne_clustered": 11,
+    "oos_significant": 11,
+    "avg_oos_r2": 0.013040125403914738,
+    "total_score_gain": 0.6,
+    "new_score": 8.2
+  },
+  "results": {
+    "covid_crash": [
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      },
+      {
+        "covers_covid": false
+      }
+    ],
+    "crypto_2022": [
+      {
+        "luna": {
+          "covers_period": true,
+          "si_30d_before": 0.02877508479260734,
+          "si_10d_before": 0.01714734042880316,
+          "si_during": 0.016638551435351152,
+          "dropped_before": true
+        },
+        "ftx": {
+          "covers_period": true,
+          "si_30d_before": 0.021185338357033866,
+          "si_10d_before": 0.015293469666710824,
+          "si_during": 0.01548227036578401,
+          "dropped_before": true
+        }
+      },
+      {
+        "luna": {
+          "covers_period": true,
+          "si_30d_before": 0.021080384232982342,
+          "si_10d_before": 0.010192550073183815,
+          "si_during": 0.011879987480694585,
+          "dropped_before": true
+        },
+        "ftx": {
+          "covers_period": true,
+          "si_30d_before": 0.015793348085556914,
+          "si_10d_before": 0.015873455740743513,
+          "si_during": 0.01115323215551321,
+          "dropped_before": false
+        }
+      },
+      {
+        "luna": {
+          "covers_period": true,
+          "si_30d_before": 0.018070246273543245,
+          "si_10d_before": 0.0167648568867085,
+          "si_during": 0.007309607713624195,
+          "dropped_before": true
+        },
+        "ftx": {
+          "covers_period": true,
+          "si_30d_before": 0.022603052705385974,
+          "si_10d_before": 0.015254463795546392,
+          "si_during": 0.012827958350309634,
+          "dropped_before": true
+        }
+      }
+    ],
+    "factor_timing": [
+      {
+        "asset": "crypto/SOLUSDT",
+        "si_momentum_correlation": 0.09731491608639868,
+        "correlation_pval": 3.539155839953431e-05,
+        "momentum_when_high_si": 0.1194713326589557,
+        "momentum_when_low_si": 0.06636891110837519,
+        "improvement": 0.05310242155058051,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": 0.045246252474265725,
+          "Q2": 0.04988730391013957,
+          "Q3": 0.1039731769407203,
+          "Q4": 0.10080601490891422,
+          "Q5_high": 0.13813665040899714
+        }
+      },
+      {
+        "asset": "crypto/BTCUSDT",
+        "si_momentum_correlation": 0.1118281242113329,
+        "correlation_pval": 1.973742614214528e-06,
+        "momentum_when_high_si": 0.03957360337973919,
+        "momentum_when_low_si": 0.007487972653272722,
+        "improvement": 0.03208563072646647,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": -0.0011920799818561183,
+          "Q2": 0.002788440013197335,
+          "Q3": 0.020867557928476953,
+          "Q4": 0.02374278941316595,
+          "Q5_high": 0.05540441734631243
+        }
+      },
+      {
+        "asset": "crypto/ETHUSDT",
+        "si_momentum_correlation": 0.15845207663579847,
+        "correlation_pval": 1.3738897399898849e-11,
+        "momentum_when_high_si": 0.059467609689580085,
+        "momentum_when_low_si": 0.0022961987212976216,
+        "improvement": 0.05717141096828246,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": -0.014178630046846094,
+          "Q2": 0.013812873065249212,
+          "Q3": 0.007254353145489747,
+          "Q4": 0.022544503754449528,
+          "Q5_high": 0.09659641537922392
+        }
+      },
+      {
+        "asset": "forex/GBPUSD",
+        "si_momentum_correlation": 0.07764167826629784,
+        "correlation_pval": 0.005558633285707426,
+        "momentum_when_high_si": 0.0033865572546989083,
+        "momentum_when_low_si": -0.0025029873342483464,
+        "improvement": 0.005889544588947255,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": -0.0014637496648425613,
+          "Q2": -0.0024765148844582007,
+          "Q3": -0.0035728931625749697,
+          "Q4": 0.0027883735415655396,
+          "Q5_high": 0.0039894510758097055
+        }
+      },
+      {
+        "asset": "forex/USDJPY",
+        "si_momentum_correlation": 0.13538681570344432,
+        "correlation_pval": 1.2347228915769323e-06,
+        "momentum_when_high_si": 0.011183481700819614,
+        "momentum_when_low_si": 0.0043403871647201995,
+        "improvement": 0.006843094536099415,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": 3.150713583977136e-05,
+          "Q2": 0.005373977031796406,
+          "Q3": 0.007637483612913877,
+          "Q4": 0.008330431741688937,
+          "Q5_high": 0.01403653165995029
+        }
+      },
+      {
+        "asset": "forex/EURUSD",
+        "si_momentum_correlation": -0.013483798975960427,
+        "correlation_pval": 0.6306383853151407,
+        "momentum_when_high_si": -0.00042507230559765544,
+        "momentum_when_low_si": -0.0002578371865879005,
+        "improvement": -0.00016723511900975497,
+        "helps_factor_timing": false,
+        "momentum_by_quintile": {
+          "Q1_low": 0.0004058273173128296,
+          "Q2": -0.0014466313711730156,
+          "Q3": 0.000269359933784218,
+          "Q4": 0.00021325049135128527,
+          "Q5_high": -0.0010633951025465966
+        }
+      },
+      {
+        "asset": "stocks/SPY",
+        "si_momentum_correlation": 0.1718846580099874,
+        "correlation_pval": 1.3007197203832047e-09,
+        "momentum_when_high_si": 0.01872936795909365,
+        "momentum_when_low_si": 0.007522837706959076,
+        "improvement": 0.011206530252134573,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": 0.008730262734843487,
+          "Q2": 0.004727165609166136,
+          "Q3": 0.009111084776867605,
+          "Q4": 0.012599839998032658,
+          "Q5_high": 0.024858895920154632
+        }
+      },
+      {
+        "asset": "stocks/AAPL",
+        "si_momentum_correlation": 0.11804487232865313,
+        "correlation_pval": 3.320356903403168e-05,
+        "momentum_when_high_si": 0.02498304610568623,
+        "momentum_when_low_si": 0.008374704664953943,
+        "improvement": 0.016608341440732286,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": 0.009590712939144382,
+          "Q2": 0.007014295560311369,
+          "Q3": 0.00851910549540608,
+          "Q4": 0.012638756965581694,
+          "Q5_high": 0.037327335245790766
+        }
+      },
+      {
+        "asset": "stocks/QQQ",
+        "si_momentum_correlation": 0.11663207186254604,
+        "correlation_pval": 4.126384970838502e-05,
+        "momentum_when_high_si": 0.022683006699659874,
+        "momentum_when_low_si": 0.006789619122090648,
+        "improvement": 0.015893387577569227,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": 0.014120270819467486,
+          "Q2": 0.008230625929597587,
+          "Q3": -0.0019820393827931315,
+          "Q4": 0.013704433985163918,
+          "Q5_high": 0.03166157941415583
+        }
+      },
+      {
+        "asset": "commodities/OIL",
+        "si_momentum_correlation": 0.21496723325925376,
+        "correlation_pval": 2.4028572174019075e-14,
+        "momentum_when_high_si": 0.023472941586863562,
+        "momentum_when_low_si": -0.009149804305340539,
+        "improvement": 0.0326227458922041,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": -0.014745631299929597,
+          "Q2": -0.00904072446399928,
+          "Q3": -0.003640309887887093,
+          "Q4": 0.0026350734987618143,
+          "Q5_high": 0.04422644583655194
+        }
+      },
+      {
+        "asset": "commodities/GOLD",
+        "si_momentum_correlation": 0.19121031040709469,
+        "correlation_pval": 1.3132271348956274e-11,
+        "momentum_when_high_si": 0.024351317040611015,
+        "momentum_when_low_si": 0.010923423431567793,
+        "improvement": 0.013427893609043222,
+        "helps_factor_timing": true,
+        "momentum_by_quintile": {
+          "Q1_low": 0.005551923623111807,
+          "Q2": 0.012589606845102476,
+          "Q3": 0.014650575191564123,
+          "Q4": 0.019358715885574942,
+          "Q5_high": 0.02932370523550524
+        }
+      }
+    ],
+    "tsne": [
+      {
+        "asset": "crypto/SOLUSDT",
+        "n_snapshots": 90,
+        "tsne_separation": 593.1965942382812,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.9321460953539332,
+          0.06785390464606675
+        ],
+        "figure_path": "paper/figures/9plus/tsne_crypto_SOLUSDT.png"
+      },
+      {
+        "asset": "crypto/BTCUSDT",
+        "n_snapshots": 90,
+        "tsne_separation": 599.8572387695312,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8246848225224024,
+          0.17531517747759756
+        ],
+        "figure_path": "paper/figures/9plus/tsne_crypto_BTCUSDT.png"
+      },
+      {
+        "asset": "crypto/ETHUSDT",
+        "n_snapshots": 90,
+        "tsne_separation": 735.583251953125,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.863756320903029,
+          0.136243679096971
+        ],
+        "figure_path": "paper/figures/9plus/tsne_crypto_ETHUSDT.png"
+      },
+      {
+        "asset": "forex/GBPUSD",
+        "n_snapshots": 90,
+        "tsne_separation": 782.5750732421875,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8876765889297837,
+          0.11232341107021628
+        ],
+        "figure_path": "paper/figures/9plus/tsne_forex_GBPUSD.png"
+      },
+      {
+        "asset": "forex/USDJPY",
+        "n_snapshots": 90,
+        "tsne_separation": 687.064697265625,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8984254623396195,
+          0.1015745376603805
+        ],
+        "figure_path": "paper/figures/9plus/tsne_forex_USDJPY.png"
+      },
+      {
+        "asset": "forex/EURUSD",
+        "n_snapshots": 90,
+        "tsne_separation": 365.3990783691406,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8703177432161195,
+          0.12968225678388043
+        ],
+        "figure_path": "paper/figures/9plus/tsne_forex_EURUSD.png"
+      },
+      {
+        "asset": "stocks/SPY",
+        "n_snapshots": 90,
+        "tsne_separation": 20.078330993652344,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8755717901168147,
+          0.12442820988318529
+        ],
+        "figure_path": "paper/figures/9plus/tsne_stocks_SPY.png"
+      },
+      {
+        "asset": "stocks/AAPL",
+        "n_snapshots": 90,
+        "tsne_separation": 620.9866943359375,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8936372694738728,
+          0.1063627305261272
+        ],
+        "figure_path": "paper/figures/9plus/tsne_stocks_AAPL.png"
+      },
+      {
+        "asset": "stocks/QQQ",
+        "n_snapshots": 90,
+        "tsne_separation": 351.0158386230469,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8639062518065075,
+          0.13609374819349257
+        ],
+        "figure_path": "paper/figures/9plus/tsne_stocks_QQQ.png"
+      },
+      {
+        "asset": "commodities/OIL",
+        "n_snapshots": 90,
+        "tsne_separation": 220.5668182373047,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.8901582345866939,
+          0.10984176541330617
+        ],
+        "figure_path": "paper/figures/9plus/tsne_commodities_OIL.png"
+      },
+      {
+        "asset": "commodities/GOLD",
+        "n_snapshots": 90,
+        "tsne_separation": 331.3415222167969,
+        "clustering_emerged": true,
+        "pca_variance_explained": [
+          0.9153341976725711,
+          0.0846658023274289
+        ],
+        "figure_path": "paper/figures/9plus/tsne_commodities_GOLD.png"
+      }
+    ],
+    "oos_r2": [
+      {
+        "asset": "crypto/SOLUSDT",
+        "n_train": 1278,
+        "n_test": 548,
+        "oos_r2": 0.01129671306030322,
+        "ci_lower": 0.0005673742441645202,
+        "ci_upper": 0.037136933286801045,
+        "ci_width": 0.03656955904263653,
+        "significant": true
+      },
+      {
+        "asset": "crypto/BTCUSDT",
+        "n_train": 1278,
+        "n_test": 548,
+        "oos_r2": 0.00025755279402506215,
+        "ci_lower": 1.9676645812871653e-06,
+        "ci_upper": 0.010218082270329902,
+        "ci_width": 0.010216114605748615,
+        "significant": true
+      },
+      {
+        "asset": "crypto/ETHUSDT",
+        "n_train": 1278,
+        "n_test": 548,
+        "oos_r2": 0.007177395594403113,
+        "ci_lower": 7.313880875145786e-05,
+        "ci_upper": 0.029808579529758582,
+        "ci_width": 0.029735440721007124,
+        "significant": true
+      },
+      {
+        "asset": "forex/GBPUSD",
+        "n_train": 909,
+        "n_test": 391,
+        "oos_r2": 0.008745403606825741,
+        "ci_lower": 8.759625040029862e-05,
+        "ci_upper": 0.04020997091067522,
+        "ci_width": 0.04012237466027492,
+        "significant": true
+      },
+      {
+        "asset": "forex/USDJPY",
+        "n_train": 909,
+        "n_test": 391,
+        "oos_r2": 0.03638267818951191,
+        "ci_lower": 0.008707023454623873,
+        "ci_upper": 0.08650115546804148,
+        "ci_width": 0.0777941320134176,
+        "significant": true
+      },
+      {
+        "asset": "forex/EURUSD",
+        "n_train": 909,
+        "n_test": 391,
+        "oos_r2": 0.05534099759164479,
+        "ci_lower": 0.017227419140000245,
+        "ci_upper": 0.12353001210090214,
+        "ci_width": 0.1063025929609019,
+        "significant": true
+      },
+      {
+        "asset": "stocks/SPY",
+        "n_train": 879,
+        "n_test": 377,
+        "oos_r2": 0.01604695182308369,
+        "ci_lower": 0.00028309606380376716,
+        "ci_upper": 0.05757300894493385,
+        "ci_width": 0.057289912881130084,
+        "significant": true
+      },
+      {
+        "asset": "stocks/AAPL",
+        "n_train": 879,
+        "n_test": 377,
+        "oos_r2": 0.0005224776709549239,
+        "ci_lower": 8.72559691357522e-06,
+        "ci_upper": 0.017412164488372437,
+        "ci_width": 0.017403438891458862,
+        "significant": true
+      },
+      {
+        "asset": "stocks/QQQ",
+        "n_train": 879,
+        "n_test": 377,
+        "oos_r2": 0.006420225063856089,
+        "ci_lower": 5.543056928819791e-05,
+        "ci_upper": 0.02883032280720032,
+        "ci_width": 0.02877489223791212,
+        "significant": true
+      },
+      {
+        "asset": "commodities/OIL",
+        "n_train": 880,
+        "n_test": 378,
+        "oos_r2": 0.001157445407388047,
+        "ci_lower": 1.7102591545303803e-06,
+        "ci_upper": 0.016006683792532388,
+        "ci_width": 0.016004973533377858,
+        "significant": true
+      },
+      {
+        "asset": "commodities/GOLD",
+        "n_train": 880,
+        "n_test": 378,
+        "oos_r2": 9.353864106553811e-05,
+        "ci_lower": 3.7650087674895305e-06,
+        "ci_upper": 0.010064475654418543,
+        "ci_width": 0.010060710645651054,
+        "significant": true
+      }
+    ]
+  }
+}
