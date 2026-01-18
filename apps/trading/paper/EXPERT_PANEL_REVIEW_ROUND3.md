@@ -1,7 +1,7 @@
 # Expert Panel Review: Round 3 (Final)
 
-**Date**: 2026-01-18  
-**Paper Version**: neurips_submission_v2.tex (post all improvements)  
+**Date**: 2026-01-18
+**Paper Version**: neurips_submission_v2.tex (post all improvements)
 **Reviewers**: 12 Distinguished CS Professors + 12 Industry Experts
 
 ---
@@ -35,16 +35,16 @@
 ## Remaining Issues (Minor)
 
 ### Issue 1: Bibliography Formatting [TRIVIAL]
-**Status**: Some bibitem entries use abbreviated journal names, others don't.  
+**Status**: Some bibitem entries use abbreviated journal names, others don't.
 **Recommendation**: Optional to fix. Does not affect acceptance.
 
 ### Issue 2: Toy Example Figure Caption [TRIVIAL]
-**Status**: Figure not yet referenced in appendix text.  
+**Status**: Figure not yet referenced in appendix text.
 **Fix Required**: Add `See Figure~\ref{fig:toy}` in Appendix H.
 
 ### Issue 3: Page Count Check [OK]
-**Estimated Main Body**: ~8.5 pages  
-**NeurIPS Limit**: 10 pages  
+**Estimated Main Body**: ~8.5 pages
+**NeurIPS Limit**: 10 pages
 **Status**: ✅ Within limit with room to spare
 
 ---
