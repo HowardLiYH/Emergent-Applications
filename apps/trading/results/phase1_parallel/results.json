@@ -1,0 +1,664 @@
+{
+  "timestamp": "2026-01-17T22:57:56.904095",
+  "discoveries": [
+    "SI-ADX sign FLIPS across regimes in BTCUSDT!",
+    "SI-ADX sign FLIPS across regimes in ETHUSDT!",
+    "SI-ADX stable across time periods in BTCUSDT (0.128 \u2192 0.119)",
+    "SI-ADX stable across time periods in ETHUSDT (0.093 \u2192 0.191)",
+    "SI-ADX stable across time periods in SPY (0.132 \u2192 0.010)",
+    "Feature 'rsi_extremity' consistently correlates with SI (r=0.243)",
+    "Feature 'fractal_dim' consistently correlates with SI (r=-0.231)",
+    "Feature 'dir_consistency' consistently correlates with SI (r=0.206)",
+    "Feature 'efficiency' consistently correlates with SI (r=0.177)",
+    "Feature 'rsi' consistently correlates with SI (r=0.177)",
+    "Feature 'roc_14' consistently correlates with SI (r=0.163)",
+    "Feature 'bb_width' consistently correlates with SI (r=0.160)",
+    "Feature 'mr_score' consistently correlates with SI (r=0.158)",
+    "Feature 'hh_ll_ratio' consistently correlates with SI (r=0.154)",
+    "Feature 'vpt' consistently correlates with SI (r=0.143)",
+    "Feature 'dist_from_ma20' consistently correlates with SI (r=0.134)",
+    "Feature 'momentum' consistently correlates with SI (r=0.132)",
+    "Feature 'realized_vol' consistently correlates with SI (r=-0.131)",
+    "Feature 'adx' consistently correlates with SI (r=0.111)"
+  ],
+  "results": {
+    "regime_conditional": {
+      "BTCUSDT": {
+        "bull": {
+          "adx": 0.08530666230290924,
+          "rsi_ext": 0.2889254871581972,
+          "count": 262
+        },
+        "bear": {
+          "adx": 0.036332684895171614,
+          "rsi_ext": 0.15727149731928555,
+          "count": 161
+        },
+        "volatile": {
+          "adx": 0.14750959582719195,
+          "rsi_ext": 0.26121460828599324,
+          "count": 947
+        },
+        "neutral": {
+          "adx": -0.03758176528277238,
+          "rsi_ext": 0.07751335507535219,
+          "count": 429
+        }
+      },
+      "ETHUSDT": {
+        "bull": {
+          "adx": 0.18250461011138736,
+          "rsi_ext": 0.25153968415220435,
+          "count": 128
+        },
+        "bear": {
+          "adx": -0.0383612812657408,
+          "rsi_ext": 0.1555601594322818,
+          "count": 99
+        },
+        "volatile": {
+          "adx": 0.12204214443589304,
+          "rsi_ext": 0.17902591575410873,
+          "count": 1402
+        },
+        "neutral": {
+          "adx": 0.3451505547718932,
+          "rsi_ext": 0.10800984361355878,
+          "count": 170
+        }
+      },
+      "SPY": {
+        "bull": {
+          "adx": 0.171520286264896,
+          "rsi_ext": 0.5626858583015144,
+          "count": 156
+        },
+        "bear": {
+          "adx": 0.12200448901590218,
+          "rsi_ext": 0.02234935221649084,
+          "count": 106
+        },
+        "neutral": {
+          "adx": 0.03679445366445047,
+          "rsi_ext": 0.27978508963855825,
+          "count": 948
+        }
+      }
+    },
+    "stability": {
+      "BTCUSDT": {
+        "mean_r": 0.12675715625520026,
+        "std_r": 0.11082523471062793,
+        "min_r": -0.10378951970307791,
+        "max_r": 0.3205878388549827,
+        "all_positive": false,
+        "all_negative": false
+      },
+      "ETHUSDT": {
+        "mean_r": 0.15288590061572632,
+        "std_r": 0.09889466814293504,
+        "min_r": -0.06099712968137527,
+        "max_r": 0.35360214523733224,
+        "all_positive": false,
+        "all_negative": false
+      },
+      "SPY": {
+        "mean_r": 0.03266900551268174,
+        "std_r": 0.1316606373109834,
+        "min_r": -0.21281382165085796,
+        "max_r": 0.29488538390323576,
+        "all_positive": false,
+        "all_negative": false
+      }
+    },
+    "extended_features": {
+      "BTCUSDT": [
+        {
+          "feature": "rsi_extremity",
+          "r": 0.22233628023892965,
+          "p": 1.3816044650746415e-21,
+          "significant": "True",
+          "math_basis": "Directional imbalance \u2192 winner dominance"
+        },
+        {
+          "feature": "fractal_dim",
+          "r": -0.18914967311533476,
+          "p": 5.953199691653061e-16,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "mr_score",
+          "r": 0.16143012373803567,
+          "p": 5.67982983719969e-12,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "dir_consistency",
+          "r": 0.15782218666744158,
+          "p": 1.6787309639254365e-11,
+          "significant": "True",
+          "math_basis": "Up/down ratio \u2192 winner consistency"
+        },
+        {
+          "feature": "bb_width",
+          "r": 0.15308605805454645,
+          "p": 6.70635318139491e-11,
+          "significant": "True",
+          "math_basis": "Volatility proxy \u2192 regime stability"
+        },
+        {
+          "feature": "efficiency",
+          "r": 0.13494528196761058,
+          "p": 9.139278816107186e-09,
+          "significant": "True",
+          "math_basis": "Kaufman efficiency \u2192 trend quality"
+        },
+        {
+          "feature": "adx",
+          "r": 0.12298781899016137,
+          "p": 1.6702244888302084e-07,
+          "significant": "True",
+          "math_basis": "Trend strength \u2192 consistent winners \u2192 specialization"
+        },
+        {
+          "feature": "hh_ll_ratio",
+          "r": 0.10370140396582082,
+          "p": 1.0467422735658446e-05,
+          "significant": "True",
+          "math_basis": "Trend structure \u2192 direction clarity"
+        },
+        {
+          "feature": "realized_vol",
+          "r": -0.1009534967180303,
+          "p": 1.7876045762455226e-05,
+          "significant": "True",
+          "math_basis": "Direct volatility \u2192 inverse relationship"
+        },
+        {
+          "feature": "momentum",
+          "r": 0.09560267417348632,
+          "p": 4.8771318833856355e-05,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "roc_14",
+          "r": 0.09392932060327387,
+          "p": 6.60645845779394e-05,
+          "significant": "True",
+          "math_basis": "Medium-term momentum \u2192 trend persistence"
+        },
+        {
+          "feature": "return_autocorr",
+          "r": 0.08968339612254969,
+          "p": 0.0001395747822763374,
+          "significant": "True",
+          "math_basis": "Persistence \u2192 predictability"
+        },
+        {
+          "feature": "rsi",
+          "r": 0.08743026328433669,
+          "p": 0.0002049339426339412,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "dist_from_ma20",
+          "r": 0.0813376022508596,
+          "p": 0.0005539197171678673,
+          "significant": "True",
+          "math_basis": "Trend deviation \u2192 momentum"
+        },
+        {
+          "feature": "bb_pct",
+          "r": 0.066228128038666,
+          "p": 0.004951471853431105,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "vpt",
+          "r": 0.06166410151032573,
+          "p": 0.008893233347211697,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "roc_7",
+          "r": 0.05998473230742811,
+          "p": 0.010935509645269315,
+          "significant": "True",
+          "math_basis": "Short-term momentum \u2192 trend regime"
+        },
+        {
+          "feature": "obv_trend",
+          "r": 0.05717494767950248,
+          "p": 0.015293540197605369,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "williams_extremity",
+          "r": 0.051617548886365466,
+          "p": 0.028576750365213417,
+          "significant": "True",
+          "math_basis": "Like RSI - extreme values = dominance"
+        },
+        {
+          "feature": "atr_norm",
+          "r": -0.040809883423200334,
+          "p": 0.08354928422953053,
+          "significant": "False",
+          "math_basis": "Volatility inverse \u2192 stable regime"
+        },
+        {
+          "feature": "trend_strength",
+          "r": 0.03651203806822113,
+          "p": 0.12160207164095717,
+          "significant": "False",
+          "math_basis": "Return/volatility ratio \u2192 signal clarity"
+        },
+        {
+          "feature": "bb_extremity",
+          "r": 0.033714719685176975,
+          "p": 0.15288658261601998,
+          "significant": "False",
+          "math_basis": "Price at bands \u2192 directional extreme"
+        },
+        {
+          "feature": "vol_of_vol",
+          "r": -0.03300825654691525,
+          "p": 0.16168081129172682,
+          "significant": "False",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "macd_strength",
+          "r": 0.02787130110743536,
+          "p": 0.23738092212980763,
+          "significant": "False",
+          "math_basis": "Momentum strength \u2192 trend persistence"
+        },
+        {
+          "feature": "vol_ratio",
+          "r": 0.023228641500692565,
+          "p": 0.3247802631838972,
+          "significant": "False",
+          "math_basis": "N/A"
+        }
+      ],
+      "ETHUSDT": [
+        {
+          "feature": "rsi_extremity",
+          "r": 0.19703554150225835,
+          "p": 3.335055064670028e-17,
+          "significant": "True",
+          "math_basis": "Directional imbalance \u2192 winner dominance"
+        },
+        {
+          "feature": "dir_consistency",
+          "r": 0.14612051295235706,
+          "p": 4.760987698933674e-10,
+          "significant": "True",
+          "math_basis": "Up/down ratio \u2192 winner consistency"
+        },
+        {
+          "feature": "roc_14",
+          "r": 0.14443782200780694,
+          "p": 7.540289548495359e-10,
+          "significant": "True",
+          "math_basis": "Medium-term momentum \u2192 trend persistence"
+        },
+        {
+          "feature": "rsi",
+          "r": 0.14406875543814798,
+          "p": 8.334480219913595e-10,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "efficiency",
+          "r": 0.1430163084785884,
+          "p": 1.107363736483781e-09,
+          "significant": "True",
+          "math_basis": "Kaufman efficiency \u2192 trend quality"
+        },
+        {
+          "feature": "hh_ll_ratio",
+          "r": 0.1393457883973076,
+          "p": 2.9354458064260785e-09,
+          "significant": "True",
+          "math_basis": "Trend structure \u2192 direction clarity"
+        },
+        {
+          "feature": "adx",
+          "r": 0.13922382705027123,
+          "p": 3.0307826471917907e-09,
+          "significant": "True",
+          "math_basis": "Trend strength \u2192 consistent winners \u2192 specialization"
+        },
+        {
+          "feature": "fractal_dim",
+          "r": -0.13276700365730507,
+          "p": 1.58234627470062e-08,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "dist_from_ma20",
+          "r": 0.1320677475056858,
+          "p": 1.8837374823235565e-08,
+          "significant": "True",
+          "math_basis": "Trend deviation \u2192 momentum"
+        },
+        {
+          "feature": "vpt",
+          "r": 0.12524789174361195,
+          "p": 9.840308294209052e-08,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "bb_pct",
+          "r": 0.12424819522611391,
+          "p": 1.2449194806104945e-07,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "roc_7",
+          "r": 0.11251684543471369,
+          "p": 1.7163432114232659e-06,
+          "significant": "True",
+          "math_basis": "Short-term momentum \u2192 trend regime"
+        },
+        {
+          "feature": "bb_width",
+          "r": 0.111011807967676,
+          "p": 2.360236306172163e-06,
+          "significant": "True",
+          "math_basis": "Volatility proxy \u2192 regime stability"
+        },
+        {
+          "feature": "mr_score",
+          "r": 0.11057376433134233,
+          "p": 2.5875577698243465e-06,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "momentum",
+          "r": 0.10891589315886835,
+          "p": 3.653207780503491e-06,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "realized_vol",
+          "r": -0.10279998172696225,
+          "p": 1.2494826285700986e-05,
+          "significant": "True",
+          "math_basis": "Direct volatility \u2192 inverse relationship"
+        },
+        {
+          "feature": "atr_norm",
+          "r": -0.06970047569283751,
+          "p": 0.003097806628788274,
+          "significant": "True",
+          "math_basis": "Volatility inverse \u2192 stable regime"
+        },
+        {
+          "feature": "obv_trend",
+          "r": 0.05819664284090471,
+          "p": 0.01355800950535865,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "williams_extremity",
+          "r": 0.055776380875900554,
+          "p": 0.01798476871152132,
+          "significant": "True",
+          "math_basis": "Like RSI - extreme values = dominance"
+        },
+        {
+          "feature": "vol_of_vol",
+          "r": -0.053584224279339676,
+          "p": 0.023037768540996265,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "bb_extremity",
+          "r": 0.04100843047294855,
+          "p": 0.08205595854217,
+          "significant": "False",
+          "math_basis": "Price at bands \u2192 directional extreme"
+        },
+        {
+          "feature": "return_autocorr",
+          "r": 0.03575650400272624,
+          "p": 0.12951197086501412,
+          "significant": "False",
+          "math_basis": "Persistence \u2192 predictability"
+        },
+        {
+          "feature": "trend_strength",
+          "r": 0.03287125020923578,
+          "p": 0.16342962726133392,
+          "significant": "False",
+          "math_basis": "Return/volatility ratio \u2192 signal clarity"
+        },
+        {
+          "feature": "macd_strength",
+          "r": 0.01730516752189857,
+          "p": 0.46323104967908835,
+          "significant": "False",
+          "math_basis": "Momentum strength \u2192 trend persistence"
+        },
+        {
+          "feature": "vol_ratio",
+          "r": -0.0026264738595551907,
+          "p": 0.9113596991861095,
+          "significant": "False",
+          "math_basis": "N/A"
+        }
+      ],
+      "SPY": [
+        {
+          "feature": "fractal_dim",
+          "r": -0.3703847133123866,
+          "p": 2.9657387206940347e-41,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "dir_consistency",
+          "r": 0.313895762319082,
+          "p": 1.659264513197504e-29,
+          "significant": "True",
+          "math_basis": "Up/down ratio \u2192 winner consistency"
+        },
+        {
+          "feature": "rsi_extremity",
+          "r": 0.3094125155252607,
+          "p": 1.123867400634217e-28,
+          "significant": "True",
+          "math_basis": "Directional imbalance \u2192 winner dominance"
+        },
+        {
+          "feature": "rsi",
+          "r": 0.2983200302898814,
+          "p": 1.1097753845194177e-26,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "efficiency",
+          "r": 0.25306939343358853,
+          "p": 2.0622663699375847e-19,
+          "significant": "True",
+          "math_basis": "Kaufman efficiency \u2192 trend quality"
+        },
+        {
+          "feature": "roc_14",
+          "r": 0.2504619579384502,
+          "p": 4.922930059958876e-19,
+          "significant": "True",
+          "math_basis": "Medium-term momentum \u2192 trend persistence"
+        },
+        {
+          "feature": "vpt",
+          "r": 0.240744482742438,
+          "p": 1.154628280671725e-17,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "hh_ll_ratio",
+          "r": 0.2182001788763306,
+          "p": 1.0334736493525472e-14,
+          "significant": "True",
+          "math_basis": "Trend structure \u2192 direction clarity"
+        },
+        {
+          "feature": "bb_width",
+          "r": 0.21549083436295666,
+          "p": 2.2288021502887987e-14,
+          "significant": "True",
+          "math_basis": "Volatility proxy \u2192 regime stability"
+        },
+        {
+          "feature": "mr_score",
+          "r": 0.2028836990246231,
+          "p": 6.967352044719632e-13,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "momentum",
+          "r": 0.19017184437111673,
+          "p": 1.798408975830759e-11,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "realized_vol",
+          "r": -0.1895635179453028,
+          "p": 2.089648211295945e-11,
+          "significant": "True",
+          "math_basis": "Direct volatility \u2192 inverse relationship"
+        },
+        {
+          "feature": "dist_from_ma20",
+          "r": 0.18838278158280944,
+          "p": 2.7924032452593216e-11,
+          "significant": "True",
+          "math_basis": "Trend deviation \u2192 momentum"
+        },
+        {
+          "feature": "obv_trend",
+          "r": 0.13454632517254833,
+          "p": 2.206352807234162e-06,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "vol_of_vol",
+          "r": -0.13033750390548915,
+          "p": 4.557880172843387e-06,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "atr_norm",
+          "r": -0.127225159185224,
+          "p": 7.684265680462972e-06,
+          "significant": "True",
+          "math_basis": "Volatility inverse \u2192 stable regime"
+        },
+        {
+          "feature": "trend_strength",
+          "r": 0.11112846381146176,
+          "p": 9.462572230564472e-05,
+          "significant": "True",
+          "math_basis": "Return/volatility ratio \u2192 signal clarity"
+        },
+        {
+          "feature": "return_autocorr",
+          "r": 0.10399162606954437,
+          "p": 0.0002603683423320743,
+          "significant": "True",
+          "math_basis": "Persistence \u2192 predictability"
+        },
+        {
+          "feature": "bb_pct",
+          "r": 0.09941076421458134,
+          "p": 0.00048274063268891965,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "roc_7",
+          "r": 0.09778257716943256,
+          "p": 0.0005975720460300067,
+          "significant": "True",
+          "math_basis": "Short-term momentum \u2192 trend regime"
+        },
+        {
+          "feature": "adx",
+          "r": 0.07033051330468977,
+          "p": 0.013658216918559337,
+          "significant": "True",
+          "math_basis": "Trend strength \u2192 consistent winners \u2192 specialization"
+        },
+        {
+          "feature": "vol_ratio",
+          "r": -0.06117798515944455,
+          "p": 0.03198891710330938,
+          "significant": "True",
+          "math_basis": "N/A"
+        },
+        {
+          "feature": "macd_strength",
+          "r": 0.0403256863443082,
+          "p": 0.1577034725065247,
+          "significant": "False",
+          "math_basis": "Momentum strength \u2192 trend persistence"
+        },
+        {
+          "feature": "bb_extremity",
+          "r": -0.023534963402698648,
+          "p": 0.40974520619764476,
+          "significant": "False",
+          "math_basis": "Price at bands \u2192 directional extreme"
+        },
+        {
+          "feature": "williams_extremity",
+          "r": 0.017156371294598235,
+          "p": 0.547916739531664,
+          "significant": "False",
+          "math_basis": "Like RSI - extreme values = dominance"
+        }
+      ]
+    },
+    "consistent_features": [
+      "rsi_extremity",
+      "fractal_dim",
+      "dir_consistency",
+      "efficiency",
+      "rsi",
+      "roc_14",
+      "bb_width",
+      "mr_score",
+      "hh_ll_ratio",
+      "vpt",
+      "dist_from_ma20",
+      "momentum",
+      "realized_vol",
+      "adx"
+    ]
+  }
+}
