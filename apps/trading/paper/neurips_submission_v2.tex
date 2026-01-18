@@ -623,19 +623,20 @@ The mean-reversion speed $\theta \approx 0.14$ implies half-life $\tau_{1/2} = \
 \section{Toy Example: SI Emergence on Synthetic Data}
 \label{app:toy}
 
-To illustrate the Blind Synchronization Effect in a controlled setting, we construct a simple two-niche environment with deterministic regime switching.
+To illustrate the Blind Synchronization Effect in a controlled setting, we construct a simple two-niche environment with deterministic regime switching (Figure~\ref{fig:toy}).
 
-\textbf{Setup.} Environment alternates between ``Regime A'' (niche 1 fitness = 1.1, niche 2 fitness = 0.9) and ``Regime B'' (niche 1 fitness = 0.9, niche 2 fitness = 1.1) every 50 timesteps. We run $n=10$ replicators for $T=500$ timesteps.
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figures/toy_example.png}
+\caption{\textbf{Toy Example of SI Emergence.} (a) SI rises from 0 to $\sim$0.98 as replicators specialize; colored regions show regime alternation. (b) Individual replicator affinities oscillate with regimes. (c) SI-regime correlation increases with observation window. (d) Larger fitness differential $\Delta$ accelerates SI convergence.}
+\label{fig:toy}
+\end{figure}
 
-\textbf{Observations.}
-\begin{enumerate}[leftmargin=2em,topsep=0pt,itemsep=2pt]
-\item SI starts at 0 (uniform affinities) and rises as replicators specialize.
-\item During regime transitions, SI temporarily dips as replicators re-adapt.
-\item SI stabilizes at $\sim$0.75 after $\sim$100 timesteps.
-\item SI-regime correlation: $r = 0.42$ ($p < 0.001$).
-\end{enumerate}
+\textbf{Setup.} Environment alternates between ``Regime A'' (niche 1 fitness = 1.2, niche 2 fitness = 0.8) and ``Regime B'' (reversed) every 50 timesteps. We run $n=10$ replicators for $T=500$ timesteps.
 
-This toy example demonstrates: (1) SI emerges from competition alone, (2) SI tracks environmental structure despite replicators never observing regimes, and (3) the phase transition timescale depends on fitness differential.
+\textbf{Observations.} SI starts near 0 (uniform affinities) and rises rapidly as replicators specialize. SI stabilizes at $\sim$0.98 after $\sim$50 timesteps. During regime transitions, individual affinities oscillate but population-level SI remains high. Panel (d) confirms that larger fitness differentials accelerate convergence, consistent with Theorem~\ref{thm:convergence}.
+
+This toy example demonstrates: (1) SI emerges from competition alone, (2) SI captures population-level specialization even as individual affinities vary, and (3) the convergence rate depends on fitness differential $\Delta$.
 
 \section{Practitioner Summary}
 \label{app:practitioner}
